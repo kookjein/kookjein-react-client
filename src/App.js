@@ -15,6 +15,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { ko, en } from "./locales";
 import XHR from "i18next-xhr-backend";
 import Browse from "./pages/Browse";
+import DeveloperProfile from "./pages/DeveloperProfile";
 
 function App() {
   const options = {
@@ -39,6 +40,7 @@ function App() {
     <Routes>
       <Route path="/*" element={<MainPage />} />
       <Route path="/browse" element={<Browse />} />
+      <Route path="/developer/profile" element={<DeveloperProfile />} />
       <Route path="/service/company" element={<ServiceCompany />} />
       <Route path="/service/developer" element={<ServiceDeveloper />} />
       <Route path="/pricing" element={<Pricing />} />

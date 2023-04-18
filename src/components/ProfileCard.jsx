@@ -6,7 +6,7 @@ const ProfileCard = () => {
   const { t } = useTranslation("profileCard");
 
   return (
-    <a href="/browse">
+    <a href="/developer/profile">
       <div
         style={{ color: "#272D37" }}
         className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm"
