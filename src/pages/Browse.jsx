@@ -2,6 +2,7 @@ import React from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
+import Footer from "../components/Footer";
 
 const Browse = () => {
 
@@ -46,7 +47,7 @@ const Browse = () => {
       <Navbar2 light />
       <div
         style={{ maxWidth: "1280px" }}
-        className="w-full h-full px-4 flex-shrink-0"
+        className="w-full h-full px-4 flex-shrink-0 pb-32"
       >
         <div className="w-full flex flex-wrap h-full items-center flex-shrink-0 gap-3 py-6">
           {TagsArray.map((item) => (
@@ -60,6 +61,7 @@ const Browse = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

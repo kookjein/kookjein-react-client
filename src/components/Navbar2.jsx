@@ -19,6 +19,10 @@ const Navbar = ({ light }) => {
       : i18n.changeLanguage("en");
   }
 
+  const Divider = () => (
+    <div className="w-full h-px border-t border-gray-300 mb-4 mt-2" />
+  );
+
   const ProfileDropdown = () => (
     <ul className="bg-white text-black rounded-lg p-4 w-56">
       <a
@@ -28,7 +32,7 @@ const Navbar = ({ light }) => {
         <div className="flex items-center">메인으로 이동</div>
       </a>
 
-      <div className="w-full h-px border-gray-200 mb-3 mt-2 border-t"></div>
+      <Divider />
       <a
         href="/browse"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
@@ -42,7 +46,7 @@ const Navbar = ({ light }) => {
         <div className="flex items-center">언어 설정</div>
       </a>
 
-      <div className="w-full h-px border-gray-200 mb-3 mt-2 border-t"></div>
+      <Divider />
       <button
         onClick={() => changeLanguage()}
         className="transition hover:opacity-75 h-8 flex items-center space-x-2 w-full"
@@ -75,7 +79,7 @@ const Navbar = ({ light }) => {
               dropdownVisibility
                 ? "slide-fade-in-dropdown"
                 : "slide-fade-out-dropdown"
-            } absolute top-9 -right-8 shadow-xl rounded-lg`}
+            } absolute top-9 -right-8 shadow-xl rounded-lg ring-1 ring-gray-100`}
           >
             {dropdown}
           </article>
@@ -112,7 +116,7 @@ const Navbar = ({ light }) => {
       >
         <div className="flex items-center text-sm font-nanum pr-6 flex-shrink-0">
           <a
-            href="/"
+            href="/browse"
             aria-label="Homepage"
             className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-3"
           >

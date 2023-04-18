@@ -17,6 +17,10 @@ const Navbar = ({ light }) => {
       : i18n.changeLanguage("en");
   }
 
+  const Divider = () => (
+    <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />
+  );
+
   const SolutionDropdown = () => {
     return (
       <ul className="bg-white text-black rounded-lg p-5 w-72">
@@ -115,7 +119,7 @@ const Navbar = ({ light }) => {
         <div className="flex items-center">{t("company.blog")}</div>
       </a>
 
-      <div className="w-full h-px bg-gray-300 mb-6 mt-3"></div>
+      <Divider />
       <p className="font-semibold font-sans text-gray-600 mb-2">
         {t("company.external")}
       </p>
@@ -206,7 +210,7 @@ const Navbar = ({ light }) => {
               dropdownVisibility
                 ? "slide-fade-in-dropdown"
                 : "slide-fade-out-dropdown"
-            } absolute top-9 -left-1 shadow-xl rounded-lg`}
+            } absolute top-9 -left-1 shadow-xl rounded-lg ring-1 ring-gray-100`}
           >
             {dropdown}
           </article>
