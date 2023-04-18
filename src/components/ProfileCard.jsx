@@ -1,7 +1,10 @@
 import React from "react";
 import Tags from "./Tags";
+import { useTranslation } from "react-i18next";
 
 const ProfileCard = () => {
+  const { t } = useTranslation("profileCard");
+
   return (
     <a href="/browse">
       <div
@@ -17,7 +20,7 @@ const ProfileCard = () => {
 
           <p className="font-bold text-lg">Mohammad Algazali</p>
           <p style={{ color: "#176343" }} className="font-bold text-sm">
-            4년차 · 197만원/월
+            4{t("years")} · 197{t("cost")}
           </p>
 
           <p
@@ -40,7 +43,7 @@ const ProfileCard = () => {
             style={{ color: "#1FAD72" }}
             className="font-bold font-nanum text-sm hover:underline py-3"
           >
-            자세히 보기 →
+            {t("learnMore")}
           </button>
         </div>
       </div>

@@ -508,12 +508,14 @@ const MainPage = () => {
           <p className="font-nanum mt-2 mb-12 text-xl text-white">
             {t("seventh.title")}
           </p>
-          <button
-            style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
-            className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
-          >
-            {t("seventh.button")}
-          </button>
+          <a href="/browse">
+            <button
+              style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
+              className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+            >
+              {t("seventh.button")}
+            </button>
+          </a>
         </div>
       </div>
     );

@@ -256,12 +256,16 @@ const Navbar = ({ light }) => {
           <img src={t("flag")} className="w-6" alt="" />
           <p>{t("language")}</p>
         </button>
-        <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold">
-          {t("login")}
-        </button>
-        <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
-          {t("signup")}
-        </button>
+        <a href="/browse">
+          <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold">
+            {t("login")}
+          </button>
+        </a>
+        <a href="/browse">
+          <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
+            {t("signup")}
+          </button>
+        </a>
       </div>
 
       <button className="sm:hidden transition hover:opacity-75 rounded-lg">

@@ -36,12 +36,14 @@ const ServiceCompany = () => {
               draggable={false}
             />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <button
-                style={{ backgroundColor: "#1FAD72" }}
-                className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
-              >
-                {t("welcomeButton")}
-              </button>
+              <a href="/browse">
+                <button
+                  style={{ backgroundColor: "#1FAD72" }}
+                  className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+                >
+                  {t("welcomeButton")}
+                </button>
+              </a>
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
@@ -255,12 +257,14 @@ const ServiceCompany = () => {
           <p className="font-nanum mt-2 mb-12 text-xl text-white">
             {t("seventh.title")}
           </p>
-          <button
-            style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
-            className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
-          >
-            {t("seventh.button")}
-          </button>
+          <a href="/browse">
+            <button
+              style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
+              className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+            >
+              {t("seventh.button")}
+            </button>
+          </a>
         </div>
       </div>
     );

@@ -4,3 +4,4 @@ export { default as footer } from "./footer";
 export { default as serviceCompany } from "./serviceCompany";
 export { default as serviceDeveloper } from "./serviceDeveloper";
 export { default as pricing } from "./pricing";
+export { default as profileCard } from "./profileCard";

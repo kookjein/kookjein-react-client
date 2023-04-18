@@ -4,6 +4,7 @@ import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
 
 const Browse = () => {
+
   const TagsArray = [
     "React Native",
     "Node.js",
