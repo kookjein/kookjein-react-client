@@ -198,12 +198,14 @@ const ServiceCompany = () => {
               draggable={false}
             />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <button
-                style={{ backgroundColor: "#1FAD72" }}
-                className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
-              >
-                {t("fourth.button")}
-              </button>
+              <a href="/browse">
+                <button
+                  style={{ backgroundColor: "#1FAD72" }}
+                  className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+                >
+                  {t("fourth.button")}
+                </button>
+              </a>
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">

@@ -5,3 +5,4 @@ export { default as serviceCompany } from "./serviceCompany";
 export { default as serviceDeveloper } from "./serviceDeveloper";
 export { default as pricing } from "./pricing";
 export { default as profileCard } from "./profileCard";
+export { default as navBar2 } from "./navBar2";

@@ -4,7 +4,7 @@ import LanyardKor from "../../assets/main/lanyard_kor.png";
 const mainPage = {
   mode: "ko",
   welcomeText: WelcomeKor,
-  welcomeButton: "무료 개발자 매칭 시작",
+  welcomeButton: "해외 개발자 둘러보기",
   hero1: {
     title: "(주)픽톨로지, 프론트엔드",
     name: "모 알가잘리 (Mo Alghazali)",

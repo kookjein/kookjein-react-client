@@ -4,7 +4,7 @@ import WelcomeKor2 from "../../assets/service/welcome2_kor.png";
 const serviceCompany = {
   mode: "ko",
   welcome: WelcomeKor,
-  welcomeButton: "무료 개발자 매칭 시작",
+  welcomeButton: "해외 개발자 찾기",
   learnMore: "자세히 보기",
   second: {
     1: {
