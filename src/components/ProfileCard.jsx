@@ -2,8 +2,8 @@ import React from "react";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
 
-const ProfileCard = () => {
-  const { t } = useTranslation("profileCard");
+const ProfileCard = ({ item }) => {
+  const { t, i18n } = useTranslation("profileCard");
 
   return (
     <a href="/developer/profile">
@@ -11,16 +11,26 @@ const ProfileCard = () => {
         style={{ color: "#272D37" }}
         className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm"
       >
-        <div className="w-full h-48 bg-gray-100"></div>
+        <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center">
+          {item.img ? (
+            <img src={item.img} className="object-cover w-full h-full" alt="" />
+          ) : (
+            <p className="font-nanum text-sm font-bold text-gray-400">
+              개발자 등록 중
+            </p>
+          )}
+        </div>
         <div className="w-full p-3 px-4 space-y-3">
           <div className="flex space-x-2">
             <Tags item="React.js" size="sm" />
-            <Tags item="React.js" size="sm" />
+            <Tags item="Node.js" size="sm" />
           </div>
 
-          <p className="font-bold text-lg">Mohammad Algazali</p>
+          <p className="font-bold text-lg">{item.name}</p>
           <p style={{ color: "#176343" }} className="font-bold text-sm">
-            4{t("years")} · 197{t("cost")}
+            {item.year}
+            {t("years")} · {item.price}
+            {t("cost")}
           </p>
 
           <p
@@ -28,15 +38,12 @@ const ProfileCard = () => {
               width: "100%",
               overflow: "hidden",
               display: "-webkit-box",
-              WebkitLineClamp: 4,
+              WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
             }}
-            className="text-xs break-keep"
+            className="text-xs break-keep h-8"
           >
-            풀스택 소프트웨어 엔지니어로서 저는 강력한 문제 해결 능력과 높은
-            수준의 서비스를 제공하는 열정을 가지고 있습니다.엔터프라이즈 및
-            스타트업에서 6년간 전문 경력을 보유한 열정적인 풀스택 엔지니어
-            프로젝트. 현재 셀렌보 회사에서 풀스택
+            {i18n.language.includes("en") ? item.intro : item.intro_kr}
           </p>
 
           <button

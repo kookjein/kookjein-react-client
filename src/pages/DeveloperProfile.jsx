@@ -6,8 +6,15 @@ import { BiTime } from "react-icons/bi";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
+
+import Sample1 from "../assets/sample/1.png";
+import { SampleObejectKr, SampleObject } from "../sampleObjects";
 
 const DeveloperProfile = () => {
+  const { t, i18n } = useTranslation("developerProfile");
+
+  const SAMPLE = i18n.language.includes("en") ? SampleObject : SampleObejectKr;
   const Divider = () => (
     <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />
   );
@@ -33,13 +40,15 @@ const DeveloperProfile = () => {
       style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
       className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0"
     >
-      <div className="w-36 h-36 bg-gray-100 rounded-full"></div>
+      <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
+        <img src={Sample1} alt="" className="object-cover w-full h-full" />
+      </div>
 
-      <p className="text-xl">Mohammad Algazali</p>
+      <p className="text-xl">{SAMPLE.name}</p>
       <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
-        <p className="">풀스택 개발자</p>
+        <p className="">{SAMPLE.title}</p>
         <p style={{ color: "#0E5034" }} className="font-bold">
-          남산컴퍼니
+          {SAMPLE.company}
         </p>
       </div>
       <p
@@ -47,34 +56,33 @@ const DeveloperProfile = () => {
           width: "100%",
           overflow: "hidden",
           display: "-webkit-box",
-          WebkitLineClamp: 2,
+          // WebkitLineClamp: 2,
           WebkitBoxOrient: "vertical",
         }}
-        className="text-sm break-keep text-center text-gray-500"
+        className="text-xs break-keep text-center text-gray-500"
       >
-        (한줄소개) 풀스택 소프트웨어 엔지니어로서 저는 강력한 문제 해결 능력.
+        {SAMPLE.oneLiner}
       </p>
 
       <Divider />
 
       <div className="w-full space-y-4">
-        <TitleText text="프로그래밍 언어" />
-        <div className="w-full space-x-2 flex flex-wrap">
-          <Tags size={"sm"} item={"React.js"} />
-          <Tags size={"sm"} item={"Node.js"} />
-          <Tags size={"sm"} item={"html"} />
-          <Tags size={"sm"} item={"css"} />
+        <TitleText text={t("programming_lang")} />
+        <div className="w-full gap-2 flex flex-wrap">
+          {SAMPLE.tech.map((item) => (
+            <Tags size={"sm"} item={item} />
+          ))}
         </div>
       </div>
 
       <Divider />
 
       <div className="w-full space-y-4">
-        <TitleText text="소통 언어" />
-        <div className="w-full space-x-2 flex flex-wrap">
-          <Tags size={"sm"} item={"영어"} />
-          <Tags size={"sm"} item={"팔레스타인어"} />
-          <Tags size={"sm"} item={"한국어"} />
+        <TitleText text={t("lang")} />
+        <div className="w-full gap-2 flex flex-wrap">
+          {SAMPLE.lang.map((item) => (
+            <Tags size={"sm"} item={item} />
+          ))}
         </div>
       </div>
 
@@ -83,28 +91,28 @@ const DeveloperProfile = () => {
       <div className="w-full space-y-4">
         <div className="w-full flex flex-col space-y-3">
           <SummaryCell
-            value="채용 전"
-            title="재직 상태"
+            value={t("status1.value")}
+            title={t("status1.title")}
             icon={<MdOutlineWork />}
           />
           <SummaryCell
-            value="팔레스타인"
-            title="국적"
+            value={t("status2.value")}
+            title={t("status2.title")}
             icon={<IoLocationSharp />}
           />
           <SummaryCell
-            value="4년"
-            title="업무 연차"
+            value={t("status3.value")}
+            title={t("status3.title")}
             icon={<AiTwotoneCalendar />}
           />
           <SummaryCell
-            value="187만원"
-            title="월급"
+            value={t("status4.value")}
+            title={t("status4.title")}
             icon={<MdOutlineAttachMoney />}
           />
           <SummaryCell
-            value="2023.01.23"
-            title="국제인 등록"
+            value={t("status5.value")}
+            title={t("status5.title")}
             icon={<BiTime />}
           />
         </div>
@@ -115,18 +123,12 @@ const DeveloperProfile = () => {
   );
 
   const RightPanel = () => {
-    const testArray = [
-      "웹사이트, 광고 캠페인 및 마케팅 자료 등 다양한 매체를 위한 시각 디자인과 그래픽 작업을 수행합니다.",
-      "프로그래밍 언어와 기술을 사용하여 컴퓨터 소프트웨어 프로그램을 개발하고 유지보수합니다.",
-      "고객의 요구 사항을 파악하고 해결책을 제공하여 제품과 서비스를 판매합니다.",
-      "문의 사항에 대한 고객 지원을 제공하고 제품 또는 서비스에 대한 지원을 수행합니다.",
-      "재무 기록을 관리하고 보고서를 작성하며 회계 원칙과 규정을 준수합니다.",
-    ];
-
-    const CompanyCell = ({ title, year, period }) => (
+    const CompanyCell = ({ img, title, year, period }) => (
       <div>
         <div className="w-full py-1 flex items-center space-x-2">
-          <div className="w-10 h-10 bg-gray-100 rounded-full"></div>
+          <div className="w-10 h-10 bg-gray-100 rounded-full overflow-hidden">
+            <img src={img} alt="" className="object-cover w-full h-full" />
+          </div>
           <div className="space-y-1">
             <p className="text-sm font-bold text-gray-600">{title}</p>
             <p className="text-xs text-gray-500">
@@ -134,17 +136,10 @@ const DeveloperProfile = () => {
             </p>
           </div>
         </div>
-        <div className="my-3 space-y-2">
-          {testArray.map((item) => (
-            <p className="text-sm break-keep ml-10" key={item}>
-              • {item}
-            </p>
-          ))}
-        </div>
       </div>
     );
 
-    const CompanyCell2 = ({ title, year, period }) => (
+    const CompanyCell2 = ({ title, year, period, desc }) => (
       <div>
         <div className="w-full py-1 flex items-center space-x-2">
           <div className="space-y-1">
@@ -155,48 +150,34 @@ const DeveloperProfile = () => {
           </div>
         </div>
         <div className="my-3">
-          <p className="text-sm break-keep">
-            웹사이트, 광고 캠페인 및 마케팅 자료 등 다양한 매체를 위한 시각
-            디자인과 그래픽 작업을 수행합니다. 프로그래밍 언어와 기술을 사용하여
-            컴퓨터 소프트웨어 프로그램을 개발하고 유지보수합니다.고객의 요구
-            사항을 파악하고 해결책을 제공하여 제품과 서비스를 판매합니다.고객의
-            요구 사항을 파악하고 해결책을 제공하여 제품과 서비스를 판매합니다.
-            문의 사항에 대한 고객 지원을 제공하고 제품 또는 서비스에 대한 지원을
-            수행합니다.
-          </p>
+          <p className="text-sm break-keep">{desc}</p>
         </div>
       </div>
     );
 
-    const ProjectCell = ({ title }) => (
+    const ProjectCell = ({ name, link, desc }) => (
       <div className="space-y-1">
         <div className="w-full py-1 flex items-center space-x-2">
           <div className="space-y-1">
-            <p className="text-sm font-bold text-gray-600">{title}</p>
+            <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <p className="text-sm break-keep">
-          웹사이트, 광고 캠페인 및 마케팅 자료 등 다양한 매체를 위한 시각
-          디자인과 그래픽 작업을 수행합니다. 웹사이트, 광고 캠페인 및 마케팅
-          자료 등 다양한 매체를 위한 시각 디자인과 그래픽 작업을 수행합니다.
-        </p>
+        <p className="text-sm break-keep">{desc}</p>
         <a className="text-sm text-blue-500" href="/developer/profile">
-          https://www.namsancompany.com
+          {link}
         </a>
       </div>
     );
 
-    const EducationCell = ({ title, from, to }) => (
+    const EducationCell = ({ name, title, from, to, desc }) => (
       <div className="space-y-1">
         <p className="text-sm font-bold text-gray-600">
-          The Islamic University of Gaza
+          {name} | {title}
         </p>
         <p className="text-xs text-gray-500">
           {from} ~ {to}
         </p>
-        <p className="text-sm break-keep py-2">
-          Bachelor of Engineering (BEng), Computer engineering
-        </p>
+        <p className="text-sm break-keep py-2">{desc}</p>
       </div>
     );
 
@@ -212,48 +193,55 @@ const DeveloperProfile = () => {
         style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
         className="w-full flex h-full flex-col p-8 space-y-6 px-12"
       >
-        <TitleText text="소개" />
-        <p className="break-keep">
-          열정적인 풀스택 엔지니어로 6년의 전문 경력을 갖고 있으며 기업과
-          스타트업 프로젝트에 참여한 경험이 있습니다. 현재 sellenvo 회사에서
-          풀스택 개발자로 일하고 있으며, 최근에는 작은 개발팀을 이끌어 회사의
-          프로덕션 앱을 성공적으로 개발했습니다.
-        </p>
+        <TitleText text={t("intro")} />
+        <p className="break-keep text-sm">{SAMPLE.intro}</p>
         <Divider />
 
-        <TitleText text="국제인 인증 경력" />
+        <TitleText text={t("k_exp")} />
 
-        <CompanyCell
-          period={"2023.01 ~ 현채"}
-          year="12개월"
-          title={"(주)남산컴퍼니"}
-        />
-        <CompanyCell
-          period={"2021.01 ~ 2022.12"}
-          year="21개월"
-          title={"(주)푸르모디티"}
-        />
-        <Divider />
-
-        <TitleText text="외부 경력" />
-        <CompanyCell2
-          period={"2021.01 ~ 2022.12"}
-          year="8개월"
-          title={"(주)픽톨로지"}
-        />
-        <Divider />
-        <TitleText text="포트폴리오" />
-
-        <ProjectCell title={"Sellenvo app"} />
-        <ProjectCell title={"Sellenvo app"} />
+        {SAMPLE.k_experience.map((item) => (
+          <CompanyCell
+            img={item.logo}
+            period={`${item.from} ~ ${item.to}`}
+            year="8개월"
+            title={`${item.company} | ${item.title}`}
+          />
+        ))}
 
         <Divider />
-        <TitleText text="학력" />
-        <EducationCell from={"2007.11"} to={"2012.01"} />
-        <EducationCell from={"2007.11"} to={"2012.01"} />
+
+        <TitleText text={t("exp")} />
+
+        {SAMPLE.experience.map((item) => (
+          <CompanyCell2
+            period={`${item.from} ~ ${item.to}`}
+            year="8개월"
+            title={`${item.company} | ${item.title}`}
+            desc={item.desc}
+          />
+        ))}
 
         <Divider />
-        <TitleText text="자격증" />
+        <TitleText text={t("projects")} />
+
+        {SAMPLE.projects.map((item) => (
+          <ProjectCell name={item.name} link={item.link} desc={item.desc} />
+        ))}
+
+        <Divider />
+        <TitleText text={t("education")} />
+
+        {SAMPLE.education.map((item) => (
+          <EducationCell
+            name={item.name}
+            title={item.title}
+            from={item.from}
+            to={item.to}
+            desc={item.desc}
+          />
+        ))}
+        <Divider />
+        <TitleText text={t("certificates")} />
         <CertificateCell time={"2021.01.12"} />
 
         <Divider />
@@ -263,7 +251,7 @@ const DeveloperProfile = () => {
   };
 
   return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center min-h-screen overflow-x-hidden">
+    <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
       <Navbar2 light />
       <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
         <LeftPanel />
