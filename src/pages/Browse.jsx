@@ -12,6 +12,7 @@ import Sample5 from "../assets/sample/5.png";
 import Sample6 from "../assets/sample/6.png";
 import Sample7 from "../assets/sample/7.png";
 import Sample8 from "../assets/sample/8.png";
+import Sample9 from "../assets/sample/9.png";
 
 const Browse = () => {
   const TagsArray = [
@@ -174,7 +175,7 @@ const Browse = () => {
     },
     {
       id: 11,
-      img: null,
+      img: Sample9,
       name: "Sara T. Alnajjar",
       year: "1",
       price: "197",
