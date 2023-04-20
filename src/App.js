@@ -16,6 +16,7 @@ import { ko, en } from "./locales";
 import XHR from "i18next-xhr-backend";
 import Browse from "./pages/Browse";
 import DeveloperProfile from "./pages/DeveloperProfile";
+import Login from "./pages/Login";
 
 function App() {
   const options = {
@@ -40,6 +41,7 @@ function App() {
     <Routes>
       <Route path="/*" element={<MainPage />} />
       <Route path="/browse" element={<Browse />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/developer/profile" element={<DeveloperProfile />} />
       <Route path="/service/company" element={<ServiceCompany />} />
       <Route path="/service/developer" element={<ServiceDeveloper />} />
