@@ -4,19 +4,22 @@ import { useTranslation } from "react-i18next";
 
 const ProfileCard = ({ item }) => {
   const { t, i18n } = useTranslation("profileCard");
+  console.log("ASDASD", item)
+  const [userId, info] = item
+  const lang = i18n.language.includes("en") ? "en" : "ko";
 
   return (
-    <a href="/developer/profile">
+    <a href={`/developer/${userId}`}>
       <div
         style={{ color: "#272D37" }}
         className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm"
       >
         <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center">
-          {item.img ? (
-            <img src={item.img} className="object-cover w-full h-full" alt="" />
+          {info.img ? (
+            <img src={info.img} className="object-cover w-full h-full" alt="" />
           ) : (
             <p className="font-nanum text-sm font-bold text-gray-400">
-              개발자 등록 중
+              {t("inProgress")}
             </p>
           )}
         </div>
@@ -26,10 +29,10 @@ const ProfileCard = ({ item }) => {
             <Tags item="Node.js" size="sm" />
           </div>
 
-          <p className="font-bold text-lg">{item.name}</p>
+          <p className="font-bold text-lg">{info.name[lang]}</p>
           <p style={{ color: "#176343" }} className="font-bold text-sm">
-            {item.year}
-            {t("years")} · {item.price}
+            {info.year}
+            {t("years")} · {info.price}
             {t("cost")}
           </p>
 
@@ -43,7 +46,7 @@ const ProfileCard = ({ item }) => {
             }}
             className="text-xs break-keep h-8"
           >
-            {i18n.language.includes("en") ? item.intro : item.intro_kr}
+            {info.intro[lang]}
           </p>
 
           <button

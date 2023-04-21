@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
@@ -7,14 +7,33 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { useParams, useSearchParams } from "react-router-dom";
 
-import Sample1 from "../assets/sample/1.png";
-import { SampleObejectKr, SampleObject } from "../sampleObjects";
+import axios from "axios";
 
 const DeveloperProfile = () => {
   const { t, i18n } = useTranslation("developerProfile");
+  const { userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const isMyProfile = searchParams.get("up_rollout") === "true";
+  const lang = i18n.language.includes("en") ? "en" : "ko";
+  const [developerInfo, setDeveloperInfo] = useState({});
+  const [isLoading, setLoading] = useState(true);
 
-  const SAMPLE = i18n.language.includes("en") ? SampleObject : SampleObejectKr;
+  useEffect(() => {
+    axios
+      .get("https://kookjein.s3.ap-northeast-2.amazonaws.com/sample/data.json")
+      .then((res) => {
+        setDeveloperInfo(res.data[userId]);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+      });
+    return () => {};
+  }, [userId]);
+
   const Divider = () => (
     <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />
   );
@@ -41,14 +60,20 @@ const DeveloperProfile = () => {
       className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
-        <img src={Sample1} alt="" className="object-cover w-full h-full" />
+        <img
+          src={developerInfo.img}
+          alt=""
+          className="object-cover w-full h-full"
+        />
       </div>
 
-      <p className="text-xl">{SAMPLE.name}</p>
+      <p className="text-xl">
+        {developerInfo.name["ko"]} {userId} {isMyProfile && "*"}
+      </p>
       <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
-        <p className="">{SAMPLE.title}</p>
+        <p className="">{developerInfo.title[lang]}</p>
         <p style={{ color: "#0E5034" }} className="font-bold">
-          {SAMPLE.company}
+          {developerInfo.company[lang]}
         </p>
       </div>
       <p
@@ -61,7 +86,7 @@ const DeveloperProfile = () => {
         }}
         className="text-xs break-keep text-center text-gray-500"
       >
-        {SAMPLE.oneLiner}
+        {developerInfo.oneLiner[lang]}
       </p>
 
       <Divider />
@@ -69,8 +94,8 @@ const DeveloperProfile = () => {
       <div className="w-full space-y-4">
         <TitleText text={t("programming_lang")} />
         <div className="w-full gap-2 flex flex-wrap">
-          {SAMPLE.tech.map((item) => (
-            <Tags size={"sm"} item={item} />
+          {developerInfo.tech.map((item) => (
+            <Tags key={item} size={"sm"} item={item} />
           ))}
         </div>
       </div>
@@ -80,8 +105,8 @@ const DeveloperProfile = () => {
       <div className="w-full space-y-4">
         <TitleText text={t("lang")} />
         <div className="w-full gap-2 flex flex-wrap">
-          {SAMPLE.lang.map((item) => (
-            <Tags size={"sm"} item={item} />
+          {developerInfo.lang[lang].map((item) => (
+            <Tags key={item} size={"sm"} item={item} />
           ))}
         </div>
       </div>
@@ -194,17 +219,18 @@ const DeveloperProfile = () => {
         className="w-full flex h-full flex-col p-8 space-y-6 px-12"
       >
         <TitleText text={t("intro")} />
-        <p className="break-keep text-sm">{SAMPLE.intro}</p>
+        <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
         <Divider />
 
         <TitleText text={t("k_exp")} />
 
-        {SAMPLE.k_experience.map((item) => (
+        {developerInfo.k_experience.map((item) => (
           <CompanyCell
+            key={item.company[lang]}
             img={item.logo}
-            period={`${item.from} ~ ${item.to}`}
+            period={`${item.from[lang]} ~ ${item.to[lang]}`}
             year="8개월"
-            title={`${item.company} | ${item.title}`}
+            title={`${item.company[lang]} | ${item.title[lang]}`}
           />
         ))}
 
@@ -212,32 +238,39 @@ const DeveloperProfile = () => {
 
         <TitleText text={t("exp")} />
 
-        {SAMPLE.experience.map((item) => (
+        {developerInfo.experience.map((item) => (
           <CompanyCell2
-            period={`${item.from} ~ ${item.to}`}
+            key={item.company}
+            period={`${item.from[lang]} ~ ${item.to[lang]}`}
             year="8개월"
-            title={`${item.company} | ${item.title}`}
-            desc={item.desc}
+            title={`${item.company} | ${item.title[lang]}`}
+            desc={item.desc[lang]}
           />
         ))}
 
         <Divider />
         <TitleText text={t("projects")} />
 
-        {SAMPLE.projects.map((item) => (
-          <ProjectCell name={item.name} link={item.link} desc={item.desc} />
+        {developerInfo.projects.map((item) => (
+          <ProjectCell
+            key={item.name}
+            name={item.name}
+            link={item.link}
+            desc={item.desc[lang]}
+          />
         ))}
 
         <Divider />
         <TitleText text={t("education")} />
 
-        {SAMPLE.education.map((item) => (
+        {developerInfo.education.map((item) => (
           <EducationCell
+            key={item.name}
             name={item.name}
-            title={item.title}
-            from={item.from}
-            to={item.to}
-            desc={item.desc}
+            title={item.title[lang]}
+            from={item.from[lang]}
+            to={item.to[lang]}
+            desc={item.desc[lang]}
           />
         ))}
         <Divider />
@@ -250,16 +283,17 @@ const DeveloperProfile = () => {
     );
   };
 
-  return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
-      <Navbar2 light />
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
-        <LeftPanel />
-        <RightPanel />
+  if (!isLoading)
+    return (
+      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
+        <Navbar2 light />
+        <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+          <LeftPanel />
+          <RightPanel />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
 };
 
 export default DeveloperProfile;

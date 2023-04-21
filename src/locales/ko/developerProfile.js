@@ -19,7 +19,7 @@ const developerProfile = {
     value: "팔레스타인",
   },
   status3: {
-    title: "업무 연차",
+    title: "국제인 연차",
     value: "4년",
   },
   status4: {

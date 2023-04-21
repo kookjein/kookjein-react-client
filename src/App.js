@@ -17,6 +17,7 @@ import XHR from "i18next-xhr-backend";
 import Browse from "./pages/Browse";
 import DeveloperProfile from "./pages/DeveloperProfile";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   const options = {
@@ -41,8 +42,7 @@ function App() {
     <Routes>
       <Route path="/*" element={<MainPage />} />
       <Route path="/browse" element={<Browse />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/developer/profile" element={<DeveloperProfile />} />
+      <Route path="/developer/:userId" element={<DeveloperProfile />} />
       <Route path="/service/company" element={<ServiceCompany />} />
       <Route path="/service/developer" element={<ServiceDeveloper />} />
       <Route path="/pricing" element={<Pricing />} />
@@ -50,6 +50,8 @@ function App() {
       <Route path="legal/terms-of-use" element={<TermsPage />} />
       <Route path="legal/privacy-policy" element={<Privacy />} />
       <Route path="legal/payment-terms" element={<PaymentTerms />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 }
