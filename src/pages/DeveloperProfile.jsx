@@ -68,7 +68,7 @@ const DeveloperProfile = () => {
       </div>
 
       <p className="text-xl">
-        {developerInfo.name["ko"]} {isMyProfile && "*"}
+        {developerInfo.name[lang]} {isMyProfile && "*"}
       </p>
       <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
         <p className="">{developerInfo.title[lang]}</p>
