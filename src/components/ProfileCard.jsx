@@ -13,7 +13,7 @@ const ProfileCard = ({ item }) => {
         style={{ color: "#272D37" }}
         className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm"
       >
-        <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center">
+        <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative">
           {info.img ? (
             <img src={info.img} className="object-cover w-full h-full" alt="" />
           ) : (
@@ -21,6 +21,14 @@ const ProfileCard = ({ item }) => {
               {t("inProgress")}
             </p>
           )}
+          <p
+            style={{
+              background: "linear-gradient(to right, #176544D9, #176544D9)",
+            }}
+            className="text-xs absolute bottom-2 right-2 text-white p-2 rounded-full px-3 shadow-lg"
+          >
+            {info.title[lang]}
+          </p>
         </div>
         <div className="w-full p-3 px-4 space-y-3">
           <div className="flex flex-wrap gap-2">
@@ -28,9 +36,9 @@ const ProfileCard = ({ item }) => {
               <Tags item={item} size="sm" />
             ))}
           </div>
-
           <p className="font-bold text-lg">{info.name[lang]}</p>
-          <p style={{ color: "#176343" }} className="font-bold text-sm">
+
+          <p style={{ color: "#555" }} className="font-bold text-sm">
             {info.year}
             {t("years")} · {info.price}
             {t("cost")}
@@ -41,10 +49,11 @@ const ProfileCard = ({ item }) => {
               width: "100%",
               overflow: "hidden",
               display: "-webkit-box",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 3,
               WebkitBoxOrient: "vertical",
+              color: "#555",
             }}
-            className="text-xs break-keep h-8"
+            className="text-xs break-keep h-12"
           >
             {info.intro[lang]}
           </p>
