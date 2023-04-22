@@ -120,12 +120,12 @@ const Navbar = ({ light }) => {
           <a
             href="/browse"
             aria-label="Homepage"
-            className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-3"
+            className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-1 sm:mr-3"
           >
             <img
               src={light ? LogoGreen : LogoWhite}
               alt="Kookjein logo"
-              className="h-8 object-contain"
+              className="h-6 sm:h-8 object-contain"
               draggable={false}
             />
           </a>
