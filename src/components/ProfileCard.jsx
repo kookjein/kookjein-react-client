@@ -4,8 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const ProfileCard = ({ item }) => {
   const { t, i18n } = useTranslation("profileCard");
-  console.log("ASDASD", item)
-  const [userId, info] = item
+  const [userId, info] = item;
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
   return (
@@ -24,9 +23,10 @@ const ProfileCard = ({ item }) => {
           )}
         </div>
         <div className="w-full p-3 px-4 space-y-3">
-          <div className="flex space-x-2">
-            <Tags item="React.js" size="sm" />
-            <Tags item="Node.js" size="sm" />
+          <div className="flex flex-wrap gap-2">
+            {info.tech.slice(0, 3).map((item) => (
+              <Tags item={item} size="sm" />
+            ))}
           </div>
 
           <p className="font-bold text-lg">{info.name[lang]}</p>

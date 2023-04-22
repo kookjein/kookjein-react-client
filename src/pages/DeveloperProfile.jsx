@@ -39,7 +39,7 @@ const DeveloperProfile = () => {
   );
 
   const TitleText = ({ text }) => (
-    <p style={{ color: "#0E5034" }} className="text-sm font-bold text-gray-400">
+    <p style={{ color: "#176544" }} className="text-lg font-bold text-gray-400">
       {text}
     </p>
   );
@@ -68,7 +68,7 @@ const DeveloperProfile = () => {
       </div>
 
       <p className="text-xl">
-        {developerInfo.name["ko"]} {userId} {isMyProfile && "*"}
+        {developerInfo.name["ko"]} {isMyProfile && "*"}
       </p>
       <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
         <p className="">{developerInfo.title[lang]}</p>
@@ -187,10 +187,13 @@ const DeveloperProfile = () => {
             <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <p className="text-sm break-keep">{desc}</p>
-        <a className="text-sm text-blue-500" href="/developer/profile">
+        <a
+          className="text-sm text-blue-500 font-bold"
+          href="/developer/profile"
+        >
           {link}
         </a>
+        <p className="text-sm break-keep">{desc}</p>
       </div>
     );
 
@@ -220,19 +223,24 @@ const DeveloperProfile = () => {
       >
         <TitleText text={t("intro")} />
         <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
-        <Divider />
 
-        <TitleText text={t("k_exp")} />
+        {developerInfo.k_experience.length > 0 && (
+          <>
+            <Divider />
 
-        {developerInfo.k_experience.map((item) => (
-          <CompanyCell
-            key={item.company[lang]}
-            img={item.logo}
-            period={`${item.from[lang]} ~ ${item.to[lang]}`}
-            year="8개월"
-            title={`${item.company[lang]} | ${item.title[lang]}`}
-          />
-        ))}
+            <TitleText text={t("k_exp")} />
+
+            {developerInfo.k_experience.map((item) => (
+              <CompanyCell
+                key={item.company[lang]}
+                img={item.logo}
+                period={`${item.from[lang]} ~ ${item.to[lang]}`}
+                year="8개월"
+                title={`${item.company[lang]} | ${item.title[lang]}`}
+              />
+            ))}
+          </>
+        )}
 
         <Divider />
 
