@@ -40,8 +40,11 @@ const ProfileCard = ({ item }) => {
 
           <p style={{ color: "#555" }} className="font-bold text-sm">
             {info.year}
-            {t("years")} · {info.price}
-            {t("cost")}
+            {t("years")} ·{" "}
+            {(info.price * 10000).toLocaleString("en-US", {
+              style: "currency",
+              currency: "KRW",
+            })}
           </p>
 
           <p

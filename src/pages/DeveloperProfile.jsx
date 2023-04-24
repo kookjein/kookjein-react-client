@@ -126,18 +126,21 @@ const DeveloperProfile = () => {
             icon={<IoLocationSharp />}
           />
           <SummaryCell
-            value={t("status3.value")}
+            value={`1 ${t("status4.value")}`}
             title={t("status3.title")}
             icon={<AiTwotoneCalendar />}
           />
           <SummaryCell
-            value={t("status4.value")}
-            title={t("status4.title")}
+            value={`${(developerInfo.price * 10000).toLocaleString("en-US", {
+              style: "currency",
+              currency: "KRW",
+            })} KRW`}
+            title={t("status5.title")}
             icon={<MdOutlineAttachMoney />}
           />
           <SummaryCell
-            value={t("status5.value")}
-            title={t("status5.title")}
+            value={t("status6.value")}
+            title={t("status6.title")}
             icon={<BiTime />}
           />
         </div>

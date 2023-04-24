@@ -19,16 +19,20 @@ const developerProfile = {
     value: "팔레스타인",
   },
   status3: {
-    title: "국제인 연차",
-    value: "4년",
+    title: "연차 (국제인 내)",
+    value: "년",
   },
   status4: {
-    title: "월급",
-    value: "187만원",
+    title: "연차 (외부)",
+    value: "년",
   },
   status5: {
+    title: "월급",
+    value: "만원",
+  },
+  status6: {
     title: "국제인 등록일",
-    value: "2023년 1월 23일",
+    value: "2023년 4월 23일",
   },
 };
 

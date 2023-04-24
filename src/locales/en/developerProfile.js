@@ -19,16 +19,20 @@ const developerProfile = {
     value: "Palestine",
   },
   status3: {
-    title: "year of service",
-    value: "4 years",
+    title: "YoS (on Kookje.in)",
+    value: "years",
   },
   status4: {
-    title: "Monthly",
-    value: "1,870,000 KRW",
+    title: "year of service (on Kookje.in)",
+    value: "years",
   },
   status5: {
+    title: "Monthly",
+    value: "KRW",
+  },
+  status6: {
     title: "Member since",
-    value: "2023 Jan 23",
+    value: "2023 April 23",
   },
 };
 
