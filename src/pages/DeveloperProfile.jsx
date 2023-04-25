@@ -34,9 +34,7 @@ const DeveloperProfile = () => {
     return () => {};
   }, [userId]);
 
-  const Divider = () => (
-    <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />
-  );
+  const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
 
   const TitleText = ({ text }) => (
     <p style={{ color: "#176544" }} className="text-lg font-bold text-gray-400">
@@ -60,11 +58,7 @@ const DeveloperProfile = () => {
       className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
-        <img
-          src={developerInfo.img}
-          alt=""
-          className="object-cover w-full h-full"
-        />
+        <img src={developerInfo.img} alt="" className="object-cover w-full h-full" />
       </div>
 
       <p className="text-xl">
@@ -115,21 +109,9 @@ const DeveloperProfile = () => {
 
       <div className="w-full space-y-4">
         <div className="w-full flex flex-col space-y-3">
-          <SummaryCell
-            value={t("status1.value")}
-            title={t("status1.title")}
-            icon={<MdOutlineWork />}
-          />
-          <SummaryCell
-            value={t("status2.value")}
-            title={t("status2.title")}
-            icon={<IoLocationSharp />}
-          />
-          <SummaryCell
-            value={`1 ${t("status4.value")}`}
-            title={t("status3.title")}
-            icon={<AiTwotoneCalendar />}
-          />
+          <SummaryCell value={t("status1.value")} title={t("status1.title")} icon={<MdOutlineWork />} />
+          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<IoLocationSharp />} />
+          <SummaryCell value={`1 ${t("status4.value")}`} title={t("status3.title")} icon={<AiTwotoneCalendar />} />
           <SummaryCell
             value={`${(developerInfo.price * 10000).toLocaleString("en-US", {
               style: "currency",
@@ -138,11 +120,7 @@ const DeveloperProfile = () => {
             title={t("status5.title")}
             icon={<MdOutlineAttachMoney />}
           />
-          <SummaryCell
-            value={t("status6.value")}
-            title={t("status6.title")}
-            icon={<BiTime />}
-          />
+          <SummaryCell value={t("status6.value")} title={t("status6.title")} icon={<BiTime />} />
         </div>
       </div>
 
@@ -190,10 +168,7 @@ const DeveloperProfile = () => {
             <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <a
-          className="text-sm text-blue-500 font-bold"
-          href="/developer/profile"
-        >
+        <a className="text-sm text-blue-500 font-bold" href="/developer/profile">
           {link}
         </a>
         <p className="text-sm break-keep">{desc}</p>
@@ -263,12 +238,7 @@ const DeveloperProfile = () => {
         <TitleText text={t("projects")} />
 
         {developerInfo.projects.map((item) => (
-          <ProjectCell
-            key={item.name}
-            name={item.name}
-            link={item.link}
-            desc={item.desc[lang]}
-          />
+          <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc[lang]} />
         ))}
 
         <Divider />

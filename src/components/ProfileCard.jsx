@@ -9,17 +9,12 @@ const ProfileCard = ({ item }) => {
 
   return (
     <a href={`/developer/${userId}`}>
-      <div
-        style={{ color: "#272D37" }}
-        className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm"
-      >
+      <div style={{ color: "#272D37" }} className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm">
         <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative">
           {info.img ? (
             <img src={info.img} className="object-cover w-full h-full" alt="" />
           ) : (
-            <p className="font-nanum text-sm font-bold text-gray-400">
-              {t("inProgress")}
-            </p>
+            <p className="font-nanum text-sm font-bold text-gray-400">{t("inProgress")}</p>
           )}
           <p
             style={{
@@ -61,10 +56,7 @@ const ProfileCard = ({ item }) => {
             {info.intro[lang]}
           </p>
 
-          <button
-            style={{ color: "#1FAD72" }}
-            className="font-bold font-nanum text-sm hover:underline py-3"
-          >
+          <button style={{ color: "#1FAD72" }} className="font-bold font-nanum text-sm hover:underline py-3">
             {t("learnMore")}
           </button>
         </div>

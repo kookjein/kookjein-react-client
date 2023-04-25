@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 
 const Browse = () => {
-  const [dataArray, setDataArray] = useState({})
+  const [dataArray, setDataArray] = useState({});
   useEffect(() => {
     axios
       .get("https://kookjein.s3.ap-northeast-2.amazonaws.com/sample/data.json")
@@ -48,14 +48,11 @@ const Browse = () => {
     "Cloud DevOps",
     "Data Architecture",
   ];
-  
+
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
       <Navbar2 light />
-      <div
-        style={{ maxWidth: "1280px" }}
-        className="w-full h-full px-4 flex-shrink-0 pb-32"
-      >
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32">
         <div className="w-full flex flex-wrap h-full items-center flex-shrink-0 gap-3 py-6">
           {TagsArray.map((item) => (
             <Tags key={item} item={item} />

@@ -155,12 +155,7 @@ const MainPage = () => {
             style={{ maxWidth: "39rem" }}
             className="flex flex-col justify-center h-full z-20 sm:mt-0 mt-48 px-4 sm:px-12"
           >
-            <img
-              src={t("welcomeText")}
-              alt=""
-              className="object-contain"
-              draggable={false}
-            />
+            <img src={t("welcomeText")} alt="" className="object-contain" draggable={false} />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
               <a href="/browse">
                 <button
@@ -173,11 +168,7 @@ const MainPage = () => {
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
-            <HeroProfile
-              img={heros[heroIndex].image}
-              title={heros[heroIndex].title}
-              name={heros[heroIndex].name}
-            />
+            <HeroProfile img={heros[heroIndex].image} title={heros[heroIndex].title} name={heros[heroIndex].name} />
           </div>
         </div>
       </div>
@@ -192,37 +183,12 @@ const MainPage = () => {
       <p style={{ color: "#A5A5A5" }} className="font-semibold font-nanum">
         Trusted by:
       </p>
-      <img
-        draggable={false}
-        src={Client5}
-        className="object-contain h-7"
-        alt=""
-      />
+      <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
 
-      <img
-        draggable={false}
-        src={Client3}
-        className="object-contain h-10"
-        alt=""
-      />
-      <img
-        draggable={false}
-        src={Client2}
-        className="object-contain h-6"
-        alt=""
-      />
-      <img
-        draggable={false}
-        src={Client4}
-        className="object-contain h-7"
-        alt=""
-      />
-      <img
-        src={Client1}
-        draggable={false}
-        className="object-contain h-8"
-        alt=""
-      />
+      <img draggable={false} src={Client3} className="object-contain h-10" alt="" />
+      <img draggable={false} src={Client2} className="object-contain h-6" alt="" />
+      <img draggable={false} src={Client4} className="object-contain h-7" alt="" />
+      <img src={Client1} draggable={false} className="object-contain h-8" alt="" />
     </div>
   );
 
@@ -232,12 +198,7 @@ const MainPage = () => {
         style={{ maxWidth: "1280px" }}
         className="flex items-center justify-between sm:flex-row flex-col px-4 sm:space-x-24 sm:pr-12"
       >
-        <img
-          src={t("second.lanyard")}
-          alt=""
-          className="max-w-xs -mt-12"
-          draggable={false}
-        />
+        <img src={t("second.lanyard")} alt="" className="max-w-xs -mt-12" draggable={false} />
         <div className="flex flex-col items-center sm:ml-16 sm:mt-32 mt-12 font-nanum">
           <p className="text-3xl font-bold">{t("second.title1")}</p>
           <p className="text-3xl font-bold mt-2">{t("second.title2")}</p>
@@ -246,9 +207,7 @@ const MainPage = () => {
           <p className="mt-6">{t("second.body3")}</p>
           <p>{t("second.body4")}</p>
 
-          <div className="mt-16 text-xs w-full flex justify-end">
-            {t("second.timestamp")}
-          </div>
+          <div className="mt-16 text-xs w-full flex justify-end">{t("second.timestamp")}</div>
         </div>
       </div>
     </div>
@@ -273,16 +232,9 @@ const MainPage = () => {
           <p className="mt-6">{t("third.body5")}</p>
           <p>{t("third.body6")}</p>
 
-          <div className="mt-16 text-xs w-full flex justify-end">
-            {t("third.timestamp")}
-          </div>
+          <div className="mt-16 text-xs w-full flex justify-end">{t("third.timestamp")}</div>
         </div>
-        <img
-          src={TechStack}
-          alt=""
-          className="max-w-lg px-4"
-          draggable={false}
-        />
+        <img src={TechStack} alt="" className="max-w-lg px-4" draggable={false} />
       </div>
     </div>
   );
@@ -303,9 +255,7 @@ const MainPage = () => {
     return (
       <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
         <div style={{ maxWidth: "1280px" }}>
-          <p className="font-nanum text-lg mb-16 px-4">
-            {t("fourth.sectionTitle")}
-          </p>
+          <p className="font-nanum text-lg mb-16 px-4">{t("fourth.sectionTitle")}</p>
           <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16">
             <Cell
               icon={FourthType1}
@@ -382,15 +332,10 @@ const MainPage = () => {
       },
     ];
     const BarCell = ({ title, index }) => (
-      <button
-        onClick={() => setProgressIndex(index)}
-        className="flex flex-col items-center w-full group transition"
-      >
+      <button onClick={() => setProgressIndex(index)} className="flex flex-col items-center w-full group transition">
         <p
           className={`${
-            progressIndex !== index
-              ? "text-gray-400 group-hover:text-gray-500"
-              : "text-black font-bold"
+            progressIndex !== index ? "text-gray-400 group-hover:text-gray-500" : "text-black font-bold"
           } font-poppins mb-4 sm:text-sm text-xs transition`}
         >
           {title}
@@ -408,22 +353,16 @@ const MainPage = () => {
             {progressData[progressIndex].step}
           </p>
 
-          <p className="font-nanum font-bold text-lg mt-8 break-keep">
-            {progressData[progressIndex].title}
-          </p>
+          <p className="font-nanum font-bold text-lg mt-8 break-keep">{progressData[progressIndex].title}</p>
 
           <div className="mt-8">
             <div className="flex items-start">
               <img src={Checkmark} className="w-3 object-contain" alt="" />
-              <p className="text-xs font-nanum ml-2 break-keep">
-                {progressData[progressIndex].text1}
-              </p>
+              <p className="text-xs font-nanum ml-2 break-keep">{progressData[progressIndex].text1}</p>
             </div>
             <div className="flex items-start mt-4">
               <img src={Checkmark} className="w-3 object-contain" alt="" />
-              <p className="text-xs font-nanum ml-2 break-keep">
-                {progressData[progressIndex].text2}
-              </p>
+              <p className="text-xs font-nanum ml-2 break-keep">{progressData[progressIndex].text2}</p>
             </div>
           </div>
         </div>
@@ -442,13 +381,8 @@ const MainPage = () => {
         style={{ backgroundColor: "#FAFAFD" }}
         className="flex w-screen items-center justify-center sm:flex-row flex-col-reverse py-24"
       >
-        <div
-          style={{ maxWidth: "1280px" }}
-          className="flex flex-col w-full items-center h-full px-4"
-        >
-          <p className="font-nanum text-lg mb-16 px-4 max-w-4xl w-full">
-            {t("fifth.sectionTitle")}
-          </p>
+        <div style={{ maxWidth: "1280px" }} className="flex flex-col w-full items-center h-full px-4">
+          <p className="font-nanum text-lg mb-16 px-4 max-w-4xl w-full">{t("fifth.sectionTitle")}</p>
 
           <div className="flex w-full mb-12 max-w-4xl px-4">
             <BarCell index={0} title={t("fifth.1.bar")} />
@@ -458,18 +392,14 @@ const MainPage = () => {
           </div>
           <div className="max-w-4xl w-full flex h-full">
             <button
-              onClick={() =>
-                progressIndex > 0 && setProgressIndex(progressIndex - 1)
-              }
+              onClick={() => progressIndex > 0 && setProgressIndex(progressIndex - 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
             >
               <img src={LeftArrow} alt="" />
             </button>
             <IndexCell />
             <button
-              onClick={() =>
-                progressIndex < 3 && setProgressIndex(progressIndex + 1)
-              }
+              onClick={() => progressIndex < 3 && setProgressIndex(progressIndex + 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
             >
               <img src={RightArrow} alt="" />
@@ -483,10 +413,7 @@ const MainPage = () => {
   const SixthSection = () => {
     return (
       <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
-        <div
-          style={{ maxWidth: "1280px" }}
-          className="flex flex-col items-center justify-center"
-        >
+        <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
           <p className="font-nanum text-2xl font-bold">{t("sixth.title")}</p>
           <p className="font-nanum mt-2 mb-16">{t("sixth.subtitle")}</p>
           <img src={Partner1} alt="" className="h-20" draggable={false} />
@@ -501,13 +428,8 @@ const MainPage = () => {
         style={{ backgroundColor: "#0E5034" }}
         className="flex w-screen items-center justify-center sm:flex-row flex-col py-24"
       >
-        <div
-          style={{ maxWidth: "1280px" }}
-          className="flex flex-col items-center justify-center"
-        >
-          <p className="font-nanum mt-2 mb-12 text-xl text-white">
-            {t("seventh.title")}
-          </p>
+        <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
+          <p className="font-nanum mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
           <a href="/browse">
             <button
               style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
+import GoogleLogo from "../assets/google_logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,9 +23,21 @@ const Login = () => {
         <div className="max-w-md px-4">
           <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
             <h1 className="text-3xl font-bold">{t("title")}</h1>
-            <h1 className="mt-3">{t("subtitle")}</h1>
 
-            <div className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
+            <button className="w-full h-11 bg-white p-1 rounded flex items-center mt-8 rounded shadow-sm ring-1 ring-gray-200 hover:bg-gray-100 transition">
+              <div style={{ aspectRatio: 1 }} className="w-10 h-10 h-full p-1.5 rounded-full">
+                <img src={GoogleLogo} alt="" className="h-full w-full object-contain" />
+              </div>
+              <div className="w-full flex items-center justify-center text-black h-full pr-9">{t("google")}</div>
+            </button>
+
+            <div className="flex items-center h-1 py-8 w-full">
+              <div className="border-t h-px w-full border-gray-300"></div>
+              <p className="flex-shrink-0 px-3 text-sm text-gray-400">{t("or")}</p>
+              <div className="border-t h-px w-full border-gray-300"></div>
+            </div>
+
+            <div className="bg-white rounded bg-opacity-10 w-full space-y-5">
               <input
                 placeholder={t("username")}
                 value={usernameValue}
@@ -40,9 +53,7 @@ const Login = () => {
               />
             </div>
 
-            {errorMessage && (
-              <p className="mt-4 text-xs text-red-500">{errorMessage}</p>
-            )}
+            {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
             <button
               onClick={() => navigate("/main")}
               style={{ backgroundColor: "#1FAD72" }}
@@ -59,9 +70,7 @@ const Login = () => {
                     type="checkbox"
                     className="cursor-pointer"
                     checked={rememberChecked}
-                    onChange={({ target: { checked } }) =>
-                      setRememberChecked(checked)
-                    }
+                    onChange={({ target: { checked } }) => setRememberChecked(checked)}
                   />
                   <p>{t("rememberMe")}</p>
                 </div>
@@ -77,10 +86,7 @@ const Login = () => {
               <p>{t("notAMember")}</p>
               <a href="/signup">
                 <button>
-                  <p
-                    style={{ color: "#1FAD72" }}
-                    className="hover:underline font-bold"
-                  >
+                  <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
                     {t("signUp")}
                   </p>
                 </button>
