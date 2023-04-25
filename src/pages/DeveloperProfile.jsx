@@ -168,7 +168,7 @@ const DeveloperProfile = () => {
             <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <a className="text-sm text-blue-500 font-bold" href="/developer/profile">
+        <a className="text-sm text-blue-500 font-bold" href="/user/profile">
           {link}
         </a>
         <p className="text-sm break-keep">{desc}</p>
