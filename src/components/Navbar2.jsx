@@ -47,7 +47,7 @@ const Navbar = ({ light }) => {
     <button className="w-9 h-9 rounded-full relative flex items-center justify-center">
       {/* <GoThreeBars className="w-6 h-6 text-gray-500" /> */}
       <div className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center">
-        <div className="w-4 h-4 rounded-full bg-gray-400 -mt-1 opacity-75" />
+        <div className="w-4 h-4 rounded-full bg-gray-400 -mt-2 opacity-75" />
         <div className="absolute -bottom-4 w-7 h-7 rounded-full bg-gray-400 opacity-75" />
       </div>
       {/* <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 ring-2 ring-white rounded-full"></div> */}
@@ -96,7 +96,7 @@ const Navbar = ({ light }) => {
   };
 
   return (
-    <header className="w-full flex h-20 z-50 border-b justify-center">
+    <header className="w-full flex h-20 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
         className={`${light ? "text-black" : "text-white"} w-full flex h-full px-4 items-center z-50 flex-shrink-0`}

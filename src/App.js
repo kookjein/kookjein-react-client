@@ -19,6 +19,7 @@ import ManageWork from "./pages/ManageWork";
 import DeveloperProfile from "./pages/DeveloperProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ManageWorkDetail from "./pages/ManageWorkDetail";
 
 function App() {
   const options = {
@@ -45,6 +46,7 @@ function App() {
       <Route path="/browse" element={<Browse />} />
       <Route path="/user/:userId" element={<DeveloperProfile />} />
       <Route path="/manage" element={<ManageWork />} />
+      <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
       <Route path="/service/company" element={<ServiceCompany />} />
       <Route path="/service/developer" element={<ServiceDeveloper />} />
       <Route path="/pricing" element={<Pricing />} />
