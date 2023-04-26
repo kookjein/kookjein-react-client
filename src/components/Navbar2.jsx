@@ -7,7 +7,7 @@ import {
   IoReorderThreeOutline,
   IoSearch,
 } from "react-icons/io5";
-import { GoThreeBars } from "react-icons/go";
+// import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -15,52 +15,41 @@ const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
 
   function changeLanguage() {
-    i18n.language.includes("en")
-      ? i18n.changeLanguage("ko")
-      : i18n.changeLanguage("en");
+    i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
   }
 
-  const Divider = () => (
-    <div className="w-full h-px border-t border-gray-300 mb-4 mt-2" />
-  );
-
   const ProfileDropdown = () => (
-    <ul className="bg-white text-black rounded-lg p-4 w-56">
-      <a
-        href="/"
-        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
-      >
-        <div className="flex items-center">{t("toMain")}</div>
+    <ul className="bg-white text-black rounded-lg px-4 w-56 py-2">
+      <a href="/user/1" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
+        <div className="flex items-center">{t("myProfile")}</div>
       </a>
 
-      {/* <Divider />
-      <a
-        href="/browse"
-        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
-      >
-        <div className="flex items-center">프로필 설정</div>
-      </a>
-      <a
+      {/* <a
         href="/browse"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">언어 설정</div>
       </a> */}
-
-      <Divider />
+      <a href="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
+        <div className="flex items-center">{t("toMain")}</div>
+      </a>
       <button
         onClick={() => changeLanguage()}
-        className="transition hover:opacity-75 h-8 flex items-center space-x-2 w-full"
+        className="transition h-12 flex items-center justify-between w-full group"
       >
-        <img src={t("flag")} className="w-5" alt="" />
-        <p>{t("language")}</p>
+        <p className="group-hover:text-blue-500">{t("language")}</p>
+        <img src={t("flag")} className="w-5 ring-1" alt="" />
       </button>
     </ul>
   );
 
   const ProfileButton = () => (
     <button className="w-9 h-9 rounded-full relative flex items-center justify-center">
-      <GoThreeBars className="w-6 h-6 text-gray-500" />
+      {/* <GoThreeBars className="w-6 h-6 text-gray-500" /> */}
+      <div className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center">
+        <div className="w-4 h-4 rounded-full bg-gray-400 -mt-2 opacity-75" />
+        <div className="absolute -bottom-4 w-7 h-7 rounded-full bg-gray-400 opacity-75" />
+      </div>
       {/* <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 ring-2 ring-white rounded-full"></div> */}
     </button>
   );
@@ -78,10 +67,8 @@ const Navbar = ({ light }) => {
         {dropdownVisibility && (
           <article
             className={`${
-              dropdownVisibility
-                ? "slide-fade-in-dropdown"
-                : "slide-fade-out-dropdown"
-            } absolute top-9 -right-8 shadow-xl rounded-lg ring-1 ring-gray-100`}
+              dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
+            } absolute top-9 pt-1 -right-8 shadow-xl rounded-lg ring-1 ring-gray-200`}
           >
             {dropdown}
           </article>
@@ -109,12 +96,10 @@ const Navbar = ({ light }) => {
   };
 
   return (
-    <header className="w-full flex h-20 z-50 border-b justify-center">
+    <header className="w-full flex h-20 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
-        className={`${
-          light ? "text-black" : "text-white"
-        } w-full flex h-full px-4 items-center z-50 flex-shrink-0`}
+        className={`${light ? "text-black" : "text-white"} w-full flex h-full px-4 items-center z-50 flex-shrink-0`}
       >
         <div className="flex items-center text-sm font-nanum pr-6 flex-shrink-0">
           <a
@@ -133,7 +118,7 @@ const Navbar = ({ light }) => {
         <div className="w-full h-full flex items-center">
           <SearchBar />
         </div>
-        <div className="hidden sm:flex space-x-8 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
+        <div className="hidden sm:flex space-x-6 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
           {/* <button className="relative">
             <IoNotificationsOutline className="w-5 h-5 text-gray-500" />
             <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
@@ -141,16 +126,16 @@ const Navbar = ({ light }) => {
           <button className="relative">
             <IoChatboxOutline className="w-5 h-5 text-gray-500" />
             <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
-          </button>
+          </button> */}
 
-          <a href="/browse">
+          <a href="/manage">
             <button
               style={{ backgroundColor: "#0E5034" }}
-              className="text-white text px-4 py-2 rounded-lg hover:opacity-90 transition font-nanum font-semibold text-sm"
+              className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
             >
-              채용 등록
+              {t("management")}
             </button>
-          </a> */}
+          </a>
           <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
           {/* <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold">
           {t("login")}

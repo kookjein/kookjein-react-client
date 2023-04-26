@@ -15,9 +15,11 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { ko, en } from "./locales";
 import XHR from "i18next-xhr-backend";
 import Browse from "./pages/Browse";
+import ManageWork from "./pages/ManageWork";
 import DeveloperProfile from "./pages/DeveloperProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ManageWorkDetail from "./pages/ManageWorkDetail";
 
 function App() {
   const options = {
@@ -42,7 +44,9 @@ function App() {
     <Routes>
       <Route path="/*" element={<MainPage />} />
       <Route path="/browse" element={<Browse />} />
-      <Route path="/developer/:userId" element={<DeveloperProfile />} />
+      <Route path="/user/:userId" element={<DeveloperProfile />} />
+      <Route path="/manage" element={<ManageWork />} />
+      <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
       <Route path="/service/company" element={<ServiceCompany />} />
       <Route path="/service/developer" element={<ServiceDeveloper />} />
       <Route path="/pricing" element={<Pricing />} />

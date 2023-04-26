@@ -8,7 +8,7 @@ const ProfileCard = ({ item }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
   return (
-    <a href={`/developer/${userId}`}>
+    <a href={`/user/${userId}`}>
       <div style={{ color: "#272D37" }} className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm">
         <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative">
           {info.img ? (
