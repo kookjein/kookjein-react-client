@@ -18,8 +18,8 @@ import Browse from "./pages/Browse";
 import DeveloperProfile from "./pages/DeveloperProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import axios, {AxiosInterceptor} from "./utils/authAxios";
-import {useEffect, useState} from "react";
+import {AxiosInterceptor} from "./utils/authAxios";
+import {useState} from "react";
 
 function App() {
     const [accessToken, setAccessToken] = useState(null)
