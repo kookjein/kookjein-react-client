@@ -4,11 +4,24 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import Footer from "../components/Footer";
 import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
+import axios from "../utils/authAxios";
+import {HttpStatusCode} from "axios";
 
-const Login = () => {
+const Login = (props) => {
+    const [accessToken, setAccessToken] = useState(null)
     const navigate = useNavigate();
     const {t} = useTranslation("login");
-
+    const authenticate = () => {
+        axios.post(`/v1/auth/login`, {}).then((response) => {
+            if (response.status === HttpStatusCode.Ok) {
+                setAccessToken(response.data.access_token)
+                navigate('/')
+            }
+        })
+    }
+    useEffect(() => {
+        props.setAccessToken(accessToken)
+    }, [accessToken, props])
     const LoginSection = () => {
         const [usernameValue, setUsernameValue] = useState("");
         const [passwordValue, setPasswordValue] = useState("");
@@ -40,9 +53,9 @@ const Login = () => {
                              style={{width: '100%'}}>
                             <GoogleOAuthProvider
                                 clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
-                                <GoogleLogin size={'large'} width={size.width}
-                                             login_uri={'http://localhost:8000/v1/login'}
+                                <GoogleLogin size={'large'} width={size.width} text={'continue_with'}
                                              onSuccess={credentialResponse => {
+                                                 authenticate()
                                                  console.log(credentialResponse);
                                              }}
                                              onError={() => {
