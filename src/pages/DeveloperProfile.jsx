@@ -8,8 +8,9 @@ import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { useParams, useSearchParams } from "react-router-dom";
-
+import Modal from "react-modal";
 import axios from "axios";
+import { BsFillPencilFill } from "react-icons/bs";
 
 const DeveloperProfile = () => {
   const { t, i18n } = useTranslation("developerProfile");
@@ -19,6 +20,19 @@ const DeveloperProfile = () => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [developerInfo, setDeveloperInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+    overlay: { zIndex: 1000, backgroundColor: "rgba(0, 0, 0, 0.75)" },
+  };
 
   useEffect(() => {
     axios
@@ -33,6 +47,18 @@ const DeveloperProfile = () => {
       });
     return () => {};
   }, [userId]);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
 
@@ -55,8 +81,15 @@ const DeveloperProfile = () => {
   const LeftPanel = () => (
     <div
       style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0"
+      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative"
     >
+      <button
+        className="absolute top-4 right-4 w-8 h-8 bg-green-800 hover:bg-green-700 flex items-center justify-center text-white rounded-full transition"
+        onClick={() => openModal()}
+      >
+        <BsFillPencilFill />
+      </button>
+
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         <img src={developerInfo.img} alt="" className="object-cover w-full h-full" />
       </div>
@@ -197,8 +230,14 @@ const DeveloperProfile = () => {
     return (
       <div
         style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-full flex h-full flex-col p-8 space-y-6 px-12"
+        className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
+        <button
+          className="absolute top-4 right-4 w-8 h-8 bg-green-800 hover:bg-green-700 flex items-center justify-center text-white rounded-full transition"
+          onClick={() => openModal()}
+        >
+          <BsFillPencilFill />
+        </button>
         <TitleText text={t("intro")} />
         <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
 
@@ -266,14 +305,29 @@ const DeveloperProfile = () => {
 
   if (!isLoading)
     return (
-      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
-        <Navbar2 light />
-        <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
-          <LeftPanel />
-          <RightPanel />
+      <>
+        <Modal isOpen={modalIsOpen} onAfterOpen={afterOpenModal} onRequestClose={closeModal} style={customStyles}>
+          <button onClick={closeModal}>close</button>
+          <div>I am a modal</div>
+          <form>
+            <input />
+            <button>tab navigation</button>
+            <button>stays</button>
+            <button>inside</button>
+            <button>the modal</button>
+          </form>
+        </Modal>
+
+        <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
+          <Navbar2 light />
+
+          <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+            <LeftPanel />
+            <RightPanel />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
 };
 
