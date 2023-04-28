@@ -11,8 +11,8 @@ const Login = (props) => {
     const [accessToken, setAccessToken] = useState(null)
     const navigate = useNavigate();
     const {t} = useTranslation("login");
-    const authenticate = () => {
-        axios.post(`/v1/auth/login`, {}).then((response) => {
+    const authenticate = (data) => {
+        axios.post(`/v1/auth/login`, data).then((response) => {
             if (response.status === HttpStatusCode.Ok) {
                 setAccessToken(response.data.access_token)
                 navigate('/')
@@ -55,7 +55,7 @@ const Login = (props) => {
                                 clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
                                 <GoogleLogin size={'large'} width={size.width} text={'continue_with'}
                                              onSuccess={credentialResponse => {
-                                                 authenticate()
+                                                 authenticate({auth_type: 'google', payload: JSON.stringify(credentialResponse)})
                                                  console.log(credentialResponse);
                                              }}
                                              onError={() => {

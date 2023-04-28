@@ -26,8 +26,7 @@ import ManageWorkDetail from "./pages/ManageWorkDetail";
 function App() {
     const [accessToken, setAccessToken] = useState(null)
     const options = {
-        order: ["querystring", "navigator"],
-        lookupQuerystring: "lng",
+        order: ["querystring", "navigator"], lookupQuerystring: "lng",
     };
     i18n
         .use(LanguageDetector)
@@ -42,27 +41,24 @@ function App() {
             interpolation: {escapeValue: false},
             detection: options,
         });
-
-  return (
-    <AxiosInterceptor setAccessToken={setAccessToken}>
-      <Routes>
-        <Route path="/*" element={<MainPage />} />
-        <Route path="/browse" element={<Browse />} />
-        <Route path="/user/:userId" element={<DeveloperProfile />} />
-        <Route path="/manage" element={<ManageWork />} />
-        <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
-        <Route path="/service/company" element={<ServiceCompany />} />
-        <Route path="/service/developer" element={<ServiceDeveloper />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="legal/" element={<Legal />} />
-        <Route path="legal/terms-of-use" element={<TermsPage />} />
-        <Route path="legal/privacy-policy" element={<Privacy />} />
-        <Route path="legal/payment-terms" element={<PaymentTerms />} />
-        <Route path="/login" element={<Login accessToken={accessToken} setAccessToken={setAccessToken}/>}/>
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </AxiosInterceptor>
-  );
+    return (<AxiosInterceptor setAccessToken={setAccessToken}>
+        <Routes>
+            <Route path="/*" element={<MainPage/>}/>
+            <Route path="/browse" element={<Browse/>}/>
+            <Route path="/user/:userId" element={<DeveloperProfile/>}/>
+            <Route path="/manage" element={<ManageWork/>}/>
+            <Route path="/manage/:chatId/*" element={<ManageWorkDetail/>}/>
+            <Route path="/service/company" element={<ServiceCompany/>}/>
+            <Route path="/service/developer" element={<ServiceDeveloper/>}/>
+            <Route path="/pricing" element={<Pricing/>}/>
+            <Route path="legal/" element={<Legal/>}/>
+            <Route path="legal/terms-of-use" element={<TermsPage/>}/>
+            <Route path="legal/privacy-policy" element={<Privacy/>}/>
+            <Route path="legal/payment-terms" element={<PaymentTerms/>}/>
+            <Route path="/login" element={<Login accessToken={accessToken} setAccessToken={setAccessToken}/>}/>
+            <Route path="/signup" element={<Signup/>}/>
+        </Routes>
+    </AxiosInterceptor>);
 }
 
 export default App;
