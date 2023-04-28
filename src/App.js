@@ -26,7 +26,8 @@ import ManageWorkDetail from "./pages/ManageWorkDetail";
 function App() {
     const [accessToken, setAccessToken] = useState(null)
     const options = {
-        order: ["querystring", "navigator"], lookupQuerystring: "lng",
+        order: ["querystring", "navigator"],
+        lookupQuerystring: "lng",
     };
     i18n
         .use(LanguageDetector)
