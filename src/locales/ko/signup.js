@@ -10,6 +10,7 @@ const signup = {
   companyName: "회사명",
   email: "이메일",
   password: "비밀번호",
+  passwordConfirm: "비밀번호 확인",
   complete: "회원가입 완료",
   already: "이미 회원이신가요?",
   login: "로그인",

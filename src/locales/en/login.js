@@ -10,7 +10,13 @@ const login = {
   rememberMe: "Remember me",
   forgotPassword: "Forgot Password?",
   notAMember: "Not a member yet?",
-  signUp: "Join now"
+  signUp: "Join now",
+  error: {
+    unknown: "Something went wrong...",
+    unregistered: "Wrong email or password",
+    wrong: "Wrong email or password",
+    invalidFormat: "Invalid email format",
+  },
 };
 
 export default login;
