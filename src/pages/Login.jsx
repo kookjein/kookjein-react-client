@@ -15,7 +15,11 @@ const Login = (props) => {
         axios.post(`/v1/auth/login`, data).then((response) => {
             if (response.status === HttpStatusCode.Ok) {
                 setAccessToken(response.data.access_token)
-                navigate('/')
+                navigate('/browse')
+            } else if (response.status === HttpStatusCode.NotFound) {
+                //TODO this is Not registered
+            } else if (response.status === HttpStatusCode.Forbidden) {
+                //TODO this is Wrong Password
             }
         })
     }
@@ -55,7 +59,10 @@ const Login = (props) => {
                                 clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
                                 <GoogleLogin size={'large'} width={size.width} text={'continue_with'}
                                              onSuccess={credentialResponse => {
-                                                 authenticate({auth_type: 'google', payload: JSON.stringify(credentialResponse)})
+                                                 authenticate({
+                                                     auth_type: 'google',
+                                                     payload: JSON.stringify(credentialResponse)
+                                                 })
                                                  console.log(credentialResponse);
                                              }}
                                              onError={() => {
@@ -88,7 +95,9 @@ const Login = (props) => {
 
                         {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
                         <button
-                            onClick={() => navigate("/main")}
+                            onClick={() =>
+                                authenticate({auth_type: 'email', email: usernameValue, password: passwordValue})
+                            }
                             style={{backgroundColor: "#1FAD72"}}
                             disabled={errorMessage === "Successfully submitted!"}
                             className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
