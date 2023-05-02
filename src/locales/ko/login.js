@@ -11,6 +11,12 @@ const login = {
   forgotPassword: "비밀번호 찾기",
   notAMember: "아이디가 없으신가요?",
   signUp: "회원가입",
+  error: {
+    unknown: "잠시 후 시도해주세요",
+    unregistered: "이메일 또는 비밀번호가 틀렸습니다",
+    wrong: "이메일 또는 비밀번호가 틀렸습니다",
+    invalidFormat: "올바른 이메일 형식이 아닙니다"
+  }
 };
 
 export default login;

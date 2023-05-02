@@ -10,6 +10,7 @@ const signup = {
   companyName: "Company name",
   email: "Email",
   password: "Password",
+  passwordConfirm: "Confirm password",
   complete: "Complete signup",
   already: "Already a member?",
   login: "Log in",
