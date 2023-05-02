@@ -56,8 +56,8 @@ function App() {
             <Route path="legal/terms-of-use" element={<TermsPage/>}/>
             <Route path="legal/privacy-policy" element={<Privacy/>}/>
             <Route path="legal/payment-terms" element={<PaymentTerms/>}/>
-            <Route path="/login" element={<Login accessToken={accessToken} setAccessToken={setAccessToken}/>}/>
-            <Route path="/signup" element={<Signup/>}/>
+            <Route path="/login" element={<Login setAccessToken={setAccessToken}/>}/>
+            <Route path="/signup" element={<Signup setAccessToken={setAccessToken}/>}/>
         </Routes>
     </AxiosInterceptor>);
 }
