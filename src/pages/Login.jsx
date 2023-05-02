@@ -122,7 +122,7 @@ const Login = (props) => {
 
             {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
             <button
-              onClick={() => authenticate({ auth_type: "email", email: usernameValue, password: passwordValue })}
+              onClick={() => authenticate({ auth_type: "email", user_email: usernameValue, user_password: passwordValue })}
               style={{ backgroundColor: "#1FAD72" }}
               disabled={errorMessage === "Successfully submitted!"}
               className="p-2 rounded px-6 mt-5 w-full font-bold text-white"

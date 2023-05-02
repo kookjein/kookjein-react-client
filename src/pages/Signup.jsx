@@ -1,214 +1,231 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useTranslation} from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
-import {BsFileEarmarkCodeFill, BsFillBuildingFill} from "react-icons/bs";
+import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
 import axios from "../utils/authAxios";
-import {HttpStatusCode} from "axios";
+import { HttpStatusCode } from "axios";
 
 const Signup = (props) => {
-    const navigate = useNavigate();
-    const {t} = useTranslation("signup");
-    const [accessToken, setAccessToken] = useState(null);
-    const [signupStep, setSignupStep] = useState(0);
-    const [accountType, setAccountType] = useState(null);
-    const location = useLocation();
+  const navigate = useNavigate();
+  const { t } = useTranslation("signup");
+  const [accessToken, setAccessToken] = useState(null);
+  const [signupStep, setSignupStep] = useState(0);
+  const [accountType, setAccountType] = useState(null);
+  const location = useLocation();
 
-    useEffect(() => {
-        props.setAccessToken(accessToken);
-    }, [accessToken, props]);
+  useEffect(() => {
+    props.setAccessToken(accessToken);
+  }, [accessToken, props]);
 
-    const SignupSection0 = () => {
-        const cardSelected = (cardType) => {
-            setAccountType(cardType);
-        };
-        const continuePressed = () => {
-            if (location.state) {
-                // GOOGLE LOGIN => Call Register endpoint && navigate to /browse
-                axios.post('/v1/auth/register', {
-                    auth_type: 'google',
-                    payload: location.state.data,
-                    user_type: accountType
-                }).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        setAccessToken(response.data.access_token)
-                        navigate('/browse')
-                    }
-                }).catch((e) => console.log('vi/auth/register', e))
-            } else {
-                // NORMAL LOGIN => Go to next signup step
-                setSignupStep(1);
+  const SignupSection0 = () => {
+    const cardSelected = (cardType) => {
+      setAccountType(cardType);
+    };
+    const continuePressed = () => {
+      if (location.state) {
+        // GOOGLE LOGIN => Call Register endpoint && navigate to /browse
+        axios
+          .post("/v1/auth/register", {
+            auth_type: "google",
+            payload: location.state.data,
+            user_type: accountType,
+          })
+          .then((response) => {
+            if (response.status === HttpStatusCode.Ok) {
+              setAccessToken(response.data.access_token);
+              navigate("/browse");
             }
-        };
-
-        const Card = ({cardType, text, icon}) => (
-            <button
-                onClick={() => cardSelected(cardType)}
-                className={`${
-                    accountType === cardType ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-                } flex h-full w-full rounded border ring-green-600 transition flex items-start justify-center relative flex-col px-6`}
-            >
-                {icon}
-                <h1 className="text-xl font-bold mt-4 text-start">{text}</h1>
-                <div
-                    className={`${
-                        accountType === cardType ? "border-green-600 bg-green-600" : "border-gray-300"
-                    } w-5 h-5 bg-white rounded-full absolute top-3 right-3 border-2 p-0.5`}
-                >
-                    {accountType === cardType &&
-                        <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white"/>}
-                </div>
-            </button>
-        );
-        return (
-            <div
-                style={{minHeight: "calc(100vh - 3rem)"}}
-                className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
-            >
-                <div className="max-w-2xl px-4 w-full">
-                    <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:py-12 rounded shadow-lg ring-1 w-full">
-                        <h1 className="text-2xl font-bold">{t("companyOrDev")}</h1>
-                        <div className="flex h-40 w-full mt-8 space-x-6">
-                            <Card cardType={"employer"} text={t("companyCard")}
-                                  icon={<BsFillBuildingFill className="w-10 h-10"/>}/>
-                            <Card
-                                cardType={"employee"}
-                                text={t("developerCard")}
-                                icon={<BsFileEarmarkCodeFill className="w-10 h-10"/>}
-                            />
-                        </div>
-
-                        <button
-                            style={{backgroundColor: accountType ? "#1FAD72" : "#c2c2c2"}}
-                            onClick={() => continuePressed()}
-                            disabled={!accountType}
-                            className="p-2 rounded px-6 mt-8 w-full font-bold text-white"
-                        >
-                            {t("continue")}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
+          })
+          .catch((e) => console.log("ERROR - v1/auth/register - ", e));
+      } else {
+        // NORMAL LOGIN => Go to next signup step
+        setSignupStep(1);
+      }
     };
 
-    const SignupSection1 = () => {
-        const [nameValue, setNameValue] = useState("");
-        const [emailValue, setEmailValue] = useState("");
-        const [passwordValue, setPasswordValue] = useState("");
-        const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
-        const [errorMessage] = useState("");
-
-        const completeRegister = () => {
-            if (passwordConfirmValue !== passwordValue) {
-                // TODO - Password doens't match
-                // TODO password regex 알아서
-            } else {
-                axios.post('/v1/auth/register', {
-                    auth_type: 'email',
-                    user_type: accountType,
-                    email: emailValue,
-                    password: passwordValue,
-                    name: nameValue
-                }).then((response) => {
-                    if (response.status === HttpStatusCode.Ok) {
-                        setAccessToken(response.data.access_token)
-                        navigate('/browse')
-                    }
-                }).catch((e) => {
-                    if (e.response.status === HttpStatusCode.UnprocessableEntity) {
-                        console.log('invalid email format')
-                    } else if (e.response.status === HttpStatusCode.Conflict) {
-                        console.log('email already exists')
-                    }
-                })
-            }
-        };
-
-        return (
-            <div
-                style={{minHeight: "calc(100vh - 3rem)"}}
-                className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
-            >
-                <div className="max-w-md px-4">
-                    <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
-                        <h1 className="text-3xl font-bold">{t("signup")}</h1>
-
-                        <div className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
-                            <input
-                                placeholder={t("name")}
-                                value={nameValue}
-                                onChange={(e) => setNameValue(e.target.value)}
-                                className="w-full border rounded px-3 py-2 outline-none"
-                            />
-                            {accountType !== "employee" && (
-                                <input
-                                    placeholder={t("companyName")}
-                                    value={emailValue}
-                                    onChange={(e) => setEmailValue(e.target.value)}
-                                    className="w-full border rounded px-3 py-2 outline-none"
-                                />
-                            )}
-
-                            <input
-                                placeholder={t("email")}
-                                value={emailValue}
-                                onChange={(e) => setEmailValue(e.target.value)}
-                                className="w-full border rounded px-3 py-2 outline-none"
-                            />
-
-                            <input
-                                placeholder={t("password")}
-                                type={"password"}
-                                value={passwordValue}
-                                onChange={(e) => setPasswordValue(e.target.value)}
-                                className="w-full border rounded px-3 py-2 outline-none"
-                            />
-
-                            <input
-                                placeholder={t("passwordConfirm")}
-                                type={"password"}
-                                value={passwordConfirmValue}
-                                onChange={(e) => setPasswordConfirmValue(e.target.value)}
-                                className="w-full border rounded px-3 py-2 outline-none"
-                            />
-                        </div>
-
-                        {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
-                        <button
-                            onClick={() => completeRegister()}
-                            style={{backgroundColor: "#1FAD72"}}
-                            disabled={errorMessage === "Successfully submitted!"}
-                            className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
-                        >
-                            {t("complete")}
-                        </button>
-
-                        <div
-                            className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
-                            <p>{t("already")}</p>
-                            <a href="/login">
-                                <button>
-                                    <p style={{color: "#1FAD72"}} className="hover:underline font-bold">
-                                        {t("login")}
-                                    </p>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    const Card = ({ cardType, text, icon }) => (
+      <button
+        onClick={() => cardSelected(cardType)}
+        className={`${
+          accountType === cardType ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
+        } flex h-full w-full rounded border ring-green-600 transition flex items-start justify-center relative flex-col px-6`}
+      >
+        {icon}
+        <h1 className="text-xl font-bold mt-4 text-start">{text}</h1>
+        <div
+          className={`${
+            accountType === cardType ? "border-green-600 bg-green-600" : "border-gray-300"
+          } w-5 h-5 bg-white rounded-full absolute top-3 right-3 border-2 p-0.5`}
+        >
+          {accountType === cardType && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
+        </div>
+      </button>
+    );
+    return (
+      <div
+        style={{ minHeight: "calc(100vh - 3rem)" }}
+        className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
+      >
+        <div className="max-w-2xl px-4 w-full">
+          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:py-12 rounded shadow-lg ring-1 w-full">
+            <h1 className="text-2xl font-bold">{t("companyOrDev")}</h1>
+            <div className="flex h-40 w-full mt-8 space-x-6">
+              <Card cardType={"employer"} text={t("companyCard")} icon={<BsFillBuildingFill className="w-10 h-10" />} />
+              <Card
+                cardType={"employee"}
+                text={t("developerCard")}
+                icon={<BsFileEarmarkCodeFill className="w-10 h-10" />}
+              />
             </div>
-        );
+
+            <button
+              style={{ backgroundColor: accountType ? "#1FAD72" : "#c2c2c2" }}
+              onClick={() => continuePressed()}
+              disabled={!accountType}
+              className="p-2 rounded px-6 mt-8 w-full font-bold text-white"
+            >
+              {t("continue")}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const SignupSection1 = () => {
+    const [nameValue, setNameValue] = useState("");
+    const [emailValue, setEmailValue] = useState("");
+    const [passwordValue, setPasswordValue] = useState("");
+    const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const completeRegister = () => {
+      console.log(nameValue, emailValue, passwordValue, passwordConfirmValue)
+      setErrorMessage("");
+      if (passwordConfirmValue !== passwordValue) {
+        setErrorMessage("Password doesn't match");
+      } else {
+        axios
+          .post("/v1/auth/register", {
+            auth_type: "email",
+            user_type: accountType,
+            user_email: emailValue,
+            user_password: passwordValue,
+            user_name: nameValue,
+          })
+          .then((response) => {
+            if (response.status === HttpStatusCode.Ok) {
+              setAccessToken(response.data.access_token);
+              navigate("/browse");
+            }
+          })
+          .catch((e) => {
+            if (e.response.status === HttpStatusCode.UnprocessableEntity) {
+              setErrorMessage("Invalid email format");
+            } else if (e.response.status === HttpStatusCode.Conflict) {
+              setErrorMessage("This email is already in use");
+            }
+          });
+      }
     };
 
     return (
-        <div className="w-full h-screen flex flex-col items-center">
-            <Navbar/>
-            {signupStep === 0 ? <SignupSection0/> : <SignupSection1/>}
-            <Footer/>
+      <div
+        style={{ minHeight: "calc(100vh - 3rem)" }}
+        className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
+      >
+        <div className="max-w-md px-4">
+          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
+            <h1 className="text-3xl font-bold">{t("signup")}</h1>
+
+            <div className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
+              <input
+                placeholder={t("name")}
+                value={nameValue}
+                onChange={(e) => setNameValue(e.target.value)}
+                className="w-full border rounded px-3 py-2 outline-none"
+              />
+              {accountType !== "employee" && (
+                <input
+                  placeholder={t("companyName")}
+                  value={emailValue}
+                  onChange={(e) => setEmailValue(e.target.value)}
+                  className="w-full border rounded px-3 py-2 outline-none"
+                />
+              )}
+
+              <input
+                placeholder={t("email")}
+                value={emailValue}
+                onChange={(e) => setEmailValue(e.target.value)}
+                className="w-full border rounded px-3 py-2 outline-none"
+              />
+
+              <input
+                placeholder={t("password")}
+                type={"password"}
+                value={passwordValue}
+                onChange={(e) => setPasswordValue(e.target.value)}
+                className="w-full border rounded px-3 py-2 outline-none"
+              />
+
+              <input
+                placeholder={t("passwordConfirm")}
+                type={"password"}
+                value={passwordConfirmValue}
+                onChange={(e) => setPasswordConfirmValue(e.target.value)}
+                className="w-full border rounded px-3 py-2 outline-none"
+              />
+            </div>
+
+            {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
+            <button
+              onClick={() => completeRegister()}
+              style={{
+                backgroundColor:
+                  nameValue.length < 1 ||
+                  emailValue.length < 1 ||
+                  passwordValue.length < 1 ||
+                  passwordConfirmValue.length < 1
+                    ? "#c2c2c2"
+                    : "#1FAD72",
+              }}
+              disabled={
+                nameValue.length < 1 ||
+                emailValue.length < 1 ||
+                passwordValue.length < 1 ||
+                passwordConfirmValue.length < 1
+              }
+              className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
+            >
+              {t("complete")}
+            </button>
+
+            <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
+              <p>{t("already")}</p>
+              <a href="/login">
+                <button>
+                  <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
+                    {t("login")}
+                  </p>
+                </button>
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
     );
+  };
+
+  return (
+    <div className="w-full h-screen flex flex-col items-center">
+      <Navbar />
+      {signupStep === 0 ? <SignupSection0 /> : <SignupSection1 />}
+      <Footer />
+    </div>
+  );
 };
 
 export default Signup;

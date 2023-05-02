@@ -24,7 +24,7 @@ import {useState} from "react";
 import ManageWorkDetail from "./pages/ManageWorkDetail";
 
 function App() {
-    const [accessToken, setAccessToken] = useState(null)
+    const [, setAccessToken] = useState(null)
     const options = {
         order: ["querystring", "navigator"],
         lookupQuerystring: "lng",
