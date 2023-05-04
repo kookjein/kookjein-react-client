@@ -8,7 +8,7 @@ const axios = Axios.create({
 
 axios.defaults.withCredentials = true;
 
-function AxiosInterceptor({children, setAccessToken}) {
+function AxiosInterceptor({children, accessToken}) {
     useEffect(() => {
         const resInterceptor = (response) => {
             return response;
@@ -17,7 +17,8 @@ function AxiosInterceptor({children, setAccessToken}) {
             if (error.response.status === HttpStatusCode.BadRequest && error.config.url !== '/v1/auth/refresh') {
                 return axios.post(`/v1/auth/refresh`).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        setAccessToken(response.data.access_token)
+                        accessToken.current = response.data.access_token
+                        axios.defaults.headers.common.Authorization = `Bearer ${accessToken.current}`
                         //TODO Retry prev API call (error)
                     }
                 })
@@ -29,7 +30,7 @@ function AxiosInterceptor({children, setAccessToken}) {
             errInterceptor
         );
         return () => axios.interceptors.response.eject(interceptor);
-    }, [setAccessToken]);
+    }, [accessToken]);
     return children
 }
 

@@ -20,11 +20,11 @@ import DeveloperProfile from "./pages/DeveloperProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AxiosInterceptor } from "./utils/authAxios";
-import { useState } from "react";
 import ManageWorkDetail from "./pages/ManageWorkDetail";
+import {useRef} from "react";
 
 function App() {
-  const [accessToken, setAccessToken] = useState(null);
+  const accessToken = useRef(null)
   const options = {
     order: ["querystring", "navigator"],
     lookupQuerystring: "lng",
@@ -43,10 +43,10 @@ function App() {
       detection: options,
     });
   return (
-    <AxiosInterceptor setAccessToken={setAccessToken}>
+    <AxiosInterceptor accessToken={accessToken}>
       <Routes>
         <Route path="/*" element={<MainPage />} />
-        <Route path="/browse" element={<Browse accessToken={accessToken} />} />
+        <Route path="/browse" element={<Browse accessToken={accessToken}/>} />
         <Route path="/user/:userId" element={<DeveloperProfile />} />
         <Route path="/manage" element={<ManageWork />} />
         <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
@@ -57,8 +57,8 @@ function App() {
         <Route path="legal/terms-of-use" element={<TermsPage />} />
         <Route path="legal/privacy-policy" element={<Privacy />} />
         <Route path="legal/payment-terms" element={<PaymentTerms />} />
-        <Route path="/login" element={<Login setAccessToken={setAccessToken} />} />
-        <Route path="/signup" element={<Signup setAccessToken={setAccessToken} />} />
+        <Route path="/login" element={<Login accessToken={accessToken} />} />
+        <Route path="/signup" element={<Signup accessToken={accessToken} />} />
       </Routes>
     </AxiosInterceptor>
   );
