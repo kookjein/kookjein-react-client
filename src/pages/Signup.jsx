@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,15 +10,10 @@ import { HttpStatusCode } from "axios";
 const Signup = (props) => {
   const navigate = useNavigate();
   const { t } = useTranslation("signup");
-  const [accessToken, setAccessToken] = useState(null);
   const [signupStep, setSignupStep] = useState(0);
   const [accountType, setAccountType] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    props.setAccessToken(accessToken);
-  }, [accessToken, props]);
 
   const SignupSection0 = () => {
     const cardSelected = (cardType) => {
@@ -36,7 +31,8 @@ const Signup = (props) => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              setAccessToken(response.data.access_token);
+              props.accessToken.current = response.data.access_token
+              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`
               navigate("/browse");
             }
             setLoading(false);
@@ -126,7 +122,8 @@ const Signup = (props) => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              setAccessToken(response.data.access_token);
+              props.accessToken.current = response.data.access_token
+              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`;
               navigate("/browse");
             }
             setLoading(false);

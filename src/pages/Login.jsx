@@ -8,13 +8,8 @@ import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
 
 const Login = (props) => {
-  const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
   const { t } = useTranslation("login");
-
-  useEffect(() => {
-    props.setAccessToken(accessToken);
-  }, [accessToken, props]);
 
   const LoginSection = () => {
     const [usernameValue, setUsernameValue] = useState("");
@@ -31,7 +26,8 @@ const Login = (props) => {
         .post(`/v1/auth/login`, data)
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
-            setAccessToken(response.data.access_token);
+            props.accessToken.current = response.data.access_token
+            axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`
             navigate("/browse");
           } else {
             setErrorMessage(t("error.unknown"));
