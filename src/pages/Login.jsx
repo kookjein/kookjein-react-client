@@ -20,10 +20,12 @@ const Login = (props) => {
     const [usernameValue, setUsernameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setLoading] = useState(false);
     const googleLoginRef = useRef(null);
     const [size, setSize] = useState({});
 
     const authenticate = (data) => {
+      setLoading(true);
       setErrorMessage("");
       axios
         .post(`/v1/auth/login`, data)
@@ -34,6 +36,7 @@ const Login = (props) => {
           } else {
             setErrorMessage(t("error.unknown"));
           }
+          setLoading(false);
         })
         .catch((e) => {
           if (e.response.status === HttpStatusCode.NotFound) {
@@ -53,6 +56,7 @@ const Login = (props) => {
           } else {
             setErrorMessage(t("error.unknown"));
           }
+          setLoading(false);
         });
     };
 
@@ -122,9 +126,14 @@ const Login = (props) => {
 
             {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
             <button
-              onClick={() => authenticate({ auth_type: "email", user_email: usernameValue, user_password: passwordValue })}
-              style={{ backgroundColor: "#1FAD72" }}
-              disabled={errorMessage === "Successfully submitted!"}
+              onClick={() =>
+                authenticate({ auth_type: "email", user_email: usernameValue, user_password: passwordValue })
+              }
+              style={{
+                backgroundColor:
+                  usernameValue.length < 1 || passwordValue.length < 1 || isLoading ? "#c2c2c2" : "#1FAD72",
+              }}
+              disabled={usernameValue.length < 1 || passwordValue.length < 1 || isLoading}
               className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
             >
               {t("login")}

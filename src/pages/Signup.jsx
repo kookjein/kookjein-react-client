@@ -13,6 +13,7 @@ const Signup = (props) => {
   const [accessToken, setAccessToken] = useState(null);
   const [signupStep, setSignupStep] = useState(0);
   const [accountType, setAccountType] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Signup = (props) => {
       setAccountType(cardType);
     };
     const continuePressed = () => {
+      setLoading(true);
       if (location.state) {
         // GOOGLE LOGIN => Call Register endpoint && navigate to /browse
         axios
@@ -37,11 +39,16 @@ const Signup = (props) => {
               setAccessToken(response.data.access_token);
               navigate("/browse");
             }
+            setLoading(false);
           })
-          .catch((e) => console.log("ERROR - v1/auth/register - ", e));
+          .catch((e) => {
+            console.log("ERROR - v1/auth/register - ", e);
+            setLoading(false)
+          });
       } else {
         // NORMAL LOGIN => Go to next signup step
         setSignupStep(1);
+        setLoading(false)
       }
     };
 
@@ -53,7 +60,7 @@ const Signup = (props) => {
         } flex h-full w-full rounded border ring-green-600 transition flex items-start justify-center relative flex-col px-6`}
       >
         {icon}
-        <h1 className="text-xl font-bold mt-4 text-start">{text}</h1>
+        <h1 className="text-lg font-bold mt-4 text-start break-keep">{text}</h1>
         <div
           className={`${
             accountType === cardType ? "border-green-600 bg-green-600" : "border-gray-300"
@@ -81,12 +88,12 @@ const Signup = (props) => {
             </div>
 
             <button
-              style={{ backgroundColor: accountType ? "#1FAD72" : "#c2c2c2" }}
+              style={{ backgroundColor: accountType || !isLoading ? "#1FAD72" : "#c2c2c2" }}
               onClick={() => continuePressed()}
-              disabled={!accountType}
+              disabled={!accountType || isLoading}
               className="p-2 rounded px-6 mt-8 w-full font-bold text-white"
             >
-              {t("continue")}
+              {location.state ? t("complete") : t("continue")}
             </button>
           </div>
         </div>
@@ -100,12 +107,14 @@ const Signup = (props) => {
     const [passwordValue, setPasswordValue] = useState("");
     const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
     const completeRegister = () => {
-      console.log(nameValue, emailValue, passwordValue, passwordConfirmValue)
+      setLoading(true);
       setErrorMessage("");
       if (passwordConfirmValue !== passwordValue) {
         setErrorMessage("Password doesn't match");
+        setLoading(false);
       } else {
         axios
           .post("/v1/auth/register", {
@@ -120,6 +129,7 @@ const Signup = (props) => {
               setAccessToken(response.data.access_token);
               navigate("/browse");
             }
+            setLoading(false);
           })
           .catch((e) => {
             if (e.response.status === HttpStatusCode.UnprocessableEntity) {
@@ -127,6 +137,7 @@ const Signup = (props) => {
             } else if (e.response.status === HttpStatusCode.Conflict) {
               setErrorMessage("This email is already in use");
             }
+            setLoading(false);
           });
       }
     };
@@ -188,7 +199,8 @@ const Signup = (props) => {
                   nameValue.length < 1 ||
                   emailValue.length < 1 ||
                   passwordValue.length < 1 ||
-                  passwordConfirmValue.length < 1
+                  passwordConfirmValue.length < 1 ||
+                  isLoading
                     ? "#c2c2c2"
                     : "#1FAD72",
               }}
@@ -196,7 +208,8 @@ const Signup = (props) => {
                 nameValue.length < 1 ||
                 emailValue.length < 1 ||
                 passwordValue.length < 1 ||
-                passwordConfirmValue.length < 1
+                passwordConfirmValue.length < 1 ||
+                isLoading
               }
               className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
             >
