@@ -2,16 +2,15 @@ import React from "react";
 import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
 import {
-  // IoChatboxOutline,
-  // IoNotificationsOutline,
-  IoReorderThreeOutline,
+  IoChatboxOutline,
+  IoNotificationsOutline,
   IoSearch,
 } from "react-icons/io5";
-// import { GoThreeBars } from "react-icons/go";
+import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-const Navbar = ({ light }) => {
+const Navbar = ({ light, accessToken }) => {
   const { t, i18n } = useTranslation("navBar2");
 
   function changeLanguage() {
@@ -119,35 +118,47 @@ const Navbar = ({ light }) => {
           <SearchBar />
         </div>
         <div className="hidden sm:flex space-x-6 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
-          {/* <button className="relative">
-            <IoNotificationsOutline className="w-5 h-5 text-gray-500" />
-            <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
-          </button>
-          <button className="relative">
-            <IoChatboxOutline className="w-5 h-5 text-gray-500" />
-            <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
-          </button> */}
-
-          <a href="/manage">
-            <button
-              style={{ backgroundColor: "#0E5034" }}
-              className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
-            >
-              {t("management")}
-            </button>
-          </a>
-          <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
-          {/* <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold">
-          {t("login")}
-        </button>
-        <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
-          {t("signup")}
-        </button> */}
+          {accessToken ? (
+            <>
+              <button className="relative">
+                <IoNotificationsOutline className="w-5 h-5 text-gray-500" />
+                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
+              </button>
+              <button className="relative">
+                <IoChatboxOutline className="w-5 h-5 text-gray-500" />
+                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
+              </button>
+              <a href="/manage">
+                <button
+                  style={{ backgroundColor: "#0E5034" }}
+                  className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
+                >
+                  {t("management")}
+                </button>
+              </a>
+              <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
+            </>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <a href="/login">
+                <button
+                  style={{ backgroundColor: "#0E5034" }}
+                  className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
+                >
+                  {t("signin")}
+                </button>
+              </a>
+              <Dropdown
+                button={
+                  <button className="transition hover:opacity-75 rounded-lg pl-6 h-9">
+                    <GoThreeBars size={36} className="w-7 h-7 text-gray-500" />
+                  </button>
+                }
+                dropdown={<ProfileDropdown />}
+              />
+            </div>
+          )}
         </div>
-
-        <button className="sm:hidden transition hover:opacity-75 rounded-lg pl-6">
-          <IoReorderThreeOutline size={36} />
-        </button>
       </div>
     </header>
   );

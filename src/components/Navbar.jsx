@@ -227,13 +227,8 @@ const Navbar = ({ light }) => {
           <p>{t("language")}</p>
         </button>
         <a href="/login">
-          <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold">
-            {t("login")}
-          </button>
-        </a>
-        <a href="/signup">
           <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
-            {t("signup")}
+          {t("login")}
           </button>
         </a>
       </div>

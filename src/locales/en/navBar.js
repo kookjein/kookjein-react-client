@@ -5,7 +5,7 @@ const navBar = {
   language: "English",
   flag: FlagUs,
   pricing: "Pricing",
-  login: "Log in",
+  login: "Sign in",
   signup: "Sign up",
   //DROPDOWNS
   service: {

@@ -7,6 +7,7 @@ const navBar2 = {
   toMain: "Back to Main",
   management: "Manage Work",
   myProfile: "My profile",
+  signin: "Sign in",
 };
 
 export default navBar2;

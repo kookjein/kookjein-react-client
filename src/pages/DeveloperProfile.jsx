@@ -484,6 +484,138 @@ const DeveloperProfile = () => {
       );
     };
 
+    const RightPanel5 = () => {
+      const [experienceArray, setExperienceArray] = useState([]);
+      const addPressed = () => {
+        setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+      };
+      const NewCell = ({ order }) => (
+        <div className="w-full py-6 border-t mb-6">
+          <div className="text-sm text-gray-500 mb-2">Project name {order}</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2">Link to project</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+            <p>Description</p>
+            <p className="text-xs">0 / 1000</p>
+          </div>
+          <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
+        </div>
+      );
+      const AddNewButton = () => (
+        <button
+          onClick={() => addPressed()}
+          className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
+        >
+          Add a project
+        </button>
+      );
+      return (
+        <div className="relative w-full">
+          <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
+            <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookje.in</p>
+
+            {experienceArray.map((data, index) => (
+              <NewCell key={index} order={index} />
+            ))}
+            <AddNewButton />
+          </div>
+          <div
+            style={{ backdropFilter: "blur(100px)" }}
+            className="flex items-center justify-end absolute bottom-0 w-full shadow p-6 py-3"
+          >
+            <SaveComponent />
+          </div>
+        </div>
+      );
+    };
+
+    const RightPanel6 = () => {
+      const [experienceArray, setExperienceArray] = useState([]);
+      const addPressed = () => {
+        setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+      };
+      const NewCell = ({ order }) => (
+        <div className="w-full py-6 border-t mb-6">
+          <div className="text-sm text-gray-500 mb-2">Institution name {order}</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2">Degree</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+            <p>Description</p>
+            <p className="text-xs">0 / 1000</p>
+          </div>
+          <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
+        </div>
+      );
+      const AddNewButton = () => (
+        <button
+          onClick={() => addPressed()}
+          className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
+        >
+          Add education
+        </button>
+      );
+      return (
+        <div className="relative w-full">
+          <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
+            <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookje.in</p>
+
+            {experienceArray.map((data, index) => (
+              <NewCell key={index} order={index} />
+            ))}
+            <AddNewButton />
+          </div>
+          <div
+            style={{ backdropFilter: "blur(100px)" }}
+            className="flex items-center justify-end absolute bottom-0 w-full shadow p-6 py-3"
+          >
+            <SaveComponent />
+          </div>
+        </div>
+      );
+    };
+
+    const RightPanel7 = () => {
+      const [experienceArray, setExperienceArray] = useState([]);
+      const addPressed = () => {
+        setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+      };
+      const NewCell = ({ order }) => (
+        <div className="w-full py-6 border-t mb-6">
+          <div className="text-sm text-gray-500 mb-2">Title {order}</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2">Degree</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+        </div>
+      );
+      const AddNewButton = () => (
+        <button
+          onClick={() => addPressed()}
+          className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
+        >
+          Add a award / certificate
+        </button>
+      );
+      return (
+        <div className="relative w-full">
+          <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
+            <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookje.in</p>
+
+            {experienceArray.map((data, index) => (
+              <NewCell key={index} order={index} />
+            ))}
+            <AddNewButton />
+          </div>
+          <div
+            style={{ backdropFilter: "blur(100px)" }}
+            className="flex items-center justify-end absolute bottom-0 w-full shadow p-6 py-3"
+          >
+            <SaveComponent />
+          </div>
+        </div>
+      );
+    };
     return (
       <div style={{ width: "900px", height: "calc(100vh - 8rem)" }} className="">
         <div className="h-14 w-full border-b flex-shrink-0 flex items-center justify-between text-lg px-6">
@@ -502,8 +634,14 @@ const DeveloperProfile = () => {
             <RightPanel2 />
           ) : selectedTab === "Introduction" ? (
             <RightPanel3 />
-          ) : (
+          ) : selectedTab === "Experience" ? (
             <RightPanel4 />
+          ) : selectedTab === "Portfolio" ? (
+            <RightPanel5 />
+          ) : selectedTab === "Education" ? (
+            <RightPanel6 />
+          ) : (
+            <RightPanel7 />
           )}
         </div>
       </div>
