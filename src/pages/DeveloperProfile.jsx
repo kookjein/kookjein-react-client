@@ -23,6 +23,11 @@ const DeveloperProfile = () => {
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    Modal.setAppElement('body')
+    return () => {}
+  }, [])
+  
   const customStyles = {
     content: {
       top: "50%",
@@ -657,6 +662,7 @@ const DeveloperProfile = () => {
           onRequestClose={closeModal}
           style={customStyles}
           shouldCloseOnOverlayClick={false}
+          // ariaHideApp={false}
         >
           <EditProfileModal />
         </Modal>

@@ -60,7 +60,6 @@ const Browse = ({ accessToken }) => {
         </div>
 
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6">
-          {console.log(Object.entries(dataArray))}
           {Object.entries(dataArray).map((item, index) => (
             <ProfileCard key={index} item={item} />
           ))}

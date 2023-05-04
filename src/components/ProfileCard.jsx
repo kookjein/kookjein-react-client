@@ -27,8 +27,8 @@ const ProfileCard = ({ item }) => {
         </div>
         <div className="w-full p-3 px-4 space-y-3">
           <div className="flex flex-wrap gap-2">
-            {info.tech.slice(0, 3).map((item) => (
-              <Tags item={item} size="sm" />
+            {info.tech.slice(0, 3).map((item, index) => (
+              <Tags key={index} item={item} size="sm" />
             ))}
           </div>
           <p className="font-bold text-lg">{info.name[lang]}</p>

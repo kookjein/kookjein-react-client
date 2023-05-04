@@ -1,11 +1,7 @@
 import React from "react";
 import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
-import {
-  IoChatboxOutline,
-  IoNotificationsOutline,
-  IoSearch,
-} from "react-icons/io5";
+import { IoChatboxOutline, IoNotificationsOutline, IoSearch } from "react-icons/io5";
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
