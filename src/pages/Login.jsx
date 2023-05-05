@@ -86,8 +86,10 @@ const Login = (props) => {
                   text={"continue_with"}
                   onSuccess={(credentialResponse) => {
                     authenticate({
-                      auth_type: "google",
-                      payload: JSON.stringify(credentialResponse),
+                      auth: {
+                        auth_type: "google",
+                        payload: JSON.stringify(credentialResponse),
+                      }
                     });
                     console.log(credentialResponse);
                   }}
@@ -123,7 +125,7 @@ const Login = (props) => {
             {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
             <button
               onClick={() =>
-                authenticate({ auth_type: "email", user_email: usernameValue, user_password: passwordValue })
+                authenticate({ auth: { auth_type: "email", user_email: usernameValue, user_password: passwordValue }})
               }
               style={{
                 backgroundColor:
