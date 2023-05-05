@@ -25,9 +25,13 @@ const Signup = (props) => {
         // GOOGLE LOGIN => Call Register endpoint && navigate to /browse
         axios
           .post("/v1/auth/register", {
-            auth_type: "google",
-            payload: location.state.data,
-            user_type: accountType,
+            auth: {
+              auth_type: "google",
+              payload: location.state.data,
+            },
+            user: {
+              user_type: accountType,
+            }
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
@@ -114,11 +118,15 @@ const Signup = (props) => {
       } else {
         axios
           .post("/v1/auth/register", {
-            auth_type: "email",
-            user_type: accountType,
-            user_email: emailValue,
-            user_password: passwordValue,
-            user_name: nameValue,
+            auth: {
+              auth_type: "email",
+              user_email: emailValue,
+              user_password: passwordValue,
+            },
+            user: {
+              user_type: accountType,
+              user_name: nameValue,
+            }
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
