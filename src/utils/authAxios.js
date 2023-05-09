@@ -12,6 +12,13 @@ axios.defaults.withCredentials = true;
 export const AxiosInterceptor = ({children}) => {
     const {userState, setUserState} = useContext(AuthContext);
     useEffect(() => {
+        axios.post(`/v1/auth/refresh`).then((response) => {
+            if (response.status === HttpStatusCode.Ok) {
+                setUserState({accessToken: response.data.access_token})
+            }
+        })
+    }, [setUserState])
+    useEffect(() => {
         const resInterceptor = (response) => {
             return response;
         };
