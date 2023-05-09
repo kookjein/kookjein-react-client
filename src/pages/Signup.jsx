@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Navbar from "../components/Navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -6,14 +6,16 @@ import Footer from "../components/Footer";
 import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
+import {AuthContext} from "../utils/authContext";
 
-const Signup = (props) => {
+const Signup = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("signup");
   const [signupStep, setSignupStep] = useState(0);
   const [accountType, setAccountType] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
+  const {userState, setUserState} = useContext(AuthContext);
   const SignupSection0 = () => {
     const cardSelected = (cardType) => {
       setAccountType(cardType);
@@ -34,8 +36,7 @@ const Signup = (props) => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              props.accessToken.current = response.data.access_token;
-              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`;
+              setUserState({...userState, accessToken: response.data.access_token});
               navigate("/browse");
             }
             setLoading(false);
@@ -129,8 +130,7 @@ const Signup = (props) => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              props.accessToken.current = response.data.access_token;
-              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`;
+              setUserState({...userState, accessToken: response.data.access_token})
               navigate("/browse");
             }
             setLoading(false);

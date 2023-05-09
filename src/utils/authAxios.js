@@ -1,6 +1,7 @@
 import Axios, {HttpStatusCode} from "axios";
 import {apiUrl} from "./config";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
+import {AuthContext} from "./authContext";
 
 const axios = Axios.create({
     baseURL: apiUrl
@@ -8,7 +9,8 @@ const axios = Axios.create({
 
 axios.defaults.withCredentials = true;
 
-function AxiosInterceptor({children, accessToken}) {
+export const AxiosInterceptor = ({children, accessToken}) => {
+    const {userState, setUserState} = useContext(AuthContext);
     useEffect(() => {
         const resInterceptor = (response) => {
             return response;
@@ -17,8 +19,7 @@ function AxiosInterceptor({children, accessToken}) {
             if (error.response.status === HttpStatusCode.BadRequest && error.config.url !== '/v1/auth/refresh') {
                 return axios.post(`/v1/auth/refresh`).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        accessToken.current = response.data.access_token
-                        axios.defaults.headers.common.Authorization = `Bearer ${accessToken.current}`
+                        setUserState({...userState, accessToken: response.data.access_token})
                         //TODO Retry prev API call (error)
                     }
                 })
@@ -35,4 +36,3 @@ function AxiosInterceptor({children, accessToken}) {
 }
 
 export default axios;
-export {AxiosInterceptor};

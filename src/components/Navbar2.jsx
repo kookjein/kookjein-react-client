@@ -4,15 +4,17 @@ import LogoGreen from "../assets/logo_green.png";
 import { IoChatboxOutline, IoNotificationsOutline, IoSearch } from "react-icons/io5";
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "../utils/authAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { HttpStatusCode } from "axios";
 import { FiLogOut } from "react-icons/fi";
+import {AuthContext} from "../utils/authContext";
 
-const Navbar = ({ light, accessToken }) => {
+const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
   const navigate = useNavigate();
+  const {userState, setUserState} = useContext(AuthContext);
 
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
@@ -23,7 +25,7 @@ const Navbar = ({ light, accessToken }) => {
       .post(`/v1/auth/logout`)
       .then((response) => {
         if (response.status === HttpStatusCode.Ok) {
-          accessToken.current = null;
+          setUserState({...userState, accessToken: null})
           navigate("/");
         } else {
           console.log("ERROR - v1/auth/logout");
@@ -132,7 +134,7 @@ const Navbar = ({ light, accessToken }) => {
           <SearchBar />
         </div>
         <div className="hidden sm:flex space-x-6 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
-          {accessToken ? (
+          {userState.accessToken ? (
             <>
               <button className="relative">
                 <IoNotificationsOutline className="w-5 h-5 text-gray-500" />
