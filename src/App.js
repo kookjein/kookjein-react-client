@@ -21,12 +21,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AxiosInterceptor } from "./utils/authAxios";
 import ManageWorkDetail from "./pages/ManageWorkDetail";
-import {useRef} from "react";
 import {AuthProvider} from "./utils/authContext";
 
 function App() {
-  const accessToken = useRef(null)
-
   const options = {
     order: ["querystring", "navigator"],
     lookupQuerystring: "lng",
