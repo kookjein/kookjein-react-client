@@ -9,7 +9,7 @@ const axios = Axios.create({
 
 axios.defaults.withCredentials = true;
 
-export const AxiosInterceptor = ({children, accessToken}) => {
+export const AxiosInterceptor = ({children}) => {
     const {userState, setUserState} = useContext(AuthContext);
     useEffect(() => {
         const resInterceptor = (response) => {
@@ -31,7 +31,7 @@ export const AxiosInterceptor = ({children, accessToken}) => {
             errInterceptor
         );
         return () => axios.interceptors.response.eject(interceptor);
-    }, [accessToken]);
+    }, [userState, setUserState]);
     return children
 }
 
