@@ -11,6 +11,7 @@ import Option4 from "../assets/pricing/4.png";
 import Option5 from "../assets/pricing/5.png";
 import Option6 from "../assets/pricing/6.png";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const Pricing = () => {
   const { t } = useTranslation("pricing");
@@ -157,7 +158,7 @@ const Pricing = () => {
             </div>
           </div>
 
-          <a href="/">
+          <Link to="/">
             <button
               style={{ backgroundColor: "#1FAD72" }}
               className="flex items-center justify-center hover:opacity-75 w-full h-9 rounded-md mt-8 transition"
@@ -166,7 +167,7 @@ const Pricing = () => {
                 {t("second.card.continue")}
               </p>
             </button>
-          </a>
+          </Link>
         </div>
       );
     };
@@ -221,14 +222,14 @@ const Pricing = () => {
         <div className="flex items-center justify-between w-full">
           <img src={icon} className="w-10" alt="" draggable={false} />
           {learnMore && (
-            <a href="/">
+            <Link to="/">
               <button
                 style={{ color: "#1FAD72" }}
                 className="bg-white px-3 py-2 text-xs font-bold font-nanum rounded-md hover:opacity-75 transition"
               >
                 {t("learnMore")}
               </button>
-            </a>
+            </Link>
           )}
         </div>
         <p className="font-semibold mt-4">{title}</p>

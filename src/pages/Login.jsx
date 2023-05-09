@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -147,13 +147,13 @@ const Login = (props) => {
 
             <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
               <p>{t("notAMember")}</p>
-              <a href="/signup">
+              <Link to="/signup">
                 <button>
                   <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
                     {t("signUp")}
                   </p>
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

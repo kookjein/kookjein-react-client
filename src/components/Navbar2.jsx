@@ -5,35 +5,53 @@ import { IoChatboxOutline, IoNotificationsOutline, IoSearch } from "react-icons/
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import axios from "../utils/authAxios";
+import { Link, useNavigate } from "react-router-dom";
+import { HttpStatusCode } from "axios";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = ({ light, accessToken }) => {
   const { t, i18n } = useTranslation("navBar2");
+  const navigate = useNavigate();
 
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
   }
 
+  function logout() {
+    axios
+      .post(`/v1/auth/logout`)
+      .then((response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          accessToken.current = null;
+          navigate("/");
+        } else {
+          console.log("ERROR - v1/auth/logout");
+        }
+      })
+      .catch((e) => {
+        console.log("ERROR - v1/auth/logout", e);
+      });
+  }
+
   const ProfileDropdown = () => (
     <ul className="bg-white text-black rounded-lg px-4 w-56 py-2">
-      <a href="/user/1" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
+      <Link to="/user/1" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
         <div className="flex items-center">{t("myProfile")}</div>
-      </a>
-
-      {/* <a
-        href="/browse"
-        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
-      >
-        <div className="flex items-center">언어 설정</div>
-      </a> */}
-      <a href="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
+      </Link>
+      <Link to="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
         <div className="flex items-center">{t("toMain")}</div>
-      </a>
+      </Link>
       <button
         onClick={() => changeLanguage()}
         className="transition h-12 flex items-center justify-between w-full group"
       >
         <p className="group-hover:text-blue-500">{t("language")}</p>
         <img src={t("flag")} className="w-5 ring-1" alt="" />
+      </button>
+      <button onClick={() => logout()} className="transition h-12 flex items-center justify-between w-full group">
+        <p className="group-hover:text-red-500">{t("logout")}</p>
+        <FiLogOut className="w-4 group-hover:text-red-500 text-gray-500" />
       </button>
     </ul>
   );
@@ -97,8 +115,8 @@ const Navbar = ({ light, accessToken }) => {
         className={`${light ? "text-black" : "text-white"} w-full flex h-full px-4 items-center z-50 flex-shrink-0`}
       >
         <div className="flex items-center text-sm font-nanum pr-6 flex-shrink-0">
-          <a
-            href="/browse"
+          <Link
+            to="/browse"
             aria-label="Homepage"
             className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-1 sm:mr-3"
           >
@@ -108,7 +126,7 @@ const Navbar = ({ light, accessToken }) => {
               className="h-6 sm:h-8 object-contain"
               draggable={false}
             />
-          </a>
+          </Link>
         </div>
         <div className="w-full h-full flex items-center">
           <SearchBar />
@@ -124,26 +142,26 @@ const Navbar = ({ light, accessToken }) => {
                 <IoChatboxOutline className="w-5 h-5 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button>
-              <a href="/manage">
+              <Link to="/manage">
                 <button
                   style={{ backgroundColor: "#0E5034" }}
                   className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
                 >
                   {t("management")}
                 </button>
-              </a>
+              </Link>
               <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
             </>
           ) : (
             <div className="flex items-center space-x-2">
-              <a href="/login">
+              <Link to="/login">
                 <button
                   style={{ backgroundColor: "#0E5034" }}
                   className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
                 >
                   {t("signin")}
                 </button>
-              </a>
+              </Link>
               <Dropdown
                 button={
                   <button className="transition hover:opacity-75 rounded-lg pl-6 h-9">

@@ -25,6 +25,7 @@ import {useRef} from "react";
 
 function App() {
   const accessToken = useRef(null)
+  console.log("asdasd")
   const options = {
     order: ["querystring", "navigator"],
     lookupQuerystring: "lng",

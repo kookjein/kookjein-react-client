@@ -2,6 +2,7 @@ import React from "react";
 import Navbar2 from "../components/Navbar2";
 // import { useTranslation } from "react-i18next";
 import Logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
@@ -21,7 +22,7 @@ const ManageWork = () => {
     const FirstSection = () => {
       const Cell = () => {
         return (
-          <a href={`/manage/0/chat`}>
+          <Link to={`/manage/0/chat`}>
             <button className="w-full h-16 flex items-center px-4 space-x-3 hover:bg-gray-100 transition">
               <DefaultProfile />
               <div className="flex flex-col items-start w-full space-y-1">
@@ -41,7 +42,7 @@ const ManageWork = () => {
               </div>
               <div className="w-2.5 h-2.5 bg-green-700 flex-shrink-0 rounded-full"></div>
             </button>
-          </a>
+          </Link>
         );
       };
       return (

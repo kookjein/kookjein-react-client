@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar2 from "../components/Navbar2";
 // import { useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ManageWorkDetail = () => {
   // const { t } = useTranslation("developerProfile");
@@ -13,7 +13,7 @@ const ManageWorkDetail = () => {
     const SecondSection = () => {
       const Cell = ({ title, type, url }) => {
         return (
-          <a href={url ? url : `/manage/${chatId}/${type}`}>
+          <Link to={url ? url : `/manage/${chatId}/${type}`}>
             <button
               className={`${
                 pathname === `/manage/${chatId}/${type}`
@@ -23,18 +23,18 @@ const ManageWorkDetail = () => {
             >
               <p className="">{title}</p>
             </button>
-          </a>
+          </Link>
         );
       };
 
       return (
         <div className="space-y-4 w-full flex flex-col items-center">
           <div className="w-full flex items-center px-4 pt-4">
-            <a href="/manage">
+            <Link to="/manage">
               <button>
                 <FiArrowLeft className="w-6 h-6" />
               </button>
-            </a>
+            </Link>
           </div>
           <div className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden"></div>
           <p className="text-xl">모하메드 알가잘리</p>

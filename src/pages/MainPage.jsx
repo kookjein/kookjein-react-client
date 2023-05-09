@@ -27,6 +27,7 @@ import Partner1 from "../assets/main/partner1.png";
 import { AiFillStar } from "react-icons/ai";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const { t } = useTranslation("mainPage");
@@ -157,14 +158,14 @@ const MainPage = () => {
           >
             <img src={t("welcomeText")} alt="" className="object-contain" draggable={false} />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <a href="/browse">
+              <Link to="/browse">
                 <button
                   style={{ backgroundColor: "#1FAD72" }}
                   className="text-white text px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
                 >
                   {t("welcomeButton")}
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
@@ -430,14 +431,14 @@ const MainPage = () => {
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
           <p className="font-nanum mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
-          <a href="/browse">
+          <Link to="/browse">
             <button
               style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
               className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
             >
               {t("seventh.button")}
             </button>
-          </a>
+          </Link>
         </div>
       </div>
     );

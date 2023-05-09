@@ -11,6 +11,7 @@ import Solution6 from "../assets/service/solution6.png";
 import CompanyDevs from "../assets/service/company_devs.png";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const ServiceCompany = () => {
   const { t } = useTranslation("serviceCompany");
@@ -36,14 +37,14 @@ const ServiceCompany = () => {
               draggable={false}
             />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <a href="/browse">
+              <Link to="/browse">
                 <button
                   style={{ backgroundColor: "#1FAD72" }}
                   className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
                 >
                   {t("welcomeButton")}
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
@@ -95,14 +96,14 @@ const ServiceCompany = () => {
         <div className="flex items-center justify-between w-full">
           <img src={icon} className="w-10" alt="" draggable={false} />
           {learnMore && (
-            <a href="/">
+            <Link to="/">
               <button
                 style={{ color: "#1FAD72" }}
                 className="bg-white px-3 py-2 text-xs font-bold font-nanum rounded-md hover:opacity-75 transition"
               >
                 {t("learnMore")}
               </button>
-            </a>
+            </Link>
           )}
         </div>
         <p className="font-semibold mt-4">{title}</p>
@@ -198,14 +199,14 @@ const ServiceCompany = () => {
               draggable={false}
             />
             <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <a href="/browse">
+              <Link to="/browse">
                 <button
                   style={{ backgroundColor: "#1FAD72" }}
                   className="text-white text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
                 >
                   {t("fourth.button")}
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
@@ -259,14 +260,14 @@ const ServiceCompany = () => {
           <p className="font-nanum mt-2 mb-12 text-xl text-white">
             {t("seventh.title")}
           </p>
-          <a href="/browse">
+          <Link to="/browse">
             <button
               style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
               className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
             >
               {t("seventh.button")}
             </button>
-          </a>
+          </Link>
         </div>
       </div>
     );

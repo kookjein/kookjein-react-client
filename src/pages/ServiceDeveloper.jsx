@@ -8,6 +8,7 @@ import DevPeople from "../assets/service/dev_people.png";
 import Footer from "../components/Footer";
 import Checkmark from "../assets/main/checkmark.png";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const ServiceDeveloper = () => {
   const { t } = useTranslation("serviceDeveloper");
@@ -58,14 +59,14 @@ const ServiceDeveloper = () => {
         <div className="flex items-center justify-between w-full">
           <img src={icon} className="w-10" alt="" draggable={false} />
           {learnMore && (
-            <a href="/">
+            <Link to="/">
               <button
                 style={{ color: "#1FAD72" }}
                 className="bg-white px-3 py-2 text-xs font-bold font-nanum rounded-md hover:opacity-75 transition"
               >
                 {t("learnMore")}
               </button>
-            </a>
+            </Link>
           )}
         </div>
         <p className="font-semibold mt-4">{title}</p>
@@ -161,14 +162,14 @@ const ServiceDeveloper = () => {
             </div>
           </div>
 
-          <a href="/">
+          <Link to="/">
             <button
               style={{ backgroundColor: "#1FAD72" }}
               className="text-white px-4 py-3 text-xs font-bold font-nanum rounded-md hover:opacity-75 transition mt-12"
             >
               {t("learnMore")}
             </button>
-          </a>
+          </Link>
         </div>
         <div className="hidden sm:flex h-full">
           <img

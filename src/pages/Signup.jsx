@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
 import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
@@ -30,24 +30,24 @@ const Signup = (props) => {
             },
             user: {
               user_type: accountType,
-            }
+            },
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              props.accessToken.current = response.data.access_token
-              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`
+              props.accessToken.current = response.data.access_token;
+              axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`;
               navigate("/browse");
             }
             setLoading(false);
           })
           .catch((e) => {
             console.log("ERROR - v1/auth/register - ", e);
-            setLoading(false)
+            setLoading(false);
           });
       } else {
         // NORMAL LOGIN => Go to next signup step
         setSignupStep(1);
-        setLoading(false)
+        setLoading(false);
       }
     };
 
@@ -125,11 +125,11 @@ const Signup = (props) => {
             user: {
               user_type: accountType,
               user_name: nameValue,
-            }
+            },
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              props.accessToken.current = response.data.access_token
+              props.accessToken.current = response.data.access_token;
               axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`;
               navigate("/browse");
             }
@@ -222,13 +222,13 @@ const Signup = (props) => {
 
             <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
               <p>{t("already")}</p>
-              <a href="/login">
+              <Link to="/login">
                 <button>
                   <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
                     {t("login")}
                   </p>
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
