@@ -7,6 +7,7 @@ import { RiCustomerServiceLine } from "react-icons/ri";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar");
@@ -28,8 +29,8 @@ const Navbar = ({ light }) => {
             {t("service.for")}
           </p>
         </div>
-        <a
-          href="/service/company"
+        <Link
+          to="/service/company"
           className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
         >
           <div className="flex items-center space-x-4">
@@ -39,9 +40,9 @@ const Navbar = ({ light }) => {
               <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle1")}</p>
             </div>
           </div>
-        </a>
-        <a
-          href="/service/developer"
+        </Link>
+        <Link
+          to="/service/developer"
           className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
         >
           <div className="flex items-center space-x-4">
@@ -51,7 +52,7 @@ const Navbar = ({ light }) => {
               <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle2")}</p>
             </div>
           </div>
-        </a>
+        </Link>
         <div className="flex mt-4">
           <p
             style={{ color: "#1FAD72", fontSize: "0.7rem" }}
@@ -60,8 +61,8 @@ const Navbar = ({ light }) => {
             {t("service.addition")}
           </p>
         </div>
-        <a
-          href="/pricing"
+        <Link
+          to="/pricing"
           className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
         >
           <div className="flex items-center space-x-4">
@@ -71,7 +72,7 @@ const Navbar = ({ light }) => {
               <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle3")}</p>
             </div>
           </div>
-        </a>
+        </Link>
       </ul>
     );
   };
@@ -79,68 +80,68 @@ const Navbar = ({ light }) => {
   const CompanyDropdown = () => (
     <ul className="bg-white text-black rounded-lg p-5 w-56 text-sm">
       <p className="font-semibold font-sans text-gray-600 mb-2">{t("company.internal")}</p>
-      <a
-        href="https://candle-chemistry-608.notion.site/62a540c630b948e8817bdb36f262d5c8"
+      <Link
+        to="https://candle-chemistry-608.notion.site/62a540c630b948e8817bdb36f262d5c8"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("company.partners")}</div>
-      </a>
-      <a
-        href="https://www.namsancompany.com"
+      </Link>
+      <Link
+        to="https://www.namsancompany.com"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("company.team")}</div>
-      </a>
-      <a
-        href="https://candle-chemistry-608.notion.site/Tech-65b1bae7371f461db0238f6cabe18484"
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/Tech-65b1bae7371f461db0238f6cabe18484"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("company.blog")}</div>
-      </a>
+      </Link>
 
       <Divider />
       <p className="font-semibold font-sans text-gray-600 mb-2">{t("company.external")}</p>
-      <a
-        href="https://candle-chemistry-608.notion.site/7f34a912fa764803aa270f1f21754d5e"
+      <Link
+        to="https://candle-chemistry-608.notion.site/7f34a912fa764803aa270f1f21754d5e"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("company.news")}</div>
-      </a>
-      <a
-        href="https://candle-chemistry-608.notion.site/5bfc7fb3a6234942bf9ab43be65268f3?v=2e8c1d8335954f6a923bd196baaa2d1a"
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/5bfc7fb3a6234942bf9ab43be65268f3?v=2e8c1d8335954f6a923bd196baaa2d1a"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("company.investor")}</div>
-      </a>
+      </Link>
     </ul>
   );
 
   const ResourcesDropdown = () => (
     <ul className="bg-white text-black rounded-lg p-5 w-56 text-sm">
-      <a
-        href="https://candle-chemistry-608.notion.site/FAQ-9b9927f37295435dbe5114157a498e48"
+      <Link
+        to="https://candle-chemistry-608.notion.site/FAQ-9b9927f37295435dbe5114157a498e48"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("resources.faq")}</div>
-      </a>
-      <a
-        href="https://candle-chemistry-608.notion.site/e5ec81c45bd141f49b716ce8fc7b9b0e"
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/e5ec81c45bd141f49b716ce8fc7b9b0e"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("resources.community")}</div>
-      </a>
-      <a
-        href="https://candle-chemistry-608.notion.site/08aae9cfc4bb4b1ea1dbcbdafd6a6b1a"
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/08aae9cfc4bb4b1ea1dbcbdafd6a6b1a"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("resources.customer")}</div>
-      </a>
-      <a
-        href="https://candle-chemistry-608.notion.site/Legal-9faf14d01dd14883ab0096f1702e0824"
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/Legal-9faf14d01dd14883ab0096f1702e0824"
         className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center">{t("resources.legal")}</div>
-      </a>
+      </Link>
     </ul>
   );
 
@@ -196,8 +197,8 @@ const Navbar = ({ light }) => {
       } w-full flex h-16 px-4 items-center justify-between z-50 flex-shrink-0 absolute top-0`}
     >
       <div className="flex items-center text-sm font-nanum">
-        <a
-          href="/"
+        <Link
+          to="/"
           aria-label="Homepage"
           className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-3"
         >
@@ -207,16 +208,16 @@ const Navbar = ({ light }) => {
             className="h-8 object-contain"
             draggable={false}
           />
-        </a>
+        </Link>
 
         <Dropdown button={<SolutionButton />} dropdown={<SolutionDropdown />} />
         <Dropdown button={<CompanyButton />} dropdown={<CompanyDropdown />} />
         <Dropdown button={<ResourcesButton />} dropdown={<ResourcesDropdown />} />
-        <a href="/pricing">
+        <Link to="/pricing">
           <button className="hidden sm:flex items-center font-bold group transition hover:opacity-75 px-3">
             <p>{t("pricing")}</p>
           </button>
-        </a>
+        </Link>
       </div>
       <div className="hidden sm:flex space-x-1 font-poppins sm:text-base text-sm justify-end items-center">
         <button
@@ -226,11 +227,11 @@ const Navbar = ({ light }) => {
           <img src={t("flag")} className="w-6" alt="" />
           <p>{t("language")}</p>
         </button>
-        <a href="/login">
+        <Link to="/login">
           <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
           {t("login")}
           </button>
-        </a>
+        </Link>
       </div>
 
       <button className="sm:hidden transition hover:opacity-75 rounded-lg">

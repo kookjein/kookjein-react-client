@@ -8,7 +8,7 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "axios";
 import { BsFillPencilFill } from "react-icons/bs";
@@ -211,9 +211,9 @@ const DeveloperProfile = () => {
             <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <a className="text-sm text-blue-500 font-bold" href="/user/profile">
+        <Link className="text-sm text-blue-500 font-bold" to="/user/profile">
           {link}
-        </a>
+        </Link>
         <p className="text-sm break-keep">{desc}</p>
       </div>
     );

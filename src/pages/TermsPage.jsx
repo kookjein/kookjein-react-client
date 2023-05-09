@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const TermsPage = () => {
   const timeClass = "mt-4 mb-12";
@@ -33,9 +34,9 @@ const TermsPage = () => {
           you, you accept and agree, on behalf of yourself or on behalf of your
           employer or any other entity (if applicable), to be bound and abide by
           these Terms of Service and Turnup Payment Terms, found{" "}
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>here</button>
-          </a>{" "}
+          </Link>{" "}
           (“Payment Terms”), which is incorporated herein by reference. You
           further acknowledge, you have read and understood our Privacy Policy,
           found here. If you do not want to agree to these Terms of Service or
@@ -87,9 +88,9 @@ const TermsPage = () => {
         </p>
         <p className={bodyClass}>
           - Buyers pay Turnup in advance to create an order (see{" "}
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>Payment Terms</button>
-          </a>
+          </Link>
           ).
         </p>
         <p className={bodyClass}>
@@ -98,9 +99,9 @@ const TermsPage = () => {
         </p>
         <p className={bodyClass}>
           - For fees and payments please read the{" "}
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>Payment Terms</button>
-          </a>
+          </Link>
           .
         </p>
         <p className={bodyClass}>
@@ -127,9 +128,9 @@ const TermsPage = () => {
         </p>
         <p className={bodyClass}>
           - We care about your privacy. You can read our{" "}
-          <a className={hrefClass} href={"/legal/privacy-policy"}>
+          <Link className={hrefClass} to={"/legal/privacy-policy"}>
             <button>Privacy Policy</button>
-          </a>{" "}
+          </Link>{" "}
           here.
         </p>
         <p className={bodyClass}>
@@ -155,9 +156,9 @@ const TermsPage = () => {
         <p className={bodyClass}>
           - For more information about receiving payments, fees and taxes see
           the
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>Payment Terms</button>
-          </a>
+          </Link>
           .
         </p>
         <p className={bodyClass}>
@@ -219,9 +220,9 @@ const TermsPage = () => {
           users can contact Turnup's Customer Support department for assistance
           here. For more information about disputes, Order cancellations and
           refunds please refer to the{" "}
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>Payment Terms</button>
-          </a>
+          </Link>
           .
         </p>
 
@@ -233,9 +234,9 @@ const TermsPage = () => {
           users can contact Turnup's Customer Support department for assistance
           here. For more information about disputes, Order cancellations and
           refunds please refer to the{" "}
-          <a className={hrefClass} href={"/legal/payment-terms"}>
+          <Link className={hrefClass} to={"/legal/payment-terms"}>
             <button>Payment Terms</button>
-          </a>
+          </Link>
           .
         </p>
 
@@ -247,9 +248,9 @@ const TermsPage = () => {
           Terms of Service. All cases are reviewed by our Trust & Safety team.
           To protect individual privacy, the results of the investigation are
           not shared. You can review our{" "}
-          <a className={hrefClass} href={"/legal/privacy-policy"}>
+          <Link className={hrefClass} to={"/legal/privacy-policy"}>
             <button>Privacy Policy</button>
-          </a>{" "}
+          </Link>{" "}
           for more information.
         </p>
 

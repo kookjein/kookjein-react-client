@@ -8,6 +8,7 @@ const navBar2 = {
   management: "Manage Work",
   myProfile: "My profile",
   signin: "Sign in",
+  logout: "Log out",
 };
 
 export default navBar2;

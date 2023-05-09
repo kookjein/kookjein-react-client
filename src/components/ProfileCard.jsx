@@ -1,6 +1,7 @@
 import React from "react";
 import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const ProfileCard = ({ item }) => {
   const { t, i18n } = useTranslation("profileCard");
@@ -8,7 +9,7 @@ const ProfileCard = ({ item }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
   return (
-    <a href={`/user/${userId}`}>
+    <Link to={`/user/${userId}`}>
       <div style={{ color: "#272D37" }} className="w-full ring-1 ring-gray-200 shadow-sm rounded-sm">
         <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative">
           {info.img ? (
@@ -61,7 +62,7 @@ const ProfileCard = ({ item }) => {
           </button>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

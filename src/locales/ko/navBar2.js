@@ -8,6 +8,7 @@ const navBar2 = {
   management: "관리 페이지",
   myProfile: "마이페이지",
   signin: "로그인",
+  logout: "로그아웃",
 };
 
 export default navBar2;

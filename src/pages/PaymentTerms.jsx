@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const PaymentTerms = () => {
   const timeClass = "mt-4 mb-12";
@@ -30,9 +31,9 @@ const PaymentTerms = () => {
           Site, you accept and agree, on behalf of yourself or on behalf of your
           employer or any other entity (if applicable), to be bound and abide by
           these Payment Terms. These Terms are supplemental to TURNUP's General{" "}
-          <a className={hrefClass} href={"/legal/terms-of-service"}>
+          <Link className={hrefClass} to={"/legal/terms-of-service"}>
             <button>Terms of Service</button>
-          </a>{" "}
+          </Link>{" "}
           as applicable (collectively, the “Terms of Service”).
         </p>
 
@@ -150,21 +151,21 @@ const PaymentTerms = () => {
         <p className={bodyClass}>
           - Withdraw to your PayPal Account - US$0 Fee*. For a list of PayPal
           services by country click{" "}
-          <a className={hrefClass} href={"http://paypal.com/worldwide"}>
+          <Link className={hrefClass} to={"http://paypal.com/worldwide"}>
             <button>Here</button>
-          </a>
+          </Link>
         </p>
         <p className={bodyClass}>
           - Withdraw via Western Union - US$0 Fee*. For a list of Western Union
           services by country click{" "}
-          <a
+          <Link
             className={hrefClass}
-            href={
+            to={
               "https://www.westernunion.com/content/dam/wu/EU/EN/feeTableRetailEN-ES.PDF"
             }
           >
             <button>Here</button>
-          </a>
+          </Link>
         </p>
 
         <h2 className={h2Class}>Purchasing</h2>
