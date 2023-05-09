@@ -22,10 +22,11 @@ import Signup from "./pages/Signup";
 import { AxiosInterceptor } from "./utils/authAxios";
 import ManageWorkDetail from "./pages/ManageWorkDetail";
 import {useRef} from "react";
+import {AuthProvider} from "./utils/authContext";
 
 function App() {
   const accessToken = useRef(null)
-  console.log("asdasd")
+
   const options = {
     order: ["querystring", "navigator"],
     lookupQuerystring: "lng",
@@ -44,24 +45,26 @@ function App() {
       detection: options,
     });
   return (
-    <AxiosInterceptor accessToken={accessToken}>
-      <Routes>
-        <Route path="/*" element={<MainPage />} />
-        <Route path="/browse" element={<Browse accessToken={accessToken}/>} />
-        <Route path="/user/:userId" element={<DeveloperProfile />} />
-        <Route path="/manage" element={<ManageWork />} />
-        <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
-        <Route path="/service/company" element={<ServiceCompany />} />
-        <Route path="/service/developer" element={<ServiceDeveloper />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="legal/" element={<Legal />} />
-        <Route path="legal/terms-of-use" element={<TermsPage />} />
-        <Route path="legal/privacy-policy" element={<Privacy />} />
-        <Route path="legal/payment-terms" element={<PaymentTerms />} />
-        <Route path="/login" element={<Login accessToken={accessToken} />} />
-        <Route path="/signup" element={<Signup accessToken={accessToken} />} />
-      </Routes>
-    </AxiosInterceptor>
+    <AuthProvider>
+      <AxiosInterceptor>
+        <Routes>
+          <Route path="/*" element={<MainPage />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/user/:userId" element={<DeveloperProfile />} />
+          <Route path="/manage" element={<ManageWork />} />
+          <Route path="/manage/:chatId/*" element={<ManageWorkDetail />} />
+          <Route path="/service/company" element={<ServiceCompany />} />
+          <Route path="/service/developer" element={<ServiceDeveloper />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="legal/" element={<Legal />} />
+          <Route path="legal/terms-of-use" element={<TermsPage />} />
+          <Route path="legal/privacy-policy" element={<Privacy />} />
+          <Route path="legal/payment-terms" element={<PaymentTerms />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </AxiosInterceptor>
+    </AuthProvider>
   );
 }
 

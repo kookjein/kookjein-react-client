@@ -5,7 +5,7 @@ import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
 import axios from "axios";
 
-const Browse = ({ accessToken }) => {
+const Browse = () => {
   const [dataArray, setDataArray] = useState({});
   useEffect(() => {
     axios
@@ -51,7 +51,7 @@ const Browse = ({ accessToken }) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar2 light accessToken={accessToken} />
+      <Navbar2 light />
       <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32">
         <div className="w-full flex flex-wrap h-full items-center flex-shrink-0 gap-3 py-6">
           {TagsArray.map((item) => (

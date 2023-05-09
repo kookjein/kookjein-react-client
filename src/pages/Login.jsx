@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import Navbar from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -6,11 +6,12 @@ import Footer from "../components/Footer";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
+import {AuthContext} from "../utils/authContext";
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("login");
-
+  
   const LoginSection = () => {
     const [usernameValue, setUsernameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
@@ -18,6 +19,7 @@ const Login = (props) => {
     const [isLoading, setLoading] = useState(false);
     const googleLoginRef = useRef(null);
     const [size, setSize] = useState({});
+    const {userState, setUserState} = useContext(AuthContext);
 
     const authenticate = (item) => {
       setLoading(true);
@@ -26,8 +28,7 @@ const Login = (props) => {
         .post(`/v1/auth/login`, item)
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
-            props.accessToken.current = response.data.access_token
-            axios.defaults.headers.common.Authorization = `Bearer ${props.accessToken.current}`
+            setUserState({...userState, accessToken: response.data.access_token})
             navigate("/browse");
           } else {
             setErrorMessage(t("error.unknown"));
