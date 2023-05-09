@@ -19,11 +19,11 @@ const Login = (props) => {
     const googleLoginRef = useRef(null);
     const [size, setSize] = useState({});
 
-    const authenticate = (data) => {
+    const authenticate = (item) => {
       setLoading(true);
       setErrorMessage("");
       axios
-        .post(`/v1/auth/login`, data)
+        .post(`/v1/auth/login`, item)
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
             props.accessToken.current = response.data.access_token
@@ -36,9 +36,9 @@ const Login = (props) => {
         })
         .catch((e) => {
           if (e.response.status === HttpStatusCode.NotFound) {
-            if (data.auth_type !== "email") {
+            if (item.auth.auth_type !== "email") {
               // 404: Account doesn't exist - Google Login
-              navigate("/signup", { state: { data: data.payload } });
+              navigate("/signup", { state: { data: item.auth.payload } });
             } else {
               // 404:Account doesn't exist - Kookjein Login
               setErrorMessage(t("error.unregistered"));
@@ -91,7 +91,7 @@ const Login = (props) => {
                         payload: JSON.stringify(credentialResponse),
                       }
                     });
-                    console.log(credentialResponse);
+                    // console.log(credentialResponse);
                   }}
                   onError={() => {
                     console.log("Login Failed");
