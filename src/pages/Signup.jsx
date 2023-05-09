@@ -14,7 +14,6 @@ const Signup = (props) => {
   const [accountType, setAccountType] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
-
   const SignupSection0 = () => {
     const cardSelected = (cardType) => {
       setAccountType(cardType);
