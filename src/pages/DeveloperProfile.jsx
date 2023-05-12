@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "axios";
-import { BsFillPencilFill } from "react-icons/bs";
 
 const DeveloperProfile = () => {
   const { t, i18n } = useTranslation("developerProfile");
@@ -24,10 +23,10 @@ const DeveloperProfile = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    Modal.setAppElement('body')
-    return () => {}
-  }, [])
-  
+    Modal.setAppElement("body");
+    return () => {};
+  }, []);
+
   const customStyles = {
     content: {
       top: "50%",
@@ -93,13 +92,6 @@ const DeveloperProfile = () => {
       style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
       className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative"
     >
-      <button
-        className="absolute top-4 right-4 w-8 h-8 bg-green-800 hover:bg-green-700 flex items-center justify-center text-white rounded-full transition"
-        onClick={() => openModal()}
-      >
-        <BsFillPencilFill />
-      </button>
-
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         <img src={developerInfo.img} alt="" className="object-cover w-full h-full" />
       </div>
@@ -211,9 +203,9 @@ const DeveloperProfile = () => {
             <p className="text-sm font-bold text-gray-600">{name}</p>
           </div>
         </div>
-        <Link className="text-sm text-blue-500 font-bold" to="/user/profile">
+        <a href={link} className="text-sm text-blue-500 font-bold">
           {link}
-        </Link>
+        </a>
         <p className="text-sm break-keep">{desc}</p>
       </div>
     );
@@ -242,12 +234,6 @@ const DeveloperProfile = () => {
         style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
-        <button
-          className="absolute top-4 right-4 w-8 h-8 bg-green-800 hover:bg-green-700 flex items-center justify-center text-white rounded-full transition"
-          onClick={() => openModal()}
-        >
-          <BsFillPencilFill />
-        </button>
         <TitleText text={t("intro")} />
         <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
 
@@ -669,6 +655,27 @@ const DeveloperProfile = () => {
 
         <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
           <Navbar2 light />
+          <div
+            style={{ backgroundColor: "#0E5034" }}
+            className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
+          >
+            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex justify-end items-center space-x-2">
+              <Link to="/manage" state={{ tabStatus: 1 }}>
+                <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
+                  메세지 보내기
+                </button>
+              </Link>
+              <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
+                채용하기
+              </button>
+              <button
+                onClick={() => openModal()}
+                className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
+              >
+                프로핋 수정
+              </button>
+            </div>
+          </div>
 
           <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
             <LeftPanel />

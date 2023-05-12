@@ -6,13 +6,39 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { en, ko } from "./locales";
+import XHR from "i18next-xhr-backend";
+import { AuthProvider } from "./utils/authContext";
+
+const options = {
+  order: ["querystring", "navigator"],
+  lookupQuerystring: "lng",
+};
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .use(XHR)
+  .init({
+    resources: { en, ko },
+    defaultNS: "common",
+    supportedLngs: ["en", "ko"],
+    ns: ["common"],
+    fallbackLng: "en",
+    interpolation: { escapeValue: false },
+    detection: options,
+  });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
 

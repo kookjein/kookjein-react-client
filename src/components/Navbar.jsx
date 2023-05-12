@@ -1,4 +1,4 @@
-import React from "react";
+import React, { } from "react";
 import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
 import { BiChevronDown } from "react-icons/bi";
@@ -229,7 +229,7 @@ const Navbar = ({ light }) => {
         </button>
         <Link to="/login">
           <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
-          {t("login")}
+            {t("login")}
           </button>
         </Link>
       </div>

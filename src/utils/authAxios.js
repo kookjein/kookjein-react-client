@@ -1,10 +1,10 @@
-import Axios, {HttpStatusCode} from "axios";
-import {apiUrl} from "./config";
-import {useContext, useEffect} from "react";
-import {AuthContext} from "./authContext";
+import Axios, { HttpStatusCode } from "axios";
+import { apiUrl } from "./config";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "./authContext";
 
 const axios = Axios.create({
-    baseURL: apiUrl
+  baseURL: apiUrl,
 });
 
 axios.defaults.withCredentials = true;
