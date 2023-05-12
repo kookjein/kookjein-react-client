@@ -10,14 +10,7 @@ const axios = Axios.create({
 axios.defaults.withCredentials = true;
 
 export const AxiosInterceptor = ({children}) => {
-    const {userState, setUserState} = useContext(AuthContext);
-    useEffect(() => {
-        axios.post(`/v1/auth/refresh`).then((response) => {
-            if (response.status === HttpStatusCode.Ok) {
-                setUserState({accessToken: response.data.access_token})
-            }
-        })
-    }, [setUserState])
+    const {setUserState} = useContext(AuthContext);
     useEffect(() => {
         const resInterceptor = (response) => {
             return response;
@@ -26,19 +19,16 @@ export const AxiosInterceptor = ({children}) => {
             if (error.response.status === HttpStatusCode.BadRequest && error.config.url !== '/v1/auth/refresh') {
                 return axios.post(`/v1/auth/refresh`).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        setUserState({...userState, accessToken: response.data.access_token})
+                        setUserState({accessToken: response.data.access_token})
                         //TODO Retry prev API call (error)
                     }
                 })
             } else if (error.response.status === HttpStatusCode.BadRequest) return error
             return Promise.reject(error);
         };
-        const interceptor = axios.interceptors.response.use(
-            resInterceptor,
-            errInterceptor
-        );
+        const interceptor = axios.interceptors.response.use(resInterceptor, errInterceptor);
         return () => axios.interceptors.response.eject(interceptor);
-    }, [userState, setUserState]);
+    }, [setUserState]);
     return children
 }
 
