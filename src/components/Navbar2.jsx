@@ -9,12 +9,12 @@ import axios from "../utils/authAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { HttpStatusCode } from "axios";
 import { FiLogOut } from "react-icons/fi";
-import {AuthContext} from "../utils/authContext";
+import { AuthContext } from "../utils/authContext";
 
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
   const navigate = useNavigate();
-  const {userState, setUserState} = useContext(AuthContext);
+  const { userState, setUserState } = useContext(AuthContext);
 
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
@@ -25,7 +25,7 @@ const Navbar = ({ light }) => {
       .post(`/v1/auth/logout`)
       .then((response) => {
         if (response.status === HttpStatusCode.Ok) {
-          setUserState({...userState, accessToken: null})
+          setUserState({ ...userState, accessToken: null });
           navigate("/");
         } else {
           console.log("ERROR - v1/auth/logout");
@@ -51,10 +51,12 @@ const Navbar = ({ light }) => {
         <p className="group-hover:text-blue-500">{t("language")}</p>
         <img src={t("flag")} className="w-5 ring-1" alt="" />
       </button>
-      <button onClick={() => logout()} className="transition h-12 flex items-center justify-between w-full group">
-        <p className="group-hover:text-red-500">{t("logout")}</p>
-        <FiLogOut className="w-4 group-hover:text-red-500 text-gray-500" />
-      </button>
+      {userState.accessToken && (
+        <button onClick={() => logout()} className="transition h-12 flex items-center justify-between w-full group">
+          <p className="group-hover:text-red-500">{t("logout")}</p>
+          <FiLogOut className="w-4 group-hover:text-red-500 text-gray-500" />
+        </button>
+      )}
     </ul>
   );
 
@@ -137,14 +139,16 @@ const Navbar = ({ light }) => {
           {userState.accessToken ? (
             <>
               <button className="relative">
-                <IoNotificationsOutline className="w-5 h-5 text-gray-500" />
+                <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button>
-              <button className="relative">
-                <IoChatboxOutline className="w-5 h-5 text-gray-500" />
-                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
-              </button>
-              <Link to="/manage">
+              <Link to="/manage" state={{ tabStatus: 1 }} className="flex items-center">
+                <button className="relative">
+                  <IoChatboxOutline className="w-6 h-6 text-gray-500" />
+                  <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
+                </button>
+              </Link>
+              <Link to="/manage" state={{ tabStatus: 0 }}>
                 <button
                   style={{ backgroundColor: "#0E5034" }}
                   className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
