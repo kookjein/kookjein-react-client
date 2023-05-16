@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
@@ -10,7 +10,9 @@ import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Modal from "react-modal";
-import axios from "axios";
+import basicAxios from "axios";
+import axios from "../utils/authAxios";
+import {AuthContext} from "../utils/authContext";
 
 const DeveloperProfile = () => {
   const { t, i18n } = useTranslation("developerProfile");
@@ -21,11 +23,20 @@ const DeveloperProfile = () => {
   const [developerInfo, setDeveloperInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const {userState} = useContext(AuthContext)
 
   useEffect(() => {
     Modal.setAppElement("body");
     return () => {};
   }, []);
+
+  useEffect(()=>{
+    if (userState.isAuthenticated) {
+      axios.get(`/v1/user/profile`).then((response) => {
+        console.log(response)
+      })
+    }
+  }, [userState])
 
   const customStyles = {
     content: {
@@ -44,7 +55,7 @@ const DeveloperProfile = () => {
   };
 
   useEffect(() => {
-    axios
+    basicAxios
       .get("https://kookjein.s3.ap-northeast-2.amazonaws.com/sample/data.json")
       .then((res) => {
         setDeveloperInfo(res.data[userId]);
