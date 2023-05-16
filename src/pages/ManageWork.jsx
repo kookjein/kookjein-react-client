@@ -124,9 +124,9 @@ const ManageWork = () => {
     const [requestPressed, setRequestPressed] = useState(false);
 
     const SecondSection = () => {
-      const Cell = ({ title, type, url }) => {
+      const Cell = ({ title, type, url, newTab }) => {
         return (
-          <Link to={url ? url : `/manage/${chatId}/${type}`}>
+          <Link to={url ? url : `/manage/${chatId}/${type}`} target={newTab ? "_blank" : "_self"} rel="noopener noreferrer">
             <button
               className={`${
                 pathname === `/manage/${chatId}/${type}`
@@ -190,10 +190,10 @@ const ManageWork = () => {
         <div className="w-full flex flex-col items-center pt-8 border-l h-full">
           <ProfileSection />
           <div className="w-full mt-4">
-            <Cell type={"chat"} title={"1:1 채팅"} />
-            <Cell type={"report"} title={"일일 업무일지"} />
-            <Cell type={"documents"} title={"계약서 및 기타서류"} />
-            <Cell url="/user/1" type={"profile"} title={"프로필 보기"} />
+            <Cell type={"chat"} title={"1:1 채팅"} newTab={false} />
+            <Cell type={"report"} title={"일일 업무일지"} newTab={false} />
+            <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} />
+            <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} />
           </div>
           <AssistantSection />
         </div>

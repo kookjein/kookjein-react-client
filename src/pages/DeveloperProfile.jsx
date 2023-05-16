@@ -660,7 +660,7 @@ const DeveloperProfile = () => {
             className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
           >
             <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex justify-end items-center space-x-2">
-              <Link to="/manage" state={{ tabStatus: 1 }}>
+              <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
                 <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
                   메세지 보내기
                 </button>
@@ -672,7 +672,7 @@ const DeveloperProfile = () => {
                 onClick={() => openModal()}
                 className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
               >
-                프로핋 수정
+                프로필 수정
               </button>
             </div>
           </div>
