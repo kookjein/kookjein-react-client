@@ -31,12 +31,10 @@ const DeveloperProfile = () => {
   }, []);
 
   useEffect(()=>{
-    if (userState.isAuthenticated) {
       axios.get(`/v1/user/profile`).then((response) => {
         console.log(response)
       })
-    }
-  }, [userState])
+  }, [])
 
   const customStyles = {
     content: {
