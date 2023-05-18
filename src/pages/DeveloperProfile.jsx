@@ -36,7 +36,16 @@ const DeveloperProfile = () => {
   useEffect(()=>{
       axios.get(`/v1/user`, {params: {user_id: userId}}).then((response) => {
         console.log(response)
+      }).catch(e => {
+        console.log("V1/USER/ ERROR : ", e)
       })
+
+      axios.get(`/v1/auth/get_current_user`).then((response) => {
+        console.log(123)
+      }).catch(e => {
+        console.log("V1/AUTH/ ERROR : ", e)
+      })
+      
   }, [userId])
 
   const customStyles = {
