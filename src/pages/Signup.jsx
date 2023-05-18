@@ -15,7 +15,7 @@ const Signup = () => {
   const [accountType, setAccountType] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
-  const {userState, setUserState} = useContext(AuthContext);
+  const {setAccessToken} = useContext(AuthContext);
   const SignupSection0 = () => {
     const cardSelected = (cardType) => {
       setAccountType(cardType);
@@ -36,7 +36,7 @@ const Signup = () => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              setUserState({...userState, accessToken: response.data.access_token});
+              setAccessToken(response.data.access_token);
               navigate("/browse");
             }
             setLoading(false);
@@ -130,7 +130,7 @@ const Signup = () => {
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              setUserState({...userState, accessToken: response.data.access_token})
+              setAccessToken(response.data.access_token)
               navigate("/browse");
             }
             setLoading(false);

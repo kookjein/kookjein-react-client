@@ -17,8 +17,7 @@ import {AuthContext} from "../utils/authContext";
 const DeveloperProfile = () => {
   const { t, i18n } = useTranslation("developerProfile");
   const { userId } = useParams();
-  const [searchParams] = useSearchParams();
-  const isMyProfile = searchParams.get("up_rollout") === "true";
+  const [isMyProfile, setIsMyProfile] = useState(false);
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [developerInfo, setDeveloperInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
@@ -26,12 +25,16 @@ const DeveloperProfile = () => {
   const {userState} = useContext(AuthContext)
 
   useEffect(() => {
+    setIsMyProfile(userState.user?.userId === parseInt(userId))
+  }, [userState])
+
+  useEffect(() => {
     Modal.setAppElement("body");
     return () => {};
   }, []);
 
   useEffect(()=>{
-      axios.get(`/v1/user/profile`).then((response) => {
+      axios.get(`/v1/user`, {params: {user_id: userId}}).then((response) => {
         console.log(response)
       })
   }, [])
@@ -680,6 +683,7 @@ const DeveloperProfile = () => {
               <button
                 onClick={() => openModal()}
                 className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
+                style={{display: isMyProfile ? '' : 'none'}}
               >
                 프로필 수정
               </button>

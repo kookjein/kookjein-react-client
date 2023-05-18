@@ -19,7 +19,7 @@ const Login = () => {
     const [isLoading, setLoading] = useState(false);
     const googleLoginRef = useRef(null);
     const [size, setSize] = useState({});
-    const {userState, setUserState} = useContext(AuthContext);
+    const {setAccessToken} = useContext(AuthContext);
 
     const authenticate = (item) => {
       setLoading(true);
@@ -28,7 +28,7 @@ const Login = () => {
         .post(`/v1/auth/login`, item)
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
-            setUserState({...userState, accessToken: response.data.access_token})
+            setAccessToken(response.data.access_token)
             navigate("/browse");
           } else {
             setErrorMessage(t("error.unknown"));

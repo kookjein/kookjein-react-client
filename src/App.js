@@ -23,7 +23,7 @@ function App() {
   return (
     <AxiosInterceptor>
       <Routes>
-        <Route path="/*" element={userState.accessToken ? <Browse /> : <MainPage />} />
+        <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
         <Route path="/browse" element={<Browse />} />
         <Route path="/user/:userId" element={<DeveloperProfile />} />
         <Route path="/manage" element={<ManageWork />} />

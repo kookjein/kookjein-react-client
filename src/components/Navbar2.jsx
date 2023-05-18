@@ -14,7 +14,7 @@ import { AuthContext } from "../utils/authContext";
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
   const navigate = useNavigate();
-  const { userState, setUserState } = useContext(AuthContext);
+  const { setAccessToken, userState } = useContext(AuthContext);
 
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
@@ -25,7 +25,7 @@ const Navbar = ({ light }) => {
       .post(`/v1/auth/logout`)
       .then((response) => {
         if (response.status === HttpStatusCode.Ok) {
-          setUserState({ ...userState, accessToken: null });
+          setAccessToken(null);
           navigate("/");
         } else {
           console.log("ERROR - v1/auth/logout");
@@ -51,7 +51,7 @@ const Navbar = ({ light }) => {
         <p className="group-hover:text-blue-500">{t("language")}</p>
         <img src={t("flag")} className="w-5 ring-1" alt="" />
       </button>
-      {userState.accessToken && (
+      {userState.isAuthenticated && (
         <button onClick={() => logout()} className="transition h-12 flex items-center justify-between w-full group">
           <p className="group-hover:text-red-500">{t("logout")}</p>
           <FiLogOut className="w-4 group-hover:text-red-500 text-gray-500" />
@@ -136,7 +136,7 @@ const Navbar = ({ light }) => {
           <SearchBar />
         </div>
         <div className="hidden sm:flex space-x-6 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
-          {userState.accessToken ? (
+          {userState.isAuthenticated ? (
             <>
               <button className="relative">
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
