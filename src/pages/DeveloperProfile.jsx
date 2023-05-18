@@ -8,7 +8,7 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import basicAxios from "axios";
 import axios from "../utils/authAxios";
@@ -26,7 +26,7 @@ const DeveloperProfile = () => {
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId))
-  }, [userState])
+  }, [userState, userId])
 
   useEffect(() => {
     Modal.setAppElement("body");
@@ -37,7 +37,7 @@ const DeveloperProfile = () => {
       axios.get(`/v1/user`, {params: {user_id: userId}}).then((response) => {
         console.log(response)
       })
-  }, [])
+  }, [userId])
 
   const customStyles = {
     content: {
