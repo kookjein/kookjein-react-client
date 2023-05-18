@@ -34,7 +34,7 @@ const DeveloperProfile = () => {
   }, []);
 
   useEffect(()=>{
-      axios.get(`/v1/user/me`, {params: {user_id: userId}}).then((response) => {
+      axios.get(`/v1/user/`, {params: {user_id: userId}}).then((response) => {
         console.log(response)
       }).catch(e => {
         console.log("V1/USER/ ERROR : ", e)
