@@ -1,6 +1,6 @@
 import "./App.css";
 import "./gradientAnimation.css";
-import { Route, Routes, redirect } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import TermsPage from "./pages/TermsPage";
 import Privacy from "./pages/Privacy";
@@ -24,7 +24,7 @@ function App() {
     <AxiosInterceptor>
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
-        <Route path="/browse" element={userState.isAuthenticated ? redirect("/") : <Browse />} />
+        <Route path="/browse" element={<Browse />} />
         <Route path="/user/:userId" element={<DeveloperProfile />} />
         <Route path="/manage" element={<ManageWork />} />
         <Route path="/manage/:chatId/*" element={<ManageWork />} />
