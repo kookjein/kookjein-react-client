@@ -39,13 +39,6 @@ const DeveloperProfile = () => {
       }).catch(e => {
         console.log("V1/USER/ ERROR : ", e)
       })
-
-      axios.get(`/v1/auth/get_current_user`).then((response) => {
-        console.log(123)
-      }).catch(e => {
-        console.log("V1/AUTH/ ERROR : ", e)
-      })
-      
   }, [userId])
 
   const customStyles = {
