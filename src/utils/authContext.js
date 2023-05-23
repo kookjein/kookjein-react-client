@@ -19,9 +19,13 @@ export const AuthProvider = ({children}) => {
             axios.get('/v1/auth/get_current_user').then((response) => {
                 setUserState({
                     isAuthenticated: true,
-                    user: {userId: response.data.user_id, userName: response.data.user_name}
+                    user: {
+                        userId: response.data.user_id,
+                        userName: response.data.user_name,
+                        userType: response.data.user_type
+                    }
                 })
-            }).finally(()=>setIsLoading(true))
+            }).finally(() => setIsLoading(true))
         } else {
             delete axios.defaults.headers.common.Authorization
             setUserState({})
