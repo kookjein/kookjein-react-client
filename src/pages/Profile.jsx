@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
@@ -12,9 +12,9 @@ import { Link, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import basicAxios from "axios";
 import axios from "../utils/authAxios";
-import {AuthContext} from "../utils/authContext";
+import { AuthContext } from "../utils/authContext";
 
-const DeveloperProfile = () => {
+const Profile = () => {
   const { t, i18n } = useTranslation("developerProfile");
   const { userId } = useParams();
   const [isMyProfile, setIsMyProfile] = useState(false);
@@ -22,24 +22,27 @@ const DeveloperProfile = () => {
   const [developerInfo, setDeveloperInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const {userState} = useContext(AuthContext)
+  const { userState } = useContext(AuthContext);
 
   useEffect(() => {
-    setIsMyProfile(userState.user?.userId === parseInt(userId))
-  }, [userState, userId])
+    setIsMyProfile(userState.user?.userId === parseInt(userId));
+  }, [userState, userId]);
 
   useEffect(() => {
     Modal.setAppElement("body");
     return () => {};
   }, []);
 
-  useEffect(()=>{
-      axios.get(`/v1/user/`, {params: {user_id: userId}}).then((response) => {
-        console.log(response)
-      }).catch(e => {
-        console.log("V1/USER/ ERROR : ", e)
+  useEffect(() => {
+    axios
+      .get(`/v1/user/`, { params: { user_id: userId } })
+      .then((response) => {
+        console.log(response);
       })
-  }, [userId])
+      .catch((e) => {
+        console.log("V1/USER/ ERROR : ", e);
+      });
+  }, [userId]);
 
   const customStyles = {
     content: {
@@ -111,7 +114,7 @@ const DeveloperProfile = () => {
       </div>
 
       <p className="text-xl">
-        {developerInfo.name[lang]} {isMyProfile && "*"}
+        {developerInfo.name[lang]}
       </p>
       <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
         <p className="">{developerInfo.title[lang]}</p>
@@ -308,6 +311,101 @@ const DeveloperProfile = () => {
         <CertificateCell time={"2021.01.12"} />
 
         <Divider />
+        <div className="h-16" />
+      </div>
+    );
+  };
+
+  const LeftPanelEmployer = () => (
+    <div
+      style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
+      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative"
+    >
+      <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
+        <img src="" alt="" className="object-cover w-full h-full" />
+      </div>
+
+      <p className="text-xl">
+        고용인 이름
+      </p>
+      <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
+        <p className="">Title</p>
+        <p style={{ color: "#0E5034" }} className="font-bold">
+          Company name
+        </p>
+      </div>
+      <p
+        style={{
+          width: "100%",
+          overflow: "hidden",
+          display: "-webkit-box",
+          // WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+        }}
+        className="text-xs break-keep text-center text-gray-500"
+      >
+        고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 
+      </p>
+
+      <Divider />
+
+      <div className="w-full space-y-4">
+        <TitleText text={t("lang")} />
+        <div className="w-full gap-2 flex flex-wrap">
+          {developerInfo.lang[lang].map((item) => (
+            <Tags key={item} size={"sm"} item={item} />
+          ))}
+        </div>
+      </div>
+
+      <Divider />
+
+      <div className="w-full space-y-4">
+        <div className="w-full flex flex-col space-y-3">
+          <SummaryCell value={"구인중"} title={"구인 상태"} icon={<MdOutlineWork />} />
+          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<IoLocationSharp />} />
+          <SummaryCell value={t("status6.value")} title={t("status6.title")} icon={<BiTime />} />
+        </div>
+      </div>
+
+      <Divider />
+    </div>
+  );
+
+  const RightPanelEmployer = () => {
+    return (
+      <div
+        style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
+        className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
+      >
+        <TitleText text={"회사 소개"} />
+        <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
+        <Divider />
+
+        <TitleText text={"업종"} />
+        <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
+        <Divider />
+
+        <TitleText text={"대표"} />
+        <p className="break-keep text-sm">장동해</p>
+        <Divider />
+
+        <TitleText text={"홈페이지"} />
+        <p className="break-keep text-sm">namsancompany.com</p>
+        <Divider />
+
+        <TitleText text={"기업주소"} />
+        <p className="break-keep text-sm">퇴계로 18길 33</p>
+        <Divider />
+
+        <TitleText text={"사원수"} />
+        <p className="break-keep text-sm">12</p>
+        <Divider />
+
+        <TitleText text={"국제인 직원"} />
+        <p className="break-keep text-sm">{developerInfo.intro[lang]}</p>
+        <Divider />
+
         <div className="h-16" />
       </div>
     );
@@ -654,52 +752,97 @@ const DeveloperProfile = () => {
   };
 
   if (!isLoading)
-    return (
-      <>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          shouldCloseOnOverlayClick={false}
-          // ariaHideApp={false}
-        >
-          <EditProfileModal />
-        </Modal>
-
-        <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-          <Navbar2 light />
-          <div
-            style={{ backgroundColor: "#0E5034" }}
-            className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
+    if (false)
+      return (
+        <>
+          <Modal
+            isOpen={modalIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={customStyles}
+            shouldCloseOnOverlayClick={false}
           >
-            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex justify-end items-center space-x-2">
-              <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
-                <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
-                  메세지 보내기
-                </button>
-              </Link>
-              <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
-                채용하기
-              </button>
-              <button
-                onClick={() => openModal()}
-                className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
-                style={{display: isMyProfile ? '' : 'none'}}
-              >
-                프로필 수정
-              </button>
-            </div>
-          </div>
+            <EditProfileModal />
+          </Modal>
 
-          <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
-            <LeftPanel />
-            <RightPanel />
+          <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
+            <Navbar2 light />
+            <div
+              style={{ backgroundColor: "#0E5034" }}
+              className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
+            >
+              <div
+                style={{ maxWidth: "1280px" }}
+                className="w-full h-full px-4 flex justify-end items-center space-x-2"
+              >
+                <button
+                  onClick={() => openModal()}
+                  className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
+                  style={{ display: isMyProfile ? "" : "none" }}
+                >
+                  프로필 수정
+                </button>
+              </div>
+            </div>
+
+            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+              <LeftPanelEmployer />
+              <RightPanelEmployer />
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </>
-    );
+        </>
+      );
+    else
+      return (
+        <>
+          <Modal
+            isOpen={modalIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={customStyles}
+            shouldCloseOnOverlayClick={false}
+            // ariaHideApp={false}
+          >
+            <EditProfileModal />
+          </Modal>
+
+          <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
+            <Navbar2 light />
+            <div
+              style={{ backgroundColor: "#0E5034" }}
+              className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
+            >
+              <div
+                style={{ maxWidth: "1280px" }}
+                className="w-full h-full px-4 flex justify-end items-center space-x-2"
+              >
+                <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
+                  <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
+                    메세지 보내기
+                  </button>
+                </Link>
+                <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm hover:bg-gray-200 transition shadow">
+                  채용하기
+                </button>
+                <button
+                  onClick={() => openModal()}
+                  className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
+                  style={{ display: isMyProfile ? "" : "none" }}
+                >
+                  프로필 수정
+                </button>
+              </div>
+            </div>
+
+            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+              <LeftPanel />
+              <RightPanel />
+            </div>
+            <Footer />
+          </div>
+        </>
+      );
 };
 
-export default DeveloperProfile;
+export default Profile;

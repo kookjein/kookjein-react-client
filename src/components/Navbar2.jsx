@@ -38,12 +38,19 @@ const Navbar = ({ light }) => {
 
   const ProfileDropdown = () => (
     <ul className="bg-white text-black rounded-lg px-4 w-56 py-2">
-      <Link to="/user/1" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
-        <div className="flex items-center">{t("myProfile")}</div>
-      </Link>
-      <Link to="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
-        <div className="flex items-center">{t("toMain")}</div>
-      </Link>
+      {userState.isAuthenticated && (
+        <Link
+          to="/user/1"
+          className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center">{t("myProfile")}</div>
+        </Link>
+      )}
+      {!userState.isAuthenticated && (
+        <Link to="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
+          <div className="flex items-center">{t("toMain")}</div>
+        </Link>
+      )}
       <button
         onClick={() => changeLanguage()}
         className="transition h-12 flex items-center justify-between w-full group"
@@ -98,14 +105,10 @@ const Navbar = ({ light }) => {
     return (
       <div className="w-full flex items-center h-10 justify-center">
         <input
-          style={{ outlineColor: "#176343" }}
-          className="border h-full w-full font-nanum text-sm px-3 rounded-l-md max-w-2xl"
+          className="border h-full w-full font-nanum text-sm px-3 rounded-l-md max-w-2xl outline-green-800"
           placeholder="어떤 개발자를 찾으시나요?"
         />
-        <button
-          style={{ backgroundColor: "#0E5034" }}
-          className="text-white text px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px"
-        >
+        <button className="bg-green-800 text-white text px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
           <IoSearch className="text-white w-5 h-5" />
         </button>
       </div>
@@ -135,7 +138,7 @@ const Navbar = ({ light }) => {
         <div className="w-full h-full flex items-center">
           <SearchBar />
         </div>
-        <div className="hidden sm:flex space-x-6 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-6">
+        <div className="hidden sm:flex space-x-7 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-10">
           {userState.isAuthenticated ? (
             <>
               <button className="relative">
@@ -148,14 +151,13 @@ const Navbar = ({ light }) => {
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
                 </button>
               </Link>
-              <Link to="/manage" state={{ tabStatus: 0 }}>
-                <button
-                  style={{ backgroundColor: "#0E5034" }}
-                  className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
-                >
-                  {t("management")}
-                </button>
-              </Link>
+              {userState.user.userType === "employer" && (
+                <Link to="/work-post/register" state={{ tabStatus: 0 }}>
+                  <button className="px-1 py-2 rounded text-green-800 transition font-semibold text-sm filter hover:brightness-125">
+                    {t("workPost")}
+                  </button>
+                </Link>
+              )}
               <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
             </>
           ) : (

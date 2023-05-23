@@ -5,7 +5,7 @@ const navBar2 = {
   language: "English",
   flag: FlagUs,
   toMain: "Back to Main",
-  management: "Manage Work",
+  workPost: "Post a job",
   myProfile: "My profile",
   signin: "Sign in",
   logout: "Log out",
