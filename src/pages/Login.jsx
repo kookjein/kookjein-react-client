@@ -79,6 +79,7 @@ const Login = () => {
     return (
       <div
         style={{ minHeight: "calc(100vh - 3rem)" }}
+        onKeyDown={handleKeypress}
         className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
       >
         <div className="max-w-md px-4">
@@ -113,7 +114,7 @@ const Login = () => {
               <div className="border-t h-px w-full border-gray-300"></div>
             </div>
 
-            <div onKeyDown={handleKeypress} className="bg-white rounded bg-opacity-10 w-full space-y-5">
+            <div className="bg-white rounded bg-opacity-10 w-full space-y-5">
               <input
                 placeholder={t("username")}
                 value={usernameValue}
