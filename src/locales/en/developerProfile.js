@@ -1,6 +1,10 @@
 const developerProfile = {
   mode: "en",
-
+  noInfo: "No information to show",
+  sendMessage: "Message",
+  hire: "Send offer",
+  editProfile: "Edit profile",
+  addInfo: "Add your information",
   programming_lang: "Skills",
   lang: "Language",
   intro: "Introduction",

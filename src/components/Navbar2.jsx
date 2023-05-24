@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HttpStatusCode } from "axios";
 import { FiLogOut } from "react-icons/fi";
 import { AuthContext } from "../utils/authContext";
+import DefaultImage from "../assets/default-profile.png";
 
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
@@ -40,7 +41,7 @@ const Navbar = ({ light }) => {
     <ul className="bg-white text-black rounded-lg px-4 w-56 py-2">
       {userState.isAuthenticated && (
         <Link
-          to="/user/1"
+          to={`/user/${userState.user.userId}`}
           className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
         >
           <div className="flex items-center">{t("myProfile")}</div>
@@ -70,10 +71,15 @@ const Navbar = ({ light }) => {
   const ProfileButton = () => (
     <button className="w-9 h-9 rounded-full relative flex items-center justify-center">
       {/* <GoThreeBars className="w-6 h-6 text-gray-500" /> */}
-      <div className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center">
-        <div className="w-4 h-4 rounded-full bg-gray-400 -mt-2 opacity-75" />
-        <div className="absolute -bottom-4 w-7 h-7 rounded-full bg-gray-400 opacity-75" />
-      </div>
+      <img
+        src={"" || DefaultImage}
+        className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center"
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null; // prevents looping
+          currentTarget.src = DefaultImage;
+        }}
+        alt="Profile"
+      />
       {/* <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 ring-2 ring-white rounded-full"></div> */}
     </button>
   );
@@ -92,7 +98,7 @@ const Navbar = ({ light }) => {
           <article
             className={`${
               dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
-            } absolute top-9 pt-1 -right-8 shadow-xl rounded-lg ring-1 ring-gray-200`}
+            } absolute top-9 pt-1 -right-8 shadow-xl rounded-lg ring-1 ring-gray-200 bg-white`}
           >
             {dropdown}
           </article>

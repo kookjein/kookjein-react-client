@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aws-sdk": "^2.1362.0",
     "axios": "^1.4.0",
+    "browser-image-compression": "^2.0.2",
     "firebase": "^9.21.0",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-xhr-backend": "^3.2.2",

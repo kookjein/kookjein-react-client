@@ -1,6 +1,10 @@
 const developerProfile = {
   mode: "ko",
-
+  noInfo: "등록된 정보가 없습니다",
+  sendMessage: "메세지 보내기",
+  hire: "채용 요청",
+  editProfile: "프로필 수정",
+  addInfo: "내 정보를 추가하세요",
   programming_lang: "프로그래밍 언어",
   lang: "소통 언어",
   intro: "소개",

@@ -17,6 +17,7 @@ const options = {
   order: ["querystring", "navigator"],
   lookupQuerystring: "lng",
 };
+console.log(LanguageDetector)
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
