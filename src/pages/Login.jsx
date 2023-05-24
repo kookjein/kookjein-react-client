@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -6,12 +6,12 @@ import Footer from "../components/Footer";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
-import {AuthContext} from "../utils/authContext";
+import { AuthContext } from "../utils/authContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("login");
-  
+
   const LoginSection = () => {
     const [usernameValue, setUsernameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
@@ -19,7 +19,7 @@ const Login = () => {
     const [isLoading, setLoading] = useState(false);
     const googleLoginRef = useRef(null);
     const [size, setSize] = useState({});
-    const {setAccessToken} = useContext(AuthContext);
+    const { setAccessToken } = useContext(AuthContext);
 
     const authenticate = (item) => {
       setLoading(true);
@@ -28,7 +28,7 @@ const Login = () => {
         .post(`/v1/auth/login`, item)
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
-            setAccessToken(response.data.access_token)
+            setAccessToken(response.data.access_token);
             navigate("/browse");
           } else {
             setErrorMessage(t("error.unknown"));
@@ -55,6 +55,12 @@ const Login = () => {
           }
           setLoading(false);
         });
+    };
+
+    const handleKeypress = (e) => {
+      if (e.keyCode === 13) {
+        authenticate({ auth: { auth_type: "email", user_email: usernameValue, user_password: passwordValue } });
+      }
     };
 
     useEffect(() => {
@@ -90,7 +96,7 @@ const Login = () => {
                       auth: {
                         auth_type: "google",
                         payload: JSON.stringify(credentialResponse),
-                      }
+                      },
                     });
                     // console.log(credentialResponse);
                   }}
@@ -107,7 +113,7 @@ const Login = () => {
               <div className="border-t h-px w-full border-gray-300"></div>
             </div>
 
-            <div className="bg-white rounded bg-opacity-10 w-full space-y-5">
+            <div onKeyDown={handleKeypress} className="bg-white rounded bg-opacity-10 w-full space-y-5">
               <input
                 placeholder={t("username")}
                 value={usernameValue}
@@ -126,16 +132,16 @@ const Login = () => {
             {errorMessage && <p className="mt-4 text-xs text-red-500">{errorMessage}</p>}
             <button
               onClick={() =>
-                authenticate({ auth: { auth_type: "email", user_email: usernameValue, user_password: passwordValue }})
+                authenticate({ auth: { auth_type: "email", user_email: usernameValue, user_password: passwordValue } })
               }
               style={{
                 backgroundColor:
                   usernameValue.length < 1 || passwordValue.length < 1 || isLoading ? "#c2c2c2" : "#1FAD72",
               }}
               disabled={usernameValue.length < 1 || passwordValue.length < 1 || isLoading}
-              className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
+              className="p-2 rounded px-6 mt-5 w-full font-bold text-white flex items-center justify-center"
             >
-              {t("login")}
+              {isLoading ? <div className="animate-ping h-6 w-6 rounded-full bg-white" /> : t("login")}
             </button>
 
             <div className="flex justify-end mt-3 text-gray-700 text-sm">

@@ -6,16 +6,17 @@ import Footer from "../components/Footer";
 import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
-import {AuthContext} from "../utils/authContext";
+import { AuthContext } from "../utils/authContext";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation("signup");
+  const { t, i18n } = useTranslation("signup");
   const [signupStep, setSignupStep] = useState(0);
   const [accountType, setAccountType] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const location = useLocation();
-  const {setAccessToken} = useContext(AuthContext);
+  const { setAccessToken } = useContext(AuthContext);
+
   const SignupSection0 = () => {
     const cardSelected = (cardType) => {
       setAccountType(cardType);
@@ -32,12 +33,13 @@ const Signup = () => {
             },
             user: {
               user_type: accountType,
+              user_language: i18n.language,
             },
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
               setAccessToken(response.data.access_token);
-              navigate("/browse");
+              navigate("/");
             }
             setLoading(false);
           })
@@ -93,7 +95,13 @@ const Signup = () => {
               disabled={!accountType || isLoading}
               className="p-2 rounded px-6 mt-8 w-full font-bold text-white"
             >
-              {location.state ? t("complete") : t("continue")}
+              {isLoading ? (
+                <div className="animate-ping h-6 w-6 rounded-full bg-white" />
+              ) : location.state ? (
+                t("complete")
+              ) : (
+                t("continue")
+              )}
             </button>
           </div>
         </div>
@@ -126,12 +134,13 @@ const Signup = () => {
             user: {
               user_type: accountType,
               user_name: nameValue,
+              user_language: i18n.language,
             },
           })
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
-              setAccessToken(response.data.access_token)
-              navigate("/browse");
+              setAccessToken(response.data.access_token);
+              navigate("/");
             }
             setLoading(false);
           })
@@ -146,6 +155,11 @@ const Signup = () => {
       }
     };
 
+    const handleKeypress = (e) => {
+      if (e.keyCode === 13) {
+        completeRegister();
+      }
+    };
     return (
       <div
         style={{ minHeight: "calc(100vh - 3rem)" }}
@@ -155,7 +169,7 @@ const Signup = () => {
           <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
             <h1 className="text-3xl font-bold">{t("signup")}</h1>
 
-            <div className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
+            <div  onKeyDown={handleKeypress} className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
               <input
                 placeholder={t("name")}
                 value={nameValue}
@@ -215,9 +229,10 @@ const Signup = () => {
                 passwordConfirmValue.length < 1 ||
                 isLoading
               }
-              className="p-2 rounded px-6 mt-5 w-full font-bold text-white"
+              type="submit"
+              className="p-2 rounded px-6 mt-5 w-full font-bold text-white flex items-center justify-center"
             >
-              {t("complete")}
+              {isLoading ? <div className="animate-ping h-6 w-6 rounded-full bg-white" /> : t("complete")}
             </button>
 
             <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
