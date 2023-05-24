@@ -7,7 +7,7 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
@@ -26,6 +26,7 @@ const Profile = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const { userState } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -46,9 +47,10 @@ const Profile = () => {
       })
       .catch((e) => {
         console.log("V1/USER/ ERROR : ", e);
+        navigate("/error404");
         setLoading(false);
       });
-  }, [userId]);
+  }, [userId, navigate]);
 
   const customStyles = {
     content: {
@@ -160,23 +162,25 @@ const Profile = () => {
         </p>
       )}
 
-      <div className="w-full flex justify-center items-center space-x-2">
-        <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
+      {userState.isAuthenticated && (
+        <div className="w-full flex justify-center items-center space-x-2">
+          <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
+            <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border">
+              {t("sendMessage")}
+            </button>
+          </Link>
           <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border">
-            {t("sendMessage")}
+            {t("hire")}
           </button>
-        </Link>
-        <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border">
-          {t("hire")}
-        </button>
-        <button
-          onClick={() => openModal()}
-          className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border"
-          style={{ display: isMyProfile ? "" : "none" }}
-        >
-          {t("editProfile")}
-        </button>
-      </div>
+          <button
+            onClick={() => openModal()}
+            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border"
+            style={{ display: isMyProfile ? "" : "none" }}
+          >
+            {t("editProfile")}
+          </button>
+        </div>
+      )}
 
       <Divider />
 

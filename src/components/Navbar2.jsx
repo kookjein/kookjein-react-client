@@ -169,10 +169,7 @@ const Navbar = ({ light }) => {
           ) : (
             <div className="flex items-center space-x-2">
               <Link to="/login">
-                <button
-                  style={{ backgroundColor: "#0E5034" }}
-                  className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm"
-                >
+                <button className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm bg-green-800">
                   {t("signin")}
                 </button>
               </Link>
