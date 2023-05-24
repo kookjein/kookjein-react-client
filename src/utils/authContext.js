@@ -17,12 +17,15 @@ export const AuthProvider = ({children}) => {
         if (accessToken) {
             axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
             axios.get('/v1/auth/get_current_user').then((response) => {
+                // CHANGING USER STATE:  setUserState({...userState, {...userState.user, userImage: ""}})
                 setUserState({
                     isAuthenticated: true,
                     user: {
                         userId: response.data.user_id,
                         userName: response.data.user_name,
-                        userType: response.data.user_type
+                        userType: response.data.user_type,
+                        userImage: response.data.user_image,
+                        userLanguage: response.data.user_language,
                     }
                 })
             }).finally(() => setIsLoading(true))
@@ -34,4 +37,5 @@ export const AuthProvider = ({children}) => {
     if (isLoading) return (<AuthContext.Provider value={{accessToken, setAccessToken, userState, setUserState}}>
         {children}
     </AuthContext.Provider>);
+
 };

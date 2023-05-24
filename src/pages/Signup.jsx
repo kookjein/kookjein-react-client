@@ -66,7 +66,7 @@ const Signup = () => {
         <div
           className={`${
             accountType === cardType ? "border-green-600 bg-green-600" : "border-gray-300"
-          } w-5 h-5 bg-white rounded-full absolute top-3 right-3 border-2 p-0.5`}
+          } w-5 h-5 bg-white rounded-full absolute top-3 right-3 border-2 p-0.5 flex items-center justify-center`}
         >
           {accountType === cardType && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
         </div>

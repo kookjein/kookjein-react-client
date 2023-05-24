@@ -136,17 +136,15 @@ const Profile = () => {
       </div>
 
       <p className="text-xl">{developerInfo.name?.[lang]}</p>
-      <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
-        {developerInfo?.title?.[lang] && <p className="">{developerInfo?.title?.[lang]}</p>}
+        {developerInfo?.title?.[lang] && <p className="text-sm text-gray-500 mb-1">{developerInfo?.title?.[lang]}</p>}
         {developerInfo?.company?.[lang] && (
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 text-sm text-gray-500">
             <BsPatchCheckFill className="text-sky-500 w-4 h-4" />
             <p style={{ color: "#0E5034" }} className="font-bold">
               {developerInfo?.company?.[lang]}
             </p>
           </div>
         )}
-      </div>
       {developerInfo?.oneLiner?.[lang] && (
         <p
           style={{
