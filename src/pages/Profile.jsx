@@ -17,17 +17,16 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const developerInfo = useRef({});
+  const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("developerProfile");
   const { userId } = useParams();
   const [isMyProfile, setIsMyProfile] = useState(false);
   const lang = i18n.language.includes("en") ? "en" : "ko";
-  // const [developerInfo.current, setdeveloperInfo.current] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
-  const { userState } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const developerInfo = useRef({});
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -138,7 +137,7 @@ const Profile = () => {
 
       <p className="text-xl">{developerInfo.current.name?.[lang]}</p>
       {developerInfo.current?.title?.[lang] && (
-        <p className="text-sm text-gray-500 mb-1">{developerInfo.current?.title?.[lang]}</p>
+        <p className="text-sm text-green-700 font-bold mb-1">{developerInfo.current?.title?.[lang]}</p>
       )}
       {developerInfo.current?.company?.[lang] && (
         <div className="flex items-center space-x-1 text-sm text-gray-500">
@@ -190,7 +189,7 @@ const Profile = () => {
           <div className="w-full space-y-4">
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.tech?.map((item) => <Tags key={item} size={"sm"} item={item} />) || (
+              {developerInfo.current?.tech?.map((item) => <Tags key={item[userState.user.userLanguage]} size={"sm"} item={item[userState.user.userLanguage]} />) || (
                 <Placeholder type={"Skill sets"} />
               )}
             </div>
@@ -204,7 +203,7 @@ const Profile = () => {
           <div className="w-full space-y-4">
             <TitleText text={t("lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.lang?.[lang].map((item) => <Tags key={item} size={"sm"} item={item} />) || (
+              {developerInfo.current?.lang?.map((item) => <Tags key={item[lang]} size={"sm"} item={item[lang]} />) || (
                 <Placeholder type={"Skill sets"} />
               )}
             </div>
