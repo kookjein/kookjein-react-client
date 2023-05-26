@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import UploadProfile from "./UploadProfile";
 
-const EditProfileModal = ({ initialTab = "Basic", closeModal }) => {
+const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
   useEffect(() => {
@@ -48,38 +48,40 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal }) => {
     );
   };
 
-  const BasicPanel = () => (
-    <div className="relative w-full">
-      <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-        <p className="mb-4 text-gray-700">Update basic information to increase Page Discovery</p>
-        <div className="text-sm text-gray-500 mb-2 ">
-          Profile image <div className="text-xs text-green-700 inline"> - 320px * 320px Recommended</div>
-        </div>
+  const BasicPanel = () => {
+    return (
+      <div className="relative w-full">
+        <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
+          <p className="mb-4 text-gray-700">Update basic information to increase Page Discovery</p>
+          <div className="text-sm text-gray-500 mb-2 ">
+            Profile image <div className="text-xs text-green-700 inline"> - 320px * 320px Recommended</div>
+          </div>
 
-        <div className="flex items-end mb-6 relative space-x-2">
-          <UploadProfile width={"9rem"} height={"9rem"} initialImage={null} borderRadius={"0.2rem"} />
-        </div>
+          <div className="flex items-end mb-6 relative space-x-2">
+            <UploadProfile width={"9rem"} height={"9rem"} developerInfo={developerInfo} borderRadius={"0.2rem"} />
+          </div>
 
-        <div className="text-sm text-gray-500 mb-2">Full name*</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
-        <div className="text-sm text-gray-500 mb-2">Title*</div>
-        <input
-          placeholder="e.g. Frontend Developer"
-          className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
-        />
+          <div className="text-sm text-gray-500 mb-2">Full name*</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <div className="text-sm text-gray-500 mb-2">Title*</div>
+          <input
+            placeholder="e.g. Frontend Developer"
+            className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+          />
 
-        <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-          <p>One line introduction</p>
-          <p className="text-xs">0 / 100</p>
+          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+            <p>One line introduction</p>
+            <p className="text-xs">0 / 100</p>
+          </div>
+          <textarea
+            style={{ resize: "none" }}
+            className="w-full h-20 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+          />
         </div>
-        <textarea
-          style={{ resize: "none" }}
-          className="w-full h-20 rounded border border-gray-300 mb-4 p-2 outline-green-700"
-        />
+        <SaveComponent />
       </div>
-      <SaveComponent />
-    </div>
-  );
+    );
+  };
 
   const SkillsetPanel = () => (
     <div className="relative w-full">

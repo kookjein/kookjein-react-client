@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
@@ -21,12 +21,13 @@ const Profile = () => {
   const { userId } = useParams();
   const [isMyProfile, setIsMyProfile] = useState(false);
   const lang = i18n.language.includes("en") ? "en" : "ko";
-  const [developerInfo, setDeveloperInfo] = useState({});
+  // const [developerInfo.current, setdeveloperInfo.current] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const { userState } = useContext(AuthContext);
   const navigate = useNavigate();
+  const developerInfo = useRef({});
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -41,7 +42,7 @@ const Profile = () => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
-        setDeveloperInfo(response.data.user_profile[0]);
+        developerInfo.current = response.data.user_profile[0];
         setLoading(false);
         console.log(response.data.user_profile[0]);
       })
@@ -120,14 +121,14 @@ const Profile = () => {
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         {isMyProfile ? (
-          <UploadProfile width={"9rem"} height={"9rem"} initialImage={developerInfo?.img} borderRadius={"100%"} />
+          <UploadProfile width={"9rem"} height={"9rem"} developerInfo={developerInfo} borderRadius={"100%"} />
         ) : (
           <img
             onError={({ currentTarget }) => {
               currentTarget.onerror = null; // prevents looping
               currentTarget.src = DefaultImage;
             }}
-            src={developerInfo?.img || DefaultImage}
+            src={developerInfo.current?.img || DefaultImage}
             alt=""
             draggable={false}
             className="object-cover w-full h-full"
@@ -135,17 +136,19 @@ const Profile = () => {
         )}
       </div>
 
-      <p className="text-xl">{developerInfo.name?.[lang]}</p>
-        {developerInfo?.title?.[lang] && <p className="text-sm text-gray-500 mb-1">{developerInfo?.title?.[lang]}</p>}
-        {developerInfo?.company?.[lang] && (
-          <div className="flex items-center space-x-1 text-sm text-gray-500">
-            <BsPatchCheckFill className="text-sky-500 w-4 h-4" />
-            <p style={{ color: "#0E5034" }} className="font-bold">
-              {developerInfo?.company?.[lang]}
-            </p>
-          </div>
-        )}
-      {developerInfo?.oneLiner?.[lang] && (
+      <p className="text-xl">{developerInfo.current.name?.[lang]}</p>
+      {developerInfo.current?.title?.[lang] && (
+        <p className="text-sm text-gray-500 mb-1">{developerInfo.current?.title?.[lang]}</p>
+      )}
+      {developerInfo.current?.company?.[lang] && (
+        <div className="flex items-center space-x-1 text-sm text-gray-500">
+          <BsPatchCheckFill className="text-sky-500 w-4 h-4" />
+          <p style={{ color: "#0E5034" }} className="font-bold">
+            {developerInfo.current?.company?.[lang]}
+          </p>
+        </div>
+      )}
+      {developerInfo.current?.oneLiner?.[lang] && (
         <p
           style={{
             width: "100%",
@@ -156,7 +159,7 @@ const Profile = () => {
           }}
           className="text-xs break-keep text-center text-gray-500"
         >
-          {developerInfo?.oneLiner?.[lang]}
+          {developerInfo.current?.oneLiner?.[lang]}
         </p>
       )}
 
@@ -182,12 +185,12 @@ const Profile = () => {
 
       <Divider />
 
-      {(developerInfo?.tech || isMyProfile) && (
+      {(developerInfo.current?.tech || isMyProfile) && (
         <>
           <div className="w-full space-y-4">
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo?.tech?.map((item) => <Tags key={item} size={"sm"} item={item} />) || (
+              {developerInfo.current?.tech?.map((item) => <Tags key={item} size={"sm"} item={item} />) || (
                 <Placeholder type={"Skill sets"} />
               )}
             </div>
@@ -196,12 +199,12 @@ const Profile = () => {
         </>
       )}
 
-      {(developerInfo?.lang || isMyProfile) && (
+      {(developerInfo.current?.lang || isMyProfile) && (
         <>
           <div className="w-full space-y-4">
             <TitleText text={t("lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo?.lang?.[lang].map((item) => <Tags key={item} size={"sm"} item={item} />) || (
+              {developerInfo.current?.lang?.[lang].map((item) => <Tags key={item} size={"sm"} item={item} />) || (
                 <Placeholder type={"Skill sets"} />
               )}
             </div>
@@ -216,7 +219,7 @@ const Profile = () => {
           <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<IoLocationSharp />} />
           <SummaryCell value={`1 ${t("status4.value")}`} title={t("status3.title")} icon={<AiTwotoneCalendar />} />
           <SummaryCell
-            value={`${(developerInfo?.price * 10000).toLocaleString("en-US", {
+            value={`${(developerInfo.current?.price * 10000).toLocaleString("en-US", {
               style: "currency",
               currency: "KRW",
             })} KRW`}
@@ -296,12 +299,12 @@ const Profile = () => {
     );
 
     if (
-      !developerInfo?.intro &&
-      !developerInfo?.k_experience &&
-      !developerInfo?.experience &&
-      !developerInfo?.projects &&
-      !developerInfo?.education &&
-      !developerInfo?.certificates &&
+      !developerInfo.current?.intro &&
+      !developerInfo.current?.k_experience &&
+      !developerInfo.current?.experience &&
+      !developerInfo.current?.projects &&
+      !developerInfo.current?.education &&
+      !developerInfo.current?.certificates &&
       !isMyProfile
     )
       return (
@@ -318,20 +321,20 @@ const Profile = () => {
         style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
-        {(developerInfo?.intro || isMyProfile) && (
+        {(developerInfo.current?.intro || isMyProfile) && (
           <>
             <TitleText text={t("intro")} />
             <p className="break-keep text-sm">
-              {developerInfo?.intro?.[lang] || <Placeholder type={"Introduction"} />}
+              {developerInfo.current?.intro?.[lang] || <Placeholder type={"Introduction"} />}
             </p>
             <Divider />
           </>
         )}
 
-        {developerInfo?.k_experience && (
+        {developerInfo.current?.k_experience && (
           <>
             <TitleText text={t("k_exp")} />
-            {developerInfo?.k_experience?.map((item) => (
+            {developerInfo.current?.k_experience?.map((item) => (
               <CompanyCell
                 key={item.company?.[lang]}
                 img={item.logo}
@@ -344,10 +347,10 @@ const Profile = () => {
           </>
         )}
 
-        {(developerInfo?.experience || isMyProfile) && (
+        {(developerInfo.current?.experience || isMyProfile) && (
           <>
             <TitleText text={t("exp")} />
-            {developerInfo?.experience?.map((item) => (
+            {developerInfo.current?.experience?.map((item) => (
               <CompanyCell2
                 key={item.company}
                 period={`${item.from?.[lang]} ~ ${item.to?.[lang]}`}
@@ -360,20 +363,20 @@ const Profile = () => {
           </>
         )}
 
-        {(developerInfo?.projects || isMyProfile) && (
+        {(developerInfo.current?.projects || isMyProfile) && (
           <>
             <TitleText text={t("projects")} />
-            {developerInfo?.projects?.map((item) => (
+            {developerInfo.current?.projects?.map((item) => (
               <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc?.[lang]} />
             )) || <Placeholder type={"Portfolio"} />}
             <Divider />
           </>
         )}
 
-        {(developerInfo?.education || isMyProfile) && (
+        {(developerInfo.current?.education || isMyProfile) && (
           <>
             <TitleText text={t("education")} />
-            {developerInfo?.education?.map((item) => (
+            {developerInfo.current?.education?.map((item) => (
               <EducationCell
                 key={item.name}
                 name={item.name}
@@ -387,7 +390,7 @@ const Profile = () => {
           </>
         )}
 
-        {(developerInfo?.certificates || isMyProfile) && (
+        {(developerInfo.current?.certificates || isMyProfile) && (
           <>
             <TitleText text={t("certificates")} />
             <CertificateCell time={"2021.01.12"} />
@@ -435,7 +438,7 @@ const Profile = () => {
       <div className="w-full space-y-4">
         <TitleText text={t("lang")} />
         <div className="w-full gap-2 flex flex-wrap">
-          {developerInfo?.lang?.[lang].map((item) => (
+          {developerInfo.current?.lang?.[lang].map((item) => (
             <Tags key={item} size={"sm"} item={item} />
           ))}
         </div>
@@ -462,11 +465,11 @@ const Profile = () => {
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
         <TitleText text={"회사 소개"} />
-        <p className="break-keep text-sm">{developerInfo?.intro?.[lang]}</p>
+        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
         <Divider />
 
         <TitleText text={"업종"} />
-        <p className="break-keep text-sm">{developerInfo?.intro?.[lang]}</p>
+        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
         <Divider />
 
         <TitleText text={"대표"} />
@@ -486,7 +489,7 @@ const Profile = () => {
         <Divider />
 
         <TitleText text={"국제인 직원"} />
-        <p className="break-keep text-sm">{developerInfo?.intro?.[lang]}</p>
+        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
         <Divider />
 
         <div className="h-16" />
@@ -547,7 +550,7 @@ const Profile = () => {
             shouldCloseOnOverlayClick={false}
             // ariaHideApp={false}
           >
-            <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} />
+            <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
           </Modal>
 
           <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">

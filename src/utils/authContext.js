@@ -24,7 +24,7 @@ export const AuthProvider = ({children}) => {
                         userId: response.data.user_id,
                         userName: response.data.user_name,
                         userType: response.data.user_type,
-                        userImage: response.data.user_image,
+                        userImage: response.data.user_img,
                         userLanguage: response.data.user_language,
                     }
                 })

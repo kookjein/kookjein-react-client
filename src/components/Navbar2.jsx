@@ -72,8 +72,8 @@ const Navbar = ({ light }) => {
     <button className="w-9 h-9 rounded-full relative flex items-center justify-center">
       {/* <GoThreeBars className="w-6 h-6 text-gray-500" /> */}
       <img
-        src={"" || DefaultImage}
-        className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center"
+        src={userState.user.userImage || DefaultImage}
+        className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center object-cover border"
         onError={({ currentTarget }) => {
           currentTarget.onerror = null; // prevents looping
           currentTarget.src = DefaultImage;
