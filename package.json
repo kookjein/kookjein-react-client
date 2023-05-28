@@ -16,6 +16,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-date-picker": "^10.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
     "react-icons": "^4.7.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-tag-input": "^6.8.1",
+    "styled-components": "^5.3.11",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

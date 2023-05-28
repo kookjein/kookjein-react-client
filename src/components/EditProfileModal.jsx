@@ -4,6 +4,10 @@ import UploadProfile from "./UploadProfile";
 import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 import { WithContext as ReactTags } from "react-tag-input";
+import { languageArray } from "../utils/arrays";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 
 const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const { userState } = useContext(AuthContext);
@@ -19,7 +23,13 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
       <p className="text-green-700 text-sm">
-        {isSaved ? "Saved!" : isLoading ? "Saving..." : isReady ? "Make sure to save your changes." : ""}
+        {isSaved
+          ? "Saved!"
+          : isLoading
+          ? "Saving..."
+          : isReady
+          ? "Make sure to save your changes before changing tabs."
+          : ""}
       </p>
       <button
         onClick={onPress}
@@ -88,6 +98,12 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           },
         })
         .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialTitle !== title && { title: { [userState.user.userLanguage]: title } }),
+            ...(initialName !== name && { name: { [userState.user.userLanguage]: name } }),
+            ...(initialIntro !== intro && { oneLiner: { [userState.user.userLanguage]: intro } }),
+          };
           setInitialName(name);
           setInitialTitle(title);
           setInitialIntro(intro);
@@ -178,19 +194,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
 
     const saveSkills = () => {
       setLoading(true);
-
-      for (let i = 0; i < lang.length; i++) {
-        if (userState.user.userLanguage === "ko") {
-          if (lang[i]["en"] !== undefined) {
-            delete lang[i].en;
-          }
-        } else {
-          if (lang[i]["ko"] !== undefined) {
-            delete lang[i].ko;
-          }
-        }
-      }
-      console.log(lang);
       axios
         .post(`/v1/user/me`, {
           user: {
@@ -204,6 +207,12 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           },
         })
         .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialTech !== tech && { tech: tech }),
+            ...(initialLang !== lang && { lang: lang }),
+            ...(initialYOS !== YOS && { yos: YOS }),
+          };
           setInitialTech(tech);
           setInitialLang(lang);
           setInitialYOS(YOS);
@@ -253,35 +262,34 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       console.log("The tag at index " + index + " was clicked");
     };
 
-    const handleDeleteLANG = (i) => {
-      setLang(lang.filter((tag, index) => index !== i));
+    const handleAdditionLANG = (type) => {
+      if (lang.includes(type)) {
+        setLang(lang.filter((item) => item !== type));
+      } else {
+        setLang([...lang, type]);
+      }
     };
 
-    const handleAdditionLANG = (tag) => {
-      tag[userState.user.userLanguage] = tag.text;
-      setLang([...lang, tag]);
-      console.log(lang);
-    };
-
-    const handleDragLANG = (tag, currPos, newPos) => {
-      const newTags = lang.slice();
-
-      newTags.splice(currPos, 1);
-      newTags.splice(newPos, 0, tag);
-
-      // re-render
-      setLang(newTags);
-    };
-
-    const handleTagClickLANG = (index) => {
-      console.log("The tag at index " + index + " was clicked");
+    const LanguageSelection = ({ type, text }) => {
+      return (
+        <button
+          onClick={() => handleAdditionLANG(type)}
+          className={`${
+            lang.includes(type) ? "bg-green-700 text-white" : "bg-gray-100 text-gray-700"
+          } px-4 h-8  border border-gray-300 flex items-center justify-center rounded-full text-sm`}
+        >
+          {text}
+        </button>
+      );
     };
 
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
           <p className="mb-4 text-gray-700">Tell us your skills to appeal to companies</p>
-          <div className="text-sm text-gray-500 mb-2">Tech stack</div>
+          <div className="text-sm text-gray-500 mb-2">
+            Tech stack <div className="text-xs text-green-700 inline"> - Press Enter to add it to the list</div>
+          </div>
           <ReactTags
             tags={tech}
             delimiters={delimiters}
@@ -307,32 +315,14 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             }}
           />
           <div className="text-sm text-gray-500 mb-2">
-            Spoken language <div className="text-xs text-green-700 inline"> - Press Enter to add the tag</div>
+            Spoken language <div className="text-xs text-green-700 inline"> - Select all that applies</div>
           </div>
-          <ReactTags
-            tags={lang}
-            delimiters={delimiters}
-            handleDelete={handleDeleteLANG}
-            handleAddition={handleAdditionLANG}
-            handleDrag={handleDragLANG}
-            handleTagClick={handleTagClickLANG}
-            inputFieldPosition="top"
-            autocomplete
-            placeholder="e.g. English, Arabic"
-            classNames={{
-              tags: "mb-5",
-              tagInput: "",
-              tagInputField: "w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700",
-              selected: "selectedClass",
-              tag: "px-3 py-2 bg-gray-200 rounded border mr-1 mb-3 text-sm",
-              remove: "ml-2",
-              suggestions: "suggestionsClass",
-              activeSuggestion: "activeSuggestionClass",
-              editTagInput: "editTagInputClass",
-              editTagInputField: "editTagInputField",
-              clearAll: "clearAllClass",
-            }}
-          />
+          <div className="flex flex-wrap mb-6 gap-2 pt-2">
+            {languageArray.map((item) => (
+              <LanguageSelection key={item.type} type={item.type} text={item[userState.user.userLanguage]} />
+            ))}
+          </div>
+
           <div className="text-sm text-gray-500 mb-2">Year of Service (Need verification)</div>
           <div className="flex item-center space-x-2 mb-4">
             <input
@@ -366,38 +356,109 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     );
   };
 
-  const IntoductionPanel = () => (
-    <div className="relative w-full">
-      <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-        <p className="mb-4 text-gray-700">Provide a detailed introduction about yourself</p>
-        <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-          <p>Introduction</p>
-          <p className="text-xs">0 / 1000</p>
+  const IntoductionPanel = () => {
+    const [initialIntroduction, setInitialIntroduction] = useState(
+      developerInfo?.current.intro?.[userState.user.userLanguage] || ""
+    );
+    const [intro, setIntro] = useState(initialIntroduction);
+    const [isReady, setReady] = useState(false);
+    const [isSaved, setSaved] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const maxLength = 1000;
+
+    const saveIntro = () => {
+      setLoading(true);
+      axios
+        .post(`/v1/user/me`, {
+          user: {
+            user_profile: [
+              {
+                ...(initialIntroduction !== intro && { intro: { [userState.user.userLanguage]: intro } }),
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialIntroduction !== intro && { intro: { [userState.user.userLanguage]: intro } }),
+          };
+          setInitialIntroduction(intro);
+          setSaved(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("CHANGE IMAGE ERROR: ", error);
+          setLoading(false);
+        });
+    };
+
+    useEffect(() => {
+      if (intro !== initialIntroduction && intro.length <= maxLength) {
+        setSaved(false);
+        setLoading(false);
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+      return () => {
+        setReady(false);
+        setLoading(false);
+      };
+    }, [intro, initialIntroduction]);
+
+    return (
+      <div className="relative w-full">
+        <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
+          <p className="mb-4 text-gray-700">Provide a detailed introduction about yourself</p>
+          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+            <p>Introduction</p>
+            <p className={`${intro.length > maxLength && " text-red-500"} text-xs`}>
+              {intro.length} / {maxLength}
+            </p>
+          </div>
+          <textarea
+            style={{ resize: "none" }}
+            value={intro}
+            onChange={(e) => setIntro(e.target.value)}
+            className={`${
+              intro.length > maxLength ? "outline-red-500" : "outline-green-700"
+            } w-full h-48 rounded border border-gray-300 mb-4 p-2`}
+          />
         </div>
-        <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveIntro} isLoading={isLoading} />
       </div>
-      <SaveComponent />
-    </div>
-  );
+    );
+  };
 
   const ExperiencePanel = () => {
     const [experienceArray, setExperienceArray] = useState([]);
+
     const addPressed = () => {
       setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
     };
-    const NewCell = ({ order }) => (
-      <div className="w-full py-6 border-t mb-6">
-        <div className="text-sm text-gray-500 mb-2">Company name {order}</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2">Position / Title</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-          <p>Description</p>
-          <p className="text-xs">0 / 1000</p>
+    const NewCell = ({ order }) => {
+      const [value, onChange] = useState(new Date());
+
+      return (
+        <div className="w-full py-6 border-t mb-6">
+          <div className="text-sm text-gray-500 mb-2">Company name {order}</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2">Position / Title</div>
+          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
+          <div className="text-sm text-gray-500 mb-2">From</div>
+          <div className="mb-6">
+            <DatePicker onChange={onChange} value={value} />
+          </div>
+
+          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+            <p>Description</p>
+            <p className="text-xs">0 / 1000</p>
+          </div>
+          <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
         </div>
-        <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
-      </div>
-    );
+      );
+    };
     const AddNewButton = () => (
       <button
         onClick={() => addPressed()}

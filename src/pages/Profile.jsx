@@ -15,6 +15,8 @@ import DefaultImage from "../assets/default-profile.png";
 import EditProfileModal from "../components/EditProfileModal";
 import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
+import { languageArray } from "../utils/arrays";
+import { useCallback } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const Profile = () => {
     return () => {};
   }, []);
 
-  useEffect(() => {
+  const getUserInfo = useCallback(() => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
@@ -51,6 +53,10 @@ const Profile = () => {
         setLoading(false);
       });
   }, [userId, navigate]);
+
+  useEffect(() => {
+    getUserInfo();
+  }, [userId, navigate, getUserInfo]);
 
   const customStyles = {
     content: {
@@ -165,16 +171,16 @@ const Profile = () => {
       {userState.isAuthenticated && (
         <div className="w-full flex justify-center items-center space-x-2">
           <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
-            <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border">
+            <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
               {t("sendMessage")}
             </button>
           </Link>
-          <button className="px-4 flex items-center justify-center h-8 bg-white rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border">
+          <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
             {t("hire")}
           </button>
           <button
             onClick={() => openModal()}
-            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border"
+            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border flex-shrink-0"
             style={{ display: isMyProfile ? "" : "none" }}
           >
             {t("editProfile")}
@@ -189,9 +195,9 @@ const Profile = () => {
           <div className="w-full space-y-4">
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.tech?.map((item) => <Tags key={item[userState.user.userLanguage]} size={"sm"} item={item[userState.user.userLanguage]} />) || (
-                <Placeholder type={"Skill sets"} />
-              )}
+              {developerInfo.current?.tech?.map((item) => (
+                <Tags key={item[userState.user.userLanguage]} size={"sm"} item={item[lang]} />
+              )) || <Placeholder type={"Skill sets"} />}
             </div>
           </div>
           <Divider />
@@ -203,9 +209,9 @@ const Profile = () => {
           <div className="w-full space-y-4">
             <TitleText text={t("lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.lang?.map((item) => <Tags key={item[lang]} size={"sm"} item={item[lang]} />) || (
-                <Placeholder type={"Skill sets"} />
-              )}
+              {developerInfo.current?.lang?.map((item) => (
+                <Tags key={item} size={"sm"} item={languageArray[item][lang]} />
+              )) || <Placeholder type={"Skill sets"} />}
             </div>
           </div>
           <Divider />
