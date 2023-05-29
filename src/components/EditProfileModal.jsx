@@ -440,7 +440,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   const ExperiencePanel = () => {
     const [initialExperience, setInitialExperience] = useState(developerInfo?.current.experience || []);
     const [experience, setExperience] = useState(initialExperience || [{ title: "", position: "", description: "" }]);
-    const [newExperience, setNewExperience] = useState([{ title: "", position: "", description: "" }]);
+    const [newExperience, ] = useState([{ title: "", position: "", description: "" }]);
 
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
@@ -453,7 +453,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           user: {
             user_profile: [
               {
-                ...(initialExperience !== experience.current && { experience: experience.current }),
+                ...(initialExperience !== experience && { experience: experience }),
               },
             ],
           },
@@ -461,14 +461,14 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
         .then((response) => {
           developerInfo.current = {
             ...developerInfo.current,
-            ...(initialExperience !== experience.current && { experience: experience.current }),
+            ...(initialExperience !== experience && { experience: experience }),
           };
-          setInitialExperience(experience.current);
+          setInitialExperience(experience);
           setSaved(true);
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
+          console.log("EXPERIENCE UPDATE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -487,13 +487,13 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       };
     }, [experience, initialExperience]);
 
-    const addPressed = () => {
-      setNewExperience([...newExperience, { title: "", position: "", description: "" }]);
-    };
-
-    const CompanyCell2 = ({ title, company, year, period, desc }) => {
+    const CompanyCell2 = ({ company, title, year, period, desc }) => {
       const deleteExperience = () => {
-        setExperience(experience.filter((item) => item.company !== company));
+        setExperience(
+          experience.filter(
+            (item) => `${item.company} ${item.title[userState.user.userLanguage]}` !== `${company} ${title}`
+          )
+        );
       };
       return (
         <div className="border p-3 mb-4 bg-gray-100 rounded">
@@ -524,19 +524,18 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       const [position, setPosition] = useState("");
       const [description, setDescription] = useState("");
 
-      // useEffect(() => {
-      //   var dataArray = experienceArray;
-      //   dataArray[order] = {
-      //     company: companyName,
-      //     title: { [userState.user.userLanguage]: position },
-      //     from: startValue,
-      //     to: endValue,
-      //     desc: { [userState.user.userLanguage]: description },
-      //   };
-      //   setExperienceArray(dataArray);
-
-      //   return () => {};
-      // }, [startValue, endValue, companyName, position, description, order]);
+      const addPressed = () => {
+        setExperience([
+          ...experience,
+          {
+            company: companyName,
+            title: { [userState.user.userLanguage]: position },
+            from: startValue,
+            to: endValue,
+            desc: { [userState.user.userLanguage]: description },
+          },
+        ]);
+      };
 
       return (
         <div className="w-full py-6 border-t mb-6 px-3">
@@ -584,23 +583,23 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             onChange={(e) => setDescription(e.target.value)}
             className="w-full h-32 rounded border border-gray-300 mb-4 p-2 outline-green-700"
           />
+
+          <button
+            onClick={() => addPressed()}
+            className="py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm bg-green-700 text-white filter hover:brightness-125"
+          >
+            Save and add new experience
+          </button>
         </div>
       );
     };
-    const AddNewButton = () => (
-      <button
-        onClick={() => addPressed()}
-        className="py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm bg-green-700 text-white filter hover:brightness-125"
-      >
-        Save and add new experience
-      </button>
-    );
+
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
           <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
 
-          {experience.map((item, index) => (
+          {experience?.map((item, index) => (
             <CompanyCell2
               key={item.company}
               period={`${item.from?.[userState.user.userLanguage]} ~ ${item.to?.[userState.user.userLanguage]}`}
@@ -613,7 +612,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           {newExperience.map((data, index) => (
             <NewCell key={index} order={index} />
           ))}
-          <AddNewButton />
         </div>
         <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveExperience} isLoading={isLoading} />
       </div>
