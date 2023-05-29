@@ -6,8 +6,9 @@ import axios from "../utils/authAxios";
 import { WithContext as ReactTags } from "react-tag-input";
 import { languageArray } from "../utils/arrays";
 import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
+import "../utils/datePicker.css";
 import "react-calendar/dist/Calendar.css";
+import { MdDelete } from "react-icons/md";
 
 const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const { userState } = useContext(AuthContext);
@@ -82,6 +83,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
+    const maxLength = 100;
 
     const saveBasic = () => {
       setLoading(true);
@@ -118,7 +120,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
 
     useEffect(() => {
       if (name) {
-        if (initialName !== name || initialTitle !== title || initialIntro !== intro) {
+        if ((initialName !== name || initialTitle !== title || initialIntro !== intro) && intro.length <= maxLength) {
           setSaved(false);
           setLoading(false);
           setReady(true);
@@ -160,11 +162,15 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
             <p>One-liner introduction</p>
-            <p className="text-xs">0 / 100</p>
+            <p className={`${intro.length > maxLength && " text-red-500"} text-xs`}>
+              {intro.length} / {maxLength}
+            </p>
           </div>
           <textarea
             style={{ resize: "none" }}
-            className="w-full h-20 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            className={`${
+              intro.length > maxLength ? "outline-red-500" : "outline-green-700"
+            } w-full h-28 rounded border border-gray-300 mb-4 p-2 outline-green-700`}
             value={intro}
             onChange={(e) => setIntro(e.target.value)}
           />
@@ -301,7 +307,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             autocomplete
             placeholder="e.g. React Native, PostreSQL"
             classNames={{
-              tags: "mb-5",
+              tags: "mb-8",
               tagInput: "",
               tagInputField: "w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700",
               selected: "selectedClass",
@@ -317,14 +323,14 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           <div className="text-sm text-gray-500 mb-2">
             Spoken language <div className="text-xs text-green-700 inline"> - Select all that applies</div>
           </div>
-          <div className="flex flex-wrap mb-6 gap-2 pt-2">
+          <div className="flex flex-wrap mb-8 gap-2 pt-2">
             {languageArray.map((item) => (
               <LanguageSelection key={item.type} type={item.type} text={item[userState.user.userLanguage]} />
             ))}
           </div>
 
           <div className="text-sm text-gray-500 mb-2">Year of Service (Need verification)</div>
-          <div className="flex item-center space-x-2 mb-4">
+          <div className="flex item-center space-x-2 mb-8">
             <input
               placeholder="e.g. 2"
               className="w-24 h-9 rounded border border-gray-300 p-2"
@@ -432,39 +438,161 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   };
 
   const ExperiencePanel = () => {
-    const [experienceArray, setExperienceArray] = useState([]);
+    const [initialExperience, setInitialExperience] = useState(developerInfo?.current.experience || []);
+    const [experience, setExperience] = useState(initialExperience || [{ title: "", position: "", description: "" }]);
+    const [newExperience, setNewExperience] = useState([{ title: "", position: "", description: "" }]);
+
+    const [isReady, setReady] = useState(false);
+    const [isSaved, setSaved] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+
+    const saveExperience = () => {
+      setLoading(true);
+      axios
+        .post(`/v1/user/me`, {
+          user: {
+            user_profile: [
+              {
+                ...(initialExperience !== experience.current && { experience: experience.current }),
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialExperience !== experience.current && { experience: experience.current }),
+          };
+          setInitialExperience(experience.current);
+          setSaved(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("CHANGE IMAGE ERROR: ", error);
+          setLoading(false);
+        });
+    };
+
+    useEffect(() => {
+      if (experience !== initialExperience) {
+        setSaved(false);
+        setLoading(false);
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+      return () => {
+        setReady(false);
+        setLoading(false);
+      };
+    }, [experience, initialExperience]);
 
     const addPressed = () => {
-      setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+      setNewExperience([...newExperience, { title: "", position: "", description: "" }]);
     };
+
+    const CompanyCell2 = ({ title, company, year, period, desc }) => {
+      const deleteExperience = () => {
+        setExperience(experience.filter((item) => item.company !== company));
+      };
+      return (
+        <div className="border p-3 mb-4 bg-gray-100 rounded">
+          <div className="flex justify-end w-full">
+            <button onClick={deleteExperience}>
+              <MdDelete className="right-4 top-4 w-5 h-5 text-gray-500 hover:text-red-500" />
+            </button>
+          </div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">{`${company} | ${title}`}</p>
+              <p className="text-xs text-gray-500">
+                {year} · {period}
+              </p>
+            </div>
+          </div>
+          <div className="my-4">
+            <p className="text-sm break-keep">{desc}</p>
+          </div>
+        </div>
+      );
+    };
+
     const NewCell = ({ order }) => {
-      const [value, onChange] = useState(new Date());
+      const [startValue, setStartValue] = useState(new Date());
+      const [endValue, setEndValue] = useState(new Date());
+      const [companyName, setCompanyName] = useState("");
+      const [position, setPosition] = useState("");
+      const [description, setDescription] = useState("");
+
+      // useEffect(() => {
+      //   var dataArray = experienceArray;
+      //   dataArray[order] = {
+      //     company: companyName,
+      //     title: { [userState.user.userLanguage]: position },
+      //     from: startValue,
+      //     to: endValue,
+      //     desc: { [userState.user.userLanguage]: description },
+      //   };
+      //   setExperienceArray(dataArray);
+
+      //   return () => {};
+      // }, [startValue, endValue, companyName, position, description, order]);
 
       return (
-        <div className="w-full py-6 border-t mb-6">
-          <div className="text-sm text-gray-500 mb-2">Company name {order}</div>
-          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-          <div className="text-sm text-gray-500 mb-2">Position / Title</div>
-          <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-          <div className="text-sm text-gray-500 mb-2">From</div>
-          <div className="mb-6">
-            <DatePicker onChange={onChange} value={value} />
+        <div className="w-full py-6 border-t mb-6 px-3">
+          <div className="flex w-full space-x-4 pr-12">
+            <div className="w-full">
+              <div className="text-sm text-gray-500 mb-2">Company name</div>
+              <input
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                className="w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+              />
+            </div>
+            <div className="w-full">
+              <div className="text-sm text-gray-500 mb-2">Position / Title</div>
+              <input
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
+                className="w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div>
+              <div className="text-sm text-gray-500 mb-2">From</div>
+              <div className="mb-6">
+                <DatePicker className={" outline-green-700"} onChange={setStartValue} value={startValue} />
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-500 mb-2">To</div>
+              <div className="mb-6">
+                <DatePicker className={" outline-green-700"} onChange={setEndValue} value={endValue} />
+              </div>
+            </div>
           </div>
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
             <p>Description</p>
             <p className="text-xs">0 / 1000</p>
           </div>
-          <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
+          <textarea
+            style={{ resize: "none" }}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full h-32 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+          />
         </div>
       );
     };
     const AddNewButton = () => (
       <button
         onClick={() => addPressed()}
-        className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
+        className="py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm bg-green-700 text-white filter hover:brightness-125"
       >
-        Add new experience
+        Save and add new experience
       </button>
     );
     return (
@@ -472,12 +600,22 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
           <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
 
-          {experienceArray?.map((data, index) => (
+          {experience.map((item, index) => (
+            <CompanyCell2
+              key={item.company}
+              period={`${item.from?.[userState.user.userLanguage]} ~ ${item.to?.[userState.user.userLanguage]}`}
+              year="8개월"
+              company={item.company}
+              title={item.title?.[userState.user.userLanguage]}
+              desc={item.desc?.[userState.user.userLanguage]}
+            />
+          ))}
+          {newExperience.map((data, index) => (
             <NewCell key={index} order={index} />
           ))}
           <AddNewButton />
         </div>
-        <SaveComponent />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveExperience} isLoading={isLoading} />
       </div>
     );
   };
