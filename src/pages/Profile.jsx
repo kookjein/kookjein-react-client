@@ -17,6 +17,7 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
 import { languageArray } from "../utils/arrays";
 import { useCallback } from "react";
+import moment from "moment/moment";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -254,21 +255,24 @@ const Profile = () => {
       </div>
     );
 
-    const CompanyCell2 = ({ title, year, period, desc }) => (
-      <div>
-        <div className="w-full py-1 flex items-center space-x-2">
-          <div className="space-y-1">
-            <p className="text-sm font-bold text-gray-600">{title}</p>
-            <p className="text-xs text-gray-500">
-              {year} · {period}
-            </p>
+    const CompanyCell2 = ({ title, company, from, to, desc }) => {
+      const yos = moment.duration(to - from).years();
+      return (
+        <div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">{`${company} | ${title}`}</p>
+              <p className="text-xs text-gray-500">
+                {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
+              </p>
+            </div>
+          </div>
+          <div className="my-3">
+            <p className="text-sm break-keep">{desc}</p>
           </div>
         </div>
-        <div className="my-3">
-          <p className="text-sm break-keep">{desc}</p>
-        </div>
-      </div>
-    );
+      );
+    };
 
     const ProjectCell = ({ name, link, desc }) => (
       <div className="space-y-1">
@@ -284,22 +288,25 @@ const Profile = () => {
       </div>
     );
 
-    const EducationCell = ({ name, title, from, to, desc }) => (
-      <div className="space-y-1">
-        <p className="text-sm font-bold text-gray-600">
-          {name} | {title}
-        </p>
-        <p className="text-xs text-gray-500">
-          {from} ~ {to}
-        </p>
-        <p className="text-sm break-keep py-2">{desc}</p>
-      </div>
-    );
+    const EducationCell = ({ name, title, from, to, desc }) => {
+      const yos = moment.duration(to - from).years();
+      return (
+        <div className="space-y-1">
+          <p className="text-sm font-bold text-gray-600">
+            {name} | {title}
+          </p>
+          <p className="text-xs text-gray-500">
+            {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
+          </p>
+          <p className="text-sm break-keep py-2">{desc}</p>
+        </div>
+      );
+    };
 
-    const CertificateCell = ({ time }) => (
+    const CertificateCell = ({ name, date }) => (
       <div className="space-y-1">
-        <p className="text-sm font-bold text-gray-600">AWS Certificate</p>
-        <p className="text-xs text-gray-500">{time}</p>
+        <p className="text-sm font-bold text-gray-600">{name}</p>
+        <p className="text-xs text-gray-500">{moment(date).format("YYYY.MM.DD")}</p>
       </div>
     );
 
@@ -355,12 +362,13 @@ const Profile = () => {
         {(developerInfo.current?.experience || isMyProfile) && (
           <>
             <TitleText text={t("exp")} />
-            {developerInfo.current?.experience?.map((item) => (
+            {developerInfo.current?.experience?.map((item, index) => (
               <CompanyCell2
-                key={item.company}
-                period={`${item.from?.[lang]} ~ ${item.to?.[lang]}`}
-                year="8개월"
-                title={`${item.company} | ${item.title?.[lang]}`}
+                key={index}
+                from={item.from}
+                to={item.to}
+                company={item.company}
+                title={item.title?.[userState.user.userLanguage]}
                 desc={item.desc?.[lang]}
               />
             )) || <Placeholder type={"Experience"} />}
@@ -386,8 +394,8 @@ const Profile = () => {
                 key={item.name}
                 name={item.name}
                 title={item.title?.[lang]}
-                from={item.from?.[lang]}
-                to={item.to?.[lang]}
+                from={item.from}
+                to={item.to}
                 desc={item.desc?.[lang]}
               />
             )) || <Placeholder type={"Education"} />}
@@ -395,13 +403,15 @@ const Profile = () => {
           </>
         )}
 
-        {(developerInfo.current?.certificates || isMyProfile) && (
+        {((developerInfo.current?.certification || isMyProfile) && (
           <>
             <TitleText text={t("certificates")} />
-            <CertificateCell time={"2021.01.12"} />
+            {developerInfo.current?.certification?.map((item, index) => (
+              <CertificateCell key={index} name={item.name} date={item.date} />
+            ))}
             <Divider />
           </>
-        )}
+        )) || <Placeholder type={"Certification"} />}
 
         <div className="h-16" />
       </div>

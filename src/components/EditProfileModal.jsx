@@ -9,6 +9,7 @@ import DatePicker from "react-date-picker";
 import "../utils/datePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { MdDelete } from "react-icons/md";
+import moment from "moment";
 
 const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const { userState } = useContext(AuthContext);
@@ -440,14 +441,22 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   const ExperiencePanel = () => {
     const [initialExperience, setInitialExperience] = useState(developerInfo?.current.experience || []);
     const [experience, setExperience] = useState(initialExperience || [{ title: "", position: "", description: "" }]);
-    const [newExperience, ] = useState([{ title: "", position: "", description: "" }]);
-
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
     const saveExperience = () => {
       setLoading(true);
+
+      for (let i = 0; i < experience.length; i++) {
+        if (userState.user.userLanguage === "ko") {
+          delete experience[i].desc.en;
+          delete experience[i].title.en;
+        } else {
+          delete experience[i].desc.ko;
+          delete experience[i].title.ko;
+        }
+      }
       axios
         .post(`/v1/user/me`, {
           user: {
@@ -487,7 +496,8 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       };
     }, [experience, initialExperience]);
 
-    const CompanyCell2 = ({ company, title, year, period, desc }) => {
+    const CompanyCell = ({ title, company, from, to, desc }) => {
+      const yos = moment.duration(to - from).years();
       const deleteExperience = () => {
         setExperience(
           experience.filter(
@@ -506,7 +516,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-600">{`${company} | ${title}`}</p>
               <p className="text-xs text-gray-500">
-                {year} · {period}
+                {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
               </p>
             </div>
           </div>
@@ -517,12 +527,14 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       );
     };
 
-    const NewCell = ({ order }) => {
+    const NewCell = () => {
       const [startValue, setStartValue] = useState(new Date());
       const [endValue, setEndValue] = useState(new Date());
       const [companyName, setCompanyName] = useState("");
       const [position, setPosition] = useState("");
       const [description, setDescription] = useState("");
+      const [isReady, setReady] = useState(false);
+      const maxLength = 1000;
 
       const addPressed = () => {
         setExperience([
@@ -530,12 +542,22 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           {
             company: companyName,
             title: { [userState.user.userLanguage]: position },
-            from: startValue,
-            to: endValue,
+            from: startValue.getTime(),
+            to: endValue.getTime(),
             desc: { [userState.user.userLanguage]: description },
           },
         ]);
       };
+
+      useEffect(() => {
+        if (!companyName || !position || !description || description.length > maxLength) {
+          setReady(false);
+        } else {
+          setReady(true);
+        }
+
+        return () => {};
+      }, [companyName, position, description]);
 
       return (
         <div className="w-full py-6 border-t mb-6 px-3">
@@ -573,20 +595,31 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             </div>
           </div>
 
-          <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
+          <div
+            className={`${
+              description.length > maxLength ? "text-red-500" : "text-gray-500"
+            } text-sm mb-2 flex justify-between items-center`}
+          >
             <p>Description</p>
-            <p className="text-xs">0 / 1000</p>
+            <p className="text-xs">
+              {description.length} / {maxLength}
+            </p>
           </div>
           <textarea
             style={{ resize: "none" }}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full h-32 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            className={`${
+              description.length > maxLength ? "outline-red-500" : "outline-green-700"
+            } w-full h-32 rounded border border-gray-300 mb-4 p-2 `}
           />
 
           <button
             onClick={() => addPressed()}
-            className="py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm bg-green-700 text-white filter hover:brightness-125"
+            disabled={!isReady}
+            className={`${
+              isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
+            } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
           >
             Save and add new experience
           </button>
@@ -600,18 +633,16 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
 
           {experience?.map((item, index) => (
-            <CompanyCell2
-              key={item.company}
-              period={`${item.from?.[userState.user.userLanguage]} ~ ${item.to?.[userState.user.userLanguage]}`}
-              year="8개월"
+            <CompanyCell
+              key={index}
+              from={item.from}
+              to={item.to}
               company={item.company}
               title={item.title?.[userState.user.userLanguage]}
               desc={item.desc?.[userState.user.userLanguage]}
             />
           ))}
-          {newExperience.map((data, index) => (
-            <NewCell key={index} order={index} />
-          ))}
+          <NewCell />
         </div>
         <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveExperience} isLoading={isLoading} />
       </div>
@@ -619,122 +650,536 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   };
 
   const PortfolioPanel = () => {
-    const [experienceArray, setExperienceArray] = useState([]);
-    const addPressed = () => {
-      setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+    const [initialPortfolio, setInitialPortfolio] = useState(developerInfo?.current.projects || []);
+    const [portfolio, setPortfolio] = useState(initialPortfolio || [{ name: "", link: "", desc: "" }]);
+    const [isReady, setReady] = useState(false);
+    const [isSaved, setSaved] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const maxLength = 1000;
+
+    const savePortfolio = () => {
+      setLoading(true);
+      for (let i = 0; i < portfolio.length; i++) {
+        if (userState.user.userLanguage === "ko") {
+          delete portfolio[i].desc.en;
+        } else {
+          delete portfolio[i].desc.ko;
+        }
+      }
+      axios
+        .post(`/v1/user/me`, {
+          user: {
+            user_profile: [
+              {
+                ...(initialPortfolio !== portfolio && { projects: portfolio }),
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialPortfolio !== portfolio && { projects: portfolio }),
+          };
+          setInitialPortfolio(portfolio);
+          setSaved(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("PORTFOLIO UPDATE ERROR: ", error);
+          setLoading(false);
+        });
     };
-    const NewCell = ({ order }) => (
-      <div className="w-full py-6 border-t mb-6">
-        <div className="text-sm text-gray-500 mb-2">Project name {order}</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2">Link to project</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-          <p>Description</p>
-          <p className="text-xs">0 / 1000</p>
+
+    useEffect(() => {
+      if (portfolio !== initialPortfolio) {
+        setSaved(false);
+        setLoading(false);
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+      return () => {
+        setReady(false);
+        setLoading(false);
+      };
+    }, [portfolio, initialPortfolio]);
+
+    const PortfolioCell = ({ name, link, desc }) => {
+      const deleteExperience = () => {
+        setPortfolio(
+          portfolio.filter(
+            (item) =>
+              `${item.name} ${item.link} ${item.desc[userState.user.userLanguage]}` !== `${name} ${link} ${desc}`
+          )
+        );
+      };
+      return (
+        <div className="border p-3 mb-4 bg-gray-100 rounded">
+          <div className="flex justify-end w-full">
+            <button onClick={deleteExperience}>
+              <MdDelete className="right-4 top-4 w-5 h-5 text-gray-500 hover:text-red-500" />
+            </button>
+          </div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">{name}</p>
+              <p className="text-xs text-blue-600">{link}</p>
+            </div>
+          </div>
+          <div className="my-4">
+            <p className="text-sm break-keep">{desc}</p>
+          </div>
         </div>
-        <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
-      </div>
-    );
-    const AddNewButton = () => (
-      <button
-        onClick={() => addPressed()}
-        className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
-      >
-        Add a project
-      </button>
-    );
+      );
+    };
+
+    const NewCell = ({ order }) => {
+      const [name, setName] = useState("");
+      const [link, setLink] = useState("");
+      const [description, setDescription] = useState("");
+      const [isReady, setReady] = useState(false);
+
+      const addPressed = () => {
+        setPortfolio([
+          ...portfolio,
+          {
+            name: name,
+            link: link,
+            desc: { [userState.user.userLanguage]: description },
+          },
+        ]);
+      };
+
+      useEffect(() => {
+        if (!name || !link || !description || description.length > maxLength) {
+          setReady(false);
+        } else {
+          setReady(true);
+        }
+
+        return () => {};
+      }, [name, link, description]);
+
+      return (
+        <div className="w-full py-6 border-t mb-6">
+          <div className="text-sm text-gray-500 mb-2">Project name</div>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+          />
+          <div className="text-sm text-gray-500 mb-2">Link to project</div>
+          <input
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+          />
+          <div
+            className={`${
+              description.length > maxLength ? "text-red-500" : "text-gray-500"
+            } text-sm mb-2 flex justify-between items-center`}
+          >
+            <p>Description</p>
+            <p className="text-xs">
+              {description.length} / {maxLength}
+            </p>
+          </div>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{ resize: "none" }}
+            className={`${
+              description.length > maxLength ? "outline-red-500" : "outline-green-700"
+            } w-full h-32 rounded border border-gray-300 mb-4 p-2`}
+          />
+
+          <button
+            onClick={() => addPressed()}
+            disabled={!isReady}
+            className={`${
+              isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
+            } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
+          >
+            Save and add new experience
+          </button>
+        </div>
+      );
+    };
+
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
-
-          {experienceArray?.map((data, index) => (
-            <NewCell key={index} order={index} />
+          <p className="mb-4 text-gray-700">Showcase your past projects to prove your skills</p>
+          {portfolio?.map((item, index) => (
+            <PortfolioCell
+              key={index}
+              name={item.name}
+              link={item.link}
+              desc={item.desc?.[userState.user.userLanguage]}
+            />
           ))}
-          <AddNewButton />
+          <NewCell />
         </div>
-        <SaveComponent />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={savePortfolio} isLoading={isLoading} />
       </div>
     );
   };
 
   const EducationPanel = () => {
-    const [experienceArray, setExperienceArray] = useState([]);
-    const addPressed = () => {
-      setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+    const [initialEducation, setInitialEducation] = useState(developerInfo?.current.education || []);
+    const [education, setEducation] = useState(
+      initialEducation || [{ name: "", title: "", from: "", to: "", desc: "" }]
+    );
+    const [isReady, setReady] = useState(false);
+    const [isSaved, setSaved] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+
+    const saveEducation = () => {
+      setLoading(true);
+
+      for (let i = 0; i < education.length; i++) {
+        if (userState.user.userLanguage === "ko") {
+          delete education[i].desc.en;
+          delete education[i].title.en;
+        } else {
+          delete education[i].desc.ko;
+          delete education[i].title.ko;
+        }
+      }
+      axios
+        .post(`/v1/user/me`, {
+          user: {
+            user_profile: [
+              {
+                ...(initialEducation !== education && { education: education }),
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialEducation !== education && { education: education }),
+          };
+          setInitialEducation(education);
+          setSaved(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("EXPERIENCE UPDATE ERROR: ", error);
+          setLoading(false);
+        });
     };
-    const NewCell = ({ order }) => (
-      <div className="w-full py-6 border-t mb-6">
-        <div className="text-sm text-gray-500 mb-2">Institution name {order}</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2">Degree</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-          <p>Description</p>
-          <p className="text-xs">0 / 1000</p>
+
+    useEffect(() => {
+      if (education !== initialEducation) {
+        setSaved(false);
+        setLoading(false);
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+      return () => {
+        setReady(false);
+        setLoading(false);
+      };
+    }, [education, initialEducation]);
+
+    const EducationCell = ({ name, title, from, to, desc }) => {
+      const yos = moment.duration(to - from).years();
+      const deleteEducation = () => {
+        setEducation(
+          education.filter((item) => `${item.name} ${item.title[userState.user.userLanguage]}` !== `${name} ${title}`)
+        );
+      };
+      return (
+        <div className="border p-3 mb-4 bg-gray-100 rounded">
+          <div className="flex justify-end w-full">
+            <button onClick={deleteEducation}>
+              <MdDelete className="right-4 top-4 w-5 h-5 text-gray-500 hover:text-red-500" />
+            </button>
+          </div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">{`${name} | ${title}`}</p>
+              <p className="text-xs text-gray-500">
+                {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
+              </p>
+            </div>
+          </div>
+          <div className="my-4">
+            <p className="text-sm break-keep">{desc}</p>
+          </div>
         </div>
-        <textarea style={{ resize: "none" }} className="w-full h-32 rounded border border-gray-300 mb-4 p-2" />
-      </div>
-    );
-    const AddNewButton = () => (
-      <button
-        onClick={() => addPressed()}
-        className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
-      >
-        Add education
-      </button>
-    );
+      );
+    };
+
+    const NewCell = () => {
+      const [name, setName] = useState("");
+      const [title, setTitle] = useState("");
+      const [startValue, setStartValue] = useState(new Date());
+      const [endValue, setEndValue] = useState(new Date());
+      const [description, setDescription] = useState("");
+      const [isReady, setReady] = useState(false);
+      const maxLength = 1000;
+
+      const addPressed = () => {
+        setEducation([
+          ...education,
+          {
+            name: name,
+            title: { [userState.user.userLanguage]: title },
+            from: startValue.getTime(),
+            to: endValue.getTime(),
+            desc: { [userState.user.userLanguage]: description },
+          },
+        ]);
+      };
+
+      useEffect(() => {
+        if (!name || !title || !description || description.length > maxLength) {
+          setReady(false);
+        } else {
+          setReady(true);
+        }
+
+        return () => {};
+      }, [name, title, description]);
+
+      return (
+        <div className="w-full py-6 border-t mb-6 px-3">
+          <div className="flex w-full space-x-4 pr-12">
+            <div className="w-full">
+              <div className="text-sm text-gray-500 mb-2">Institution name</div>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+              />
+            </div>
+            <div className="w-full">
+              <div className="text-sm text-gray-500 mb-2">Degree</div>
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div>
+              <div className="text-sm text-gray-500 mb-2">From</div>
+              <div className="mb-6">
+                <DatePicker className={" outline-green-700"} onChange={setStartValue} value={startValue} />
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-500 mb-2">To</div>
+              <div className="mb-6">
+                <DatePicker className={" outline-green-700"} onChange={setEndValue} value={endValue} />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`${
+              description.length > maxLength ? "text-red-500" : "text-gray-500"
+            } text-sm mb-2 flex justify-between items-center`}
+          >
+            <p>Description</p>
+            <p className="text-xs">
+              {description.length} / {maxLength}
+            </p>
+          </div>
+          <textarea
+            style={{ resize: "none" }}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className={`${
+              description.length > maxLength ? "outline-red-500" : "outline-green-700"
+            } w-full h-32 rounded border border-gray-300 mb-4 p-2 `}
+          />
+
+          <button
+            onClick={() => addPressed()}
+            disabled={!isReady}
+            className={`${
+              isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
+            } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
+          >
+            Save and add new experience
+          </button>
+        </div>
+      );
+    };
+
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
           <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
 
-          {experienceArray?.map((data, index) => (
-            <NewCell key={index} order={index} />
+          {education?.map((item, index) => (
+            <EducationCell
+              key={index}
+              name={item.name}
+              title={item.title?.[userState.user.userLanguage]}
+              from={item.from}
+              to={item.to}
+              desc={item.desc?.[userState.user.userLanguage]}
+            />
           ))}
-          <AddNewButton />
+          <NewCell />
         </div>
-        <SaveComponent />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveEducation} isLoading={isLoading} />
       </div>
     );
   };
 
   const CertificationsPanel = () => {
-    const [experienceArray, setExperienceArray] = useState([]);
-    const addPressed = () => {
-      setExperienceArray([...experienceArray, { title: "", position: "", description: "" }]);
+    const [initialCertification, setInitialCertification] = useState(developerInfo?.current.certification || []);
+    const [certification, setCertification] = useState(initialCertification || [{ name: "", date: "" }]);
+    const [isReady, setReady] = useState(false);
+    const [isSaved, setSaved] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+
+    const saveCertification = () => {
+      setLoading(true);
+      axios
+        .post(`/v1/user/me`, {
+          user: {
+            user_profile: [
+              {
+                ...(initialCertification !== certification && { certification: certification }),
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          developerInfo.current = {
+            ...developerInfo.current,
+            ...(initialCertification !== certification && { certification: certification }),
+          };
+          setInitialCertification(certification);
+          setSaved(true);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("CERTIFICATION UPDATE ERROR: ", error);
+          setLoading(false);
+        });
     };
-    const NewCell = ({ order }) => (
-      <div className="w-full py-6 border-t mb-6">
-        <div className="text-sm text-gray-500 mb-2">Title {order}</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-        <div className="text-sm text-gray-500 mb-2">Degree</div>
-        <input className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2" />
-      </div>
-    );
-    const AddNewButton = () => (
-      <button
-        onClick={() => addPressed()}
-        className="py-4 my-6 w-full border-t border-b flex items-center justify-center font-bold text-sm text-green-600 hover:bg-green-100"
-      >
-        Add a award / certificate
-      </button>
-    );
+
+    useEffect(() => {
+      if (certification !== initialCertification) {
+        setSaved(false);
+        setLoading(false);
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+      return () => {
+        setReady(false);
+        setLoading(false);
+      };
+    }, [certification, initialCertification]);
+
+    const CertificationCell = ({ name, date }) => {
+      const deleteCertification = () => {
+        setCertification(certification.filter((item) => `${item.name} ${item.date}` !== `${name} ${date}`));
+      };
+      return (
+        <div className="border p-3 mb-4 bg-gray-100 rounded">
+          <div className="flex justify-end w-full">
+            <button onClick={deleteCertification}>
+              <MdDelete className="right-4 top-4 w-5 h-5 text-gray-500 hover:text-red-500" />
+            </button>
+          </div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">{name}</p>
+              <p className="text-xs text-gray-500">{moment(date).format("YYYY.MM.DD")}</p>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const NewCell = () => {
+      const [name, setName] = useState("");
+      const [dateValue, setDateValue] = useState(new Date());
+      const [isReady, setReady] = useState(false);
+
+      const addPressed = () => {
+        setCertification([
+          ...certification,
+          {
+            name: name,
+            date: dateValue.getTime(),
+          },
+        ]);
+      };
+
+      useEffect(() => {
+        if (!name) {
+          setReady(false);
+        } else {
+          setReady(true);
+        }
+
+        return () => {};
+      }, [name]);
+
+      return (
+        <div className="w-full py-6 border-t mb-6 px-3">
+          <div className="flex w-full space-x-4 pr-12">
+            <div className="w-full">
+              <div className="text-sm text-gray-500 mb-2">Certification / Award title</div>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div>
+              <div className="text-sm text-gray-500 mb-2">Date</div>
+              <div className="mb-6">
+                <DatePicker className={" outline-green-700"} onChange={setDateValue} value={dateValue} />
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => addPressed()}
+            disabled={!isReady}
+            className={`${
+              isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
+            } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
+          >
+            Save and add new experience
+          </button>
+        </div>
+      );
+    };
+
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
           <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
-
-          {experienceArray?.map((data, index) => (
-            <NewCell key={index} order={index} />
+          {certification?.map((item, index) => (
+            <CertificationCell key={index} name={item.name} date={item.date} />
           ))}
-          <AddNewButton />
+          <NewCell />
         </div>
-        <SaveComponent />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveCertification} isLoading={isLoading} />
       </div>
     );
   };
+
   return (
     <div style={{ width: "900px", height: "calc(100vh - 8rem)" }} className="">
       <div className="h-14 w-full border-b flex-shrink-0 flex items-center justify-between text-lg px-6">
