@@ -234,7 +234,11 @@ const Profile = () => {
             title={t("status5.title")}
             icon={<MdOutlineAttachMoney />}
           />
-          <SummaryCell value={moment(registerDate).format("YYYY.MM.DD")} title={t("status6.title")} icon={<BiTime />} />
+          <SummaryCell
+            value={moment(registerDate.current).format("YYYY.MM.DD")}
+            title={t("status6.title")}
+            icon={<BiTime />}
+          />
         </div>
       </div>
     </div>
