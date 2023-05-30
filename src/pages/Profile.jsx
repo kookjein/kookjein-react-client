@@ -362,16 +362,20 @@ const Profile = () => {
         {(developerInfo.current?.experience || isMyProfile) && (
           <>
             <TitleText text={t("exp")} />
-            {developerInfo.current?.experience?.map((item, index) => (
-              <CompanyCell2
-                key={index}
-                from={item.from}
-                to={item.to}
-                company={item.company}
-                title={item.title?.[userState.user.userLanguage]}
-                desc={item.desc?.[lang]}
-              />
-            )) || <Placeholder type={"Experience"} />}
+            {developerInfo.current?.experience?.length === 0 ? (
+              <Placeholder type={"Experience"} />
+            ) : (
+              developerInfo.current?.experience?.map((item, index) => (
+                <CompanyCell2
+                  key={index}
+                  from={item.from}
+                  to={item.to}
+                  company={item.company}
+                  title={item.title?.[userState.user.userLanguage]}
+                  desc={item.desc?.[lang]}
+                />
+              ))
+            )}
             <Divider />
           </>
         )}
@@ -379,9 +383,13 @@ const Profile = () => {
         {(developerInfo.current?.projects || isMyProfile) && (
           <>
             <TitleText text={t("projects")} />
-            {developerInfo.current?.projects?.map((item) => (
-              <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc?.[lang]} />
-            )) || <Placeholder type={"Portfolio"} />}
+            {developerInfo.current?.projects?.length === 0 ? (
+              <Placeholder type={"Portfolio"} />
+            ) : (
+              developerInfo.current?.projects?.map((item) => (
+                <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc?.[lang]} />
+              ))
+            )}
             <Divider />
           </>
         )}
@@ -389,29 +397,37 @@ const Profile = () => {
         {(developerInfo.current?.education || isMyProfile) && (
           <>
             <TitleText text={t("education")} />
-            {developerInfo.current?.education?.map((item) => (
-              <EducationCell
-                key={item.name}
-                name={item.name}
-                title={item.title?.[lang]}
-                from={item.from}
-                to={item.to}
-                desc={item.desc?.[lang]}
-              />
-            )) || <Placeholder type={"Education"} />}
+            {developerInfo.current?.education?.length === 0 ? (
+              <Placeholder type={"Education"} />
+            ) : (
+              developerInfo.current?.education?.map((item) => (
+                <EducationCell
+                  key={item.name}
+                  name={item.name}
+                  title={item.title?.[lang]}
+                  from={item.from}
+                  to={item.to}
+                  desc={item.desc?.[lang]}
+                />
+              ))
+            )}
             <Divider />
           </>
         )}
 
-        {((developerInfo.current?.certification || isMyProfile) && (
+        {(developerInfo.current?.certification || isMyProfile) && (
           <>
             <TitleText text={t("certificates")} />
-            {developerInfo.current?.certification?.map((item, index) => (
-              <CertificateCell key={index} name={item.name} date={item.date} />
-            ))}
+            {developerInfo.current?.certification?.length === 0 ? (
+              <Placeholder type={"Awards & Certs"} />
+            ) : (
+              developerInfo.current?.certification?.map((item, index) => (
+                <CertificateCell key={index} name={item.name} date={item.date} />
+              ))
+            )}
             <Divider />
           </>
-        )) || <Placeholder type={"Certification"} />}
+        )}
 
         <div className="h-16" />
       </div>

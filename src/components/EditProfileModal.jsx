@@ -762,7 +762,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       }, [name, link, description]);
 
       return (
-        <div className="w-full py-6 border-t mb-6">
+        <div className="w-full py-6 border-t mb-6 p-3">
           <div className="text-sm text-gray-500 mb-2">Project name</div>
           <input
             value={name}
