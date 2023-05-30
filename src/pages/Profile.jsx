@@ -22,6 +22,7 @@ import moment from "moment/moment";
 const Profile = () => {
   const navigate = useNavigate();
   const developerInfo = useRef({});
+  const registerDate = useRef({});
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("developerProfile");
   const { userId } = useParams();
@@ -45,8 +46,9 @@ const Profile = () => {
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
         developerInfo.current = response.data.user_profile[0];
+        registerDate.current = response.data.user_created_at;
         setLoading(false);
-        console.log(response.data.user_profile[0]);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/USER/ ERROR : ", e);
@@ -232,7 +234,7 @@ const Profile = () => {
             title={t("status5.title")}
             icon={<MdOutlineAttachMoney />}
           />
-          <SummaryCell value={t("status6.value")} title={t("status6.title")} icon={<BiTime />} />
+          <SummaryCell value={moment(registerDate).format("YYYY.MM.DD")} title={t("status6.title")} icon={<BiTime />} />
         </div>
       </div>
     </div>
