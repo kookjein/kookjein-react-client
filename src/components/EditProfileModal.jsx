@@ -251,7 +251,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     };
 
     const handleAdditionTECH = (tag) => {
-      tag[userState.user.userLanguage] = tag.text;
       setTech([...tech, tag]);
     };
 
@@ -309,16 +308,16 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             placeholder="e.g. React Native, PostreSQL"
             classNames={{
               tags: "mb-8",
-              tagInput: "",
+              tagInput: "h-12",
               tagInputField: "w-full h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700",
-              selected: "selectedClass",
-              tag: "px-3 py-2 bg-gray-200 rounded border mr-1 mb-3 text-sm",
+              selected: "flex flex-wrap gap-1",
+              tag: "px-3 py-1 bg-gray-200 rounded border text-sm flex-shrink-0",
               remove: "ml-2",
-              suggestions: "suggestionsClass",
-              activeSuggestion: "activeSuggestionClass",
-              editTagInput: "editTagInputClass",
-              editTagInputField: "editTagInputField",
-              clearAll: "clearAllClass",
+              suggestions: "",
+              activeSuggestion: "",
+              editTagInput: "",
+              editTagInputField: "",
+              clearAll: "",
             }}
           />
           <div className="text-sm text-gray-500 mb-2">
@@ -621,7 +620,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
               isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
             } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
           >
-            Save and add new experience
+            Add a new experience
           </button>
         </div>
       );
@@ -801,7 +800,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
               isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
             } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
           >
-            Save and add new experience
+            Add a new project
           </button>
         </div>
       );
@@ -1009,7 +1008,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
               isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
             } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
           >
-            Save and add new experience
+            Add a new degree
           </button>
         </div>
       );
@@ -1018,7 +1017,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
+          <p className="mb-4 text-gray-700">Tell us about your education and academic degree</p>
 
           {education?.map((item, index) => (
             <EducationCell
@@ -1160,7 +1159,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
               isReady ? "bg-green-700 text-white filter hover:brightness-125" : "bg-gray-300 text-white"
             } py-3 my-6 w-full border-t border-b flex items-center justify-center rounded-lg text-sm`}
           >
-            Save and add new experience
+            Add new a certificate or award
           </button>
         </div>
       );
@@ -1169,7 +1168,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Tell us your work experience outside of Kookjein</p>
+          <p className="mb-4 text-gray-700">Tell us if you have any certificates or awards to support your career</p>
           {certification?.map((item, index) => (
             <CertificationCell key={index} name={item.name} date={item.date} />
           ))}

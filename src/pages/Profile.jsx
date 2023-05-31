@@ -199,7 +199,7 @@ const Profile = () => {
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
               {developerInfo.current?.tech?.map((item) => (
-                <Tags key={item[userState.user.userLanguage]} size={"sm"} item={item[lang]} />
+                <Tags key={item.id} size={"sm"} item={item.text} />
               )) || <Placeholder type={"Skill sets"} />}
             </div>
           </div>
