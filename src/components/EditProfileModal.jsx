@@ -84,7 +84,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const maxLength = 100;
+    const maxLength = 200;
 
     const saveBasic = () => {
       setLoading(true);

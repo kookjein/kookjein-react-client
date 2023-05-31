@@ -31,6 +31,7 @@ const Profile = () => {
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
+  const [kYos, setKYos] = useState(0);
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -47,6 +48,14 @@ const Profile = () => {
       .then((response) => {
         developerInfo.current = response.data.user_profile[0];
         registerDate.current = response.data.user_created_at;
+
+        const kExpList = developerInfo.current?.k_experience;
+        var tempYos = 0;
+        for (let i = 0; i < kExpList?.length; i++) {
+          const yos = moment.duration(kExpList[i].to - kExpList[i].from).years();
+          tempYos = tempYos + yos;
+        }
+        setKYos(tempYos + 1);
         setLoading(false);
         console.log(response.data);
       })
@@ -93,20 +102,25 @@ const Profile = () => {
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
 
   const TitleText = ({ text }) => (
-    <p style={{ color: "#176544" }} className="text-lg font-bold text-gray-400">
-      {text}
-    </p>
-  );
-
-  const SummaryCell = ({ icon, title, value }) => (
-    <div className="w-full flex justify-between">
-      <div className="space-x-2 flex items-center">
-        <div className="text-gray-400 text-sm">{icon}</div>
-        <p className="text-sm text-gray-600">{title}</p>
-      </div>
-      <p className="text-sm font-bold text-gray-500">{value}</p>
+    <div className="flex items-center space-x-2">
+      <p style={{ color: "#176544" }} className="text-lg font-bold text-gray-400">
+        {text}
+      </p>
+      {text === t("k_exp") && <BsPatchCheckFill className="text-sky-500 w-4 h-4" />}
     </div>
   );
+
+  const SummaryCell = ({ icon, title, value }) => {
+    return (
+      <div className="w-full flex justify-between">
+        <div className="space-x-2 flex items-center">
+          <div className="text-gray-400 text-sm">{icon}</div>
+          <p className="text-sm text-gray-600">{title}</p>
+        </div>
+        <p className="text-sm font-bold text-gray-500">{value}</p>
+      </div>
+    );
+  };
 
   const Placeholder = ({ type }) => {
     return (
@@ -144,18 +158,19 @@ const Profile = () => {
         )}
       </div>
 
-      <p className="text-xl">{developerInfo.current.name?.[lang]}</p>
-      {developerInfo.current?.title?.[lang] && (
-        <p className="text-sm text-green-700 font-bold mb-1">{developerInfo.current?.title?.[lang]}</p>
-      )}
-      {developerInfo.current?.company?.[lang] && (
-        <div className="flex items-center space-x-1 text-sm text-gray-500">
-          <BsPatchCheckFill className="text-sky-500 w-4 h-4" />
-          <p style={{ color: "#0E5034" }} className="font-bold">
-            {developerInfo.current?.company?.[lang]}
-          </p>
-        </div>
-      )}
+      <p className="text-2xl">{developerInfo.current.name?.[lang]}</p>
+      <div className="flex flex-col items-center space-y-1 font-bold text-gray-600">
+        {developerInfo.current?.title?.[lang] && <p className="text-sm mb-1">{developerInfo.current?.title?.[lang]}</p>}
+        {developerInfo.current?.company?.[lang] && (
+          <div className="flex items-center text-sm -mr-3">
+            <p className="mr-1">at</p>
+            <button className="text-green-700 hover:underline filter hover:brightness-125">
+              {developerInfo.current?.company?.[lang]}
+            </button>
+            <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+          </div>
+        )}
+      </div>
       {developerInfo.current?.oneLiner?.[lang] && (
         <p
           style={{
@@ -198,9 +213,9 @@ const Profile = () => {
           <div className="w-full space-y-4">
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.tech?.map((item) => (
-                <Tags key={item.id} size={"sm"} item={item.text} />
-              )) || <Placeholder type={"Skill sets"} />}
+              {developerInfo.current?.tech?.map((item) => <Tags key={item.id} size={"sm"} item={item.text} />) || (
+                <Placeholder type={"Skill sets"} />
+              )}
             </div>
           </div>
           <Divider />
@@ -223,11 +238,25 @@ const Profile = () => {
 
       <div className="w-full space-y-4">
         <div className="w-full flex flex-col space-y-3">
-          <SummaryCell value={t("status1.value")} title={t("status1.title")} icon={<MdOutlineWork />} />
-          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<IoLocationSharp />} />
-          <SummaryCell value={`1 ${t("status4.value")}`} title={t("status3.title")} icon={<AiTwotoneCalendar />} />
           <SummaryCell
-            value={`${(developerInfo.current?.price * 10000).toLocaleString("en-US", {
+            value={
+              developerInfo.current?.employment_status ? developerInfo.current?.employment_status : t("status1.value")
+            }
+            title={t("status1.title")}
+            icon={<MdOutlineWork />}
+          />
+          <SummaryCell
+            value={developerInfo.current?.country ? developerInfo.current?.country : t("status2.value")}
+            title={t("status2.title")}
+            icon={<IoLocationSharp />}
+          />
+          <SummaryCell
+            value={`${kYos} ${t("status4.value")}`}
+            title={t("status3.title")}
+            icon={<AiTwotoneCalendar />}
+          />
+          <SummaryCell
+            value={`${(developerInfo.current?.price ? developerInfo.current?.price : 1800000).toLocaleString("en-US", {
               style: "currency",
               currency: "KRW",
             })} KRW`}
@@ -245,21 +274,26 @@ const Profile = () => {
   );
 
   const RightPanel = () => {
-    const CompanyCell = ({ img, title, year, period }) => (
-      <div>
-        <div className="w-full py-1 flex items-center space-x-2">
-          <div className="w-10 h-10 bg-gray-100 rounded-full overflow-hidden">
-            <img src={img} alt="" className="object-cover w-full h-full" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-sm font-bold text-gray-600">{title}</p>
-            <p className="text-xs text-gray-500">
-              {year} · {period}
-            </p>
+    const CompanyCell = ({ img, company, title, from, to }) => {
+      const yos = moment.duration(to - from).years();
+      return (
+        <div>
+          <div className="w-full py-1 flex items-center space-x-2">
+            <div className="w-10 h-10 bg-gray-100 rounded-full overflow-hidden">
+              <img src={img} alt="" className="object-cover w-full h-full" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-gray-600">
+                {company} - {title}
+              </p>
+              <p className="text-xs text-gray-500">
+                {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    };
 
     const CompanyCell2 = ({ title, company, from, to, desc }) => {
       const yos = moment.duration(to - from).years();
@@ -354,11 +388,12 @@ const Profile = () => {
             <TitleText text={t("k_exp")} />
             {developerInfo.current?.k_experience?.map((item) => (
               <CompanyCell
-                key={item.company?.[lang]}
+                key={item.company}
+                company={item.company}
+                title={item.title?.[lang]}
                 img={item.logo}
-                period={`${item.from?.[lang]} ~ ${item.to?.[lang]}`}
-                year="8개월"
-                title={`${item.company?.[lang]} | ${item.title?.[lang]}`}
+                from={item.from}
+                to={item.to}
               />
             ))}
             <Divider />

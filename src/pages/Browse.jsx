@@ -3,15 +3,21 @@ import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
-import axios from "axios";
+import axios from "../utils/authAxios";
 
 const Browse = () => {
   const [dataArray, setDataArray] = useState({});
+
   useEffect(() => {
     axios
-      .get("https://kookjein.s3.ap-northeast-2.amazonaws.com/sample/data.json")
-      .then((res) => setDataArray(res.data))
-      .catch((e) => console.log(e));
+      .get(`/v1/user/employees`)
+      .then((response) => {
+        setDataArray(response.data);
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.log("V1/USER/ ERROR : ", e);
+      });
     return () => {};
   }, []);
 
