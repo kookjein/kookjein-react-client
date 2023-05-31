@@ -139,7 +139,7 @@ const Profile = () => {
   const LeftPanel = () => (
     <div
       style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
-      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative"
+      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative pb-16"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         {isMyProfile ? (
@@ -351,12 +351,12 @@ const Profile = () => {
     );
 
     if (
-      !developerInfo.current?.intro &&
-      !developerInfo.current?.k_experience &&
-      !developerInfo.current?.experience &&
-      !developerInfo.current?.projects &&
-      !developerInfo.current?.education &&
-      !developerInfo.current?.certificates &&
+      !developerInfo.current.intro?.[lang] &&
+      (!developerInfo.current?.k_experience || developerInfo.current.k_experience?.length === 0) &&
+      (!developerInfo.current?.experience || developerInfo.current.experience?.length === 0) &&
+      (!developerInfo.current?.projects || developerInfo.current.projects?.length === 0) &&
+      (!developerInfo.current?.education || developerInfo.current.education?.length === 0) &&
+      (!developerInfo.current?.certification || developerInfo.current.certification?.length === 0) &&
       !isMyProfile
     )
       return (
@@ -373,17 +373,23 @@ const Profile = () => {
         style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
-        {(developerInfo.current?.intro || isMyProfile) && (
+        {developerInfo.current.intro?.[lang] ? (
           <>
             <TitleText text={t("intro")} />
-            <p className="break-keep text-sm">
-              {developerInfo.current?.intro?.[lang] || <Placeholder type={"Introduction"} />}
-            </p>
+            <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
             <Divider />
           </>
+        ) : (
+          isMyProfile && (
+            <>
+              <TitleText text={t("intro")} />
+              <Placeholder type={"Introduction"} />
+              <Divider />
+            </>
+          )
         )}
 
-        {developerInfo.current?.k_experience && (
+        {developerInfo.current.k_experience?.length > 0 && (
           <>
             <TitleText text={t("k_exp")} />
             {developerInfo.current?.k_experience?.map((item) => (
@@ -400,74 +406,90 @@ const Profile = () => {
           </>
         )}
 
-        {(developerInfo.current?.experience || isMyProfile) && (
+        {developerInfo.current.experience?.length > 0 ? (
           <>
             <TitleText text={t("exp")} />
-            {developerInfo.current?.experience?.length === 0 ? (
-              <Placeholder type={"Experience"} />
-            ) : (
-              developerInfo.current?.experience?.map((item, index) => (
-                <CompanyCell2
-                  key={index}
-                  from={item.from}
-                  to={item.to}
-                  company={item.company}
-                  title={item.title?.[userState.user.userLanguage]}
-                  desc={item.desc?.[lang]}
-                />
-              ))
-            )}
+            {developerInfo.current?.experience?.map((item, index) => (
+              <CompanyCell2
+                key={index}
+                from={item.from}
+                to={item.to}
+                company={item.company}
+                title={item.title?.[userState.user.userLanguage]}
+                desc={item.desc?.[lang]}
+              />
+            ))}
             <Divider />
           </>
+        ) : (
+          isMyProfile && (
+            <>
+              <TitleText text={t("exp")} />
+              <Placeholder type={"Experience"} />
+              <Divider />
+            </>
+          )
         )}
 
-        {(developerInfo.current?.projects || isMyProfile) && (
+        {developerInfo.current.projects?.length > 0 ? (
           <>
             <TitleText text={t("projects")} />
-            {developerInfo.current?.projects?.length === 0 ? (
-              <Placeholder type={"Portfolio"} />
-            ) : (
-              developerInfo.current?.projects?.map((item) => (
-                <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc?.[lang]} />
-              ))
-            )}
+            {developerInfo.current?.projects?.map((item) => (
+              <ProjectCell key={item.name} name={item.name} link={item.link} desc={item.desc?.[lang]} />
+            ))}
             <Divider />
           </>
+        ) : (
+          isMyProfile && (
+            <>
+              <TitleText text={t("projects")} />
+              <Placeholder type={"Portfolio"} />
+              <Divider />
+            </>
+          )
         )}
 
-        {(developerInfo.current?.education || isMyProfile) && (
+        {developerInfo.current.education?.length > 0 ? (
           <>
             <TitleText text={t("education")} />
-            {developerInfo.current?.education?.length === 0 ? (
-              <Placeholder type={"Education"} />
-            ) : (
-              developerInfo.current?.education?.map((item) => (
-                <EducationCell
-                  key={item.name}
-                  name={item.name}
-                  title={item.title?.[lang]}
-                  from={item.from}
-                  to={item.to}
-                  desc={item.desc?.[lang]}
-                />
-              ))
-            )}
+            {developerInfo.current?.education?.map((item) => (
+              <EducationCell
+                key={item.name}
+                name={item.name}
+                title={item.title?.[lang]}
+                from={item.from}
+                to={item.to}
+                desc={item.desc?.[lang]}
+              />
+            ))}
             <Divider />
           </>
+        ) : (
+          isMyProfile && (
+            <>
+              <TitleText text={t("education")} />
+              <Placeholder type={"Education"} />
+              <Divider />
+            </>
+          )
         )}
 
-        {(developerInfo.current?.certification || isMyProfile) && (
+        {developerInfo.current.certification?.length > 0 ? (
           <>
             <TitleText text={t("certificates")} />
-            {developerInfo.current?.certification?.length === 0 ? (
-              <Placeholder type={"Awards & Certs"} />
-            ) : (
-              developerInfo.current?.certification?.map((item, index) => (
-                <CertificateCell key={index} name={item.name} date={item.date} />
-              ))
-            )}
+            {developerInfo.current?.certification?.map((item, index) => (
+              <CertificateCell key={index} name={item.name} date={item.date} />
+            ))}
             <Divider />
           </>
+        ) : (
+          isMyProfile && (
+            <>
+              <TitleText text={t("certificates")} />
+              <Placeholder type={"Awards & Certs"} />
+              <Divider />
+            </>
+          )
         )}
 
         <div className="h-16" />
