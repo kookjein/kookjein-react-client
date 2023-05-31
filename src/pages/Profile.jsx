@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
@@ -7,7 +7,11 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  // Link,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
@@ -16,7 +20,6 @@ import EditProfileModal from "../components/EditProfileModal";
 import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
 import { languageArray } from "../utils/arrays";
-import { useCallback } from "react";
 import moment from "moment/moment";
 
 const Profile = () => {
@@ -32,6 +35,7 @@ const Profile = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [kYos, setKYos] = useState(0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -42,7 +46,8 @@ const Profile = () => {
     return () => {};
   }, []);
 
-  const getUserInfo = useCallback(() => {
+  useEffect(() => {
+    setLoading(true);
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
@@ -57,6 +62,7 @@ const Profile = () => {
         }
         setKYos(tempYos + 1);
         setLoading(false);
+        forceUpdate();
         console.log(response.data);
       })
       .catch((e) => {
@@ -65,10 +71,6 @@ const Profile = () => {
         setLoading(false);
       });
   }, [userId, navigate]);
-
-  useEffect(() => {
-    getUserInfo();
-  }, [userId, navigate, getUserInfo]);
 
   const customStyles = {
     content: {
@@ -188,14 +190,14 @@ const Profile = () => {
 
       {userState.isAuthenticated && (
         <div className="w-full flex justify-center items-center space-x-2">
-          <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
+          {/* <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
             <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
               {t("sendMessage")}
             </button>
           </Link>
           <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
             {t("hire")}
-          </button>
+          </button> */}
           <button
             onClick={() => openModal()}
             className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border flex-shrink-0"

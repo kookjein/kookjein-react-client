@@ -1,7 +1,11 @@
 import React from "react";
 import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
-import { IoChatboxOutline, IoNotificationsOutline, IoSearch } from "react-icons/io5";
+import { 
+  // IoChatboxOutline, 
+  // IoNotificationsOutline, 
+  IoSearch 
+} from "react-icons/io5";
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState, useContext } from "react";
@@ -147,7 +151,7 @@ const Navbar = ({ light }) => {
         <div className="hidden sm:flex space-x-7 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-10">
           {userState.isAuthenticated ? (
             <>
-              <button className="relative">
+              {/* <button className="relative">
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button>
@@ -156,7 +160,7 @@ const Navbar = ({ light }) => {
                   <IoChatboxOutline className="w-6 h-6 text-gray-500" />
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
                 </button>
-              </Link>
+              </Link> */}
               {userState.user.userType === "employer" && (
                 <Link to="/work-post/register" state={{ tabStatus: 0 }}>
                   <button className="px-1 py-2 rounded text-green-800 transition font-semibold text-sm filter hover:brightness-125">
