@@ -53,9 +53,9 @@ const Profile = () => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
-        generalInfo.current = response.data;
-        developerInfo.current = response.data.user_profile[0];
-        registerDate.current = response.data.user_created_at;
+        generalInfo.current = response.data.user;
+        developerInfo.current = response.data.user.user_profile[0];
+        registerDate.current = response.data.user.user_created_at;
 
         const kExpList = developerInfo.current?.k_experience;
         var tempYos = 0;
