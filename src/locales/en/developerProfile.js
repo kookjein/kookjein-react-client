@@ -21,9 +21,11 @@ const developerProfile = {
   status2: {
     title: "Country",
     value: "Palestine",
+    value1: "United States",
   },
   status3: {
-    title: "YoS (on Kookje.in)",
+    title: "YoS (on Kookjein)",
+    title1: "YoS (Total)",
     value: "years",
   },
   status4: {

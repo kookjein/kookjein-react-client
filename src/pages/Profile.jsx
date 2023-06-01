@@ -21,9 +21,11 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
 import { languageArray } from "../utils/arrays";
 import moment from "moment/moment";
+import ProfileEmployer from "./ProfileEmployer";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const generalInfo = useRef({});
   const developerInfo = useRef({});
   const registerDate = useRef({});
   const { userState } = useContext(AuthContext);
@@ -51,6 +53,7 @@ const Profile = () => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
+        generalInfo.current = response.data;
         developerInfo.current = response.data.user_profile[0];
         registerDate.current = response.data.user_created_at;
 
@@ -210,32 +213,52 @@ const Profile = () => {
 
       <Divider />
 
-      {(developerInfo.current?.tech || isMyProfile) && (
+      {developerInfo.current.tech?.length > 0 ? (
         <>
           <div className="w-full space-y-4">
             <TitleText text={t("programming_lang")} />
             <div className="w-full gap-2 flex flex-wrap">
-              {developerInfo.current?.tech?.map((item) => <Tags key={item.id} size={"sm"} item={item.text} />) || (
-                <Placeholder type={"Skill sets"} />
-              )}
+              {developerInfo.current?.tech?.map((item) => (
+                <Tags key={item.id} size={"sm"} item={item.text} />
+              ))}
             </div>
           </div>
           <Divider />
         </>
+      ) : (
+        isMyProfile && (
+          <>
+            <div className="w-full space-y-4">
+              <TitleText text={t("programming_lang")} />
+              <Placeholder type={"Skill sets"} />
+            </div>
+            <Divider />
+          </>
+        )
       )}
 
-      {(developerInfo.current?.lang || isMyProfile) && (
+      {developerInfo.current.lang?.length > 0 ? (
         <>
           <div className="w-full space-y-4">
             <TitleText text={t("lang")} />
             <div className="w-full gap-2 flex flex-wrap">
               {developerInfo.current?.lang?.map((item) => (
                 <Tags key={item} size={"sm"} item={languageArray[item][lang]} />
-              )) || <Placeholder type={"Skill sets"} />}
+              ))}
             </div>
           </div>
           <Divider />
         </>
+      ) : (
+        isMyProfile && (
+          <>
+            <div className="w-full space-y-4">
+              <TitleText text={t("lang")} />
+              <Placeholder type={"Skill sets"} />
+            </div>
+            <Divider />
+          </>
+        )
       )}
 
       <div className="w-full space-y-4">
@@ -255,6 +278,11 @@ const Profile = () => {
           <SummaryCell
             value={`${kYos} ${t("status4.value")}`}
             title={t("status3.title")}
+            icon={<AiTwotoneCalendar />}
+          />
+          <SummaryCell
+            value={`${developerInfo.current?.yos} ${t("status4.value")}`}
+            title={t("status3.title1")}
             icon={<AiTwotoneCalendar />}
           />
           <SummaryCell
@@ -499,142 +527,8 @@ const Profile = () => {
     );
   };
 
-  const LeftPanelEmployer = () => (
-    <div
-      style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative"
-    >
-      <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
-        <img src="" alt="" className="object-cover w-full h-full" />
-      </div>
-
-      <p className="text-xl">고용인 이름</p>
-      <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
-        <p className="">Title</p>
-        <p style={{ color: "#0E5034" }} className="font-bold">
-          Company name
-        </p>
-      </div>
-      <p
-        style={{
-          width: "100%",
-          overflow: "hidden",
-          display: "-webkit-box",
-          // WebkitLineClamp: 2,
-          WebkitBoxOrient: "vertical",
-        }}
-        className="text-xs break-keep text-center text-gray-500"
-      >
-        고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인 한줄 소개 고용인
-        한줄 소개
-      </p>
-
-      <Divider />
-
-      <div className="w-full space-y-4">
-        <TitleText text={t("lang")} />
-        <div className="w-full gap-2 flex flex-wrap">
-          {developerInfo.current?.lang?.[lang].map((item) => (
-            <Tags key={item} size={"sm"} item={item} />
-          ))}
-        </div>
-      </div>
-
-      <Divider />
-
-      <div className="w-full space-y-4">
-        <div className="w-full flex flex-col space-y-3">
-          <SummaryCell value={"구인중"} title={"구인 상태"} icon={<MdOutlineWork />} />
-          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<IoLocationSharp />} />
-          <SummaryCell value={t("status6.value")} title={t("status6.title")} icon={<BiTime />} />
-        </div>
-      </div>
-
-      <Divider />
-    </div>
-  );
-
-  const RightPanelEmployer = () => {
-    return (
-      <div
-        style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
-      >
-        <TitleText text={"회사 소개"} />
-        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
-        <Divider />
-
-        <TitleText text={"업종"} />
-        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
-        <Divider />
-
-        <TitleText text={"대표"} />
-        <p className="break-keep text-sm">장동해</p>
-        <Divider />
-
-        <TitleText text={"홈페이지"} />
-        <p className="break-keep text-sm">namsancompany.com</p>
-        <Divider />
-
-        <TitleText text={"기업주소"} />
-        <p className="break-keep text-sm">퇴계로 18길 33</p>
-        <Divider />
-
-        <TitleText text={"사원수"} />
-        <p className="break-keep text-sm">12</p>
-        <Divider />
-
-        <TitleText text={"국제인 직원"} />
-        <p className="break-keep text-sm">{developerInfo.current?.intro?.[lang]}</p>
-        <Divider />
-
-        <div className="h-16" />
-      </div>
-    );
-  };
-
   if (!isLoading)
-    if (false)
-      return (
-        <>
-          <Modal
-            isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
-            onRequestClose={closeModal}
-            style={customStyles}
-            shouldCloseOnOverlayClick={false}
-          >
-            <EditProfileModal />
-          </Modal>
-
-          <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-            <Navbar2 light />
-            <div
-              style={{ backgroundColor: "#0E5034" }}
-              className="w-full h-12 bg-red-100 flex justify-center bg-opacity-40"
-            >
-              <div
-                style={{ maxWidth: "1280px" }}
-                className="w-full h-full px-4 flex justify-end items-center space-x-2"
-              >
-                <button
-                  onClick={() => openModal()}
-                  className="px-4 flex items-center justify-center h-8 bg-green-600 text-white font-bold rounded text-sm hover:bg-green-500 transition shadow"
-                  style={{ display: isMyProfile ? "" : "none" }}
-                >
-                  프로필 수정
-                </button>
-              </div>
-            </div>
-
-            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
-              <LeftPanelEmployer />
-              <RightPanelEmployer />
-            </div>
-            <Footer />
-          </div>
-        </>
-      );
+    if (generalInfo.current.user_type === "employer") return <ProfileEmployer generalInfo={generalInfo.current} />;
     else
       return (
         <>

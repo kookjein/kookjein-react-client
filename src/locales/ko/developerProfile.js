@@ -21,9 +21,11 @@ const developerProfile = {
   status2: {
     title: "국적",
     value: "팔레스타인",
+    value1: "미국",
   },
   status3: {
-    title: "연차 (국제인 내)",
+    title: "연차 (국제인)",
+    title1: "연차 (전체)",
     value: "년",
   },
   status4: {

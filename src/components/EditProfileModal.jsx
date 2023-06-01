@@ -153,7 +153,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Title*</div>
+          <div className="text-sm text-gray-500 mb-2">Title / Position</div>
           <input
             placeholder="e.g. Frontend Developer"
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -345,7 +345,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           <div className="flex item-center space-x-2 mb-2">
             <input
               disabled={true}
-              value={(190 * 10000).toLocaleString("en-US", {
+              value={(180 * 10000).toLocaleString("en-US", {
                 style: "currency",
                 currency: "KRW",
               })}
