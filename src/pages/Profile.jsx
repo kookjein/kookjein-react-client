@@ -53,7 +53,7 @@ const Profile = () => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
-        generalInfo.current = response.data.user;
+        generalInfo.current = response.data;
         developerInfo.current = response.data.user.user_profile[0];
         registerDate.current = response.data.user.user_created_at;
 
@@ -166,11 +166,11 @@ const Profile = () => {
       <p className="text-2xl">{developerInfo.current.name?.[lang]}</p>
       <div className="flex flex-col items-center space-y-1 font-bold text-gray-600">
         {developerInfo.current?.title?.[lang] && <p className="text-sm mb-1">{developerInfo.current?.title?.[lang]}</p>}
-        {developerInfo.current?.company?.[lang] && (
+        {generalInfo.current?.company && (
           <div className="flex items-center text-sm -mr-3">
             <p className="mr-1">at</p>
             <button className="text-green-700 hover:underline filter hover:brightness-125">
-              {developerInfo.current?.company?.[lang]}
+              {generalInfo.current.company?.company_name}
             </button>
             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
           </div>
@@ -403,6 +403,19 @@ const Profile = () => {
         style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
+        {generalInfo.current?.company && (
+          <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
+            <p className="mr-1 font-bold">{developerInfo.current.name?.[lang]} - </p>
+            {developerInfo.current?.title?.[lang] && <p className="">{developerInfo.current?.title?.[lang]}</p>}
+            <div className="flex items-center">
+              <p className="mx-1">at</p>
+              <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                {generalInfo.current.company?.company_name}
+              </button>
+              <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+            </div>
+          </div>
+        )}
         {developerInfo.current.intro?.[lang] ? (
           <>
             <TitleText text={t("intro")} />
@@ -528,7 +541,7 @@ const Profile = () => {
   };
 
   if (!isLoading)
-    if (generalInfo.current.user_type === "employer") return <ProfileEmployer generalInfo={generalInfo.current} />;
+    if (generalInfo.current.user.user_type === "employer") return <ProfileEmployer generalInfo={generalInfo.current} />;
     else
       return (
         <>

@@ -18,9 +18,11 @@ import UploadProfile from "../components/UploadProfile";
 import { languageArray } from "../utils/arrays";
 import moment from "moment/moment";
 import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
 
 const ProfileEmployer = ({ generalInfo }) => {
-  const developerInfo = useRef(generalInfo.user_profile[0]);
+  const developerInfo = useRef(generalInfo.user.user_profile[0]);
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("developerProfile");
   const { userId } = useParams();
@@ -28,6 +30,9 @@ const ProfileEmployer = ({ generalInfo }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
+  const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
+  const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
+  const [hasCompany] = useState(false);
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -58,13 +63,18 @@ const ProfileEmployer = ({ generalInfo }) => {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
   function closeModal() {
     setIsOpen(false);
     setModalInitialTab("Basic");
+  }
+
+  function openCompanyModal() {
+    setCompanyModalIsOpen(true);
+  }
+
+  function closeCompanyModal() {
+    setCompanyModalIsOpen(false);
+    setCompanyModalInitialTab("Basic");
   }
 
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
@@ -129,11 +139,11 @@ const ProfileEmployer = ({ generalInfo }) => {
       <p className="text-2xl">{developerInfo.current.name?.[lang]}</p>
       <div className="flex flex-col items-center space-y-1 font-bold text-gray-600">
         {developerInfo.current?.title?.[lang] && <p className="text-sm mb-1">{developerInfo.current?.title?.[lang]}</p>}
-        {developerInfo.current?.company?.[lang] && (
+        {generalInfo?.company && (
           <div className="flex items-center text-sm -mr-3">
             <p className="mr-1">at</p>
             <button className="text-green-700 hover:underline filter hover:brightness-125">
-              {developerInfo.current?.company?.[lang]}
+              {generalInfo.company?.company_name}
             </button>
             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
           </div>
@@ -209,7 +219,7 @@ const ProfileEmployer = ({ generalInfo }) => {
             icon={<IoLocationSharp />}
           />
           <SummaryCell
-            value={moment(generalInfo.user_created_at).format("YYYY.MM.DD")}
+            value={moment(generalInfo.user.user_created_at).format("YYYY.MM.DD")}
             title={t("status6.title")}
             icon={<BiTime />}
           />
@@ -221,10 +231,59 @@ const ProfileEmployer = ({ generalInfo }) => {
   const RightPanel = () => {
     const Cell = ({ title, text }) => (
       <div className="flex text-sm">
-        <p className="w-24 text-left text-gray-500">{title}</p>
+        <p className="w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
         <p>{text}</p>
       </div>
     );
+    if (!hasCompany)
+      return (
+        <div
+          style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
+          className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
+        >
+          <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
+            <div className="flex items-center">
+              <AiOutlineExclamationCircle className="w-4 h-4" />
+              <p className="mx-1">Register your company</p>
+              <button
+                onClick={() => openCompanyModal()}
+                className="text-green-700 underline filter hover:brightness-125"
+              >
+                here
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center space-x-6">
+            <div className="w-32 h-32 bg-gray-100 rounded-lg"></div>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold bg-gradient-to-r from-gray-100 via-gray-100 to-white w-56 h-8 rounded"></p>
+              <p className="text-sm bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6 rounded"></p>
+            </div>
+          </div>
+
+          <div className="flex space-x-2 items-center">
+            <div className="h-7 w-1 bg-gray-600 rounded"></div>
+            <p className="text-2xl text-gray-600">기업소개</p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-64 h-6"></p>
+            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6"></p>
+          </div>
+
+          <div className="flex space-x-2 items-center">
+            <div className="h-7 w-1 bg-gray-600 rounded"></div>
+            <p className="text-2xl text-gray-600">기업정보</p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-64 h-6"></p>
+            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6"></p>
+          </div>
+
+          <div className="h-16" />
+        </div>
+      );
     return (
       <div
         style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
@@ -233,11 +292,11 @@ const ProfileEmployer = ({ generalInfo }) => {
         <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
           <p className="mr-1 font-bold">{developerInfo.current.name?.[lang]} - </p>
           {developerInfo.current?.title?.[lang] && <p className="">{developerInfo.current?.title?.[lang]}</p>}
-          {developerInfo.current?.company?.[lang] && (
+          {generalInfo?.company && (
             <div className="flex items-center">
               <p className="mx-1">at</p>
-              <button className="text-green-700 hover:underline filter hover:brightness-125">
-                {developerInfo.current?.company?.[lang]}
+              <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                {generalInfo.company?.company_name}
               </button>
               <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
             </div>
@@ -296,14 +355,20 @@ const ProfileEmployer = ({ generalInfo }) => {
 
   return (
     <>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} shouldCloseOnOverlayClick={false}>
+        <EditProfileModalEmployer initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
+      </Modal>
       <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        isOpen={companyModalIsOpen}
+        onRequestClose={closeCompanyModal}
         style={customStyles}
         shouldCloseOnOverlayClick={false}
       >
-        <EditProfileModalEmployer initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
+        <CompanyEditProfileModal
+          initialTab={companyModalInitialTab}
+          closeModal={closeCompanyModal}
+          developerInfo={developerInfo}
+        />
       </Modal>
 
       <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
