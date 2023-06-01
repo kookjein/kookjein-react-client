@@ -241,18 +241,20 @@ const ProfileEmployer = ({ generalInfo }) => {
           style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
           className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
         >
-          <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
-            <div className="flex items-center">
-              <AiOutlineExclamationCircle className="w-4 h-4" />
-              <p className="mx-1">Register your company</p>
-              <button
-                onClick={() => openCompanyModal()}
-                className="text-green-700 underline filter hover:brightness-125"
-              >
-                here
-              </button>
+          {isMyProfile && (
+            <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
+              <div className="flex items-center">
+                <AiOutlineExclamationCircle className="w-4 h-4" />
+                <p className="mx-1">Register your company</p>
+                <button
+                  onClick={() => openCompanyModal()}
+                  className="text-green-700 underline filter hover:brightness-125"
+                >
+                  here
+                </button>
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex items-center space-x-6">
             <div className="w-32 h-32 bg-gray-100 rounded-lg"></div>
             <div className="space-y-2">
