@@ -100,7 +100,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
               ],
             },
           },
-          { params: companyInfo?.current?.company?.company_id }
+          { params: {company_id: companyInfo?.current?.company?.company_id }}
         )
         .then((response) => {
           companyInfo.current = {
