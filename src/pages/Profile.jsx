@@ -458,7 +458,7 @@ const Profile = () => {
                 from={item.from}
                 to={item.to}
                 company={item.company}
-                title={item.title?.[userState.user.userLanguage]}
+                title={item.title?.[lang]}
                 desc={item.desc?.[lang]}
               />
             ))}
