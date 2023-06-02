@@ -144,7 +144,7 @@ const Profile = () => {
   const LeftPanel = () => (
     <div
       style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
-      className="w-full sm:w-96 flex sm:border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative pb-16"
+      className="w-full sm:w-96 flex sm:border-r flex-col items-center p-6 sm:p-8 space-y-6 flex-shrink-0 relative pb-16"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         {isMyProfile ? (
@@ -541,7 +541,8 @@ const Profile = () => {
   };
 
   if (!isLoading)
-    if (generalInfo.current.user.user_type === "employer") return <ProfileEmployer generalInfo={generalInfo.current} />;
+    if (generalInfo.current.user.user_type === "employer")
+      return <ProfileEmployer generalInfo={generalInfo.current} isMyProfile={isMyProfile} />;
     else
       return (
         <>

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import UploadProfile from "./UploadProfile";
 import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 // import { languageArray } from "../utils/arrays";
 import "../utils/datePicker.css";
 import "react-calendar/dist/Calendar.css";
+import UploadCompanyIcon from "./UploadCompanyIcon";
 
-const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
+const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo }) => {
   const { userState } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
@@ -63,60 +63,81 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
   };
 
   const BasicPanel = () => {
-    const [initialName, setInitialName] = useState(developerInfo?.current.name?.[userState.user.userLanguage] || "");
-    const [initialTitle, setInitialTitle] = useState(developerInfo?.current.title?.[userState.user.userLanguage] || "");
-    const [initialWebsite, setInitialWebsite] = useState(
-      developerInfo?.current.website?.[userState.user.userLanguage] || ""
+    const [initialImage, setInitialImage] = useState(companyInfo?.current?.company.company_info[0]?.img || "");
+    const [initialName, setInitialName] = useState(companyInfo?.current?.company.company_info[0]?.name || "");
+    const [initialWebsite, setInitialWebsite] = useState(companyInfo?.current?.company.company_info[0]?.website || "");
+    const [initialIndustry, setInitialIndustry] = useState(
+      companyInfo?.current?.company.company_info[0]?.industry || ""
     );
-    const [initialIntro, setInitialIntro] = useState(
-      developerInfo?.current.oneLiner?.[userState.user.userLanguage] || ""
-    );
+    const [initialIntro, setInitialIntro] = useState(companyInfo?.current?.company.company_info[0]?.intro || "");
+    const [image, setImage] = useState(initialImage);
     const [name, setName] = useState(initialName);
-    const [title, setTitle] = useState(initialTitle);
     const [website, setWebsite] = useState(initialWebsite);
+    const [industry, setIndustry] = useState(initialIndustry);
     const [intro, setIntro] = useState(initialIntro);
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const maxLength = 2000;
 
-    const saveBasic = () => {
+    const createCompany = () => {
       setLoading(true);
       axios
-        .post(`/v1/user/me`, {
-          user: {
-            user_profile: [
+        .post(`/v1/company/`, {
+          company: {
+            company_info: [
               {
-                ...(initialTitle !== title && { title: { [userState.user.userLanguage]: title } }),
-                ...(initialName !== name && { name: { [userState.user.userLanguage]: name } }),
-                ...(initialIntro !== intro && { oneLiner: { [userState.user.userLanguage]: intro } }),
+                ...(initialImage !== image && { img: image }),
+                ...(initialName !== name && { name: name }),
+                ...(initialWebsite !== website && { website: website }),
+                ...(initialIndustry !== industry && { industry: { [userState.user.userLanguage]: industry } }),
+                ...(initialIntro !== intro && { intro: { [userState.user.userLanguage]: intro } }),
               },
             ],
           },
         })
         .then((response) => {
-          developerInfo.current = {
-            ...developerInfo.current,
-            ...(initialTitle !== title && { title: { [userState.user.userLanguage]: title } }),
-            ...(initialName !== name && { name: { [userState.user.userLanguage]: name } }),
-            ...(initialIntro !== intro && { oneLiner: { [userState.user.userLanguage]: intro } }),
+          companyInfo.current = {
+            ...companyInfo.current,
+            ...{
+              company: {
+                company_info: [
+                  {
+                    ...companyInfo.current?.company.company_info[0],
+                    ...(initialImage !== image && { img: image }),
+                    ...(initialName !== name && { name: name }),
+                    ...(initialWebsite !== website && { website: website }),
+                    ...(initialIndustry !== industry && { industry: { [userState.user.userLanguage]: industry } }),
+                    ...(initialIntro !== intro && { intro: { [userState.user.userLanguage]: intro } }),
+                  },
+                ],
+              },
+            },
           };
           setInitialName(name);
-          setInitialTitle(title);
-          setInitialIntro(intro);
           setInitialWebsite(website);
+          setInitialIndustry(industry);
+          setInitialIntro(intro);
+          setInitialImage(image);
           setSaved(true);
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
+          console.log("CREATE COMPANY ERROR: ", error);
           setLoading(false);
         });
     };
 
     useEffect(() => {
       if (name) {
-        if ((initialName !== name || initialTitle !== title || initialIntro !== intro) && intro.length <= maxLength) {
+        if (
+          (initialName !== name ||
+            initialWebsite !== website ||
+            initialIndustry !== industry ||
+            initialIntro !== intro ||
+            initialImage !== image) &&
+          intro.length <= maxLength
+        ) {
           setSaved(false);
           setLoading(false);
           setReady(true);
@@ -128,7 +149,18 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
         setReady(false);
         setLoading(false);
       };
-    }, [name, title, intro, initialName, initialTitle, initialIntro]);
+    }, [
+      name,
+      website,
+      industry,
+      intro,
+      image,
+      initialName,
+      initialWebsite,
+      initialIndustry,
+      initialIntro,
+      initialImage,
+    ]);
 
     return (
       <div className="relative w-full">
@@ -139,7 +171,14 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
           </div>
 
           <div className="flex items-end mb-6 relative space-x-2">
-            <UploadProfile width={"9rem"} height={"9rem"} developerInfo={developerInfo} borderRadius={"0.2rem"} />
+            <UploadCompanyIcon
+              width={"9rem"}
+              height={"9rem"}
+              companyInfo={companyInfo}
+              borderRadius={"0.2rem"}
+              setImage={setImage}
+              image={image}
+            />
           </div>
 
           <div className="text-sm text-gray-500 mb-2">Company name*</div>
@@ -160,8 +199,8 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
           <input
             placeholder="e.g. Internet Software & Services"
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
           />
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
@@ -179,13 +218,13 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
             onChange={(e) => setIntro(e.target.value)}
           />
         </div>
-        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveBasic} isLoading={isLoading} />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={createCompany} isLoading={isLoading} />
       </div>
     );
   };
 
   const SkillsetPanel = () => {
-    const [initialLang, setInitialLang] = useState(developerInfo?.current.lang || []);
+    const [initialLang, setInitialLang] = useState(companyInfo?.current.lang || []);
     const [lang] = useState(initialLang);
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
@@ -200,8 +239,8 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, developerIn
           },
         })
         .then((response) => {
-          developerInfo.current = {
-            ...developerInfo.current,
+          companyInfo.current = {
+            ...companyInfo.current,
             ...(initialLang !== lang && { lang: lang }),
           };
           setInitialLang(lang);

@@ -6,10 +6,8 @@ import { BiTime } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import {
-  // Link,
-  useParams,
-} from "react-router-dom";
+import // Link,
+"react-router-dom";
 import Modal from "react-modal";
 import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
@@ -20,28 +18,39 @@ import moment from "moment/moment";
 import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
+import axios from "../utils/authAxios";
 
-const ProfileEmployer = ({ generalInfo }) => {
+const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const developerInfo = useRef(generalInfo.user.user_profile[0]);
+  const companyInfo = useRef();
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("developerProfile");
-  const { userId } = useParams();
-  const [isMyProfile, setIsMyProfile] = useState(false);
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
   const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
-  const [hasCompany] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    setIsMyProfile(userState.user?.userId === parseInt(userId));
-  }, [userState, userId]);
-
-  useEffect(() => {
-    Modal.setAppElement("body");
+    setLoading(true);
+    if (generalInfo.company?.company_id) {
+      axios
+        .get(`/v1/company/`, { params: { company_id: generalInfo.company?.company_id } })
+        .then((response) => {
+          console.log(response.data);
+          companyInfo.current = response.data;
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log("V1/USER/ ERROR : ", e);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
     return () => {};
-  }, []);
+  }, [generalInfo.company?.company_id]);
 
   const customStyles = {
     content: {
@@ -143,7 +152,7 @@ const ProfileEmployer = ({ generalInfo }) => {
           <div className="flex items-center text-sm -mr-3">
             <p className="mr-1">at</p>
             <button className="text-green-700 hover:underline filter hover:brightness-125">
-              {generalInfo.company?.company_name}
+              {companyInfo.current?.company?.company_info[0]?.name}
             </button>
             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
           </div>
@@ -235,7 +244,7 @@ const ProfileEmployer = ({ generalInfo }) => {
         <p>{text}</p>
       </div>
     );
-    if (!hasCompany)
+    if (!companyInfo.current)
       return (
         <div
           style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
@@ -292,15 +301,28 @@ const ProfileEmployer = ({ generalInfo }) => {
         className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
       >
         <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
-          <p className="mr-1 font-bold">{developerInfo.current.name?.[lang]} - </p>
-          {developerInfo.current?.title?.[lang] && <p className="">{developerInfo.current?.title?.[lang]}</p>}
+          <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
+          {developerInfo.current?.title?.[lang] && (
+            <p className="flex-shrink-0">{developerInfo.current?.title?.[lang]}</p>
+          )}
           {generalInfo?.company && (
-            <div className="flex items-center">
+            <div className="flex items-center flex-shrink-0">
               <p className="mx-1">at</p>
               <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
-                {generalInfo.company?.company_name}
+                {companyInfo.current?.company?.company_info[0]?.name}
               </button>
               <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+            </div>
+          )}
+          {isMyProfile && (
+            <div className="flex items-center justify-end w-full mr-3">
+              <p className="mx-1">Edit your company info</p>
+              <button
+                onClick={() => openCompanyModal()}
+                className="text-green-700 underline filter hover:brightness-125"
+              >
+                here
+              </button>
             </div>
           )}
         </div>
@@ -308,7 +330,7 @@ const ProfileEmployer = ({ generalInfo }) => {
         <div className="flex items-center space-x-6">
           <div className="w-32 h-32 bg-gray-100 rounded-lg"></div>
           <div className="space-y-2">
-            <p className="text-3xl font-bold">푸르모디티</p>
+            <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
             <p className="text-sm">영화·음반·배급</p>
           </div>
         </div>
@@ -355,34 +377,39 @@ const ProfileEmployer = ({ generalInfo }) => {
     );
   };
 
-  return (
-    <>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} shouldCloseOnOverlayClick={false}>
-        <EditProfileModalEmployer initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
-      </Modal>
-      <Modal
-        isOpen={companyModalIsOpen}
-        onRequestClose={closeCompanyModal}
-        style={customStyles}
-        shouldCloseOnOverlayClick={false}
-      >
-        <CompanyEditProfileModal
-          initialTab={companyModalInitialTab}
-          closeModal={closeCompanyModal}
-          developerInfo={developerInfo}
-        />
-      </Modal>
+  if (!isLoading)
+    return (
+      <>
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} shouldCloseOnOverlayClick={false}>
+          <EditProfileModalEmployer
+            initialTab={modalInitialTab}
+            closeModal={closeModal}
+            developerInfo={developerInfo}
+          />
+        </Modal>
+        <Modal
+          isOpen={companyModalIsOpen}
+          onRequestClose={closeCompanyModal}
+          style={customStyles}
+          shouldCloseOnOverlayClick={false}
+        >
+          <CompanyEditProfileModal
+            initialTab={companyModalInitialTab}
+            closeModal={closeCompanyModal}
+            companyInfo={companyInfo}
+          />
+        </Modal>
 
-      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-        <Navbar2 light />
-        <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
-          <LeftPanel />
-          <RightPanel />
+        <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
+          <Navbar2 light />
+          <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+            <LeftPanel />
+            <RightPanel />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </>
-  );
+      </>
+    );
 };
 
 export default ProfileEmployer;
