@@ -67,9 +67,11 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
     const [initialName, setInitialName] = useState(companyInfo?.current?.company.company_info[0]?.name || "");
     const [initialWebsite, setInitialWebsite] = useState(companyInfo?.current?.company.company_info[0]?.website || "");
     const [initialIndustry, setInitialIndustry] = useState(
-      companyInfo?.current?.company.company_info[0]?.industry || ""
+      companyInfo?.current?.company.company_info[0]?.industry?.[userState.user.userLanguage] || ""
     );
-    const [initialIntro, setInitialIntro] = useState(companyInfo?.current?.company.company_info[0]?.intro || "");
+    const [initialIntro, setInitialIntro] = useState(
+      companyInfo?.current?.company.company_info[0]?.intro?.[userState.user.userLanguage] || ""
+    );
     const [image, setImage] = useState(initialImage);
     const [name, setName] = useState(initialName);
     const [website, setWebsite] = useState(initialWebsite);
@@ -80,22 +82,26 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
     const [isLoading, setLoading] = useState(false);
     const maxLength = 2000;
 
-    const createCompany = () => {
+    const editCompany = () => {
       setLoading(true);
       axios
-        .post(`/v1/company/`, {
-          company: {
-            company_info: [
-              {
-                ...(initialImage !== image && { img: image }),
-                ...(initialName !== name && { name: name }),
-                ...(initialWebsite !== website && { website: website }),
-                ...(initialIndustry !== industry && { industry: { [userState.user.userLanguage]: industry } }),
-                ...(initialIntro !== intro && { intro: { [userState.user.userLanguage]: intro } }),
-              },
-            ],
+        .post(
+          `/v1/company/update`,
+          {
+            company: {
+              company_info: [
+                {
+                  ...(initialImage !== image && { img: image }),
+                  ...(initialName !== name && { name: name }),
+                  ...(initialWebsite !== website && { website: website }),
+                  ...(initialIndustry !== industry && { industry: { [userState.user.userLanguage]: industry } }),
+                  ...(initialIntro !== intro && { intro: { [userState.user.userLanguage]: intro } }),
+                },
+              ],
+            },
           },
-        })
+          { params: companyInfo?.current?.company?.company_id }
+        )
         .then((response) => {
           companyInfo.current = {
             ...companyInfo.current,
@@ -103,7 +109,6 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
               company: {
                 company_info: [
                   {
-                    ...companyInfo.current?.company.company_info[0],
                     ...(initialImage !== image && { img: image }),
                     ...(initialName !== name && { name: name }),
                     ...(initialWebsite !== website && { website: website }),
@@ -123,7 +128,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CREATE COMPANY ERROR: ", error);
+          console.log("EDIT COMPANY ERROR: ", error);
           setLoading(false);
         });
     };
@@ -218,43 +223,108 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
             onChange={(e) => setIntro(e.target.value)}
           />
         </div>
-        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={createCompany} isLoading={isLoading} />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={editCompany} isLoading={isLoading} />
       </div>
     );
   };
 
   const SkillsetPanel = () => {
-    const [initialLang, setInitialLang] = useState(companyInfo?.current.lang || []);
-    const [lang] = useState(initialLang);
+    const [initialType, setInitialType] = useState(companyInfo?.current?.company.company_info[0]?.type || "");
+    const [initialCEO, setInitialCEO] = useState(companyInfo?.current?.company.company_info[0]?.ceo || "");
+    const [initialFunding, setInitialFunding] = useState(companyInfo?.current?.company.company_info[0]?.funding || "");
+    const [initialEmployees, setInitialEmployees] = useState(
+      companyInfo?.current?.company.company_info[0]?.employees || ""
+    );
+    const [initialFoundingDate, setInitialFoundingDate] = useState(
+      companyInfo?.current?.company.company_info[0]?.founding_date || ""
+    );
+    const [initialRevenue, setInitialRevenue] = useState(companyInfo?.current?.company.company_info[0]?.revenue || "");
+    const [initialService, setInitialService] = useState(companyInfo?.current?.company.company_info[0]?.service || "");
+    const [initialAddress, setInitialAddress] = useState(companyInfo?.current?.company.company_info[0]?.address || "");
+    const [type, setType] = useState(initialType);
+    const [ceo, setCeo] = useState(initialCEO);
+    const [funding, setFunding] = useState(initialFunding);
+    const [employees, setEmployees] = useState(initialEmployees);
+    const [foundingDate, setFoundingDate] = useState(initialFoundingDate);
+    const [revenue, setRevenue] = useState(initialRevenue);
+    const [service, setService] = useState(initialService);
+    const [address, setAddress] = useState(initialAddress);
+
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
-    const saveSkills = () => {
+    const saveDetails = () => {
       setLoading(true);
       axios
-        .post(`/v1/user/me`, {
-          user: {
-            user_profile: [{ ...(initialLang !== lang && { lang: lang }) }],
+        .post(
+          `/v1/company/update/`,
+          {
+            company: {
+              company_info: [
+                {
+                  ...(initialType !== type && { type: type }),
+                  ...(initialCEO !== ceo && { ceo: ceo }),
+                  ...(initialFunding !== funding && { funding: funding }),
+                  ...(initialEmployees !== employees && { employees: employees }),
+                  ...(initialFoundingDate !== foundingDate && { foundingDate: foundingDate }),
+                  ...(initialRevenue !== revenue && { revenue: revenue }),
+                  ...(initialService !== service && { service: service }),
+                  ...(initialAddress !== address && { address: address }),
+                },
+              ],
+            },
           },
-        })
+          { params: companyInfo?.current?.company?.company_id }
+        )
         .then((response) => {
           companyInfo.current = {
             ...companyInfo.current,
-            ...(initialLang !== lang && { lang: lang }),
+            ...{
+              company: {
+                company_info: [
+                  {
+                    ...(initialType !== type && { type: type }),
+                    ...(initialCEO !== ceo && { ceo: ceo }),
+                    ...(initialFunding !== funding && { funding: funding }),
+                    ...(initialEmployees !== employees && { employees: employees }),
+                    ...(initialFoundingDate !== foundingDate && { foundingDate: foundingDate }),
+                    ...(initialRevenue !== revenue && { revenue: revenue }),
+                    ...(initialService !== service && { service: service }),
+                    ...(initialAddress !== address && { address: address }),
+                  },
+                ],
+              },
+            },
           };
-          setInitialLang(lang);
+          setInitialType(type);
+          setInitialCEO(ceo);
+          setInitialFunding(funding);
+          setInitialEmployees(employees);
+          setInitialFoundingDate(foundingDate);
+          setInitialRevenue(revenue);
+          setInitialService(service);
+          setInitialAddress(address);
           setSaved(true);
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
+          console.log("EDIT COMPANY ERROR: ", error);
           setLoading(false);
         });
     };
 
     useEffect(() => {
-      if (initialLang !== lang) {
+      if (
+        initialType !== type ||
+        initialCEO !== ceo ||
+        initialFunding !== funding ||
+        initialEmployees !== employees ||
+        initialFoundingDate !== foundingDate ||
+        initialRevenue !== revenue ||
+        initialService !== service ||
+        initialAddress !== address
+      ) {
         setSaved(false);
         setLoading(false);
         setReady(true);
@@ -265,7 +335,24 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
         setReady(false);
         setLoading(false);
       };
-    }, [lang, initialLang]);
+    }, [
+      type,
+      ceo,
+      funding,
+      employees,
+      foundingDate,
+      revenue,
+      service,
+      address,
+      initialType,
+      initialCEO,
+      initialFunding,
+      initialEmployees,
+      initialFoundingDate,
+      initialRevenue,
+      initialService,
+      initialAddress,
+    ]);
 
     return (
       <div className="relative w-full">
@@ -275,23 +362,53 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
           <input
             placeholder="e.g. Start-up, SME"
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
           />
           <div className="text-sm text-gray-500 mb-2">CEO</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={ceo}
+            onChange={(e) => setCeo(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Initial Funding</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={funding}
+            onChange={(e) => setFunding(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Number of employees</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={employees}
+            onChange={(e) => setEmployees(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Founding date</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={foundingDate}
+            onChange={(e) => setFoundingDate(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Revenue</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={revenue}
+            onChange={(e) => setRevenue(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Main service</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+          />
           <div className="text-sm text-gray-500 mb-2">Address</div>
-          <input className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700" />
+          <input
+            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
         </div>
-        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveSkills} isLoading={isLoading} />
+        <SaveComponent isReady={isReady} isSaved={isSaved} onPress={saveDetails} isLoading={isLoading} />
       </div>
     );
   };

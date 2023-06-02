@@ -19,6 +19,8 @@ import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
 import axios from "../utils/authAxios";
+import CompanyCreateModal from "../components/CompanyCreateModal";
+import { Link } from "react-router-dom";
 
 const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const developerInfo = useRef(generalInfo.user.user_profile[0]);
@@ -28,6 +30,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
+  const [createCompanyModalIsOpen, setCreateCompanyModalIsOpen] = useState(false);
   const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
   const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
@@ -84,6 +87,14 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   function closeCompanyModal() {
     setCompanyModalIsOpen(false);
     setCompanyModalInitialTab("Basic");
+  }
+
+  function openCreateCompanyModal() {
+    setCreateCompanyModalIsOpen(true);
+  }
+
+  function closeCreateCompanyModal() {
+    setCreateCompanyModalIsOpen(false);
   }
 
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
@@ -238,12 +249,15 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   );
 
   const RightPanel = () => {
-    const Cell = ({ title, text }) => (
-      <div className="flex text-sm">
-        <p className="w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
-        <p>{text}</p>
-      </div>
-    );
+    const Cell = ({ title, text }) => {
+      if (text)
+        return (
+          <div className="flex text-sm">
+            <p className="w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
+            <p>{text}</p>
+          </div>
+        );
+    };
     if (!companyInfo.current)
       return (
         <div
@@ -256,7 +270,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
                 <AiOutlineExclamationCircle className="w-4 h-4" />
                 <p className="mx-1">Register your company</p>
                 <button
-                  onClick={() => openCompanyModal()}
+                  onClick={() => openCreateCompanyModal()}
                   className="text-green-700 underline filter hover:brightness-125"
                 >
                   here
@@ -298,7 +312,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
     return (
       <div
         style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
+        className="w-full flex h-full flex-col p-8 space-y-8 px-12 relative"
       >
         <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
           <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
@@ -328,10 +342,27 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
         </div>
 
         <div className="flex items-center space-x-6">
-          <div className="w-32 h-32 bg-gray-100 rounded-lg"></div>
+          <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
+            <img
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = DefaultImage;
+              }}
+              src={companyInfo.current?.company?.company_info[0]?.img || DefaultImage}
+              alt=""
+              draggable={false}
+              className="hover:cursor-pointer object-cover h-32 w-32 border"
+            />
+          </div>
           <div className="space-y-2">
             <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
-            <p className="text-sm">영화·음반·배급</p>
+            <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
+            <a
+              href={companyInfo.current?.company?.company_info[0]?.website}
+              className="text-sm text-sky-600 hover:text-sky-500"
+            >
+              {companyInfo.current?.company?.company_info[0]?.website}{" "}
+            </a>
           </div>
         </div>
 
@@ -340,14 +371,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           <p className="text-2xl text-gray-600">기업소개</p>
         </div>
 
-        <p className="">
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-          푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티 푸르모디티
-        </p>
+        <p className="">{companyInfo.current?.company?.company_info[0]?.intro?.[lang]}</p>
 
         <div className="flex space-x-2 items-center">
           <div className="h-7 w-1 bg-gray-600 rounded"></div>
@@ -355,22 +379,58 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
         </div>
 
         <div className="p-8 border rounded-lg grid grid-cols-2 gap-4">
-          <Cell title="산업" text="영화·음반·배급" />
-          <Cell title="사원수" text="20명" />
-          <Cell title="기업구분" text="중소기업" />
-          <Cell title="설립일" text="2004" />
-          <Cell title="자본금" text="1억 6,000만원" />
-          <Cell title="매출액" text="20억" />
-          <Cell title="대표자" text="장규호" />
-          <Cell title="주요사업" text="방송프로그램 재제작, 영상번역" />
-          <Cell title="홈페이지" text="http://www.furmo.co.kr" />
-          <Cell title="주소" text="서울 영등포구 영등포동7가 94-282 수석빌딩 2층" />
+          <Cell title="산업" text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
+          <Cell title="사원수" text={companyInfo.current?.company?.company_info[0]?.employee} />
+          <Cell title="기업구분" text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
+          <Cell title="설립일" text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
+          <Cell title="자본금" text={companyInfo.current?.company?.company_info[0]?.funding} />
+          <Cell title="매출액" text={companyInfo.current?.company?.company_info[0]?.revenue} />
+          <Cell title="대표자" text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
+          <Cell title="주요사업" text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
+          <Cell title="홈페이지" text={companyInfo.current?.company?.company_info[0]?.website} />
+          <Cell title="주소" text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
         </div>
 
-        <div className="flex space-x-2 items-center">
-          <div className="h-7 w-1 bg-gray-600 rounded"></div>
-          <p className="text-2xl text-gray-600">국제인 등록 직원</p>
-        </div>
+        {companyInfo.current?.users.length > 0 && (
+          <div className="w-full">
+            <div className="flex space-x-2 items-center mb-4">
+              <div className="h-7 w-1 bg-gray-600 rounded"></div>
+              <p className="text-2xl text-gray-600">국제인 등록 직원</p>
+            </div>
+
+            {companyInfo.current?.users.map((item, index) => (
+              <Link key={item.user_id} to={`/user/${item.user_id}`} className="w-full">
+                <button className="py-3 border-b flex items-center hover:bg-gray-100 transition px-3 w-full">
+                  <img
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = DefaultImage;
+                    }}
+                    src={item.user_img || DefaultImage}
+                    alt=""
+                    draggable={false}
+                    className="hover:cursor-pointer object-cover h-12 w-12 rounded-full border"
+                  />
+                  <div className="ml-4 flex flex-col">
+                    <p className="font-bold text-left">{item.user_profile[0].name?.[lang]}</p>
+                    <div className="flex items-center text-gray-600 text-xs">
+                      {developerInfo.current?.title?.[lang] && <p>{developerInfo.current?.title?.[lang]}</p>}
+                      {generalInfo?.company && (
+                        <div className="flex items-center flex-shrink-0">
+                          <p className="mx-1">at</p>
+                          <div className="text-green-700 hover:underline filter hover:brightness-125">
+                            {companyInfo.current?.company?.company_info[0]?.name}
+                          </div>
+                          <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              </Link>
+            ))}
+          </div>
+        )}
 
         <div className="h-16" />
       </div>
@@ -398,6 +458,15 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             closeModal={closeCompanyModal}
             companyInfo={companyInfo}
           />
+        </Modal>
+
+        <Modal
+          isOpen={createCompanyModalIsOpen}
+          onRequestClose={closeCreateCompanyModal}
+          style={customStyles}
+          shouldCloseOnOverlayClick={false}
+        >
+          <CompanyCreateModal closeModal={closeCreateCompanyModal} companyInfo={companyInfo} />
         </Modal>
 
         <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
