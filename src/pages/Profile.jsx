@@ -144,7 +144,7 @@ const Profile = () => {
   const LeftPanel = () => (
     <div
       style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
-      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative pb-16"
+      className="w-full sm:w-96 flex sm:border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative pb-16"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         {isMyProfile ? (
@@ -401,7 +401,7 @@ const Profile = () => {
     return (
       <div
         style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
-        className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
+        className="w-full flex h-full flex-col p-8 space-y-6 px-6 sm:px-12 relative"
       >
         {generalInfo.current?.company && (
           <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
@@ -558,7 +558,7 @@ const Profile = () => {
 
           <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
             <Navbar2 light />
-            <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+            <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
               <LeftPanel />
               <RightPanel />
             </div>
