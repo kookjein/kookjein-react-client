@@ -6,10 +6,13 @@ import axios from "../utils/authAxios";
 import "../utils/datePicker.css";
 import "react-calendar/dist/Calendar.css";
 import UploadCompanyIcon from "./UploadCompanyIcon";
+import DatePicker from "react-date-picker";
+import { useTranslation } from "react-i18next";
 
 const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo }) => {
   const { userState } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState(initialTab);
+  const { t } = useTranslation("companyEditProfileModal");
 
   useEffect(() => {
     console.log("MODAL OPEN");
@@ -21,13 +24,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
       <p className="text-green-700 text-sm">
-        {isSaved
-          ? "Saved!"
-          : isLoading
-          ? "Saving..."
-          : isReady
-          ? "Make sure to save your changes before changing tabs."
-          : ""}
+        {isSaved ? t("saved") : isLoading ? t("saving") : isReady ? t("saveDesc") : ""}
       </p>
       <button
         onClick={onPress}
@@ -36,28 +33,28 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
           !isReady || isLoading || isSaved ? "bg-gray-300 text-white" : "bg-green-700 text-white shadow-lg"
         }`}
       >
-        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : "Save"}
+        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : t("save")}
       </button>
     </div>
   );
 
   const LeftPanel = () => {
-    const TabButton = ({ title }) => (
+    const TabButton = ({ type, title }) => (
       <button
-        onClick={() => setSelectedTab(title)}
+        onClick={() => setSelectedTab(type)}
         className={`${
-          selectedTab === title ? "text-green-800 font-bold" : "text-gray-500 hover:bg-gray-200"
+          selectedTab === type ? "text-green-800 font-bold" : "text-gray-500 hover:bg-gray-200"
         } h-10 flex items-center text-sm relative w-full`}
       >
-        {selectedTab === title && <div className="absoulte left-0 h-5 w-1 bg-green-700 rounded-r"></div>}
+        {selectedTab === type && <div className="absoulte left-0 h-5 w-1 bg-green-700 rounded-r"></div>}
         <p className="px-6">{title}</p>
       </button>
     );
     return (
       <div style={{ height: "calc(100vh - 11.5rem)" }} className="w-48 border-r bg-gray-50 py-2 flex-shrink-0">
-        <div className="h-10 flex items-center px-4 text-sm font-bold">Profile</div>
-        <TabButton title={"Basic"} />
-        <TabButton title={"Detail"} />
+        <div className="h-10 flex items-center px-4 text-sm font-bold">{t("company")}</div>
+        <TabButton type="Basic" title={t("basic")} />
+        <TabButton type="Detail" title={t("detail")} />
       </div>
     );
   };
@@ -107,8 +104,10 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
             ...companyInfo.current,
             ...{
               company: {
+                ...companyInfo.current.company,
                 company_info: [
                   {
+                    ...companyInfo.current.company.company_info[0],
                     ...(initialImage !== image && { img: image }),
                     ...(initialName !== name && { name: name }),
                     ...(initialWebsite !== website && { website: website }),
@@ -170,9 +169,9 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-16" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Update basic information about your company</p>
+          <p className="mb-4 text-gray-700">{t("title1")}</p>
           <div className="text-sm text-gray-500 mb-2 ">
-            Compnay Logo <div className="text-xs text-green-700 inline"> - 320px * 320px Recommended</div>
+            {t("image")} <div className="text-xs text-green-700 inline"> {t("imageSubtitle")}</div>
           </div>
 
           <div className="flex items-end mb-6 relative space-x-2">
@@ -186,13 +185,13 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
             />
           </div>
 
-          <div className="text-sm text-gray-500 mb-2">Company name*</div>
+          <div className="text-sm text-gray-500 mb-2">{t("fullname")}*</div>
           <input
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Website</div>
+          <div className="text-sm text-gray-500 mb-2">{t("webiste")}</div>
           <input
             placeholder="e.g. https://www.kookjein.com"
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -200,7 +199,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
             onChange={(e) => setWebsite(e.target.value)}
           />
 
-          <div className="text-sm text-gray-500 mb-2">Industry</div>
+          <div className="text-sm text-gray-500 mb-2">{t("industry")}</div>
           <input
             placeholder="e.g. Internet Software & Services"
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -209,7 +208,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
           />
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-            <p>Introduction</p>
+            <p>{t("intro")}</p>
             <p className={`${intro.length > maxLength && " text-red-500"} text-xs`}>
               {intro.length} / {maxLength}
             </p>
@@ -229,18 +228,26 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
   };
 
   const SkillsetPanel = () => {
-    const [initialType, setInitialType] = useState(companyInfo?.current?.company.company_info[0]?.type || "");
-    const [initialCEO, setInitialCEO] = useState(companyInfo?.current?.company.company_info[0]?.ceo || "");
+    const [initialType, setInitialType] = useState(
+      companyInfo?.current?.company.company_info[0]?.type?.[userState.user.userLanguage] || ""
+    );
+    const [initialCEO, setInitialCEO] = useState(
+      companyInfo?.current?.company.company_info[0]?.ceo?.[userState.user.userLanguage] || ""
+    );
     const [initialFunding, setInitialFunding] = useState(companyInfo?.current?.company.company_info[0]?.funding || "");
     const [initialEmployees, setInitialEmployees] = useState(
       companyInfo?.current?.company.company_info[0]?.employees || ""
     );
     const [initialFoundingDate, setInitialFoundingDate] = useState(
-      companyInfo?.current?.company.company_info[0]?.founding_date || ""
+      companyInfo?.current?.company.company_info[0]?.foundingDate || new Date()
     );
     const [initialRevenue, setInitialRevenue] = useState(companyInfo?.current?.company.company_info[0]?.revenue || "");
-    const [initialService, setInitialService] = useState(companyInfo?.current?.company.company_info[0]?.service || "");
-    const [initialAddress, setInitialAddress] = useState(companyInfo?.current?.company.company_info[0]?.address || "");
+    const [initialService, setInitialService] = useState(
+      companyInfo?.current?.company.company_info[0]?.service?.[userState.user.userLanguage] || ""
+    );
+    const [initialAddress, setInitialAddress] = useState(
+      companyInfo?.current?.company.company_info[0]?.address?.[userState.user.userLanguage] || ""
+    );
     const [type, setType] = useState(initialType);
     const [ceo, setCeo] = useState(initialCEO);
     const [funding, setFunding] = useState(initialFunding);
@@ -282,8 +289,10 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
             ...companyInfo.current,
             ...{
               company: {
+                ...companyInfo.current.company,
                 company_info: [
                   {
+                    ...companyInfo.current.company.company_info[0],
                     ...(initialType !== type && { type: type }),
                     ...(initialCEO !== ceo && { ceo: ceo }),
                     ...(initialFunding !== funding && { funding: funding }),
@@ -297,6 +306,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
               },
             },
           };
+          console.log(companyInfo.current);
           setInitialType(type);
           setInitialCEO(ceo);
           setInitialFunding(funding);
@@ -357,51 +367,57 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-24" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Detailed information about your company</p>
-          <div className="text-sm text-gray-500 mb-2">Company type</div>
+          <p className="mb-4 text-gray-700">{t("title2")}</p>
+
+          <div className="text-sm text-gray-500 mb-2">{t("type")}</div>
           <input
             placeholder="e.g. Start-up, SME"
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={type}
             onChange={(e) => setType(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">CEO</div>
+          <div className="text-sm text-gray-500 mb-2">{t("ceo")}</div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={ceo}
             onChange={(e) => setCeo(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Initial Funding</div>
+          <div className="text-sm text-gray-500 mb-2 ">
+            {t("funding")} <div className="text-xs text-green-700 inline"> {t("fundingSub")}</div>
+          </div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={funding}
+            type="number"
             onChange={(e) => setFunding(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Number of employees</div>
+          <div className="text-sm text-gray-500 mb-2 ">
+            {t("employees")} <div className="text-xs text-green-700 inline"> {t("employeesSub")}</div>
+          </div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={employees}
+            type="number"
             onChange={(e) => setEmployees(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Founding date</div>
-          <input
-            className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
-            value={foundingDate}
-            onChange={(e) => setFoundingDate(e.target.value)}
-          />
-          <div className="text-sm text-gray-500 mb-2">Revenue</div>
+          <div className="text-sm text-gray-500 mb-2">{t("founding")}</div>
+          <DatePicker className={"outline-green-700 mb-4"} onChange={setFoundingDate} value={foundingDate} />
+          <div className="text-sm text-gray-500 mb-2 ">
+            {t("revenue")} <div className="text-xs text-green-700 inline"> {t("revenueSub")}</div>
+          </div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={revenue}
+            type="number"
             onChange={(e) => setRevenue(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Main service</div>
+          <div className="text-sm text-gray-500 mb-2">{t("main")}</div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={service}
             onChange={(e) => setService(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Address</div>
+          <div className="text-sm text-gray-500 mb-2">{t("address")}</div>
           <input
             className="w-3/4 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={address}
@@ -416,7 +432,7 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
   return (
     <div style={{ width: "900px", height: "calc(100vh - 8rem)" }} className="">
       <div className="h-14 w-full border-b flex-shrink-0 flex items-center justify-between text-lg px-6">
-        <p>Edit Company Information</p>
+        <p>{t("edit")}</p>
         <div className="flex items-center space-x-6">
           <button onClick={closeModal} className="py-2">
             <RxCross2 className="w-7 h-7" />

@@ -9,3 +9,7 @@ export { default as navBar2 } from "./navBar2";
 export { default as developerProfile } from "./developerProfile";
 export { default as login } from "./login";
 export { default as signup } from "./signup";
+export { default as profileEmployer } from "./profileEmployer";
+export { default as employerEditProfileModal } from "./employerEditProfileModal";
+export { default as companyCreateModal } from "./companyCreateModal";
+export { default as companyEditProfileModal } from "./companyEditProfileModal";

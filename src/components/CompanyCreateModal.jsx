@@ -7,9 +7,11 @@ import "../utils/datePicker.css";
 import "react-calendar/dist/Calendar.css";
 import UploadCompanyIcon from "./UploadCompanyIcon";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 const CompanyCreateModal = ({ closeModal, companyInfo }) => {
   const { userState } = useContext(AuthContext);
+  const { t } = useTranslation("companyCreateModal");
 
   useEffect(() => {
     console.log("MODAL OPEN");
@@ -21,13 +23,7 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
       <p className="text-green-700 text-sm">
-        {isSaved
-          ? "Saved!"
-          : isLoading
-          ? "Saving..."
-          : isReady
-          ? "Make sure to save your changes before changing tabs."
-          : ""}
+        {isSaved ? t("saved") : isLoading ? t("saving") : isReady ? t("saveDesc") : ""}
       </p>
       <button
         onClick={onPress}
@@ -36,7 +32,7 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
           !isReady || isLoading || isSaved ? "bg-gray-300 text-white" : "bg-green-700 text-white shadow-lg"
         }`}
       >
-        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : "Save"}
+        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : t("save")}
       </button>
     </div>
   );
@@ -148,12 +144,12 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
       return (
         <div className="flex flex-col w-full h-full items-center justify-center space-y-8">
           <AiFillCheckCircle className="w-24 h-24 text-sky-500" />
-          <p>Successfully regiestered your company 🎉</p>
+          <p>{t("success")}</p>
           <button
             onClick={() => closeModal()}
             className="px-4 flex items-center justify-center h-10 bg-green-600 text-white rounded hover:bg-green-500 transition shadow border flex-shrink-0"
           >
-            Close
+            {t("close")}
           </button>
         </div>
       );
@@ -161,9 +157,9 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
       return (
         <div className="relative w-full">
           <div className="p-4 px-8 w-full overflow-y-auto pb-16" style={{ height: "calc(100vh - 11.5rem)" }}>
-            <p className="mb-4 text-gray-700">Add the following information to register your company</p>
+            <p className="mb-4 text-gray-700">{t("title1")}</p>
             <div className="text-sm text-gray-500 mb-2 ">
-              Compnay Logo <div className="text-xs text-green-700 inline"> - 320px * 320px Recommended</div>
+              {t("image")} <div className="text-xs text-green-700 inline"> {t("imageSubtitle")}</div>
             </div>
 
             <div className="flex items-end mb-6 relative space-x-2">
@@ -177,13 +173,13 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
               />
             </div>
 
-            <div className="text-sm text-gray-500 mb-2">Company name*</div>
+            <div className="text-sm text-gray-500 mb-2">{t("fullname")}*</div>
             <input
               className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <div className="text-sm text-gray-500 mb-2">Website</div>
+            <div className="text-sm text-gray-500 mb-2">{t("webiste")}</div>
             <input
               placeholder="e.g. https://www.kookjein.com"
               className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -191,7 +187,7 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
               onChange={(e) => setWebsite(e.target.value)}
             />
 
-            <div className="text-sm text-gray-500 mb-2">Industry</div>
+            <div className="text-sm text-gray-500 mb-2">{t("industry")}</div>
             <input
               placeholder="e.g. Internet Software & Services"
               className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -200,7 +196,7 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
             />
 
             <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-              <p>Introduction</p>
+              <p>{t("intro")}</p>
               <p className={`${intro.length > maxLength && " text-red-500"} text-xs`}>
                 {intro.length} / {maxLength}
               </p>
@@ -222,7 +218,7 @@ const CompanyCreateModal = ({ closeModal, companyInfo }) => {
   return (
     <div style={{ width: "900px", height: "calc(100vh - 8rem)" }} className="">
       <div className="h-14 w-full border-b flex-shrink-0 flex items-center justify-between text-lg px-6">
-        <p>Create company on Kookjein</p>
+        <p>{t("create")}</p>
         <div className="flex items-center space-x-6">
           <button onClick={closeModal} className="py-2">
             <RxCross2 className="w-7 h-7" />

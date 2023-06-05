@@ -26,7 +26,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const developerInfo = useRef(generalInfo.user.user_profile[0]);
   const companyInfo = useRef();
   const { userState } = useContext(AuthContext);
-  const { t, i18n } = useTranslation("developerProfile");
+  const { t, i18n } = useTranslation("profileEmployer");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
@@ -232,7 +232,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
       <div className="w-full space-y-4">
         <div className="w-full flex flex-col space-y-3">
-          <SummaryCell value={"구인중"} title={"구인 상태"} icon={<MdOutlineWork />} />
+          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<MdOutlineWork />} />
           <SummaryCell
             value={developerInfo.current?.country ? developerInfo.current?.country : t("status2.value1")}
             title={t("status2.title")}
@@ -254,7 +254,15 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
         return (
           <div className="flex text-sm">
             <p className="w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
-            <p>{text}</p>
+            {title === t("info.4") ? (
+              <p>{moment(text).format("YYYY.MM.DD")}</p>
+            ) : title === t("info.9") ? (
+              <a href={text} className="text-blue-500">
+                {text}
+              </a>
+            ) : (
+              <p>{text}</p>
+            )}
           </div>
         );
     };
@@ -268,12 +276,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
               <div className="flex items-center">
                 <AiOutlineExclamationCircle className="w-4 h-4" />
-                <p className="mx-1">Register your company</p>
+                <p className="mx-1">{t("createCompany")}</p>
                 <button
                   onClick={() => openCreateCompanyModal()}
                   className="text-green-700 underline filter hover:brightness-125"
                 >
-                  here
+                  {t("createHere")}
                 </button>
               </div>
             </div>
@@ -288,7 +296,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
           <div className="flex space-x-2 items-center">
             <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">기업소개</p>
+            <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
           </div>
 
           <div className="space-y-2">
@@ -298,7 +306,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
           <div className="flex space-x-2 items-center">
             <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">기업정보</p>
+            <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
           </div>
 
           <div className="space-y-2">
@@ -330,12 +338,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           )}
           {isMyProfile && (
             <div className="flex items-center justify-end w-full mr-3">
-              <p className="mx-1">Edit your company info</p>
+              <p className="mx-1">{t("editCompany")}</p>
               <button
                 onClick={() => openCompanyModal()}
                 className="text-green-700 underline filter hover:brightness-125"
               >
-                here
+                {t("here")}
               </button>
             </div>
           )}
@@ -368,34 +376,34 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
         <div className="flex space-x-2 items-center">
           <div className="h-7 w-1 bg-gray-600 rounded"></div>
-          <p className="text-2xl text-gray-600">기업소개</p>
+          <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
         </div>
 
         <p className="">{companyInfo.current?.company?.company_info[0]?.intro?.[lang]}</p>
 
         <div className="flex space-x-2 items-center">
           <div className="h-7 w-1 bg-gray-600 rounded"></div>
-          <p className="text-2xl text-gray-600">기업정보</p>
+          <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
         </div>
 
         <div className="p-8 border rounded-lg grid grid-cols-2 gap-4">
-          <Cell title="산업" text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
-          <Cell title="사원수" text={companyInfo.current?.company?.company_info[0]?.employee} />
-          <Cell title="기업구분" text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
-          <Cell title="설립일" text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
-          <Cell title="자본금" text={companyInfo.current?.company?.company_info[0]?.funding} />
-          <Cell title="매출액" text={companyInfo.current?.company?.company_info[0]?.revenue} />
-          <Cell title="대표자" text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
-          <Cell title="주요사업" text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
-          <Cell title="홈페이지" text={companyInfo.current?.company?.company_info[0]?.website} />
-          <Cell title="주소" text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
+          <Cell title={t("info.1")} text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
+          <Cell title={t("info.2")} text={companyInfo.current?.company?.company_info[0]?.employees} />
+          <Cell title={t("info.3")} text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
+          <Cell title={t("info.4")} text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
+          <Cell title={t("info.5")} text={companyInfo.current?.company?.company_info[0]?.funding} />
+          <Cell title={t("info.6")} text={companyInfo.current?.company?.company_info[0]?.revenue} />
+          <Cell title={t("info.7")} text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
+          <Cell title={t("info.8")} text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
+          <Cell title={t("info.9")} text={companyInfo.current?.company?.company_info[0]?.website} />
+          <Cell title={t("info.10")} text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
         </div>
 
         {companyInfo.current?.users.length > 0 && (
           <div className="w-full">
             <div className="flex space-x-2 items-center mb-4">
               <div className="h-7 w-1 bg-gray-600 rounded"></div>
-              <p className="text-2xl text-gray-600">국제인 등록 직원</p>
+              <p className="text-2xl text-gray-600">{t("companyEmployees")}</p>
             </div>
 
             {companyInfo.current?.users.map((item, index) => (

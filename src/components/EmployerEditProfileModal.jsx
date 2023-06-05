@@ -4,10 +4,12 @@ import UploadProfile from "./UploadProfile";
 import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 import { languageArray } from "../utils/arrays";
+import { useTranslation } from "react-i18next";
 
 const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const { userState } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState(initialTab);
+  const { t } = useTranslation("employerEditProfileModal");
 
   useEffect(() => {
     console.log("MODAL OPEN");
@@ -19,13 +21,7 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
       <p className="text-green-700 text-sm">
-        {isSaved
-          ? "Saved!"
-          : isLoading
-          ? "Saving..."
-          : isReady
-          ? "Make sure to save your changes before changing tabs."
-          : ""}
+        {isSaved ? t("saved") : isLoading ? t("saving") : isReady ? t("saveDesc") : ""}
       </p>
       <button
         onClick={onPress}
@@ -34,28 +30,28 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
           !isReady || isLoading || isSaved ? "bg-gray-300 text-white" : "bg-green-700 text-white shadow-lg"
         }`}
       >
-        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : "Save"}
+        {isLoading ? <div className="animate-ping h-5 w-5 rounded-full bg-white" /> : t("save")}
       </button>
     </div>
   );
 
   const LeftPanel = () => {
-    const TabButton = ({ title }) => (
+    const TabButton = ({ type, title }) => (
       <button
-        onClick={() => setSelectedTab(title)}
+        onClick={() => setSelectedTab(type)}
         className={`${
-          selectedTab === title ? "text-green-800 font-bold" : "text-gray-500 hover:bg-gray-200"
+          selectedTab === type ? "text-green-800 font-bold" : "text-gray-500 hover:bg-gray-200"
         } h-10 flex items-center text-sm relative w-full`}
       >
-        {selectedTab === title && <div className="absoulte left-0 h-5 w-1 bg-green-700 rounded-r"></div>}
+        {selectedTab === type && <div className="absoulte left-0 h-5 w-1 bg-green-700 rounded-r"></div>}
         <p className="px-6">{title}</p>
       </button>
     );
     return (
       <div style={{ height: "calc(100vh - 11.5rem)" }} className="w-48 border-r bg-gray-50 py-2 flex-shrink-0">
-        <div className="h-10 flex items-center px-4 text-sm font-bold">Profile</div>
-        <TabButton title={"Basic"} />
-        <TabButton title={"Skill sets"} />
+        <div className="h-10 flex items-center px-4 text-sm font-bold">{t("profile")}</div>
+        <TabButton type={"Basic"} title={t("basic")} />
+        <TabButton type={"Skill sets"} title={t("skillsets")} />
       </div>
     );
   };
@@ -126,22 +122,22 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Update your information representing your company</p>
+          <p className="mb-4 text-gray-700">{t("title1")}</p>
           <div className="text-sm text-gray-500 mb-2 ">
-            Profile image <div className="text-xs text-green-700 inline"> - 320px * 320px Recommended</div>
+            {t("image")} <div className="text-xs text-green-700 inline"> {t("imageSubtitle")}</div>
           </div>
 
           <div className="flex items-end mb-6 relative space-x-2">
             <UploadProfile width={"9rem"} height={"9rem"} developerInfo={developerInfo} borderRadius={"0.2rem"} />
           </div>
 
-          <div className="text-sm text-gray-500 mb-2">Full name*</div>
+          <div className="text-sm text-gray-500 mb-2">{t("fullname")}*</div>
           <input
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mb-2">Title / Position</div>
+          <div className="text-sm text-gray-500 mb-2">{t("title")}</div>
           <input
             placeholder="e.g. Frontend Developer"
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
@@ -150,7 +146,7 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
           />
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
-            <p>One-liner introduction</p>
+            <p>{t("oneLiner")}</p>
             <p className={`${intro.length > maxLength && " text-red-500"} text-xs`}>
               {intro.length} / {maxLength}
             </p>
@@ -237,9 +233,9 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
     return (
       <div className="relative w-full">
         <div className="p-4 px-6 w-full overflow-y-auto pb-12" style={{ height: "calc(100vh - 11.5rem)" }}>
-          <p className="mb-4 text-gray-700">Tell us your skills to appeal to companies</p>
+          <p className="mb-4 text-gray-700">{t("title2")}</p>
           <div className="text-sm text-gray-500 mb-2">
-            Spoken language <div className="text-xs text-green-700 inline"> - Select all that applies</div>
+            {t("language")} <div className="text-xs text-green-700 inline"> {t("languageSubtitle")}</div>
           </div>
           <div className="flex flex-wrap mb-8 gap-2 pt-2">
             {languageArray.map((item) => (
@@ -255,7 +251,7 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
   return (
     <div style={{ width: "900px", height: "calc(100vh - 8rem)" }} className="">
       <div className="h-14 w-full border-b flex-shrink-0 flex items-center justify-between text-lg px-6">
-        <p>Edit Profile</p>
+        <p>{t("editProfile")}</p>
         <div className="flex items-center space-x-6">
           <button onClick={closeModal} className="py-2">
             <RxCross2 className="w-7 h-7" />
