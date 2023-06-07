@@ -258,7 +258,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             {title === t("info.4") ? (
               <p>{moment(text).format("YYYY.MM.DD")}</p>
             ) : title === t("info.9") ? (
-              <a href={text} className="text-blue-500">
+              <a href={text} className="text-blue-500 hover:text-blue-400">
                 {text}
               </a>
             ) : (
@@ -318,132 +318,133 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           <div className="h-16" />
         </div>
       );
-    return (
-      <div
-        style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-full flex h-full flex-col p-8 space-y-8 px-12 relative"
-      >
-        <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
-          <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
-          {developerInfo.current?.title?.[lang] && (
-            <p className="flex-shrink-0">{developerInfo.current?.title?.[lang]}</p>
-          )}
-          {generalInfo?.company && (
-            <div className="flex items-center flex-shrink-0">
-              <p className="mx-1">at</p>
-              <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
-                {companyInfo.current?.company?.company_info[0]?.name}
-              </button>
-              <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
-            </div>
-          )}
-          {isMyProfile && (
-            <div className="flex items-center justify-end w-full mr-3">
-              <p className="mx-1">{t("editCompany")}</p>
-              <button
-                onClick={() => openCompanyModal()}
-                className="text-green-700 underline filter hover:brightness-125"
-              >
-                {t("here")}
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center space-x-6">
-          <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = DefaultCompany;
-              }}
-              src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
-              alt=""
-              draggable={false}
-              className="hover:cursor-pointer object-cover h-32 w-32 border"
-            />
-          </div>
-          <div className="space-y-2">
-            <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
-            <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
-            <a
-              href={companyInfo.current?.company?.company_info[0]?.website}
-              className="text-sm text-sky-600 hover:text-sky-500"
-            >
-              {companyInfo.current?.company?.company_info[0]?.website}{" "}
-            </a>
-          </div>
-        </div>
-
-        <div className="flex space-x-2 items-center">
-          <div className="h-7 w-1 bg-gray-600 rounded"></div>
-          <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
-        </div>
-
-        <p className="">{companyInfo.current?.company?.company_info[0]?.intro?.[lang]}</p>
-
-        <div className="flex space-x-2 items-center">
-          <div className="h-7 w-1 bg-gray-600 rounded"></div>
-          <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
-        </div>
-
-        <div className="p-8 border rounded-lg grid grid-cols-2 gap-4">
-          <Cell title={t("info.1")} text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
-          <Cell title={t("info.2")} text={companyInfo.current?.company?.company_info[0]?.employees} />
-          <Cell title={t("info.3")} text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
-          <Cell title={t("info.4")} text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
-          <Cell title={t("info.5")} text={companyInfo.current?.company?.company_info[0]?.funding} />
-          <Cell title={t("info.6")} text={companyInfo.current?.company?.company_info[0]?.revenue} />
-          <Cell title={t("info.7")} text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
-          <Cell title={t("info.8")} text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
-          <Cell title={t("info.9")} text={companyInfo.current?.company?.company_info[0]?.website} />
-          <Cell title={t("info.10")} text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
-        </div>
-
-        {companyInfo.current.users?.length > 0 && (
-          <div className="w-full">
-            <div className="flex space-x-2 items-center mb-4">
-              <div className="h-7 w-1 bg-gray-600 rounded"></div>
-              <p className="text-2xl text-gray-600">{t("companyEmployees")}</p>
-            </div>
-
-            {companyInfo.current?.users.map((item, index) => (
-              <Link key={item.user_id} to={`/user/${item.user_id}`} className="w-full">
-                <button className="py-3 border-b flex items-center hover:bg-gray-100 transition px-3 w-full">
-                  <img
-                    onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = DefaultImage;
-                    }}
-                    src={item.user_img || DefaultImage}
-                    alt=""
-                    draggable={false}
-                    className="hover:cursor-pointer object-cover h-12 w-12 rounded-full border"
-                  />
-                  <div className="ml-4 flex flex-col">
-                    <p className="font-bold text-left">{item.user_profile[0].name?.[lang]}</p>
-                    <div className="flex items-center text-gray-600 text-xs">
-                      {developerInfo.current?.title?.[lang] && <p>{developerInfo.current?.title?.[lang]}</p>}
-                      {generalInfo?.company && (
-                        <div className="flex items-center flex-shrink-0">
-                          <p className="mx-1">at</p>
-                          <div className="text-green-700 hover:underline filter hover:brightness-125">
-                            {companyInfo.current?.company?.company_info[0]?.name}
-                          </div>
-                          <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
+    else
+      return (
+        <div
+          style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
+          className="w-full flex h-full flex-col p-8 space-y-8 px-12 relative"
+        >
+          <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
+            <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
+            {developerInfo.current?.title?.[lang] && (
+              <p className="flex-shrink-0">{developerInfo.current?.title?.[lang]}</p>
+            )}
+            {generalInfo?.company && (
+              <div className="flex items-center flex-shrink-0">
+                <p className="mx-1">at</p>
+                <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                  {companyInfo.current?.company?.company_info[0]?.name}
                 </button>
-              </Link>
-            ))}
+                <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+              </div>
+            )}
+            {isMyProfile && (
+              <div className="flex items-center justify-end w-full mr-3">
+                <p className="mx-1">{t("editCompany")}</p>
+                <button
+                  onClick={() => openCompanyModal()}
+                  className="text-green-700 underline filter hover:brightness-125"
+                >
+                  {t("here")}
+                </button>
+              </div>
+            )}
           </div>
-        )}
 
-        <div className="h-16" />
-      </div>
-    );
+          <div className="flex items-center space-x-6">
+            <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
+              <img
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = DefaultCompany;
+                }}
+                src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
+                alt=""
+                draggable={false}
+                className="hover:cursor-pointer object-cover h-32 w-32 border rounded-lg"
+              />
+            </div>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
+              <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
+              <a
+                href={companyInfo.current?.company?.company_info[0]?.website}
+                className="text-sm text-blue-500 hover:text-blue-400"
+              >
+                {companyInfo.current?.company?.company_info[0]?.website}{" "}
+              </a>
+            </div>
+          </div>
+
+          <div className="flex space-x-2 items-center">
+            <div className="h-7 w-1 bg-gray-600 rounded"></div>
+            <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
+          </div>
+
+          <p className="">{companyInfo.current?.company?.company_info[0]?.intro?.[lang]}</p>
+
+          <div className="flex space-x-2 items-center">
+            <div className="h-7 w-1 bg-gray-600 rounded"></div>
+            <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
+          </div>
+
+          <div className="p-8 border rounded-lg grid grid-cols-2 gap-4">
+            <Cell title={t("info.1")} text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
+            <Cell title={t("info.2")} text={companyInfo.current?.company?.company_info[0]?.employees} />
+            <Cell title={t("info.3")} text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
+            <Cell title={t("info.4")} text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
+            <Cell title={t("info.5")} text={companyInfo.current?.company?.company_info[0]?.funding} />
+            <Cell title={t("info.6")} text={companyInfo.current?.company?.company_info[0]?.revenue} />
+            <Cell title={t("info.7")} text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
+            <Cell title={t("info.8")} text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
+            <Cell title={t("info.9")} text={companyInfo.current?.company?.company_info[0]?.website} />
+            <Cell title={t("info.10")} text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
+          </div>
+
+          {companyInfo.current.users?.length > 0 && (
+            <div className="w-full">
+              <div className="flex space-x-2 items-center mb-4">
+                <div className="h-7 w-1 bg-gray-600 rounded"></div>
+                <p className="text-2xl text-gray-600">{t("companyEmployees")}</p>
+              </div>
+
+              {companyInfo.current.users?.map((item, index) => (
+                <Link key={item.user_id} to={`/user/${item.user_id}`} className="w-full">
+                  <button className="py-3 border-b flex items-center hover:bg-gray-100 transition px-3 w-full">
+                    <img
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = DefaultImage;
+                      }}
+                      src={item.user_img || DefaultImage}
+                      alt=""
+                      draggable={false}
+                      className="hover:cursor-pointer object-cover h-12 w-12 rounded-full border"
+                    />
+                    <div className="ml-4 flex flex-col">
+                      <p className="font-bold text-left">{item.user_profile[0].name?.[lang]}</p>
+                      <div className="flex items-center text-gray-600 text-xs">
+                        {item.user_profile[0].title?.[lang] && <p>{item.user_profile[0].title?.[lang]}</p>}
+                        {generalInfo?.company && (
+                          <div className="flex items-center flex-shrink-0">
+                            <p className="mx-1">at</p>
+                            <div className="text-green-700">
+                              {companyInfo.current?.company?.company_info[0]?.name}
+                            </div>
+                            <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="h-16" />
+        </div>
+      );
   };
 
   if (!isLoading)

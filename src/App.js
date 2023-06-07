@@ -19,6 +19,7 @@ import { useContext } from "react";
 import { AuthContext } from "./utils/authContext";
 import WorkPost from "./pages/WorkPost";
 import Error404 from "./pages/Error404";
+import Company from "./pages/Company";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function App() {
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
         <Route path="/user/:userId" element={<Profile />} />
+        <Route path="/company/:companyId" element={<Company />} />
         <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />
         <Route path="/manage" element={userState.isAuthenticated ? <ManageWork /> : <Navigate to="/" replace />} />
         <Route

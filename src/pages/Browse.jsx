@@ -25,6 +25,7 @@ const Browse = () => {
       .get(`/v1/user/employers`)
       .then((response) => {
         setEmployerArray(response.data);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/USER/EMPLOYERS ERROR : ", e);
@@ -34,7 +35,6 @@ const Browse = () => {
       .get(`/v1/company/all`)
       .then((response) => {
         setCompanyArray(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/COMPANY/ALL ERROR : ", e);
@@ -89,7 +89,7 @@ const Browse = () => {
         <p className="text-xl font-bold text-green-800">DEVELOPERS - {Object.entries(employeeArray)?.length}</p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
           {Object.entries(employeeArray).map(
-            (item, index) => item[1].user_img && <ProfileCard key={index} item={item} />
+            (item, index) => item[1].user_img && <ProfileCard key={index} item={item} isEmployer={false} />
           )}
         </div>
 
@@ -103,7 +103,7 @@ const Browse = () => {
         <p className="text-xl font-bold text-green-800">EMPLOYERS - {Object.entries(employerArray)?.length}</p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
           {Object.entries(employerArray).map((item, index) => (
-            <ProfileCard key={index} item={item} />
+            <ProfileCard key={index} item={item} isEmployer={true} />
           ))}
         </div>
       </div>
