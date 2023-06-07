@@ -3,6 +3,7 @@ import Tags from "./Tags";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
+import placeholder from "../assets/kookjein-placeholder.png";
 
 const ProfileCard = ({ item, isEmployer }) => {
   const { t, i18n } = useTranslation("profileCard");
@@ -29,11 +30,7 @@ const ProfileCard = ({ item, isEmployer }) => {
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
         >
           <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
-            {info.user_img ? (
-              <img src={info.user_img} className="object-cover w-full h-full" alt="" />
-            ) : (
-              <p className="font-nanum text-sm font-bold text-gray-400">{t("inProgress")}</p>
-            )}
+            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
           </div>
           <div className="w-full px-4 py-4 px-4 space-y-3 h-48">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>
@@ -58,7 +55,6 @@ const ProfileCard = ({ item, isEmployer }) => {
             >
               {info.user_profile[0].oneLiner?.[lang]}
             </p>
-
           </div>
         </div>
       </Link>
@@ -71,11 +67,7 @@ const ProfileCard = ({ item, isEmployer }) => {
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
         >
           <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
-            {info.user_img ? (
-              <img src={info.user_img} className="object-cover w-full h-full" alt="" />
-            ) : (
-              <p className="font-nanum text-sm font-bold text-gray-400">{t("inProgress")}</p>
-            )}
+            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
           </div>
           <div className="w-full px-4 py-4 px-4 space-y-3 h-56">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>

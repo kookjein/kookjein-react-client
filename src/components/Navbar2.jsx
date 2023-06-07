@@ -116,7 +116,7 @@ const Navbar = ({ light }) => {
       <div className="w-full flex items-center h-10 justify-center">
         <input
           className="border h-full w-full font-nanum text-sm px-3 rounded-l-md max-w-2xl outline-green-800"
-          placeholder="어떤 개발자를 찾으시나요?"
+          placeholder={t("placeholder")}
         />
         <button className="bg-green-800 text-white text px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
           <IoSearch className="text-white w-5 h-5" />

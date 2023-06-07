@@ -9,6 +9,7 @@ const navBar2 = {
   myProfile: "마이페이지",
   signin: "로그인",
   logout: "로그아웃",
+  placeholder: "어떤 개발자를 찾으시나요?",
 };
 
 export default navBar2;

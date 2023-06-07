@@ -9,6 +9,7 @@ const navBar2 = {
   myProfile: "My profile",
   signin: "Sign in",
   logout: "Log out",
+  placeholder: "What developer are you looking for?"
 };
 
 export default navBar2;
