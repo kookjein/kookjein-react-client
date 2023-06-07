@@ -13,3 +13,4 @@ export { default as profileEmployer } from "./profileEmployer";
 export { default as employerEditProfileModal } from "./employerEditProfileModal";
 export { default as companyCreateModal } from "./companyCreateModal";
 export { default as companyEditProfileModal } from "./companyEditProfileModal";
+export { default as browse } from "./browse";

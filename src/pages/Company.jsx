@@ -32,9 +32,9 @@ const Company = () => {
         .get(`/v1/company/`, { params: { company_id: companyId } })
         .then((response) => {
           companyInfo.current = response.data;
-          if (response.data.users) {
+          if (response.data.users || userState.isAuthenticated) {
             for (let i = 0; i < response.data.users.length; i++) {
-              if (companyInfo.current.users[i].user_id === userState.user.userId) {
+              if (companyInfo.current.users[i].user_id === userState.user?.userId) {
                 userInfo.current = companyInfo.current.users[i];
               }
             }
@@ -49,7 +49,7 @@ const Company = () => {
       setLoading(false);
     }
     return () => {};
-  }, [companyId, userState.user.userId]);
+  }, [companyId, userState]);
 
   const customStyles = {
     content: {
@@ -201,9 +201,7 @@ const Company = () => {
                       {item.user_profile[0].title?.[lang] && <p>{item.user_profile[0].title?.[lang]}</p>}
                       <div className="flex items-center flex-shrink-0">
                         <p className="mx-1">at</p>
-                        <div className="text-green-700">
-                          {companyInfo.current?.company?.company_info[0]?.name}
-                        </div>
+                        <div className="text-green-700">{companyInfo.current?.company?.company_info[0]?.name}</div>
                         <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
                       </div>
                     </div>

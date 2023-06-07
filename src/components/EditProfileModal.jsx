@@ -515,7 +515,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-600">{`${company} | ${title}`}</p>
               <p className="text-xs text-gray-500">
-                {yos < 1 ? "< 1" : yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
+                {yos < 1 ? "< 1" : yos + 1} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
                 {moment(to).format("YYYY.MM")}
               </p>
             </div>
@@ -904,7 +904,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-600">{`${name} | ${title}`}</p>
               <p className="text-xs text-gray-500">
-                {yos < 1 ? "< 1" : yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
+                {yos < 1 ? "< 1" : yos + 1} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
                 {moment(to).format("YYYY.MM")}
               </p>
             </div>

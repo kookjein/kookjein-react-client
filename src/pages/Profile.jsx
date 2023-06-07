@@ -276,12 +276,12 @@ const Profile = () => {
             icon={<IoLocationSharp />}
           />
           <SummaryCell
-            value={`${kYos} ${t("status4.value")}`}
+            value={`${kYos || 1} ${t("status4.value")}`}
             title={t("status3.title")}
             icon={<AiTwotoneCalendar />}
           />
           <SummaryCell
-            value={`${developerInfo.current?.yos} ${t("status4.value")}`}
+            value={`${developerInfo.current?.yos || 1} ${t("status4.value")}`}
             title={t("status3.title1")}
             icon={<AiTwotoneCalendar />}
           />
@@ -317,7 +317,8 @@ const Profile = () => {
                 {company} - {title}
               </p>
               <p className="text-xs text-gray-500">
-                {yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~ {moment(to).format("YYYY.MM")}
+                {yos < 1 ? "< 1" : yos + 1} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
+                {moment(to).format("YYYY.MM")}
               </p>
             </div>
           </div>
@@ -333,7 +334,7 @@ const Profile = () => {
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-600">{`${company} | ${title}`}</p>
               <p className="text-xs text-gray-500">
-                {yos < 1 ? "< 1" : yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
+                {yos < 1 ? "< 1" : yos + 1} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
                 {moment(to).format("YYYY.MM")}
               </p>
             </div>
@@ -367,7 +368,7 @@ const Profile = () => {
             {name} | {title}
           </p>
           <p className="text-xs text-gray-500">
-            {yos < 1 ? "< 1" : yos} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
+            {yos < 1 ? "< 1" : yos + 1} year{yos > 1 && "s"} · {moment(from).format("YYYY.MM")} ~{" "}
             {moment(to).format("YYYY.MM")}
           </p>
           <p className="text-sm break-keep py-2">{desc}</p>
