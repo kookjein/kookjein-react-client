@@ -78,9 +78,11 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     const [initialIntro, setInitialIntro] = useState(
       developerInfo?.current.oneLiner?.[userState.user.userLanguage] || ""
     );
+    const [initialGithub, setInitialGithub] = useState(developerInfo?.current?.github || "");
     const [name, setName] = useState(initialName);
     const [title, setTitle] = useState(initialTitle);
     const [intro, setIntro] = useState(initialIntro);
+    const [github, setGithub] = useState(initialGithub);
     const [isReady, setReady] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [isLoading, setLoading] = useState(false);
@@ -96,6 +98,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
                 ...(initialTitle !== title && { title: { [userState.user.userLanguage]: title } }),
                 ...(initialName !== name && { name: { [userState.user.userLanguage]: name } }),
                 ...(initialIntro !== intro && { oneLiner: { [userState.user.userLanguage]: intro } }),
+                ...(initialGithub !== github && { github: github }),
               },
             ],
           },
@@ -106,10 +109,12 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             ...(initialTitle !== title && { title: { [userState.user.userLanguage]: title } }),
             ...(initialName !== name && { name: { [userState.user.userLanguage]: name } }),
             ...(initialIntro !== intro && { oneLiner: { [userState.user.userLanguage]: intro } }),
+            ...(initialGithub !== github && { github: github }),
           };
           setInitialName(name);
           setInitialTitle(title);
           setInitialIntro(intro);
+          setInitialGithub(github);
           setSaved(true);
           setLoading(false);
         })
@@ -121,7 +126,10 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
 
     useEffect(() => {
       if (name) {
-        if ((initialName !== name || initialTitle !== title || initialIntro !== intro) && intro.length <= maxLength) {
+        if (
+          (initialName !== name || initialTitle !== title || initialIntro !== intro || initialGithub !== github) &&
+          intro.length <= maxLength
+        ) {
           setSaved(false);
           setLoading(false);
           setReady(true);
@@ -133,7 +141,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
         setReady(false);
         setLoading(false);
       };
-    }, [name, title, intro, initialName, initialTitle, initialIntro]);
+    }, [name, title, intro, github, initialName, initialTitle, initialIntro, initialGithub]);
 
     return (
       <div className="relative w-full">
@@ -159,6 +167,14 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+
+          <div className="text-sm text-gray-500 mb-2">Github link</div>
+          <input
+            placeholder="e.g. https://github.com/username"
+            className="w-1/2 h-9 rounded border border-gray-300 mb-4 p-2 outline-green-700"
+            value={github}
+            onChange={(e) => setGithub(e.target.value)}
           />
 
           <div className="text-sm text-gray-500 mb-2 flex justify-between items-center">
