@@ -293,20 +293,19 @@ const CompanyEditProfileModal = ({ initialTab = "Basic", closeModal, companyInfo
                 company_info: [
                   {
                     ...companyInfo.current.company.company_info[0],
-                    ...(initialType !== type && { type: type }),
-                    ...(initialCEO !== ceo && { ceo: ceo }),
+                    ...(initialType !== type && { type: { [userState.user.userLanguage]: type } }),
+                    ...(initialCEO !== ceo && { ceo: { [userState.user.userLanguage]: ceo } }),
                     ...(initialFunding !== funding && { funding: funding }),
                     ...(initialEmployees !== employees && { employees: employees }),
                     ...(initialFoundingDate !== foundingDate && { foundingDate: foundingDate }),
                     ...(initialRevenue !== revenue && { revenue: revenue }),
-                    ...(initialService !== service && { service: service }),
-                    ...(initialAddress !== address && { address: address }),
+                    ...(initialService !== service && { service: { [userState.user.userLanguage]: service } }),
+                    ...(initialAddress !== address && { address: { [userState.user.userLanguage]: address } }),
                   },
                 ],
               },
             },
           };
-          console.log(companyInfo.current);
           setInitialType(type);
           setInitialCEO(ceo);
           setInitialFunding(funding);

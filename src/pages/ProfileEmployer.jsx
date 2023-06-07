@@ -11,6 +11,7 @@ import // Link,
 import Modal from "react-modal";
 import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
+import DefaultCompany from "../assets/default-company.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import UploadProfile from "../components/UploadProfile";
 import { languageArray } from "../utils/arrays";
@@ -354,9 +355,9 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             <img
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = DefaultImage;
+                currentTarget.src = DefaultCompany;
               }}
-              src={companyInfo.current?.company?.company_info[0]?.img || DefaultImage}
+              src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
               alt=""
               draggable={false}
               className="hover:cursor-pointer object-cover h-32 w-32 border"
@@ -399,7 +400,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           <Cell title={t("info.10")} text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
         </div>
 
-        {companyInfo.current?.users.length > 0 && (
+        {companyInfo.current.users?.length > 0 && (
           <div className="w-full">
             <div className="flex space-x-2 items-center mb-4">
               <div className="h-7 w-1 bg-gray-600 rounded"></div>

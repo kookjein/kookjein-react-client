@@ -4,19 +4,40 @@ import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
 import axios from "../utils/authAxios";
+import CompanyCard from "../components/CompanyCard";
 
 const Browse = () => {
-  const [dataArray, setDataArray] = useState({});
+  const [employeeArray, setEmployeeArray] = useState({});
+  const [employerArray, setEmployerArray] = useState({});
+  const [companyArray, setCompanyArray] = useState([]);
 
   useEffect(() => {
     axios
       .get(`/v1/user/employees`)
       .then((response) => {
-        setDataArray(response.data);
-        console.log(response.data)
+        setEmployeeArray(response.data);
       })
       .catch((e) => {
-        console.log("V1/USER/ ERROR : ", e);
+        console.log("V1/USER/EMPLOYEES ERROR : ", e);
+      });
+
+    axios
+      .get(`/v1/user/employers`)
+      .then((response) => {
+        setEmployerArray(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/USER/EMPLOYERS ERROR : ", e);
+      });
+
+    axios
+      .get(`/v1/company/all`)
+      .then((response) => {
+        setCompanyArray(response.data);
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/COMPANY/ALL ERROR : ", e);
       });
     return () => {};
   }, []);
@@ -65,8 +86,23 @@ const Browse = () => {
           ))}
         </div>
 
-        <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6">
-          {Object.entries(dataArray).map((item, index) => (
+        <p className="text-xl font-bold text-green-800">DEVELOPERS - {Object.entries(employeeArray)?.length}</p>
+        <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
+          {Object.entries(employeeArray).map(
+            (item, index) => item[1].user_img && <ProfileCard key={index} item={item} />
+          )}
+        </div>
+
+        <p className="text-xl font-bold text-green-800">COMPANIES - {Object.entries(companyArray)?.length}</p>
+        <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
+          {Object.entries(companyArray).map((item, index) => (
+            <CompanyCard key={index} item={item} />
+          ))}
+        </div>
+
+        <p className="text-xl font-bold text-green-800">EMPLOYERS - {Object.entries(employerArray)?.length}</p>
+        <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
+          {Object.entries(employerArray).map((item, index) => (
             <ProfileCard key={index} item={item} />
           ))}
         </div>
