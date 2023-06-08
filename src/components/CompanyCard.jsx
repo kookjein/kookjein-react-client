@@ -10,7 +10,7 @@ const CompanyCard = ({ item }) => {
     <Link to={`/company/${info.company_id}`}>
       <div
         style={{ color: "#272D37" }}
-        className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition flex h-20 items-center px-4"
+        className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition flex h-20 items-center pr-4 bg-white"
       >
         <img
           onError={({ currentTarget }) => {
@@ -20,11 +20,12 @@ const CompanyCard = ({ item }) => {
           src={info.company_info[0].img || DefaultImage}
           alt=""
           draggable={false}
-          className="w-12 h-12 rounded-full"
+          style={{ aspectRatio: 1 }}
+          className="h-full"
         />
-        <div className="ml-3">
-          <p className="text-lg font-bold">{info.company_info[0].name}</p>
-          <p className="text-xs">member since {moment(info.company_created_at).year()}</p>
+        <div className="ml-4">
+          <p className="font-bold">{info.company_info[0].name}</p>
+          <p className="text-xs mt-1">member since {moment(info.company_created_at).year()}</p>
         </div>
       </div>
     </Link>

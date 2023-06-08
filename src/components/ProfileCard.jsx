@@ -29,10 +29,10 @@ const ProfileCard = ({ item, isEmployer }) => {
           style={{ color: "#272D37" }}
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
         >
-          <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
+          <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
             <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
           </div>
-          <div className="w-full px-4 py-4 px-4 space-y-3 h-48">
+          <div className="w-full py-4 px-4 space-y-3 h-48">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>
 
             {info.user_profile[0].title && (
@@ -66,10 +66,10 @@ const ProfileCard = ({ item, isEmployer }) => {
           style={{ color: "#272D37" }}
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
         >
-          <div className="w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
+          <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
             <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
           </div>
-          <div className="w-full px-4 py-4 px-4 space-y-3 h-56">
+          <div className="w-full py-4 px-4 space-y-3 h-56">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>
 
             {info.user_profile[0].title && (

@@ -1,7 +1,7 @@
 const browse = {
-  developers: "DEVELOPERS",
-  companies: "COMPANIES",
-  employers: "HR REPRESENTATIVE",
+  developers: "Developers",
+  companies: "Companies on Kookjein",
+  employers: "HR representatives",
   viewMore: "View more",
 };
 
