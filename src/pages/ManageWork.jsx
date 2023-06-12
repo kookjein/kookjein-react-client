@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar2 from "../components/Navbar2";
 // import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
+import ChatPanel from "../components/ChatPanel";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
@@ -83,23 +84,6 @@ const ManageWork = () => {
   };
 
   const MiddlePanel = () => {
-    const ChatPanel = () => {
-      return (
-        <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-white flex">
-          <div style={{ height: "calc(100vh - 5rem)" }} className="w-full">
-            <div style={{ height: "calc(100vh - 13rem)" }} className="w-full h-full overflow-y-auto">
-              <div className="h-screen w-full bg-white"></div>
-            </div>
-            <div className="w-full h-32 flex-shrink-0 px-3 pb-8">
-              <textarea style={{ resize: "none" }} className="w-full border p-2 outline-none flex-shrink-1 rounded" />
-              <div className="w-full flex justify-end h-8 flex items-center font-bold text-green-800">
-                <button className="py-1 hover:text-green-600">보내기</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
     if (pathname.includes("/chat")) return <ChatPanel />;
     else if (pathname.includes("/report"))
       return (
@@ -126,7 +110,11 @@ const ManageWork = () => {
     const SecondSection = () => {
       const Cell = ({ title, type, url, newTab }) => {
         return (
-          <Link to={url ? url : `/manage/${chatId}/${type}`} target={newTab ? "_blank" : "_self"} rel="noopener noreferrer">
+          <Link
+            to={url ? url : `/manage/${chatId}/${type}`}
+            target={newTab ? "_blank" : "_self"}
+            rel="noopener noreferrer"
+          >
             <button
               className={`${
                 pathname === `/manage/${chatId}/${type}`
