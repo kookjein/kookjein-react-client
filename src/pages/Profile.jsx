@@ -7,11 +7,7 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import {
-  // Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
@@ -168,10 +164,12 @@ const Profile = () => {
         {developerInfo.current?.title?.[lang] && <p className="text-sm mb-1">{developerInfo.current?.title?.[lang]}</p>}
         {generalInfo.current?.company && (
           <div className="flex items-center text-sm -mr-3">
-            <p className="mr-1">at</p>
-            <button className="text-green-700 hover:underline filter hover:brightness-125">
-              {generalInfo.current.company?.company_name}
-            </button>
+            <p className="mr-1">at</p>{" "}
+            <Link to={`/company/${generalInfo.current.company?.company_id}`}>
+              <button className="text-green-700 hover:underline filter hover:brightness-125">
+                {generalInfo.current.company?.company_name}
+              </button>
+            </Link>
             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
           </div>
         )}
@@ -412,9 +410,11 @@ const Profile = () => {
             {developerInfo.current?.title?.[lang] && <p className="">{developerInfo.current?.title?.[lang]}</p>}
             <div className="flex items-center">
               <p className="mx-1">at</p>
-              <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
-                {generalInfo.current.company?.company_name}
-              </button>
+              <Link to={`/company/${generalInfo.current.company?.company_id}`}>
+                <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                  {generalInfo.current.company?.company_name}
+                </button>
+              </Link>
               <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
             </div>
           </div>
