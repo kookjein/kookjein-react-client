@@ -42,7 +42,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
       axios
         .get(`/v1/company/`, { params: { company_id: generalInfo.company?.company_id } })
         .then((response) => {
-          console.log(response.data);
           companyInfo.current = response.data;
           setLoading(false);
         })
@@ -163,9 +162,11 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
         {generalInfo?.company && (
           <div className="flex items-center text-sm -mr-3">
             <p className="mr-1">at</p>
-            <button className="text-green-700 hover:underline filter hover:brightness-125">
-              {companyInfo.current?.company?.company_info[0]?.name}
-            </button>
+            <Link to={`/company/${companyInfo.current?.company?.company_id}`}>
+              <button className="text-green-700 hover:underline filter hover:brightness-125">
+                {companyInfo.current?.company?.company_info[0]?.name}
+              </button>
+            </Link>
             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
           </div>
         )}
@@ -428,9 +429,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
                         {generalInfo?.company && (
                           <div className="flex items-center flex-shrink-0">
                             <p className="mx-1">at</p>
-                            <div className="text-green-700">
-                              {companyInfo.current?.company?.company_info[0]?.name}
-                            </div>
+                            <div className="text-green-700">{companyInfo.current?.company?.company_info[0]?.name}</div>
                             <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
                           </div>
                         )}

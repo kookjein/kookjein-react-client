@@ -62,7 +62,6 @@ const Profile = () => {
         setKYos(tempYos + 1);
         setLoading(false);
         forceUpdate();
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/USER/ ERROR : ", e);
