@@ -155,7 +155,7 @@ const Navbar = ({ light }) => {
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button> */}
-              <Link to="/manage" state={{ tabStatus: 1 }} className="flex items-center">
+              <Link to="/manage/0/chat" state={{ tabStatus: 1 }} className="flex items-center">
                 <button className="relative">
                   <IoChatboxOutline className="w-6 h-6 text-gray-500" />
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
