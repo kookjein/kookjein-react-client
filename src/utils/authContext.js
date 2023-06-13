@@ -33,7 +33,7 @@ export const AuthProvider = ({children}) => {
     }, []);
     useEffect(() => {
         axios.post('/v1/auth/refresh').then((response) => {
-            if (response.status === HttpStatusCode.Ok) updateAccessToken(response.data.access_token).then()
+            if (response.status === HttpStatusCode.Ok) return updateAccessToken(response.data.access_token).then()
         }).finally(() => setIsLoading(true))
     }, [updateAccessToken])
     if (isLoading) return (<AuthContext.Provider value={{accessToken, userState, setUserState, updateAccessToken}}>
