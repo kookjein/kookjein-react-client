@@ -11,7 +11,7 @@ const ChatPanel = () => {
     <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-white flex flex-col relative">
       <div
         style={{ height: "calc(100vh - 11rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
-        className="w-full h-full overflow-y-auto py-6 px-4 pb-24"
+        className="w-full h-full overflow-y-auto py-6 px-4 pb-12"
       >
         {new Array(19).fill(0).map((item) => (
           <MessageBox

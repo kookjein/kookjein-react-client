@@ -87,7 +87,7 @@
   visibility: visible;
 }
 .rce-mbox {
-  background: #ffffff;
+  background: #f0fdf4;
   border-radius: 5px;
   border-top-left-radius: 0;
   flex-direction: column;
@@ -226,7 +226,7 @@
   }
 }
 .rce-mbox-left-notch {
-  fill: #fff;
+  fill: #f0fdf4;
   filter: drop-shadow(-1px -2px 1px rgba(0, 0, 0, 0.1));
   height: 15px;
   left: -14px;
