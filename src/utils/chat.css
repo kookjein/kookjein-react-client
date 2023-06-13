@@ -87,15 +87,17 @@
   visibility: visible;
 }
 .rce-mbox {
-  background: #fff;
+  background: #ffffff;
   border-radius: 5px;
   border-top-left-radius: 0;
   flex-direction: column;
   float: left;
   margin: 3px 5px 3px 20px;
-  min-width: 140px;
+  min-width: 240px;
+  max-width: 480px;
   padding: 6px 9px 8px;
   position: relative;
+  box-shadow: 0 0 2px 0 #a4a4a4;
 }
 .rce-mbox.message-focus {
   -webkit-animation-duration: 1s;
@@ -118,6 +120,7 @@
   position: relative;
 }
 .rce-mbox.rce-mbox-right {
+  background: #ffffff;
   border-top-left-radius: 5px;
   border-top-right-radius: 0;
   float: right;
@@ -200,7 +203,7 @@
 }
 .rce-mbox-right-notch {
   fill: #fff;
-  filter: drop-shadow(2px 0 1px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(1px 0 1px rgba(0, 0, 0, 0.3));
   height: 15px;
   position: absolute;
   right: -14px;
@@ -224,6 +227,7 @@
 }
 .rce-mbox-left-notch {
   fill: #fff;
+  filter: drop-shadow(-1px -2px 1px rgba(0, 0, 0, 0.1));
   height: 15px;
   left: -14px;
   position: absolute;
@@ -247,7 +251,7 @@
 }
 .rce-mbox-title {
   align-items: center;
-  color: #4f81a1;
+  color: #15803d;
   cursor: pointer;
   display: flex;
   font-size: 13px;
@@ -1534,27 +1538,27 @@ audio:focus {
   overflow: auto;
 }
 .rce-container-input {
-  align-items: center;
+  min-height: 6rem;
   background: #fff;
   box-sizing: border-box;
-  display: flex;
   flex-direction: row;
-  min-width: 100%;
+  min-width: 92%;
 }
 .rce-input {
+  border-top: 1px #000;
   border: none;
-  border-radius: 5px;
   box-sizing: border-box;
   color: #333;
+  background: #fff;
   flex: 1;
   font-size: 14px;
-  height: 40px;
+  min-height: 6rem;
+  width: 100%;
   outline: none;
-  padding: 0 5px;
 }
 .rce-input-textarea {
-  height: 37px;
-  padding: 10px 5px;
+  height: 4rem;
+  padding: 10px 10px;
   resize: none;
 }
 .rce-input-buttons {
