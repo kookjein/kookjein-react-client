@@ -19,7 +19,7 @@ import DefaultImage from "../assets/default-profile.png";
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
   const navigate = useNavigate();
-  const { setAccessToken, userState } = useContext(AuthContext);
+  const { userState, updateAccessToken } = useContext(AuthContext);
 
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
@@ -30,7 +30,7 @@ const Navbar = ({ light }) => {
       .post(`/v1/auth/logout`)
       .then((response) => {
         if (response.status === HttpStatusCode.Ok) {
-          setAccessToken(null);
+          updateAccessToken(null).then();
           navigate("/");
         } else {
           console.log("ERROR - v1/auth/logout");

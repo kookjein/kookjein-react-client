@@ -10,7 +10,7 @@ const axios = Axios.create({
 axios.defaults.withCredentials = true;
 
 export const AxiosInterceptor = ({children}) => {
-    const {setAccessToken} = useContext(AuthContext);
+    const {updateAccessToken} = useContext(AuthContext);
     useEffect(() => {
         const resInterceptor = (response) => {
             return response;
@@ -19,10 +19,12 @@ export const AxiosInterceptor = ({children}) => {
             if (error.response.status === HttpStatusCode.Unauthorized) {
                 return axios.post(`/v1/auth/refresh`).then((response) => {
                     if (response.status === HttpStatusCode.Ok) {
-                        setAccessToken(response.data.access_token)
-                        error.config.headers.Authorization = `Bearer ${response.data.access_token}`
-                        return axios.request(error.config).then(response => {
-                            return response
+                        return updateAccessToken(response.data.access_token).then((accessToken) => {
+                            window.location.reload()
+                            error.config.headers.Authorization = `Bearer ${accessToken}`
+                            return axios.request(error.config).then(retryResponse => {
+                                return retryResponse
+                            })
                         })
                     }
                 })
@@ -31,7 +33,7 @@ export const AxiosInterceptor = ({children}) => {
         };
         const interceptor = axios.interceptors.response.use(resInterceptor, errInterceptor);
         return () => axios.interceptors.response.eject(interceptor);
-    }, [setAccessToken]);
+    }, [updateAccessToken]);
     return children
 }
 

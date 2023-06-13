@@ -7,7 +7,7 @@ import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 
 const UploadProfile = ({ width, height, borderRadius, developerInfo }) => {
-  const { userState, setAccessToken } = useContext(AuthContext);
+  const { userState, updateAccessToken } = useContext(AuthContext);
 
   const S3_BUCKET = process.env.REACT_APP_BUCKET_NAME;
   const S3_REGION = process.env.REACT_APP_REGION;
@@ -59,7 +59,7 @@ const UploadProfile = ({ width, height, borderRadius, developerInfo }) => {
       .post(`/v1/user/me`, { user: { user_img: imagePath, user_profile: [{ img: imagePath }] } })
       .then((response) => {
         developerInfo.current = response.data.user.user_profile[0];
-        setAccessToken(response.data.access_token.access_token);
+        updateAccessToken(response.data.access_token.access_token).then();
       })
       .catch((error) => {
         console.log("CHANGE IMAGE ERROR: ", error);
