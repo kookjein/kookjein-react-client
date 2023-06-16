@@ -155,19 +155,19 @@ const Navbar = ({ light }) => {
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button> */}
-              <Link to="/manage/0/chat" state={{ tabStatus: 1 }} className="flex items-center">
+              <Link to="/manage" className="flex items-center">
                 <button className="relative">
                   <IoChatboxOutline className="w-6 h-6 text-gray-500" />
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
                 </button>
               </Link>
-              {userState.user.userType === "employer" && (
+              {/* {userState.user.userType === "employer" && (
                 <Link to="/work-post/register" state={{ tabStatus: 0 }}>
                   <button className="px-1 py-2 rounded text-green-800 transition font-semibold text-sm filter hover:brightness-125">
                     {t("workPost")}
                   </button>
                 </Link>
-              )}
+              )} */}
               <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
             </>
           ) : (

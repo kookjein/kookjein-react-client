@@ -36,13 +36,13 @@ const ChatPanel = () => {
   const TopButton = ({ scrollPosition }) => {
     return (
       <button
-        style={{ boxShadow: "0px 3px 5px 0px rgba(0, 0, 0, 0.5)" }}
-        className={`rounded-6px flex flex-col items-center justify-center hover:brightness-125 filter absolute bottom-28 right-3 z-20 rounded-full bg-opacity-75 bg-green-600 w-12 h-12 ${
-          scrollPosition > 0 ? "opacity-100" : "opacity-0"
+        className={`rounded-6px items-center justify-end filter z-20 bg-opacity-75 w-full h-7 text-white border-b space-x-2 font-bold bg-green-700 hover:bg-green-600 px-4 ${
+          scrollPosition > 0 ? "flex" : "hidden"
         } transition duration-200`}
         onClick={scrollToBottom}
       >
-        <AiOutlineArrowDown className="text-white w-6 h-6" />
+        <p className="text-sm">Scroll to bottom</p>
+        <AiOutlineArrowDown className="w-4 h-4" />
       </button>
     );
   };
@@ -78,8 +78,8 @@ const ChatPanel = () => {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <TopButton scrollPosition={scrollPosition} />
-      <div className="w-full flex-shrink-0 flex absolute bottom-0 border-t">
+      <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0 border-t">
+        <TopButton scrollPosition={scrollPosition} />
         <Input
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
@@ -88,7 +88,7 @@ const ChatPanel = () => {
           autofocus
           onKeyDown={(e) => console.log(e)}
         />
-        <div style={{ width: "8.1%" }} className="flex-shrink-0 px-4 flex justify-end items-end bg-white py-4">
+        <div className="flex-shrink-0 px-4 flex justify-end items-end bg-white py-4 absolute right-0 bottom-0">
           <button
             disabled={inputText.replace(/\s/g, "").length === 0}
             className={`${

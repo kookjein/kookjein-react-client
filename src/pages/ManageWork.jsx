@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import Navbar2 from "../components/Navbar2";
 // import { useTranslation } from "react-i18next";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
+import ChatBg from "../assets/chat-bg.jpg";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
-  const location = useLocation();
   const { chatId } = useParams();
   const pathname = window.location.pathname;
-  const [selectedTab, setSelectedTab] = useState(location.state ? location.state.tabStatus : 0);
+
+  const TESTARRAY = [{ id: 0 }, { id: 1 }, { id: 2 }];
 
   const DefaultProfile = ({ small }) => (
     <div
@@ -24,62 +26,49 @@ const ManageWork = () => {
     </div>
   );
 
-  const changeTab = () => {
-    selectedTab === 0 ? setSelectedTab(1) : setSelectedTab(0);
-  };
-
   const LeftPanel = () => {
-    const FirstSection = () => {
-      const Cell = () => {
-        return (
-          <Link to={`/manage/0/chat`} state={{ tabStatus: selectedTab }}>
-            <button className="w-full h-16 flex items-center px-4 space-x-3 hover:bg-gray-100 transition">
-              <DefaultProfile />
-              <div className="flex flex-col items-start w-full space-y-px">
-                <p className="text-gray-600 text-sm">모하메드 알가잘리</p>
-                <p
-                  style={{
-                    width: "100%",
-                    overflow: "hidden",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: "vertical",
-                  }}
-                  className="text-gray-400 text-xs text-start"
-                >
-                  안녕하세요 저는 알가잘리입니다. 안녕하세요 저는 알가잘리입니다.
-                </p>
-              </div>
-              <div className="w-2.5 h-2.5 bg-green-700 flex-shrink-0 rounded-full"></div>
-            </button>
-          </Link>
-        );
-      };
+    const Cell = ({ item }) => {
       return (
-        <>
-          <div className="w-full h-12 flex border-b">
-            <button onClick={() => changeTab()} className="w-full flex items-center justify-center text-sm relative">
-              {selectedTab === 0 && <div className="w-full h-1 bg-green-700 absolute bottom-0 rounded-full"></div>}
-              <p className={`${selectedTab === 0 ? "text-green-700 font-bold" : "text-regular text-black"}`}>채용된 직원 - 1</p>
-            </button>
-            <button onClick={() => changeTab()} className="w-full flex items-center justify-center text-sm relative">
-              {selectedTab === 1 && <div className="w-full h-1 bg-green-700 absolute bottom-0 rounded-full"></div>}
-              <p className={`${selectedTab === 1 ? "text-green-700 font-bold" : "text-regular text-black"}`}>메세지</p>
-            </button>
-          </div>
-          <Cell />
-          <Cell />
-          <Cell />
-        </>
+        <Link to={`/manage/${item.id}/chat`}>
+          <button
+            className={`${
+              pathname.includes(`/manage/${item.id}`) ? "bg-gray-200" : "bg-white hover:bg-gray-100"
+            } w-full h-16 flex items-center px-4 space-x-3 transition`}
+          >
+            <DefaultProfile />
+            <div className="flex flex-col items-start w-full space-y-px">
+              <p className="text-gray-600 text-sm">모하메드 알가잘리</p>
+              <p
+                style={{
+                  width: "100%",
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                }}
+                className="text-gray-400 text-xs text-start"
+              >
+                안녕하세요 저는 알가잘리입니다. 안녕하세요 저는 알가잘리입니다.
+              </p>
+            </div>
+            <div className="w-2.5 h-2.5 bg-green-700 flex-shrink-0 rounded-full"></div>
+          </button>
+        </Link>
       );
     };
 
     return (
       <div
         style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
+        className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
       >
-        <FirstSection />
+        <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
+          <AiOutlineSearch className="text-gray-500" />
+          <input className="w-full h-full outline-none bg-transparent" placeholder="Search user" />
+        </div>
+        {TESTARRAY.map((item, index) => {
+          return <Cell key={index} item={item} />;
+        })}
       </div>
     );
   };
@@ -88,7 +77,16 @@ const ManageWork = () => {
     if (pathname.includes("/chat")) return <ChatPanel />;
     else if (pathname.includes("/report")) return <DailyReport chatId={chatId} />;
     else if (pathname.includes("/documents")) return <Contracts chatId={chatId} />;
-    return <></>;
+    return (
+      <div
+        className="w-full border-r flex items-center justify-center"
+        style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
+      >
+        <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
+          Choose the chat room to start
+        </div>
+      </div>
+    );
   };
 
   const RightPanel = () => {
@@ -116,7 +114,7 @@ const ManageWork = () => {
 
     const AssistantSection = () => {
       return (
-        <div className="w-full flex-shrink-0 text-sm p-4 py-6">
+        <div className="w-full flex-shrink-0 text-sm p-4 py-6 border-t">
           <p className="font-bold text-gray-800">소통에 어려움을 겪으시나요?</p>
           <p className="mt-2 text-gray-800">담당 어시스턴트에게 도움을 요청해 보세요.</p>
 
@@ -161,30 +159,32 @@ const ManageWork = () => {
         </div>
       );
     };
-
-    return (
-      <div
-        style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
-      >
-        <div className="w-full flex flex-col items-center pt-8 border-l h-full">
-          <ProfileSection />
-          <div className="w-full mt-4">
-            <Cell type={"chat"} title={"1:1 채팅"} newTab={false} />
-            <Cell type={"report"} title={"일일 업무일지"} newTab={false} />
-            <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} />
-            <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} />
+    if (pathname.includes("/chat") || pathname.includes("/report") || pathname.includes("/documents"))
+      return (
+        <div
+          style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
+          className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
+        >
+          <div className="w-full flex flex-col items-center pt-8 border-l h-full">
+            <div className="w-full flex flex-col items-center h-full">
+              <ProfileSection />
+              <div className="w-full mt-4">
+                <Cell type={"chat"} title={"1:1 채팅"} newTab={false} />
+                <Cell type={"report"} title={"일일 업무일지"} newTab={false} />
+                <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} />
+                <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} />
+              </div>
+            </div>
+            <AssistantSection />
           </div>
-          <AssistantSection />
         </div>
-      </div>
-    );
+      );
   };
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <Navbar2 light />
-      <div style={{ maxWidth: "1480px" }} className="w-full h-full flex shadow">
+      <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
         <LeftPanel />
         <MiddlePanel />
         <RightPanel />
