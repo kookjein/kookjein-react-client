@@ -104,11 +104,12 @@ const Browse = () => {
 
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-4 mb-12">
           {Object.entries(employeeArray)
-            .splice(0, 14)
-            .map(
-              (item, index) =>
-                item[1].user_img && item[1].user_id !== 3 && <ProfileCard key={index} item={item} isEmployer={false} />
-            )}
+            .filter((item, idx) => item[1].user_img)
+            .filter((item, idx) => item[1].user_id !== 3)
+            .splice(0, 12)
+            .map((item, index) => (
+              <ProfileCard key={index} item={item} isEmployer={false} />
+            ))}
         </div>
 
         <div className="p-6 bg-gray-100 mb-16 rounded">
