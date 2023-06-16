@@ -6,14 +6,12 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false)
-    const [accessToken, setAccessToken] = useState(null);
     const [userState, setUserState] = useState({});
     const updateAccessToken = useCallback((newToken) => {
         return new Promise((resolve) => {
-            setAccessToken(newToken)
             if (newToken) {
                 axios.defaults.headers.common.Authorization = `Bearer ${newToken}`
-                axios.get('/v1/auth/get_current_user').then((response) => {
+                return axios.get('/v1/auth/get_current_user').then((response) => {
                     setUserState({
                         isAuthenticated: true, user: {
                             userId: response.data.user_id,
@@ -23,12 +21,13 @@ export const AuthProvider = ({children}) => {
                             userLanguage: response.data.user_language,
                         }
                     })
+                    resolve(newToken)
                 })
             } else {
                 delete axios.defaults.headers.common.Authorization
                 setUserState({})
+                resolve(newToken)
             }
-            resolve(newToken);
         });
     }, []);
     useEffect(() => {
@@ -36,7 +35,7 @@ export const AuthProvider = ({children}) => {
             if (response.status === HttpStatusCode.Ok) return updateAccessToken(response.data.access_token).then()
         }).finally(() => setIsLoading(true))
     }, [updateAccessToken])
-    if (isLoading) return (<AuthContext.Provider value={{accessToken, userState, setUserState, updateAccessToken}}>
+    if (isLoading) return (<AuthContext.Provider value={{userState, updateAccessToken}}>
         {children}
     </AuthContext.Provider>);
 
