@@ -35,7 +35,7 @@ const ManageWork = () => {
           <Link to={`/manage/0/chat`} state={{ tabStatus: selectedTab }}>
             <button className="w-full h-16 flex items-center px-4 space-x-3 hover:bg-gray-100 transition">
               <DefaultProfile />
-              <div className="flex flex-col items-start w-full space-y-1">
+              <div className="flex flex-col items-start w-full space-y-px">
                 <p className="text-gray-600 text-sm">모하메드 알가잘리</p>
                 <p
                   style={{
@@ -67,7 +67,6 @@ const ManageWork = () => {
               <p className={`${selectedTab === 1 ? "text-green-700 font-bold" : "text-regular text-black"}`}>메세지</p>
             </button>
           </div>
-          <div className="h-2 w-full flex items-center px-4 text-xl font-bold text-green-900"></div>
           <Cell />
           <Cell />
           <Cell />
