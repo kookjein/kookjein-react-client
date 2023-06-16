@@ -92,7 +92,7 @@ const Browse = () => {
 
         <div className="flex justify-between w-full my-4">
           <p className="text-2xl font-bold text-gray-800">
-            {t("developers")} - {Object.entries(employeeArray)?.length}
+            {t("developers")}
           </p>
           <Link to="/developers" className="text-green-600 hover:text-green-500 hover:underline font-bold">
             <div className="flex items-center">
@@ -106,7 +106,7 @@ const Browse = () => {
           {Object.entries(employeeArray)
             .filter((item, idx) => item[1].user_img)
             .filter((item, idx) => item[1].user_id !== 3)
-            .splice(0, 12)
+            .splice(0, 8)
             .map((item, index) => (
               <ProfileCard key={index} item={item} isEmployer={false} />
             ))}
@@ -114,7 +114,7 @@ const Browse = () => {
 
         <div className="p-6 bg-gray-100 mb-16 rounded">
           <p className="text-2xl font-bold text-gray-800 my-4">
-            {t("companies")} - {Object.entries(companyArray)?.length}
+            {t("companies")}
           </p>
           <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6">
             {Object.entries(companyArray).map((item, index) => (
@@ -124,7 +124,7 @@ const Browse = () => {
         </div>
 
         <p className="text-2xl font-bold text-gray-800 my-4">
-          {t("employers")} - {Object.entries(employerArray)?.length}
+          {t("employers")}
         </p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
           {Object.entries(employerArray).map((item, index) => (
