@@ -7,13 +7,18 @@ import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
 import ChatBg from "../assets/chat-bg.jpg";
 import { AiOutlineSearch } from "react-icons/ai";
+import { IoMdOpen } from "react-icons/io";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
   const { chatId } = useParams();
   const pathname = window.location.pathname;
 
-  const TESTARRAY = [{ id: 0 }, { id: 1 }, { id: 2 }];
+  const TESTARRAY = [
+    { id: 0, name: "모하메드" },
+    { id: 1, name: "세린" },
+    { id: 2, name: "김준석F" },
+  ];
 
   const DefaultProfile = ({ small }) => (
     <div
@@ -27,6 +32,7 @@ const ManageWork = () => {
   );
 
   const LeftPanel = () => {
+    const [filterString, setFilterString] = useState("");
     const Cell = ({ item }) => {
       return (
         <Link to={`/manage/${item.id}/chat`}>
@@ -37,7 +43,7 @@ const ManageWork = () => {
           >
             <DefaultProfile />
             <div className="flex flex-col items-start w-full space-y-px">
-              <p className="text-gray-600 text-sm">모하메드 알가잘리</p>
+              <p className="text-gray-600 text-sm">{item.name}</p>
               <p
                 style={{
                   width: "100%",
@@ -64,11 +70,16 @@ const ManageWork = () => {
       >
         <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
           <AiOutlineSearch className="text-gray-500" />
-          <input className="w-full h-full outline-none bg-transparent" placeholder="Search user" />
+          <input
+            className="w-full h-full outline-none bg-transparent"
+            placeholder="Search user"
+            value={filterString}
+            onChange={(e) => setFilterString(e.target.value)}
+          />
         </div>
-        {TESTARRAY.map((item, index) => {
-          return <Cell key={index} item={item} />;
-        })}
+        {TESTARRAY.filter((item) => item.name.includes(filterString)).map((item, index) => (
+          <Cell key={index} item={item} />
+        ))}
       </div>
     );
   };
@@ -92,7 +103,7 @@ const ManageWork = () => {
   const RightPanel = () => {
     const [requestPressed, setRequestPressed] = useState(false);
 
-    const Cell = ({ title, type, url, newTab }) => {
+    const Cell = ({ title, type, url, newTab, rightButton }) => {
       return (
         <Link
           to={url ? url : `/manage/${chatId}/${type}`}
@@ -104,9 +115,10 @@ const ManageWork = () => {
               pathname === `/manage/${chatId}/${type}`
                 ? "bg-green-800 text-white"
                 : "bg-white hover:bg-gray-100 text-gray-600"
-            } w-full h-12 flex items-center px-4 space-x-3 transition border-b`}
+            } w-full h-12 flex items-center px-4 space-x-3 transition border-b justify-between`}
           >
             <p className="font-bold text-sm">{title}</p>
+            {rightButton}
           </button>
         </Link>
       );
@@ -114,9 +126,9 @@ const ManageWork = () => {
 
     const AssistantSection = () => {
       return (
-        <div className="w-full flex-shrink-0 text-sm p-4 py-6 border-t">
+        <div className="w-full flex-shrink-0 text-sm p-4 py-4">
           <p className="font-bold text-gray-800">소통에 어려움을 겪으시나요?</p>
-          <p className="mt-2 text-gray-800">담당 어시스턴트에게 도움을 요청해 보세요.</p>
+          <p className="mt-1 text-gray-800">담당 어시스턴트에게 도움을 요청해 보세요.</p>
 
           <div className="rounded w-full text-gray-700 mt-5 text-sm">
             <p className="font-bold text-xs text-green-700">어시스턴트:</p>
@@ -124,7 +136,7 @@ const ManageWork = () => {
               <div className="flex items-center space-x-2">
                 <div className="w-10 h-10 rounded-full bg-gray-200"></div>
                 <div>
-                  <p className="font-bold">장동해</p>
+                  <p className="font-bold">장동해 (Andrew Jang)</p>
                   <p className="text-xs">어시스턴트 at 국제인</p>
                 </div>
               </div>
@@ -172,10 +184,10 @@ const ManageWork = () => {
                 <Cell type={"chat"} title={"1:1 채팅"} newTab={false} />
                 <Cell type={"report"} title={"일일 업무일지"} newTab={false} />
                 <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} />
-                <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} />
+                <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} rightButton={<IoMdOpen />} />
+                <AssistantSection />
               </div>
             </div>
-            <AssistantSection />
           </div>
         </div>
       );
