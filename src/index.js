@@ -12,6 +12,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { en, ko } from "./locales";
 import XHR from "i18next-xhr-backend";
 import { AuthProvider } from "./utils/authContext";
+import {WebsocketProvider} from "./utils/websocketContext";
 
 const options = {
   order: ["querystring", "navigator"],
@@ -33,13 +34,15 @@ i18n
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <AuthProvider>
+            <WebsocketProvider>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </WebsocketProvider>
+        </AuthProvider>
+    </React.StrictMode>
 );
 
 const firebaseConfig = {
