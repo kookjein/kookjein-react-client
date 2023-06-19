@@ -8,9 +8,11 @@ import Contracts from "../components/Contracts";
 import ChatBg from "../assets/chat-bg.jpg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
+import { BsChatSquare, BsFilePerson, BsListUl, BsPaperclip } from "react-icons/bs";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
+
   const { chatId } = useParams();
   const pathname = window.location.pathname;
 
@@ -103,7 +105,7 @@ const ManageWork = () => {
   const RightPanel = () => {
     const [requestPressed, setRequestPressed] = useState(false);
 
-    const Cell = ({ title, type, url, newTab, rightButton }) => {
+    const Cell = ({ title, type, url, newTab, rightButton, leftButton }) => {
       return (
         <Link
           to={url ? url : `/manage/${chatId}/${type}`}
@@ -117,7 +119,10 @@ const ManageWork = () => {
                 : "bg-white hover:bg-gray-100 text-gray-600"
             } w-full h-12 flex items-center px-4 space-x-3 transition border-b justify-between`}
           >
-            <p className="font-bold text-sm">{title}</p>
+            <div className="space-x-3 items-center flex">
+              {leftButton}
+              <p className="font-bold text-sm">{title}</p>
+            </div>
             {rightButton}
           </button>
         </Link>
@@ -181,10 +186,17 @@ const ManageWork = () => {
             <div className="w-full flex flex-col items-center h-full">
               <ProfileSection />
               <div className="w-full mt-4">
-                <Cell type={"chat"} title={"1:1 채팅"} newTab={false} />
-                <Cell type={"report"} title={"일일 업무일지"} newTab={false} />
-                <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} />
-                <Cell url="/user/1" type={"profile"} title={"프로필 보기"} newTab={true} rightButton={<IoMdOpen />} />
+                <Cell type={"chat"} title={"1:1 채팅"} newTab={false} leftButton={<BsChatSquare />} />
+                <Cell type={"report"} title={"일일 업무일지"} newTab={false} leftButton={<BsListUl />} />
+                <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} leftButton={<BsPaperclip />} />
+                <Cell
+                  url="/user/1"
+                  type={"profile"}
+                  title={"프로필 보기"}
+                  newTab={true}
+                  rightButton={<IoMdOpen />}
+                  leftButton={<BsFilePerson />}
+                />
                 <AssistantSection />
               </div>
             </div>

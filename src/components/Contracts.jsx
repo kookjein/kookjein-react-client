@@ -36,7 +36,7 @@ const Contracts = ({ chatId }) => {
 
       <div
         style={{ height: "calc(100vh - 8rem)" }}
-        className="grid grid-cols-4 w-full h-full overflow-y-auto pb-12 flex p-6 gap-4"
+        className="grid grid-cols-4 w-full h-full overflow-y-auto pb-12 flex p-6 gap-4 bg-gray-100"
       >
         <Cell title="Non-disclosure agreement" />
         <Cell title="Employement contract" />
