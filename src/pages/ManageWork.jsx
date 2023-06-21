@@ -17,7 +17,7 @@ const ManageWork = () => {
   const pathname = window.location.pathname;
 
   const TESTARRAY = [
-    { id: 0, name: "모하메드" },
+    { id: 0, name: "모하메드", hasNotification: true },
     { id: 1, name: "세린" },
     { id: 2, name: "김준석F" },
   ];
@@ -45,7 +45,9 @@ const ManageWork = () => {
           >
             <DefaultProfile />
             <div className="flex flex-col items-start w-full space-y-px">
-              <p className="text-gray-600 text-sm">{item.name}</p>
+              <p className={`${item.hasNotification ? "font-bold font-black" : "text-gray-600"} text-sm`}>
+                {item.name}
+              </p>
               <p
                 style={{
                   width: "100%",
@@ -54,12 +56,12 @@ const ManageWork = () => {
                   WebkitLineClamp: 1,
                   WebkitBoxOrient: "vertical",
                 }}
-                className="text-gray-400 text-xs text-start"
+                className={`${item.hasNotification ? "text-black" : "text-gray-400"} text-xs text-start`}
               >
                 안녕하세요 저는 알가잘리입니다. 안녕하세요 저는 알가잘리입니다.
               </p>
             </div>
-            <div className="w-2.5 h-2.5 bg-green-700 flex-shrink-0 rounded-full"></div>
+            {item.hasNotification && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
           </button>
         </Link>
       );
@@ -147,7 +149,9 @@ const ManageWork = () => {
           <button
             onClick={() => setRequestPressed(!requestPressed)}
             className={`${
-              requestPressed ? "bg-gray-200 text-gray-400 hover:bg-gray-100" : "bg-green-700 text-white filter hover:brightness-125"
+              requestPressed
+                ? "bg-gray-200 text-gray-400 hover:bg-gray-100"
+                : "bg-green-700 text-white filter hover:brightness-125"
             } border text px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
           >
             {requestPressed ? "초대 취소하기" : "어시스턴트 초대"}
