@@ -27,7 +27,7 @@ export const WebsocketProvider = ({children}) => {
                 setTimeout(connect, 10000)
             }
         })
-    }, [])
+    }, [accessTokenRef])
 
     useEffect(() => {
         connect().then(() => setIsInitialized(true))

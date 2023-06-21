@@ -159,7 +159,7 @@ const ManageWork = () => {
               requestPressed
                 ? "bg-gray-200 text-gray-400 hover:bg-gray-100"
                 : "bg-green-700 text-white filter hover:brightness-125"
-            } border text px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
+            } border px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
           >
             {requestPressed ? "초대 취소하기" : "어시스턴트 초대"}
           </button>
@@ -168,6 +168,11 @@ const ManageWork = () => {
               어시스턴트가 채팅방에 초대되었습니다.
             </div>
           )}
+          <button
+            className={`border border-green-700 text-green-700 px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-2`}
+          >
+            {"어시스턴트 통화"}
+          </button>
         </div>
       );
     };

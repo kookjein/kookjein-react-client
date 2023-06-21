@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MessageBox, Input } from "react-chat-elements";
 import "../utils/chat.css";
 import ChatBg from "../assets/chat-bg.jpg";
@@ -8,12 +8,18 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import ReactLinkify from "react-linkify";
 import DefaultImage from "../assets/default-profile.png";
 import { Link } from "react-router-dom";
+import { WebsocketContext } from "../utils/websocketContext";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
+import { AuthContext } from "../utils/authContext";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
 const ChatPanel = () => {
-  const [inputText, setInputText] = useState("");
+  const { wsRef } = useContext(WebsocketContext);
+  const { userState } = useContext(AuthContext);
+  const inputRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef("");
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
   const SAMPLETEXT =
     "Here is a text type message box Here is a text type www.kookjein.com message box here is a text type message box Here is a text type message box Here is type message box sn";
@@ -31,6 +37,61 @@ const ChatPanel = () => {
   useEffect(() => {
     scrollToBottom();
   }, []);
+
+  // // ===== WHEN WEBSOCKET IS OPEN ===== //
+  // useEffect(() => {
+  //   if (wsRef.current) {
+  //     wsRef.current.onmessage = (e) => {
+  //       console.log(e);
+  //       // const newRawMessage = JSON.parse(eval(e.data));
+  //       // sentMessage(
+  //       //   newRawMessage,
+  //       //   chatRooms,
+  //       //   setChatRooms,
+  //       //   setTotalMessages,
+  //       //   userStorage,
+  //       //   currentChatPageId,
+  //       //   ws
+  //       // );
+  //       // setNewMessageResponse(newRawMessage);
+  //     };
+  //   }
+  //   return () => {};
+  // }, [wsRef.current]);
+
+  const sendMessage = (text) => {
+    inputRef.current.value = "";
+    if (wsRef.current || inputRef.current?.value.replace(/\s/g, "").length !== 0) {
+      wsRef.current.send(
+        JSON.stringify({
+          message: {
+            chat_message_id: uuidv4(),
+            chat_message_text: text,
+            chat_message_created_at: moment().valueOf(),
+            chat_room_id: null,
+            chat_participants: [userState.user.userId, 2],
+            user: {
+              user_id: userState.user.userId,
+              user_name: userState.user.userName,
+              user_img: userState.user.userImage,
+            },
+          },
+        })
+      );
+    }
+  };
+
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      if (e.ctrlKey || e.metaKey) {
+        inputRef.current.value += "\r\n";
+      } else if (!e.shiftKey) {
+        e.preventDefault();
+        sendMessage(inputRef.current?.value);
+      }
+    }
+  };
 
   const Header = () => (
     <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
@@ -65,8 +126,9 @@ const ChatPanel = () => {
         style={{ height: "calc(100vh - 14.4rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
         className="w-full h-full overflow-y-auto py-6 px-4 pb-12 relative"
       >
-        {new Array(19).fill(0).map((item) => (
+        {new Array(19).fill(0).map((item, index) => (
           <MessageBox
+            key={index}
             avatar="true"
             position={"left"}
             type={"text"}
@@ -76,8 +138,9 @@ const ChatPanel = () => {
             replyButton={true}
           />
         ))}
-        {new Array(3).fill(0).map((item) => (
+        {new Array(3).fill(0).map((item, index) => (
           <MessageBox
+            key={index}
             position={"right"}
             type={"text"}
             text={<ReactLinkify textDecorator={textDecorator}>{SAMPLETEXT}</ReactLinkify>}
@@ -89,18 +152,20 @@ const ChatPanel = () => {
       <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0 border-t">
         <TopButton scrollPosition={scrollPosition} />
         <Input
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+          referance={inputRef}
           placeholder="메세지 작성..."
           multiline={true}
           autofocus
-          onKeyDown={(e) => console.log(e)}
+          onKeyDown={handleKeypress}
         />
         <div className="flex-shrink-0 px-4 flex justify-end items-end bg-white py-4 absolute right-0 bottom-0">
           <button
-            disabled={inputText.replace(/\s/g, "").length === 0}
+            onClick={() => sendMessage(inputRef.current?.value)}
+            disabled={inputRef.current?.value.replace(/\s/g, "").length === 0}
             className={`${
-              inputText.replace(/\s/g, "").length === 0 ? "text-gray-300" : "text-sky-500 hover:text-sky-400 transition"
+              inputRef.current?.value.replace(/\s/g, "").length === 0
+                ? "text-gray-300"
+                : "text-sky-500 hover:text-sky-400 transition"
             }`}
           >
             <IoSend className="w-6 h-6" />
