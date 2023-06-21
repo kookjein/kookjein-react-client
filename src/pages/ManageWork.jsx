@@ -9,6 +9,7 @@ import ChatBg from "../assets/chat-bg.jpg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
 import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
+import DefaultImage from "../assets/default-profile.png";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
@@ -17,21 +18,10 @@ const ManageWork = () => {
   const pathname = window.location.pathname;
 
   const TESTARRAY = [
-    { id: 0, name: "모하메드", hasNotification: true },
-    { id: 1, name: "세린" },
-    { id: 2, name: "김준석F" },
+    { id: 0, name: "모하메드", hasNotification: true, isEmployee: false },
+    { id: 1, name: "세린", isEmployee: false },
+    { id: 2, name: "김준석", isEmployee: true },
   ];
-
-  const DefaultProfile = ({ small }) => (
-    <div
-      className={`${
-        small ? "w-7 h-7" : "w-10 h-10"
-      } rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center`}
-    >
-      <div className={`${small ? "w-3.5 h-3.5" : "w-4 h-4"} rounded-full bg-gray-400 -mt-1 opacity-75`} />
-      <div className={`${small ? "-bottom-5" : "-bottom-4"} absolute w-7 h-7 rounded-full bg-gray-400 opacity-75`} />
-    </div>
-  );
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
@@ -43,7 +33,7 @@ const ManageWork = () => {
               pathname.includes(`/manage/${item.id}`) ? "bg-gray-200" : "bg-white hover:bg-gray-100"
             } w-full h-16 flex items-center px-4 space-x-3 transition`}
           >
-            <DefaultProfile />
+            <img alt="" src={DefaultImage} className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200" />
             <div className="flex flex-col items-start w-full space-y-px">
               <p className={`${item.hasNotification ? "font-bold font-black" : "text-gray-600"} text-sm`}>
                 {item.name}
@@ -81,9 +71,22 @@ const ManageWork = () => {
             onChange={(e) => setFilterString(e.target.value)}
           />
         </div>
-        {TESTARRAY.filter((item) => item.name.includes(filterString)).map((item, index) => (
-          <Cell key={index} item={item} />
-        ))}
+        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
+          <p>채용된 직원</p>
+        </div>
+        {TESTARRAY.filter((item) => item.isEmployee)
+          .filter((item) => item.name.includes(filterString))
+          .map((item, index) => (
+            <Cell key={index} item={item} />
+          ))}
+        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
+          <p>전체</p>
+        </div>
+        {TESTARRAY.filter((item) => !item.isEmployee)
+          .filter((item) => item.name.includes(filterString))
+          .map((item, index) => (
+            <Cell key={index} item={item} />
+          ))}
       </div>
     );
   };
@@ -138,7 +141,11 @@ const ManageWork = () => {
 
           <div className="rounded w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded mt-2 border">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-full bg-gray-200"></div>
+              <img
+                alt=""
+                src={DefaultImage}
+                className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200"
+              />
               <div>
                 <p className="font-bold">장동해 (Andrew Jang)</p>
                 <p className="text-xs">어시스턴트 at 국제인</p>
@@ -169,10 +176,15 @@ const ManageWork = () => {
       return (
         <div className="flex flex-col items-center space-y-3 group">
           <Link to="/user/1" className="flex flex-col items-center space-y-3">
-            <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
-              <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center">
+            <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0 relative">
+              <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center absolute">
                 <IoMdOpen className="w-8 h-8" />
               </div>
+              <img
+                alt=""
+                src={DefaultImage}
+                className="w-full h-full object-cover flex-shrink-0 rounded-full bg-gray-200"
+              />
             </button>
             <button>
               <p className="text-xl group-hover:underline transition">모하메드 알가잘리</p>
@@ -187,6 +199,7 @@ const ManageWork = () => {
         </div>
       );
     };
+
     if (pathname.includes("/chat") || pathname.includes("/report") || pathname.includes("/documents"))
       return (
         <div

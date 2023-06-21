@@ -135,7 +135,7 @@ const Navbar = ({ light }) => {
           <Link
             to="/browse"
             aria-label="Homepage"
-            className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-1 sm:mr-3"
+            className="flex items-center justify-center flex-shrink-0 transition mr-1 sm:mr-3 filter hover:brightness-150"
           >
             <img
               src={light ? LogoGreen : LogoWhite}

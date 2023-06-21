@@ -3,6 +3,8 @@ import { BsFileEarmarkRuledFill, BsUpload } from "react-icons/bs";
 import Modal from "react-modal";
 import DailyReportModal from "../components/DailyReportModal";
 import DailyReportUploadModal from "./DailyReportUploadModal";
+import DefaultImage from "../assets/default-profile.png";
+import { Link } from "react-router-dom";
 
 const DailyReport = ({ chatId }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -45,11 +47,13 @@ const DailyReport = ({ chatId }) => {
   }
 
   const Header = () => (
-    <div className="h-12 w-full bg-white border-b items-center px-4 text-sm justify-between flex">
-      <div className="flex space-x-2 items-center h-full">
-        <div className="w-8 h-8 rounded-full bg-gray-100"></div>
-        <p>모하메드 알가잘리</p>
-      </div>
+    <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
+      <Link to="/user/1">
+        <button className="flex items-center space-x-2">
+          <img alt="" src={DefaultImage} className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200" />
+          <p>모하메드 알가잘리</p>
+        </button>
+      </Link>
     </div>
   );
 

@@ -5,12 +5,18 @@ import ChatBg from "../assets/chat-bg.jpg";
 import { IoSend } from "react-icons/io5";
 import { useRef, useEffect } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
+import ReactLinkify from "react-linkify";
+import DefaultImage from "../assets/default-profile.png";
+import { Link } from "react-router-dom";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
 const ChatPanel = () => {
   const [inputText, setInputText] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const messagesEndRef = useRef(null);
+  const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
+  const SAMPLETEXT =
+    "Here is a text type message box Here is a text type www.kookjein.com message box here is a text type message box Here is a text type message box Here is type message box sn";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
@@ -28,8 +34,12 @@ const ChatPanel = () => {
 
   const Header = () => (
     <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
-      <div className="w-8 h-8 rounded-full bg-gray-100"></div>
-      <p>모하메드 알가잘리</p>
+      <Link to="/user/1">
+        <button className="flex items-center space-x-2">
+          <img alt="" src={DefaultImage} className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200" />
+          <p>모하메드 알가잘리</p>
+        </button>
+      </Link>
     </div>
   );
 
@@ -61,8 +71,7 @@ const ChatPanel = () => {
             position={"left"}
             type={"text"}
             title={"USERNAME"}
-            text="Here is a text type message box Here is a text type message box Here is a text type message box Here is a text type message box Here is a text type message box"
-            // notch={false}
+            text={<ReactLinkify textDecorator={textDecorator}>{SAMPLETEXT}</ReactLinkify>}
             date={new Date()}
             replyButton={true}
           />
@@ -71,8 +80,7 @@ const ChatPanel = () => {
           <MessageBox
             position={"right"}
             type={"text"}
-            text="Here is a text type message box Here is a text type message box Here is a text type message box Here is a text type message box"
-            // notch={false}
+            text={<ReactLinkify textDecorator={textDecorator}>{SAMPLETEXT}</ReactLinkify>}
             date={new Date()}
           />
         ))}
@@ -92,12 +100,10 @@ const ChatPanel = () => {
           <button
             disabled={inputText.replace(/\s/g, "").length === 0}
             className={`${
-              inputText.replace(/\s/g, "").length === 0
-                ? "text-gray-300"
-                : "text-green-700 hover:text-green-600 transition"
+              inputText.replace(/\s/g, "").length === 0 ? "text-gray-300" : "text-sky-500 hover:text-sky-400 transition"
             }`}
           >
-            <IoSend className="w-6 h-6 " />
+            <IoSend className="w-6 h-6" />
           </button>
         </div>
       </div>
