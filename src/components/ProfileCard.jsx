@@ -98,10 +98,11 @@ const ProfileCard = ({ item, isEmployer }) => {
               {info.user_profile[0].oneLiner?.[lang]}
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex items-center space-x-2 overflow-hidden">
               {info.user_profile[0].tech?.slice(0, 3).map((item, index) => (
                 <Tags key={index} item={item.text} size="sm" />
               ))}
+              <p className="text-xs text-gray-500 h-full flex items-center mt-px flex-shrink-0">+{info.user_profile[0].tech?.length - 3}</p>
             </div>
           </div>
         </div>

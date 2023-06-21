@@ -8,7 +8,7 @@ import Contracts from "../components/Contracts";
 import ChatBg from "../assets/chat-bg.jpg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
-import { BsChatSquare, BsFilePerson, BsListUl, BsPaperclip } from "react-icons/bs";
+import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
 
 const ManageWork = () => {
   // const { t } = useTranslation("developerProfile");
@@ -115,9 +115,9 @@ const ManageWork = () => {
           <button
             className={`${
               pathname === `/manage/${chatId}/${type}`
-                ? "bg-green-800 text-white"
+                ? "bg-gray-200 text-gray-700"
                 : "bg-white hover:bg-gray-100 text-gray-600"
-            } w-full h-12 flex items-center px-4 space-x-3 transition border-b justify-between`}
+            } w-full h-14 flex items-center px-4 space-x-3 transition border-b justify-between`}
           >
             <div className="space-x-3 items-center flex">
               {leftButton}
@@ -132,30 +132,29 @@ const ManageWork = () => {
     const AssistantSection = () => {
       return (
         <div className="w-full flex-shrink-0 text-sm p-4 py-4">
-          <p className="font-bold text-gray-800">소통에 어려움을 겪으시나요?</p>
-          <p className="mt-1 text-gray-800">담당 어시스턴트에게 도움을 요청해 보세요.</p>
+          <p className="font-bold text-gray-500 text-xs">소통 보조 담당 어시스턴트</p>
 
-          <div className="rounded w-full text-gray-700 mt-5 text-sm">
-            <p className="font-bold text-xs text-green-700">어시스턴트:</p>
-            <div className="flex flex-col bg-white p-2 rounded mt-2 text-black">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full bg-gray-200"></div>
-                <div>
-                  <p className="font-bold">장동해 (Andrew Jang)</p>
-                  <p className="text-xs">어시스턴트 at 국제인</p>
-                </div>
+          <div className="rounded w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded mt-2 border">
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 rounded-full bg-gray-200"></div>
+              <div>
+                <p className="font-bold">장동해 (Andrew Jang)</p>
+                <p className="text-xs">어시스턴트 at 국제인</p>
               </div>
             </div>
           </div>
+
           <button
-            onClick={() => setRequestPressed(true)}
-            className="border text px-4 py-2 rounded hover:bg-green-100 transition font-nanum font-semibold text-sm w-full mt-4 text-green-700 bg-white"
+            onClick={() => setRequestPressed(!requestPressed)}
+            className={`${
+              requestPressed ? "bg-gray-200 text-gray-400 hover:bg-gray-100" : "bg-green-700 text-white filter hover:brightness-125"
+            } border text px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
           >
-            {requestPressed ? "요청됨" : "어시스턴트 통화 요청"}
+            {requestPressed ? "초대 취소하기" : "어시스턴트 초대"}
           </button>
           {requestPressed && (
             <div className="text-sm text-green-600 break-keep mt-3 text-center">
-              어시스턴트가 등록된 전화번호로 곧 연락드리겠습니다.
+              어시스턴트가 채팅방에 초대되었습니다.
             </div>
           )}
         </div>
@@ -164,9 +163,17 @@ const ManageWork = () => {
 
     const ProfileSection = () => {
       return (
-        <div className="flex flex-col items-center space-y-3">
-          <div className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0"></div>
-          <p className="text-xl">모하메드 알가잘리</p>
+        <div className="flex flex-col items-center space-y-3 group">
+          <Link to="/user/1" className="flex flex-col items-center space-y-3">
+            <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
+              <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center">
+                <IoMdOpen className="w-8 h-8" />
+              </div>
+            </button>
+            <button>
+              <p className="text-xl group-hover:underline transition">모하메드 알가잘리</p>
+            </button>
+          </Link>
           <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
             <p className="">풀스택 개발자</p>
             <p style={{ color: "#0E5034" }} className="font-bold">
@@ -180,23 +187,15 @@ const ManageWork = () => {
       return (
         <div
           style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
-          className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
+          className="w-72 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
         >
-          <div className="w-full flex flex-col items-center pt-8 border-l h-full">
+          <div className="w-full flex flex-col items-center pt-8 h-full">
             <div className="w-full flex flex-col items-center h-full">
               <ProfileSection />
-              <div className="w-full mt-4">
+              <div className="w-full mt-4 border-t">
                 <Cell type={"chat"} title={"1:1 채팅"} newTab={false} leftButton={<BsChatSquare />} />
                 <Cell type={"report"} title={"일일 업무일지"} newTab={false} leftButton={<BsListUl />} />
                 <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} leftButton={<BsPaperclip />} />
-                <Cell
-                  url="/user/1"
-                  type={"profile"}
-                  title={"프로필 보기"}
-                  newTab={true}
-                  rightButton={<IoMdOpen />}
-                  leftButton={<BsFilePerson />}
-                />
                 <AssistantSection />
               </div>
             </div>
