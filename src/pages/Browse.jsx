@@ -111,7 +111,7 @@ const Browse = () => {
 
         <div className="p-6 bg-gray-100 mb-16 rounded">
           <p className="text-2xl font-bold text-gray-800 my-4">{t("companies")}</p>
-          <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-3 gap-y-4 py-6">
             {Object.entries(companyArray).map((item, index) => (
               <CompanyCard key={index} item={item} />
             ))}
