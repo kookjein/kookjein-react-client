@@ -12,31 +12,31 @@ import { WebsocketContext } from "../utils/websocketContext";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import { AuthContext } from "../utils/authContext";
+import axios from "../utils/authAxios";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
 const ChatPanel = () => {
   const { wsRef } = useContext(WebsocketContext);
   const { userState } = useContext(AuthContext);
   const inputRef = useRef(null);
+  const [roomMessages, setRoomMessages] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
-  const messagesEndRef = useRef("");
+  const messagesEndRef = useRef(null);
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
-  const SAMPLETEXT =
-    "Here is a text type message box Here is a text type www.kookjein.com message box here is a text type message box Here is a text type message box Here is type message box sn";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
   };
 
   const handleScroll = (event) => {
-    const { scrollHeight, scrollTop, clientHeight } = event.target;
-    const scroll = scrollHeight - scrollTop - clientHeight;
-    setScrollPosition(scroll);
+    const { scrollTop } = event.target;
+    setScrollPosition(-scrollTop);
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [roomMessages]);
 
   // // ===== WHEN WEBSOCKET IS OPEN ===== //
   // useEffect(() => {
@@ -58,6 +58,21 @@ const ChatPanel = () => {
   //   }
   //   return () => {};
   // }, [wsRef.current]);
+
+  useEffect(() => {
+    axios
+      .get(`/v1/chat/messages`, { params: { room_id: 1, created_at: moment().valueOf(), count: 20 } })
+      .then((response) => {
+        setRoomMessages(response.data);
+
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/USER/EMPLOYEES ERROR : ", e);
+      });
+
+    return () => {};
+  }, []);
 
   const sendMessage = (text) => {
     inputRef.current.value = "";
@@ -105,6 +120,12 @@ const ChatPanel = () => {
   );
 
   const TopButton = ({ scrollPosition }) => {
+    useEffect(() => {
+      console.log(scrollPosition);
+
+      return () => {};
+    }, [scrollPosition]);
+
     return (
       <button
         className={`rounded-6px items-center justify-end filter z-20 bg-opacity-75 w-full h-7 text-white border-b space-x-2 font-bold bg-green-700 hover:bg-green-600 px-4 ${
@@ -124,30 +145,23 @@ const ChatPanel = () => {
       <div
         onScroll={handleScroll}
         style={{ height: "calc(100vh - 14.4rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
-        className="w-full h-full overflow-y-auto py-6 px-4 pb-12 relative"
+        className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse"
       >
-        {new Array(19).fill(0).map((item, index) => (
-          <MessageBox
-            key={index}
-            avatar="true"
-            position={"left"}
-            type={"text"}
-            title={"USERNAME"}
-            text={<ReactLinkify textDecorator={textDecorator}>{SAMPLETEXT}</ReactLinkify>}
-            date={new Date()}
-            replyButton={true}
-          />
-        ))}
-        {new Array(3).fill(0).map((item, index) => (
-          <MessageBox
-            key={index}
-            position={"right"}
-            type={"text"}
-            text={<ReactLinkify textDecorator={textDecorator}>{SAMPLETEXT}</ReactLinkify>}
-            date={new Date()}
-          />
-        ))}
         <div ref={messagesEndRef} />
+        {roomMessages.map((item, index) => (
+          <div>
+            <MessageBox
+              key={item.chat_message_id}
+              avatar="true"
+              position={item.user_id === userState.user.userId ? "right" : "left"}
+              type={"text"}
+              // title={"USERNAME"}
+              text={<ReactLinkify textDecorator={textDecorator}>{item.chat_message_text}</ReactLinkify>}
+              date={item.chat_message_created_at}
+              replyButton={true}
+            />
+          </div>
+        ))}
       </div>
       <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0 border-t">
         <TopButton scrollPosition={scrollPosition} />
@@ -157,13 +171,14 @@ const ChatPanel = () => {
           multiline={true}
           autofocus
           onKeyDown={handleKeypress}
+          onChange={(e) => setInputValue(e.target.value)}
         />
         <div className="flex-shrink-0 px-4 flex justify-end items-end bg-white py-4 absolute right-0 bottom-0">
           <button
             onClick={() => sendMessage(inputRef.current?.value)}
-            disabled={inputRef.current?.value.replace(/\s/g, "").length === 0}
+            disabled={inputValue.replace(/\s/g, "").length === 0}
             className={`${
-              inputRef.current?.value.replace(/\s/g, "").length === 0
+              inputValue.replace(/\s/g, "").length === 0
                 ? "text-gray-300"
                 : "text-sky-500 hover:text-sky-400 transition"
             }`}

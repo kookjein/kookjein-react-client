@@ -20,7 +20,6 @@ const Browse = () => {
       .get(`/v1/user/employees`)
       .then((response) => {
         setEmployeeArray(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/USER/EMPLOYEES ERROR : ", e);
@@ -91,9 +90,7 @@ const Browse = () => {
         </div>
 
         <div className="flex justify-between w-full my-4">
-          <p className="text-2xl font-bold text-gray-800">
-            {t("developers")}
-          </p>
+          <p className="text-2xl font-bold text-gray-800">{t("developers")}</p>
           <Link to="/developers" className="text-green-600 hover:text-green-500 hover:underline font-bold">
             <div className="flex items-center">
               <p>{t("viewMore")}</p>
@@ -113,9 +110,7 @@ const Browse = () => {
         </div>
 
         <div className="p-6 bg-gray-100 mb-16 rounded">
-          <p className="text-2xl font-bold text-gray-800 my-4">
-            {t("companies")}
-          </p>
+          <p className="text-2xl font-bold text-gray-800 my-4">{t("companies")}</p>
           <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6">
             {Object.entries(companyArray).map((item, index) => (
               <CompanyCard key={index} item={item} />
@@ -123,9 +118,7 @@ const Browse = () => {
           </div>
         </div>
 
-        <p className="text-2xl font-bold text-gray-800 my-4">
-          {t("employers")}
-        </p>
+        <p className="text-2xl font-bold text-gray-800 my-4">{t("employers")}</p>
         <div className="w-full grid grid-cols-1 sm:grid-cols-4 h-full items-center flex-shrink-0 gap-x-4 gap-y-6 py-6 mb-6">
           {Object.entries(employerArray).map((item, index) => (
             <ProfileCard key={index} item={item} isEmployer={true} />
