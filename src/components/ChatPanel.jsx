@@ -88,7 +88,6 @@ const ChatPanel = ({ roomId }) => {
       .get(`/v1/chat/messages`, { params: { room_id: 1, created_at: moment().valueOf(), count: 20 } })
       .then((response) => {
         setRoomMessages(response.data);
-
         console.log(response.data);
       })
       .catch((e) => {
@@ -144,12 +143,6 @@ const ChatPanel = ({ roomId }) => {
   );
 
   const TopButton = ({ scrollPosition }) => {
-    useEffect(() => {
-      console.log(scrollPosition);
-
-      return () => {};
-    }, [scrollPosition]);
-
     return (
       <button
         className={`rounded-6px items-center justify-end filter z-20 bg-opacity-75 w-full h-7 text-white border-b space-x-2 font-bold bg-green-700 hover:bg-green-600 px-4 ${

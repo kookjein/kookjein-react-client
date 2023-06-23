@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
@@ -10,10 +10,12 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
 import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
+import axios from "../utils/authAxios";
+import { AuthContext } from "../utils/authContext";
 
 const ManageWork = () => {
   const { t } = useTranslation("manageWork");
-
+  const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
   const pathname = window.location.pathname;
 
@@ -25,18 +27,45 @@ const ManageWork = () => {
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
+    const [rooms, setRooms] = useState([]);
+
+    useEffect(() => {
+      axios
+        .get(`/v1/chat/rooms`)
+        .then((response) => {
+          setRooms(response.data);
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log("V1/CHAT/ROOMS ERROR : ", e);
+        });
+
+      return () => {};
+    }, []);
+
     const Cell = ({ item }) => {
       return (
-        <Link to={`/manage/${item.id}/chat`}>
+        <Link to={`/manage/${item.chat_room_id}/chat`} className="w-full">
           <button
             className={`${
-              pathname.includes(`/manage/${item.id}`) ? "bg-gray-200" : "bg-white hover:bg-gray-100"
+              pathname.includes(`/manage/${item.chat_room_id}`) ? "bg-gray-200" : "bg-white hover:bg-gray-100"
             } w-full h-16 flex items-center px-4 space-x-3 transition`}
           >
             <img alt="" src={DefaultImage} className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200" />
             <div className="flex flex-col items-start w-full space-y-px">
-              <p className={`${item.hasNotification ? "font-bold font-black" : "text-gray-600"} text-sm`}>
-                {item.name}
+              <p
+                style={{
+                  width: "100%",
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                }}
+                className={`${
+                  item.hasNotification ? "font-bold font-black" : "text-gray-600"
+                } text-sm w-full text-left`}
+              >
+                {item.participants.map((v) => v.user_id !== userState.user.userId && v.user_name)}
               </p>
               <p
                 style={{
@@ -48,7 +77,7 @@ const ManageWork = () => {
                 }}
                 className={`${item.hasNotification ? "text-black" : "text-gray-400"} text-xs text-start`}
               >
-                안녕하세요 저는 알가잘리입니다. 안녕하세요 저는 알가잘리입니다.
+                {item.chat_message_text}
               </p>
             </div>
             {item.hasNotification && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
@@ -74,19 +103,23 @@ const ManageWork = () => {
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
           <p>{t("employee")}</p>
         </div>
-        {TESTARRAY.filter((item) => item.isEmployee)
-          .filter((item) => item.name.includes(filterString))
+        {rooms
+          // .filter((item) => item.isEmployee)
+          // .filter((item) => {
+          //   item.participants.map((v) => v.user_id !== userState.user.userId && v.user_name).includes("김");
+          // })
           .map((item, index) => (
             <Cell key={index} item={item} />
           ))}
-        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
+        {/* <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
           <p>{t("all")}</p>
         </div>
-        {TESTARRAY.filter((item) => !item.isEmployee)
-          .filter((item) => item.name.includes(filterString))
+        {rooms
+          .filter((item) => !item.isEmployee)
+          // .filter((item) => item.name.includes(filterString))
           .map((item, index) => (
             <Cell key={index} item={item} />
-          ))}
+          ))} */}
       </div>
     );
   };
