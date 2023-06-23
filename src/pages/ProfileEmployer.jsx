@@ -234,7 +234,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
       <div className="w-full space-y-4">
         <div className="w-full flex flex-col space-y-3">
-          <SummaryCell value={t("status2.value")} title={t("status2.title")} icon={<MdOutlineWork />} />
+          <SummaryCell value={t("status1.value")} title={t("status1.title")} icon={<MdOutlineWork />} />
           <SummaryCell
             value={developerInfo.current?.country ? developerInfo.current?.country : t("status2.value1")}
             title={t("status2.title")}
