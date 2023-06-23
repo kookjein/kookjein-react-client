@@ -13,9 +13,13 @@ import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
+import { useTranslation } from "react-i18next";
+import "moment/locale/ko";
+
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
-const ChatPanel = () => {
+const ChatPanel = ({ roomId }) => {
+  const { t, i18n } = useTranslation("manageWork");
   const { wsRef } = useContext(WebsocketContext);
   const { userState } = useContext(AuthContext);
   const inputRef = useRef(null);
@@ -23,6 +27,8 @@ const ChatPanel = () => {
   const [inputValue, setInputValue] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const messagesEndRef = useRef(null);
+  moment.locale(i18n.language);
+
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
 
   const scrollToBottom = () => {
@@ -37,6 +43,24 @@ const ChatPanel = () => {
   useEffect(() => {
     scrollToBottom();
   }, [roomMessages]);
+
+  useEffect(() => {
+    const sendReadStatus = () => {
+      if (wsRef.current) {
+        wsRef.current.send(
+          JSON.stringify({
+            read: {
+              user_id: userState.user.userId,
+              chat_room_id: 1,
+              chat_last_read_at: 0, // LAST CHAT MESSAGE TIMESTAMP
+            },
+          })
+        );
+      }
+    };
+    sendReadStatus();
+    return () => {};
+  }, [roomId, userState.user.userId, wsRef]);
 
   // // ===== WHEN WEBSOCKET IS OPEN ===== //
   // useEffect(() => {
@@ -155,9 +179,10 @@ const ChatPanel = () => {
               avatar="true"
               position={item.user_id === userState.user.userId ? "right" : "left"}
               type={"text"}
-              // title={"USERNAME"}
+              title={"USERNAME"}
               text={<ReactLinkify textDecorator={textDecorator}>{item.chat_message_text}</ReactLinkify>}
-              date={item.chat_message_created_at}
+              date
+              dateString={moment(item.chat_message_created_at).fromNow()}
               replyButton={true}
             />
           </div>
@@ -167,7 +192,7 @@ const ChatPanel = () => {
         <TopButton scrollPosition={scrollPosition} />
         <Input
           referance={inputRef}
-          placeholder="메세지 작성..."
+          placeholder={t("inputPlaceholder")}
           multiline={true}
           autofocus
           onKeyDown={handleKeypress}

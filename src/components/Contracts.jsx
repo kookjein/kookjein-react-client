@@ -3,8 +3,11 @@ import { AiOutlineDownload } from "react-icons/ai";
 import { IoDocumentAttachOutline } from "react-icons/io5";
 import DefaultImage from "../assets/default-profile.png";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Contracts = ({ chatId }) => {
+  const { t } = useTranslation("manageWork");
+
   const Header = () => (
     <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
       <Link to="/user/1">
@@ -39,7 +42,7 @@ const Contracts = ({ chatId }) => {
 
       <div style={{ height: "calc(100vh - 8rem)" }} className="w-full overflow-y-auto pb-12 px-6 pb-4 bg-gray-100">
         <div className="w-full flex-shrink-0 flex justify-between items-center py-6">
-          <p className="text-2xl font-bold">일일 업무일지</p>
+          <p className="text-2xl font-bold">{t("contract")}</p>
         </div>
         <div className="grid grid-cols-4 grid-rows-2 w-full gap-4 bg-white rounded-lg border p-4">
           <Cell title="Non-disclosure agreement" />

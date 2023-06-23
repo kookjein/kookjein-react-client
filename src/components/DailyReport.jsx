@@ -5,10 +5,14 @@ import DailyReportModal from "../components/DailyReportModal";
 import DailyReportUploadModal from "./DailyReportUploadModal";
 import DefaultImage from "../assets/default-profile.png";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 const DailyReport = ({ chatId }) => {
+  const { t, i18n } = useTranslation("manageWork");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModalOpen] = useState(false);
+  moment.locale(i18n.language);
 
   const customStyles = {
     content: {
@@ -65,9 +69,11 @@ const DailyReport = ({ chatId }) => {
       <div className="flex items-center space-x-4">
         <div className="w-14 text-gray-500 flex flex-col items-center justify-center border-r">
           <p style={{ fontSize: "10px" }} className="text-xs">
-            JUN
+            {moment().format("MMM")}
           </p>
-          <p className="text-xs">15</p>
+          <p style={{ marginTop: "-2px" }} className="text-sm">
+            {moment().format("DD")}
+          </p>
         </div>
         <BsFileEarmarkRuledFill className="w-4 h-4" />
         <p className="text-sm group-hover:underline">20230613-1607-mohammad-algazali</p>
@@ -105,13 +111,13 @@ const DailyReport = ({ chatId }) => {
 
         <div style={{ height: "calc(100vh - 8rem)" }} className="w-full h-full overflow-y-auto flex flex-col px-6 pb-4">
           <div className="w-full flex-shrink-0 flex justify-between items-center py-6">
-            <p className="text-2xl font-bold">일일 업무일지</p>
+            <p className="text-2xl font-bold">{t("dailyReport")}</p>
             <button
               onClick={openUploadModal}
               className="flex h-8 px-4 bg-green-700 text-white items-center rounded space-x-2 filter hover:brightness-125"
             >
               <BsUpload />
-              <p className="text-sm">일지 업로드</p>
+              <p className="text-sm">{t("uploadDailyReport")}</p>
             </button>
           </div>
           <div className="w-full h-full bg-white pr-1 rounded-lg overflow-y-auto shadow-inner border">

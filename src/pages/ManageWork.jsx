@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar2 from "../components/Navbar2";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
@@ -12,7 +12,7 @@ import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
 
 const ManageWork = () => {
-  // const { t } = useTranslation("developerProfile");
+  const { t } = useTranslation("manageWork");
 
   const { chatId } = useParams();
   const pathname = window.location.pathname;
@@ -66,13 +66,13 @@ const ManageWork = () => {
           <AiOutlineSearch className="text-gray-500" />
           <input
             className="w-full h-full outline-none bg-transparent"
-            placeholder="Search user"
+            placeholder={t("searchPlaceholder")}
             value={filterString}
             onChange={(e) => setFilterString(e.target.value)}
           />
         </div>
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
-          <p>채용된 직원</p>
+          <p>{t("employee")}</p>
         </div>
         {TESTARRAY.filter((item) => item.isEmployee)
           .filter((item) => item.name.includes(filterString))
@@ -80,7 +80,7 @@ const ManageWork = () => {
             <Cell key={index} item={item} />
           ))}
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
-          <p>전체</p>
+          <p>{t("all")}</p>
         </div>
         {TESTARRAY.filter((item) => !item.isEmployee)
           .filter((item) => item.name.includes(filterString))
@@ -137,7 +137,7 @@ const ManageWork = () => {
     const AssistantSection = () => {
       return (
         <div className="w-full flex-shrink-0 text-sm p-4 py-4">
-          <p className="font-bold text-gray-500 text-xs">소통 보조 담당 어시스턴트</p>
+          <p className="font-bold text-gray-500 text-xs">{t("assistant.title")}</p>
 
           <div className="rounded w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded mt-2 border">
             <div className="flex items-center space-x-2">
@@ -148,7 +148,7 @@ const ManageWork = () => {
               />
               <div>
                 <p className="font-bold">장동해 (Andrew Jang)</p>
-                <p className="text-xs">어시스턴트 at 국제인</p>
+                <p className="text-xs">{t("assistant.subtitle")}</p>
               </div>
             </div>
           </div>
@@ -161,17 +161,15 @@ const ManageWork = () => {
                 : "bg-green-700 text-white filter hover:brightness-125"
             } border px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
           >
-            {requestPressed ? "초대 취소하기" : "어시스턴트 초대"}
+            {requestPressed ? t("assistant.button1Cancel") : t("assistant.button1")}
           </button>
           {requestPressed && (
-            <div className="text-sm text-green-600 break-keep mt-3 text-center">
-              어시스턴트가 채팅방에 초대되었습니다.
-            </div>
+            <div className="text-sm text-green-600 break-keep mt-2 text-center">{t("assistant.response")}</div>
           )}
           <button
             className={`border border-green-700 text-green-700 px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-2`}
           >
-            {"어시스턴트 통화"}
+            {t("assistant.button2")}
           </button>
         </div>
       );
@@ -215,9 +213,9 @@ const ManageWork = () => {
             <div className="w-full flex flex-col items-center h-full">
               <ProfileSection />
               <div className="w-full mt-4 border-t">
-                <Cell type={"chat"} title={"1:1 채팅"} newTab={false} leftButton={<BsChatSquare />} />
-                <Cell type={"report"} title={"일일 업무일지"} newTab={false} leftButton={<BsListUl />} />
-                <Cell type={"documents"} title={"계약서 및 기타서류"} newTab={false} leftButton={<BsPaperclip />} />
+                <Cell type={"chat"} title={t("chat")} newTab={false} leftButton={<BsChatSquare />} />
+                <Cell type={"report"} title={t("dailyReport")} newTab={false} leftButton={<BsListUl />} />
+                <Cell type={"documents"} title={t("contract")} newTab={false} leftButton={<BsPaperclip />} />
                 <AssistantSection />
               </div>
             </div>
