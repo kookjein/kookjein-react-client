@@ -259,7 +259,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             {title === t("info.4") ? (
               <p>{moment(text).format("YYYY.MM.DD")}</p>
             ) : title === t("info.9") ? (
-              <a href={text} className="text-blue-500 hover:text-blue-400">
+              <a
+                href={text.includes("//") ? text : `//${text}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-400"
+              >
                 {text}
               </a>
             ) : (
@@ -333,9 +338,11 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             {generalInfo?.company && (
               <div className="flex items-center flex-shrink-0">
                 <p className="mx-1">at</p>
-                <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
-                  {companyInfo.current?.company?.company_info[0]?.name}
-                </button>
+                <Link to={`/company/${companyInfo.current.company?.company_id}`}>
+                  <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                    {companyInfo.current?.company?.company_info[0]?.name}
+                  </button>
+                </Link>
                 <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
               </div>
             )}
@@ -369,7 +376,13 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
               <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
               <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
               <a
-                href={companyInfo.current?.company?.company_info[0]?.website}
+                href={
+                  companyInfo.current?.company?.company_info[0]?.website.includes("//")
+                    ? companyInfo.current?.company?.company_info[0]?.website
+                    : `//${companyInfo.current?.company?.company_info[0]?.website}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-blue-500 hover:text-blue-400"
               >
                 {companyInfo.current?.company?.company_info[0]?.website}{" "}

@@ -85,7 +85,12 @@ const Company = () => {
             {title === t("info.4") ? (
               <p>{moment(text).format("YYYY.MM.DD")}</p>
             ) : title === t("info.9") ? (
-              <a href={text} className="text-blue-500">
+              <a
+                href={text.includes("//") ? text : `//${text}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500"
+              >
                 {text}
               </a>
             ) : (
@@ -142,10 +147,16 @@ const Company = () => {
             <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
             <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
             <a
-              href={companyInfo.current?.company?.company_info[0]?.website}
+              href={
+                companyInfo.current?.company?.company_info[0]?.website.includes("//")
+                  ? companyInfo.current?.company?.company_info[0]?.website
+                  : `//${companyInfo.current?.company?.company_info[0]?.website}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-sky-600 hover:text-sky-500"
             >
-              {companyInfo.current?.company?.company_info[0]?.website}{" "}
+              {companyInfo.current?.company?.company_info[0]?.website}
             </a>
           </div>
         </div>
