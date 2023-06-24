@@ -14,7 +14,9 @@ const manageWork = {
     button2: "Call assistant",
     response: "Invited sent to join chat room.",
   },
-  uploadDailyReport: "Upload today's report"
+  uploadDailyReport: "Upload today's report",
+  loadMore: "Load more messages",
+  firstMessage: "You reached the top!",
 };
 
 export default manageWork;

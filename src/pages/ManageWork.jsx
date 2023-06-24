@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import { useTranslation } from "react-i18next";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, Route, Routes, useParams, useSearchParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
@@ -28,6 +28,7 @@ const ManageWork = () => {
       .get(`/v1/chat/rooms`)
       .then((response) => {
         setRooms(response.data);
+        console.log(response.data)
       })
       .catch((e) => {
         console.log("V1/CHAT/ROOMS ERROR : ", e);
@@ -95,7 +96,7 @@ const ManageWork = () => {
                   (v, index) =>
                     v.user_id !== userState.user.userId && (
                       <span key={v.user_id}>
-                        {v.user_name}
+                        {v?.user_name}
                         {index < item.participants.length - 1 ? ", " : ""}
                       </span>
                     )
@@ -139,11 +140,11 @@ const ManageWork = () => {
         </div>
         {rooms
           // .filter((item) => item.isEmployee)
-          .filter((item) => {
-            return item.participants[0].user_id === userState.user.userId
-              ? item.participants[1].user_name.includes(filterString)
-              : item.participants[0].user_name.includes(filterString);
-          })
+          // .filter((item) => {
+          //   return item.participants[0]?.user_id === userState.user.userId
+          //     ? item.participants[1]?.user_name.includes(filterString)
+          //     : item.participants[0]?.user_name.includes(filterString);
+          // })
           .map((item, index) => (
             <Cell key={index} item={item} />
           ))}
@@ -156,22 +157,6 @@ const ManageWork = () => {
           .map((item, index) => (
             <Cell key={index} item={item} />
           ))} */}
-      </div>
-    );
-  };
-
-  const MiddlePanel = () => {
-    if (pathname.includes("/chat")) return <ChatPanel roomId={roomIdQuery} currentRoomData={currentRoomData} />;
-    else if (pathname.includes("/report")) return <DailyReport chatId={chatId} currentRoomData={currentRoomData} />;
-    else if (pathname.includes("/documents")) return <Contracts chatId={chatId} currentRoomData={currentRoomData} />;
-    return (
-      <div
-        className="w-full border-r flex items-center justify-center"
-        style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
-      >
-        <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
-          Choose the chat room to start
-        </div>
       </div>
     );
   };
@@ -247,9 +232,9 @@ const ManageWork = () => {
         <div className="flex flex-col items-center space-y-3 group mb-4">
           <Link
             to={`/user/${
-              currentRoomData.participants?.[0].user_id === userState.user.userId
-                ? currentRoomData.participants?.[1].user_id
-                : currentRoomData.participants?.[0].user_id
+              currentRoomData.participants?.[0]?.user_id === userState.user.userId
+                ? currentRoomData.participants?.[1]?.user_id
+                : currentRoomData.participants?.[0]?.user_id
             }`}
             className="flex flex-col items-center space-y-3"
           >
@@ -315,12 +300,30 @@ const ManageWork = () => {
       );
   };
 
+  const StartPanel = () => {
+    return (
+      <div
+        className="w-full border-r flex items-center justify-center"
+        style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
+      >
+        <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
+          Choose the chat room to start
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <Navbar2 light />
       <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
         <LeftPanel />
-        <MiddlePanel />
+        <Routes>
+          <Route path="/chat" element={<ChatPanel roomId={roomIdQuery} currentRoomData={currentRoomData} />} />
+          <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
+          <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
+          <Route path="/" element={<StartPanel />} />
+        </Routes>
         <RightPanel currentRoomData={currentRoomData} />
       </div>
     </div>

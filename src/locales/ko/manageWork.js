@@ -12,10 +12,11 @@ const manageWork = {
     button1: "어시스턴트 초대",
     button1Cancel: "초대 취소하기",
     button2: "어시스턴트 통화",
-    response: "어시스턴트가 채팅방에 초대되었습니다."
+    response: "어시스턴트가 채팅방에 초대되었습니다.",
   },
-  uploadDailyReport: "일지 업로드"
-
+  uploadDailyReport: "일지 업로드",
+  loadMore: "이전 메세지 보기",
+  firstMessage: "첫 메세지 입니다.",
 };
 
 export default manageWork;

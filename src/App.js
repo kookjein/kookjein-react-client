@@ -33,11 +33,7 @@ function App() {
         <Route path="/user/:userId" element={<Profile />} />
         <Route path="/company/:companyId" element={<Company />} />
         <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />
-        <Route path="/manage" element={userState.isAuthenticated ? <ManageWork /> : <Navigate to="/" replace />} />
-        <Route
-          path="/manage/:chatId/*"
-          element={userState.isAuthenticated ? <ManageWork /> : <Navigate to="/" replace />}
-        />
+        <Route path="/manage/*" element={userState.isAuthenticated ? <ManageWork /> : <Navigate to="/" replace />} />
         <Route path="/service/company" element={<ServiceCompany />} />
         <Route path="/service/developer" element={<ServiceDeveloper />} />
         <Route path="/pricing" element={<Pricing />} />

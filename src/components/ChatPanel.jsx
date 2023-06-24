@@ -18,17 +18,19 @@ import "moment/locale/ko";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
 const ChatPanel = ({ roomId, currentRoomData }) => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation("manageWork");
   const { wsRef } = useContext(WebsocketContext);
   const { userState } = useContext(AuthContext);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const navigate = useNavigate();
 
   const [roomMessages, setRoomMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [participantsData, setParticipantsData] = useState([]);
+  const [firstMessageTimestamp, setFirstMessageTimestamp] = useState(moment().valueOf());
+
   moment.locale(i18n.language);
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
 
@@ -43,7 +45,7 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [roomMessages]);
+  }, [roomId]);
 
   useEffect(() => {
     const sendReadStatus = () => {
@@ -84,17 +86,35 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
   //   return () => {};
   // }, [wsRef.current]);
 
-  useEffect(() => {
+  const getMessages = () => {
     axios
-      .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: moment().valueOf(), count: 20 } })
+      .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: firstMessageTimestamp, count: 25 } })
       .then((response) => {
-        setRoomMessages(response.data);
+        setRoomMessages([...roomMessages, ...response.data]);
+        setFirstMessageTimestamp(response.data[response.data.length - 1]?.chat_message_created_at || 0);
       })
       .catch((e) => {
-        console.log("V1/USER/EMPLOYEES ERROR : ", e);
+        console.log("V1/CHAT/MESSAGES ERROR : ", e);
       });
+  };
 
-    return () => {};
+  useEffect(() => {
+    const getInitialMessages = () => {
+      axios
+        .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: moment().valueOf(), count: 25 } })
+        .then((response) => {
+          setRoomMessages(response.data);
+          setFirstMessageTimestamp(response.data[response.data.length - 1].chat_message_created_at);
+        })
+        .catch((e) => {
+          console.log("V1/USER/EMPLOYEES ERROR : ", e);
+        });
+    };
+
+    getInitialMessages();
+    return () => {
+      setFirstMessageTimestamp(moment().valueOf());
+    };
   }, [roomId]);
 
   useEffect(() => {
@@ -180,15 +200,14 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
 
   const TopButton = ({ scrollPosition }) => {
     return (
-      <button
-        className={`rounded-6px items-center justify-end filter z-20 bg-opacity-75 w-full h-7 text-white border-b space-x-2 font-bold bg-green-700 hover:bg-green-600 px-4 ${
-          scrollPosition > 0 ? "flex" : "hidden"
-        } transition duration-200`}
-        onClick={scrollToBottom}
-      >
-        <p className="text-sm">Scroll to bottom</p>
-        <AiOutlineArrowDown className="w-4 h-4" />
-      </button>
+      <div className={`items-center justify-end z-20 px-4 ${scrollPosition > 0 ? "flex" : "hidden"}`}>
+        <button
+          onClick={scrollToBottom}
+          className="flex items-center justify-center bg-green-700 text-white shadow-lg bg-opacity-75 w-12 h-12 rounded-full mb-2 border filter hover:brightness-125"
+        >
+          <AiOutlineArrowDown className="w-6 h-6" />
+        </button>
+      </div>
     );
   };
 
@@ -211,8 +230,8 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
           return (
             <div key={item.chat_message_id} style={{ marginTop: isFirstMessage && "10px" }}>
               <MessageBox
-                avatar={isFirstMessage && participantsData[item.user_id].user_img}
-                title={isFirstMessage && participantsData[item.user_id].user_name}
+                avatar={isFirstMessage && participantsData[item.user_id]?.user_img}
+                title={isFirstMessage && participantsData[item.user_id]?.user_name}
                 onTitleClick={() => navigate(`/user/${item.user_id}`)}
                 position={item.user_id === userState.user.userId ? "right" : "left"}
                 type={"text"}
@@ -224,12 +243,28 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
             </div>
           );
         })}
+        {firstMessageTimestamp === 0 ? (
+          <div
+            className="px-3 py-1 text-green-700 font-bold rounded-lg text-sm flex items-center justify-center"
+            onClick={getMessages}
+          >
+            {t("firstMessage")}
+          </div>
+        ) : (
+          <button
+            className="px-3 py-1 bg-white text-green-700 font-bold shadow rounded-lg text-sm hover:bg-gray-100"
+            onClick={getMessages}
+          >
+            {t("loadMore")}
+          </button>
+        )}
       </div>
-      <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0 border-t">
+      <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0">
         <TopButton scrollPosition={scrollPosition} />
         <Input
           referance={inputRef}
           placeholder={t("inputPlaceholder")}
+          className="border-t"
           multiline={true}
           autofocus
           onKeyDown={handleKeypress}
