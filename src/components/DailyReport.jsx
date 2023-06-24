@@ -123,8 +123,8 @@ const DailyReport = ({ chatId }) => {
           <div className="w-full h-full bg-white pr-1 rounded-lg overflow-y-auto shadow-inner border">
             {Array(4)
               .fill(0)
-              .map((item) => (
-                <Cell />
+              .map((item, index) => (
+                <Cell key={index} />
               ))}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
@@ -18,40 +18,68 @@ const ManageWork = () => {
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
   const pathname = window.location.pathname;
+  const [searchParams] = useSearchParams();
+  const roomIdQuery = searchParams.get("room_id");
+  const [currentRoomData, setCurrentRoomData] = useState({});
+  const [rooms, setRooms] = useState([]);
 
-  const TESTARRAY = [
-    { id: 0, name: "모하메드", hasNotification: true, isEmployee: false },
-    { id: 1, name: "세린", isEmployee: false },
-    { id: 2, name: "김준석", isEmployee: true },
-  ];
+  useEffect(() => {
+    axios
+      .get(`/v1/chat/rooms`)
+      .then((response) => {
+        setRooms(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/CHAT/ROOMS ERROR : ", e);
+      });
+
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    if (rooms) {
+      var sample = {};
+      for (let i = 0; i < rooms.length; i++) {
+        if (`${rooms[i].chat_room_id}` === roomIdQuery) {
+          sample = rooms[i];
+        }
+      }
+      setCurrentRoomData(sample);
+    }
+
+    return () => {};
+  }, [rooms, roomIdQuery]);
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
-    const [rooms, setRooms] = useState([]);
-
-    useEffect(() => {
-      axios
-        .get(`/v1/chat/rooms`)
-        .then((response) => {
-          setRooms(response.data);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log("V1/CHAT/ROOMS ERROR : ", e);
-        });
-
-      return () => {};
-    }, []);
 
     const Cell = ({ item }) => {
       return (
-        <Link to={`/manage/${item.chat_room_id}/chat`} className="w-full">
+        <Link to={`/manage/chat?room_id=${item.chat_room_id}`} className="w-full">
           <button
             className={`${
-              pathname.includes(`/manage/${item.chat_room_id}`) ? "bg-gray-200" : "bg-white hover:bg-gray-100"
+              roomIdQuery === `${item.chat_room_id}` ? "bg-gray-200" : "bg-white hover:bg-gray-100"
             } w-full h-16 flex items-center px-4 space-x-3 transition`}
           >
-            <img alt="" src={DefaultImage} className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200" />
+            <div className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden space-x-px">
+              {item.participants.map(
+                (v, index) =>
+                  v.user_id !== userState.user.userId && (
+                    <img
+                      key={v.user_id}
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = DefaultImage;
+                      }}
+                      src={v.user_img || DefaultImage}
+                      alt=""
+                      draggable={false}
+                      className={`${index > 1 ? "h-full w-1/2" : "h-full w-full"} flex object-cover`}
+                    />
+                  )
+              )}
+            </div>
+
             <div className="flex flex-col items-start w-full space-y-px">
               <p
                 style={{
@@ -61,11 +89,17 @@ const ManageWork = () => {
                   WebkitLineClamp: 1,
                   WebkitBoxOrient: "vertical",
                 }}
-                className={`${
-                  item.hasNotification ? "font-bold font-black" : "text-gray-600"
-                } text-sm w-full text-left`}
+                className={`${item.hasNotification ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
               >
-                {item.participants.map((v) => v.user_id !== userState.user.userId && v.user_name)}
+                {item.participants.map(
+                  (v, index) =>
+                    v.user_id !== userState.user.userId && (
+                      <span key={v.user_id}>
+                        {v.user_name}
+                        {index < item.participants.length - 1 ? ", " : ""}
+                      </span>
+                    )
+                )}
               </p>
               <p
                 style={{
@@ -105,9 +139,11 @@ const ManageWork = () => {
         </div>
         {rooms
           // .filter((item) => item.isEmployee)
-          // .filter((item) => {
-          //   item.participants.map((v) => v.user_id !== userState.user.userId && v.user_name).includes("김");
-          // })
+          .filter((item) => {
+            return item.participants[0].user_id === userState.user.userId
+              ? item.participants[1].user_name.includes(filterString)
+              : item.participants[0].user_name.includes(filterString);
+          })
           .map((item, index) => (
             <Cell key={index} item={item} />
           ))}
@@ -125,9 +161,9 @@ const ManageWork = () => {
   };
 
   const MiddlePanel = () => {
-    if (pathname.includes("/chat")) return <ChatPanel />;
-    else if (pathname.includes("/report")) return <DailyReport chatId={chatId} />;
-    else if (pathname.includes("/documents")) return <Contracts chatId={chatId} />;
+    if (pathname.includes("/chat")) return <ChatPanel roomId={roomIdQuery} currentRoomData={currentRoomData} />;
+    else if (pathname.includes("/report")) return <DailyReport chatId={chatId} currentRoomData={currentRoomData} />;
+    else if (pathname.includes("/documents")) return <Contracts chatId={chatId} currentRoomData={currentRoomData} />;
     return (
       <div
         className="w-full border-r flex items-center justify-center"
@@ -140,21 +176,19 @@ const ManageWork = () => {
     );
   };
 
-  const RightPanel = () => {
+  const RightPanel = ({ currentRoomData }) => {
     const [requestPressed, setRequestPressed] = useState(false);
 
     const Cell = ({ title, type, url, newTab, rightButton, leftButton }) => {
       return (
         <Link
-          to={url ? url : `/manage/${chatId}/${type}`}
+          to={url ? url : `/manage/${type}?room_id=${roomIdQuery}`}
           target={newTab ? "_blank" : "_self"}
           rel="noopener noreferrer"
         >
           <button
             className={`${
-              pathname === `/manage/${chatId}/${type}`
-                ? "bg-gray-200 text-gray-700"
-                : "bg-white hover:bg-gray-100 text-gray-600"
+              pathname === `/manage/${type}` ? "bg-gray-200 text-gray-700" : "bg-white hover:bg-gray-100 text-gray-600"
             } w-full h-14 flex items-center px-4 space-x-3 transition border-b justify-between`}
           >
             <div className="space-x-3 items-center flex">
@@ -172,7 +206,7 @@ const ManageWork = () => {
         <div className="w-full flex-shrink-0 text-sm p-4 py-4">
           <p className="font-bold text-gray-500 text-xs">{t("assistant.title")}</p>
 
-          <div className="rounded w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded mt-2 border">
+          <div className="w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded border">
             <div className="flex items-center space-x-2">
               <img
                 alt=""
@@ -210,28 +244,52 @@ const ManageWork = () => {
 
     const ProfileSection = () => {
       return (
-        <div className="flex flex-col items-center space-y-3 group">
-          <Link to="/user/1" className="flex flex-col items-center space-y-3">
+        <div className="flex flex-col items-center space-y-3 group mb-4">
+          <Link
+            to={`/user/${
+              currentRoomData.participants?.[0].user_id === userState.user.userId
+                ? currentRoomData.participants?.[1].user_id
+                : currentRoomData.participants?.[0].user_id
+            }`}
+            className="flex flex-col items-center space-y-3"
+          >
             <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0 relative">
               <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center absolute">
                 <IoMdOpen className="w-8 h-8" />
               </div>
-              <img
-                alt=""
-                src={DefaultImage}
-                className="w-full h-full object-cover flex-shrink-0 rounded-full bg-gray-200"
-              />
+              <div className="w-full h-full object-cover flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden space-x-px">
+                {currentRoomData.participants?.map(
+                  (v, index) =>
+                    v.user_id !== userState.user.userId && (
+                      <img
+                        key={v.user_id}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null; // prevents looping
+                          currentTarget.src = DefaultImage;
+                        }}
+                        src={v.user_img || DefaultImage}
+                        alt=""
+                        draggable={false}
+                        className={`${index > 1 ? "h-full w-1/2" : "h-full w-full"} flex object-cover`}
+                      />
+                    )
+                )}
+              </div>
             </button>
             <button>
-              <p className="text-xl group-hover:underline transition">모하메드 알가잘리</p>
+              <p className="text-xl group-hover:underline transition mt-2">
+                {currentRoomData.participants?.map(
+                  (v, index) =>
+                    v.user_id !== userState.user.userId && (
+                      <span key={v.user_id}>
+                        {v.user_name}
+                        {index < currentRoomData.participants.length - 1 ? ", " : ""}
+                      </span>
+                    )
+                )}
+              </p>
             </button>
           </Link>
-          <div className="text-sm text-gray-500 flex flex-col items-center space-y-1">
-            <p className="">풀스택 개발자</p>
-            <p style={{ color: "#0E5034" }} className="font-bold">
-              픽톨로지
-            </p>
-          </div>
         </div>
       );
     };
@@ -263,7 +321,7 @@ const ManageWork = () => {
       <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
         <LeftPanel />
         <MiddlePanel />
-        <RightPanel />
+        <RightPanel currentRoomData={currentRoomData} />
       </div>
     </div>
   );

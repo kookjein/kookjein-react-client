@@ -7,7 +7,7 @@ import { useRef, useEffect } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import ReactLinkify from "react-linkify";
 import DefaultImage from "../assets/default-profile.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { WebsocketContext } from "../utils/websocketContext";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
@@ -15,20 +15,21 @@ import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 import { useTranslation } from "react-i18next";
 import "moment/locale/ko";
-
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
-const ChatPanel = ({ roomId }) => {
+const ChatPanel = ({ roomId, currentRoomData }) => {
   const { t, i18n } = useTranslation("manageWork");
   const { wsRef } = useContext(WebsocketContext);
   const { userState } = useContext(AuthContext);
   const inputRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const navigate = useNavigate();
+
   const [roomMessages, setRoomMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
-  const messagesEndRef = useRef(null);
+  const [participantsData, setParticipantsData] = useState([]);
   moment.locale(i18n.language);
-
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
 
   const scrollToBottom = () => {
@@ -85,17 +86,29 @@ const ChatPanel = ({ roomId }) => {
 
   useEffect(() => {
     axios
-      .get(`/v1/chat/messages`, { params: { room_id: 1, created_at: moment().valueOf(), count: 20 } })
+      .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: moment().valueOf(), count: 20 } })
       .then((response) => {
         setRoomMessages(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/USER/EMPLOYEES ERROR : ", e);
       });
 
     return () => {};
-  }, []);
+  }, [roomId]);
+
+  useEffect(() => {
+    var participantsArray = [];
+    for (let i = 0; i < currentRoomData.participants?.length; i++) {
+      participantsArray[currentRoomData.participants?.[i]?.user_id] = {
+        user_name: currentRoomData.participants?.[i]?.user_name,
+        user_img: currentRoomData.participants?.[i]?.user_img,
+      };
+    }
+    setParticipantsData(participantsArray);
+
+    return () => {};
+  }, [roomId, currentRoomData]);
 
   const sendMessage = (text) => {
     inputRef.current.value = "";
@@ -132,13 +145,36 @@ const ChatPanel = ({ roomId }) => {
   };
 
   const Header = () => (
-    <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
-      <Link to="/user/1">
-        <button className="flex items-center space-x-2">
-          <img alt="" src={DefaultImage} className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200" />
-          <p>모하메드 알가잘리</p>
-        </button>
-      </Link>
+    <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2 cursor-default">
+      <div className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden space-x-px">
+        {currentRoomData.participants?.map(
+          (v, index) =>
+            v.user_id !== userState.user.userId && (
+              <img
+                key={v.user_id}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = DefaultImage;
+                }}
+                src={v.user_img || DefaultImage}
+                alt=""
+                draggable={false}
+                className={`${index > 1 ? "h-full w-1/2" : "h-full w-full"} flex object-cover`}
+              />
+            )
+        )}
+      </div>
+      <p>
+        {currentRoomData.participants?.map(
+          (v, index) =>
+            v.user_id !== userState.user.userId && (
+              <span key={v.user_id}>
+                {v.user_name}
+                {index < currentRoomData.participants.length - 1 ? ", " : ""}
+              </span>
+            )
+        )}
+      </p>
     </div>
   );
 
@@ -165,21 +201,29 @@ const ChatPanel = ({ roomId }) => {
         className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse"
       >
         <div ref={messagesEndRef} />
-        {roomMessages.map((item, index) => (
-          <div>
-            <MessageBox
-              key={item.chat_message_id}
-              avatar="true"
-              position={item.user_id === userState.user.userId ? "right" : "left"}
-              type={"text"}
-              title={"USERNAME"}
-              text={<ReactLinkify textDecorator={textDecorator}>{item.chat_message_text}</ReactLinkify>}
-              date
-              dateString={moment(item.chat_message_created_at).fromNow()}
-              replyButton={true}
-            />
-          </div>
-        ))}
+        {roomMessages.map((item, index) => {
+          var isFirstMessage = false;
+          if (index < roomMessages.length - 1 && roomMessages[index + 1].user_id === roomMessages[index].user_id) {
+            isFirstMessage = false;
+          } else {
+            isFirstMessage = true;
+          }
+          return (
+            <div key={item.chat_message_id} style={{ marginTop: isFirstMessage && "10px" }}>
+              <MessageBox
+                avatar={isFirstMessage && participantsData[item.user_id].user_img}
+                title={isFirstMessage && participantsData[item.user_id].user_name}
+                onTitleClick={() => navigate(`/user/${item.user_id}`)}
+                position={item.user_id === userState.user.userId ? "right" : "left"}
+                type={"text"}
+                text={<ReactLinkify textDecorator={textDecorator}>{item.chat_message_text}</ReactLinkify>}
+                date
+                dateString={moment(item.chat_message_created_at).fromNow()}
+                replyButton={true}
+              />
+            </div>
+          );
+        })}
       </div>
       <div className="w-full flex-shrink-0 flex flex-col absolute bottom-0 border-t">
         <TopButton scrollPosition={scrollPosition} />
