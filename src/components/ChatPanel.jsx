@@ -7,7 +7,7 @@ import { useRef, useEffect } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import ReactLinkify from "react-linkify";
 import DefaultImage from "../assets/default-profile.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { WebsocketContext } from "../utils/websocketContext";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
@@ -17,11 +17,17 @@ import { useTranslation } from "react-i18next";
 import "moment/locale/ko";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
-const ChatPanel = ({ roomId, currentRoomData }) => {
+const ChatPanel = ({ currentRoomData }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("manageWork");
+
+  const [searchParams] = useSearchParams();
+  const receiverIdQuery = searchParams.get("u");
+  const roomIdQuery = searchParams.get("room_id");
+
   const { wsRef } = useContext(WebsocketContext);
   const { userState } = useContext(AuthContext);
+
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
 
@@ -45,17 +51,17 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [roomId]);
+  }, [roomIdQuery]);
 
   useEffect(() => {
     const sendReadStatus = () => {
-      if (wsRef.current) {
+      if (wsRef.current && roomIdQuery) {
         wsRef.current.send(
           JSON.stringify({
             read: {
               user_id: userState.user.userId,
-              chat_room_id: 1,
-              chat_last_read_at: 0, // LAST CHAT MESSAGE TIMESTAMP
+              chat_room_id: roomIdQuery,
+              chat_last_read_at: moment().valueOf(), // LAST CHAT MESSAGE TIMESTAMP
             },
           })
         );
@@ -63,7 +69,7 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
     };
     sendReadStatus();
     return () => {};
-  }, [roomId, userState.user.userId, wsRef]);
+  }, [roomIdQuery, userState.user.userId, wsRef]);
 
   // // ===== WHEN WEBSOCKET IS OPEN ===== //
   // useEffect(() => {
@@ -88,7 +94,7 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
 
   const getMessages = () => {
     axios
-      .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: firstMessageTimestamp, count: 25 } })
+      .get(`/v1/chat/messages`, { params: { room_id: roomIdQuery, created_at: firstMessageTimestamp, count: 25 } })
       .then((response) => {
         setRoomMessages([...roomMessages, ...response.data]);
         setFirstMessageTimestamp(response.data[response.data.length - 1]?.chat_message_created_at || 0);
@@ -101,21 +107,23 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
   useEffect(() => {
     const getInitialMessages = () => {
       axios
-        .get(`/v1/chat/messages`, { params: { room_id: roomId, created_at: moment().valueOf(), count: 25 } })
+        .get(`/v1/chat/messages`, { params: { room_id: roomIdQuery, created_at: moment().valueOf(), count: 25 } })
         .then((response) => {
           setRoomMessages(response.data);
           setFirstMessageTimestamp(response.data[response.data.length - 1].chat_message_created_at);
         })
         .catch((e) => {
-          console.log("V1/USER/EMPLOYEES ERROR : ", e);
+          console.log("V1/CHAT/MESSAGES INITIAL ERROR : ", e);
         });
     };
 
-    getInitialMessages();
+    if (roomIdQuery) {
+      getInitialMessages();
+    }
     return () => {
       setFirstMessageTimestamp(moment().valueOf());
     };
-  }, [roomId]);
+  }, [roomIdQuery]);
 
   useEffect(() => {
     var participantsArray = [];
@@ -128,7 +136,7 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
     setParticipantsData(participantsArray);
 
     return () => {};
-  }, [roomId, currentRoomData]);
+  }, [roomIdQuery, currentRoomData]);
 
   const sendMessage = (text) => {
     inputRef.current.value = "";
@@ -139,8 +147,8 @@ const ChatPanel = ({ roomId, currentRoomData }) => {
             chat_message_id: uuidv4(),
             chat_message_text: text,
             chat_message_created_at: moment().valueOf(),
-            chat_room_id: null,
-            chat_participants: [userState.user.userId, 2],
+            chat_room_id: roomIdQuery || null,
+            chat_participants: [userState.user.userId, receiverIdQuery],
             user: {
               user_id: userState.user.userId,
               user_name: userState.user.userName,

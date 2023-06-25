@@ -20,6 +20,7 @@ const ManageWork = () => {
   const pathname = window.location.pathname;
   const [searchParams] = useSearchParams();
   const roomIdQuery = searchParams.get("room_id");
+  const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
 
@@ -28,7 +29,7 @@ const ManageWork = () => {
       .get(`/v1/chat/rooms`)
       .then((response) => {
         setRooms(response.data);
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/CHAT/ROOMS ERROR : ", e);
@@ -39,13 +40,11 @@ const ManageWork = () => {
 
   useEffect(() => {
     if (rooms) {
-      var sample = {};
       for (let i = 0; i < rooms.length; i++) {
         if (`${rooms[i].chat_room_id}` === roomIdQuery) {
-          sample = rooms[i];
+          setCurrentRoomData(rooms[i]);
         }
       }
-      setCurrentRoomData(sample);
     }
 
     return () => {};
@@ -55,8 +54,25 @@ const ManageWork = () => {
     const [filterString, setFilterString] = useState("");
 
     const Cell = ({ item }) => {
+      const [hasNewMessage, setHasNewMessage] = useState(false);
+      const [receiverId, setReceiverId] = useState(receiverIdQuery);
+
+      useEffect(() => {
+        for (let i = 0; i < item.participants.length; i++) {
+          if (item.participants[i].user_id === userState.user.userId) {
+            if (item.participants[i].last_read_at < item.chat_message_created_at) {
+              setHasNewMessage(true);
+            }
+          } else if (item.participants[i].user_id !== userState.user.userId) {
+            setReceiverId(item.participants[i].user_id);
+          }
+        }
+
+        return () => {};
+      }, [item]);
+
       return (
-        <Link to={`/manage/chat?room_id=${item.chat_room_id}`} className="w-full">
+        <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full">
           <button
             className={`${
               roomIdQuery === `${item.chat_room_id}` ? "bg-gray-200" : "bg-white hover:bg-gray-100"
@@ -90,7 +106,7 @@ const ManageWork = () => {
                   WebkitLineClamp: 1,
                   WebkitBoxOrient: "vertical",
                 }}
-                className={`${item.hasNotification ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
+                className={`${hasNewMessage ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
               >
                 {item.participants.map(
                   (v, index) =>
@@ -110,12 +126,12 @@ const ManageWork = () => {
                   WebkitLineClamp: 1,
                   WebkitBoxOrient: "vertical",
                 }}
-                className={`${item.hasNotification ? "text-black" : "text-gray-400"} text-xs text-start`}
+                className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start`}
               >
                 {item.chat_message_text}
               </p>
             </div>
-            {item.hasNotification && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
+            {hasNewMessage && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
           </button>
         </Link>
       );
@@ -140,11 +156,11 @@ const ManageWork = () => {
         </div>
         {rooms
           // .filter((item) => item.isEmployee)
-          // .filter((item) => {
-          //   return item.participants[0]?.user_id === userState.user.userId
-          //     ? item.participants[1]?.user_name.includes(filterString)
-          //     : item.participants[0]?.user_name.includes(filterString);
-          // })
+          .filter((item) => {
+            return item.participants[0]?.user_id === userState.user.userId
+              ? item.participants[1]?.user_name.includes(filterString)
+              : item.participants[0]?.user_name.includes(filterString);
+          })
           .map((item, index) => (
             <Cell key={index} item={item} />
           ))}
@@ -167,7 +183,7 @@ const ManageWork = () => {
     const Cell = ({ title, type, url, newTab, rightButton, leftButton }) => {
       return (
         <Link
-          to={url ? url : `/manage/${type}?room_id=${roomIdQuery}`}
+          to={url ? url : `/manage/${type}?room_id=${roomIdQuery}&u=${receiverIdQuery}`}
           target={newTab ? "_blank" : "_self"}
           rel="noopener noreferrer"
         >
@@ -230,14 +246,7 @@ const ManageWork = () => {
     const ProfileSection = () => {
       return (
         <div className="flex flex-col items-center space-y-3 group mb-4">
-          <Link
-            to={`/user/${
-              currentRoomData.participants?.[0]?.user_id === userState.user.userId
-                ? currentRoomData.participants?.[1]?.user_id
-                : currentRoomData.participants?.[0]?.user_id
-            }`}
-            className="flex flex-col items-center space-y-3"
-          >
+          <Link to={`/user/${receiverIdQuery}`} className="flex flex-col items-center space-y-3">
             <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0 relative">
               <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center absolute">
                 <IoMdOpen className="w-8 h-8" />

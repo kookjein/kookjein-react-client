@@ -190,12 +190,12 @@ const Profile = () => {
 
       {userState.isAuthenticated && (
         <div className="w-full flex justify-center items-center space-x-2">
-          {/* <Link to="/manage/0/chat" state={{ tabStatus: 1 }}>
-            <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
+          <Link to={`/manage/chat?room_id=&u=${userId}`} state={{ tabStatus: 1 }}>
+            <button className="px-4 flex items-center justify-center h-8 rounded text-sm transition border flex-shrink-0 border-green-600 text-green-600">
               {t("sendMessage")}
             </button>
           </Link>
-          <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
+          {/* <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
             {t("hire")}
           </button> */}
           <button
