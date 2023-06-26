@@ -1,7 +1,7 @@
-const developerProfile = {
+const profile = {
   mode: "en",
   noInfo: "No information to show",
-  sendMessage: "Message",
+  sendMessage: "Send message",
   hire: "Send offer",
   editProfile: "Edit profile",
   addInfo: "Add your information",
@@ -40,6 +40,11 @@ const developerProfile = {
     title: "Member since",
     value: "2023 April 23",
   },
+
+  composePlaceholder: "Ask a question or share your project details (requirements, timeline, budget, etc.)",
+  atleast40: "Use at least 30 characters",
+  sentMessage: "Successfully sent",
+  toChat: "Go to inbox",
 };
 
-export default developerProfile;
+export default profile;

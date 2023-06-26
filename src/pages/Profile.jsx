@@ -1,23 +1,27 @@
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
-import Navbar2 from "../components/Navbar2";
-import Tags from "../components/Tags";
-import { IoLocationSharp } from "react-icons/io5";
-import { BiTime } from "react-icons/bi";
-import { AiTwotoneCalendar } from "react-icons/ai";
-import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
-import Footer from "../components/Footer";
-import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import moment from "moment/moment";
+import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
-import DefaultImage from "../assets/default-profile.png";
-import EditProfileModal from "../components/EditProfileModal";
-import { BsPatchCheckFill } from "react-icons/bs";
+//COMPONENTS
+import Navbar2 from "../components/Navbar2";
+import Tags from "../components/Tags";
+import Footer from "../components/Footer";
 import UploadProfile from "../components/UploadProfile";
-import { languageArray } from "../utils/arrays";
-import moment from "moment/moment";
 import ProfileEmployer from "./ProfileEmployer";
+import EditProfileModal from "../components/EditProfileModal";
+import { languageArray } from "../utils/arrays";
+//ASSETS
+import DefaultImage from "../assets/default-profile.png";
+import { IoClose, IoLocationSharp } from "react-icons/io5";
+import { BiSend, BiTime } from "react-icons/bi";
+import { AiTwotoneCalendar } from "react-icons/ai";
+import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
+import { BsCheckCircleFill, BsPatchCheckFill } from "react-icons/bs";
+import { WebsocketContext } from "../utils/websocketContext";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,12 +29,16 @@ const Profile = () => {
   const developerInfo = useRef({});
   const registerDate = useRef({});
   const { userState } = useContext(AuthContext);
-  const { t, i18n } = useTranslation("developerProfile");
+  const { wsRef } = useContext(WebsocketContext);
+
+  const { t, i18n } = useTranslation("profile");
   const { userId } = useParams();
-  const [isMyProfile, setIsMyProfile] = useState(false);
   const lang = i18n.language.includes("en") ? "en" : "ko";
+
+  const [isMyProfile, setIsMyProfile] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [composeModalIsOpen, setComposeModalOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [kYos, setKYos] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -38,11 +46,6 @@ const Profile = () => {
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
   }, [userState, userId]);
-
-  useEffect(() => {
-    Modal.setAppElement("body");
-    return () => {};
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -70,6 +73,11 @@ const Profile = () => {
       });
   }, [userId, navigate]);
 
+  useEffect(() => {
+    Modal.setAppElement("body");
+    return () => {};
+  }, []);
+
   const customStyles = {
     content: {
       top: "50%",
@@ -90,13 +98,17 @@ const Profile = () => {
     setIsOpen(true);
   }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
   function closeModal() {
     setIsOpen(false);
     setModalInitialTab("Basic");
+  }
+
+  function openComposeModal() {
+    setComposeModalOpen(true);
+  }
+
+  function closeComposeModal() {
+    setComposeModalOpen(false);
   }
 
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
@@ -190,11 +202,12 @@ const Profile = () => {
 
       {userState.isAuthenticated && (
         <div className="w-full flex justify-center items-center space-x-2">
-          <Link to={`/manage/chat?room_id=&u=${userId}`} state={{ tabStatus: 1 }}>
-            <button className="px-4 flex items-center justify-center h-8 rounded text-sm transition border flex-shrink-0 border-green-600 text-green-600">
-              {t("sendMessage")}
-            </button>
-          </Link>
+          <button
+            onClick={() => openComposeModal()}
+            className="px-4 flex items-center justify-center h-8 rounded text-sm transition border flex-shrink-0 border-green-600 text-green-600 hover:brightness-125 filter"
+          >
+            {t("sendMessage")}
+          </button>
           {/* <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
             {t("hire")}
           </button> */}
@@ -542,6 +555,125 @@ const Profile = () => {
     );
   };
 
+  const ComposeComponent = () => {
+    const [inputValue, setInputValue] = useState("");
+    const [isMessageSent, setMessageSent] = useState(false);
+
+    const sendMessage = () => {
+      setInputValue("");
+      if (wsRef.current || inputValue.replace(/\s/g, "").length !== 0) {
+        wsRef.current.send(
+          JSON.stringify({
+            message: {
+              chat_message_id: uuidv4(),
+              chat_message_text: inputValue,
+              chat_message_created_at: moment().valueOf(),
+              chat_room_id: null,
+              chat_participants: [userState.user.userId, userId],
+              user: {
+                user_id: userState.user.userId,
+                user_name: userState.user.userName,
+                user_img: userState.user.userImage,
+              },
+            },
+          })
+        );
+        setMessageSent(true);
+      }
+    };
+
+    if (composeModalIsOpen)
+      return (
+        <div
+          style={{ boxShadow: "0 0 4px #00000040", width: "30rem", height: "30rem" }}
+          className="fixed bottom-4 right-4 bg-white rounded shadow-xl filter border z-20"
+        >
+          <div className="w-full h-24 border-b border-gray-300 flex items-center px-6 space-x-4 relative">
+            <img
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = DefaultImage;
+              }}
+              src={developerInfo.current?.img || DefaultImage}
+              alt=""
+              draggable={false}
+              className="object-cover w-12 h-12 flex-shrink-0 rounded-full"
+            />
+            <div className="flex flex-col text-gray-700 w-full items-start">
+              <span className="font-bold text-lg">{developerInfo.current.name?.[lang]}</span>
+              <span className="text-sm">{t("sendMessage")}</span>
+            </div>
+            <button onClick={closeComposeModal} className="absolute top-4 right-4 text-gray-400 hover:text-gray-500">
+              <IoClose className="w-8 h-8" />
+            </button>
+          </div>
+
+          {isMessageSent ? (
+            <div style={{ height: "23.5rem" }} className="w-full flex flex-col items-center justify-center">
+              <BsCheckCircleFill className="w-8 h-8 text-sky-500" />
+              <p className="mt-4">{t("sentMessage")}</p>
+
+              <Link to="/manage">
+                <button className="bg-green-600 text-white px-8 py-2 rounded-full mt-6">{t("toChat")}</button>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <textarea
+                style={{ height: "18rem", resize: "none" }}
+                onChange={(e) => setInputValue(e.target.value)}
+                value={inputValue}
+                placeholder={t("composePlaceholder")}
+                className="w-full h-full flex outline-none p-4 placeholder-gray-500 break-keep"
+                autoFocus
+              />
+              <div className="h-8 px-4 text-sm text-gray-500 flex justify-between">
+                <p>{t("atleast40")}</p>
+                <p className={`${inputValue.length > 2500 && "text-red-500"}`}>{inputValue.length}/2500</p>
+              </div>
+              <div className="flex justify-end w-full px-4">
+                <button
+                  onClick={sendMessage}
+                  disabled={inputValue.length > 2500 || inputValue.length < 31}
+                  className={`${
+                    inputValue.length > 2500 || inputValue.length < 31
+                      ? "bg-green-600 bg-opacity-40"
+                      : "bg-green-600 hover:bg-green-500"
+                  } h-10 px-4 text-white rounded text-sm font-bold flex items-center space-x-2`}
+                >
+                  <BiSend className="w-4 h-4" />
+                  <p>{t("sendMessage")}</p>
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      );
+    else
+      return (
+        <button
+          style={{ boxShadow: "0 6px 12px #00000040" }}
+          onClick={openComposeModal}
+          className="fixed bottom-4 right-4 bg-white p-2 pr-8 rounded-full shadow-xl flex items-center space-x-4 filter hover:bg-gray-100 border z-30"
+        >
+          <img
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = DefaultImage;
+            }}
+            src={developerInfo.current?.img || DefaultImage}
+            alt=""
+            draggable={false}
+            className="object-cover w-14 h-14 rounded-full flex-shrink-0"
+          />
+          <div className="flex flex-col text-gray-700 w-full items-start">
+            <span className="font-bold text-lg">{t("sendMessage")}</span>
+            <span className="">{developerInfo.current.name?.[lang]}</span>
+          </div>
+        </button>
+      );
+  };
+
   if (!isLoading)
     if (generalInfo.current.user.user_type === "employer")
       return <ProfileEmployer generalInfo={generalInfo.current} isMyProfile={isMyProfile} />;
@@ -550,15 +682,14 @@ const Profile = () => {
         <>
           <Modal
             isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
             style={customStyles}
             shouldCloseOnOverlayClick={false}
-            // ariaHideApp={false}
           >
             <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
           </Modal>
 
+          {!isMyProfile && <ComposeComponent />}
           <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
             <Navbar2 light />
             <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">

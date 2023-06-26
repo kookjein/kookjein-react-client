@@ -6,7 +6,7 @@ export { default as serviceDeveloper } from "./serviceDeveloper";
 export { default as pricing } from "./pricing";
 export { default as profileCard } from "./profileCard";
 export { default as navBar2 } from "./navBar2";
-export { default as developerProfile } from "./developerProfile";
+export { default as profile } from "./profile";
 export { default as login } from "./login";
 export { default as signup } from "./signup";
 export { default as profileEmployer } from "./profileEmployer";
