@@ -97,14 +97,13 @@ const ManageWork = () => {
               )}
             </div>
 
-            <div className="flex flex-col items-start w-full space-y-px">
+            <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px">
               <p
                 style={{
                   width: "100%",
                   overflow: "hidden",
-                  display: "-webkit-box",
-                  WebkitLineClamp: 1,
-                  WebkitBoxOrient: "vertical",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
                 }}
                 className={`${hasNewMessage ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
               >
@@ -122,9 +121,8 @@ const ManageWork = () => {
                 style={{
                   width: "100%",
                   overflow: "hidden",
-                  display: "-webkit-box",
-                  WebkitLineClamp: 1,
-                  WebkitBoxOrient: "vertical",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
                 }}
                 className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start`}
               >

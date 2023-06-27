@@ -559,6 +559,24 @@ const Profile = () => {
     const [inputValue, setInputValue] = useState("");
     const [isMessageSent, setMessageSent] = useState(false);
 
+    useEffect(() => {
+      if (wsRef.current) {
+        wsRef.current.onmessage = (e) => {
+          const response = JSON.parse(JSON.parse(e.data));
+          wsRef.current.send(
+            JSON.stringify({
+              read: {
+                user_id: userState.user.userId,
+                chat_room_id: response.chat_room_id,
+                chat_last_read_at: moment().valueOf(), // LAST CHAT MESSAGE TIMESTAMP
+              },
+            })
+          );
+        };
+      }
+      return () => {};
+    }, []);
+
     const sendMessage = () => {
       setInputValue("");
       if (wsRef.current || inputValue.replace(/\s/g, "").length !== 0) {

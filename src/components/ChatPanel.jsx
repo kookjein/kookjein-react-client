@@ -71,7 +71,7 @@ const ChatPanel = ({ currentRoomData }) => {
     return () => {};
   }, [roomIdQuery, userState.user.userId, wsRef]);
 
-  // // ===== WHEN WEBSOCKET IS OPEN ===== //
+  // ===== WHEN WEBSOCKET IS OPEN ===== //
   // useEffect(() => {
   //   if (wsRef.current) {
   //     wsRef.current.onmessage = (e) => {
@@ -90,7 +90,7 @@ const ChatPanel = ({ currentRoomData }) => {
   //     };
   //   }
   //   return () => {};
-  // }, [wsRef.current]);
+  // }, [wsRef]);
 
   const getMessages = () => {
     axios
@@ -140,13 +140,14 @@ const ChatPanel = ({ currentRoomData }) => {
 
   const sendMessage = (text) => {
     inputRef.current.value = "";
+    const currentTime = moment().valueOf();
     if (wsRef.current || inputRef.current?.value.replace(/\s/g, "").length !== 0) {
       wsRef.current.send(
         JSON.stringify({
           message: {
             chat_message_id: uuidv4(),
             chat_message_text: text,
-            chat_message_created_at: moment().valueOf(),
+            chat_message_created_at: currentTime,
             chat_room_id: roomIdQuery || null,
             chat_participants: [userState.user.userId, receiverIdQuery],
             user: {
@@ -154,6 +155,16 @@ const ChatPanel = ({ currentRoomData }) => {
               user_name: userState.user.userName,
               user_img: userState.user.userImage,
             },
+          },
+        })
+      );
+
+      wsRef.current.send(
+        JSON.stringify({
+          read: {
+            user_id: userState.user.userId,
+            chat_room_id: roomIdQuery,
+            chat_last_read_at: currentTime, // LAST CHAT MESSAGE TIMESTAMP
           },
         })
       );
