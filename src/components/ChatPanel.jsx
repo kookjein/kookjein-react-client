@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import "moment/locale/ko";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
-const ChatPanel = ({ currentRoomData }) => {
+const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("manageWork");
 
@@ -36,7 +36,6 @@ const ChatPanel = ({ currentRoomData }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [participantsData, setParticipantsData] = useState([]);
   const [firstMessageTimestamp, setFirstMessageTimestamp] = useState(moment().valueOf());
-
   moment.locale(i18n.language);
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
 
@@ -54,6 +53,7 @@ const ChatPanel = ({ currentRoomData }) => {
   }, [roomIdQuery]);
 
   useEffect(() => {
+    const currentTime = moment().valueOf();
     const sendReadStatus = () => {
       if (wsRef.current && roomIdQuery) {
         wsRef.current.send(
@@ -61,48 +61,41 @@ const ChatPanel = ({ currentRoomData }) => {
             read: {
               user_id: userState.user.userId,
               chat_room_id: roomIdQuery,
-              chat_last_read_at: moment().valueOf(), // LAST CHAT MESSAGE TIMESTAMP
+              chat_last_read_at: currentTime, // LAST CHAT MESSAGE TIMESTAMP
             },
           })
         );
       }
     };
     sendReadStatus();
+
+    var roomsDuplicate = [...rooms];
+    for (let i = 0; i < roomsDuplicate.length; i++) {
+      if (`${roomsDuplicate[i].chat_room_id}` === roomIdQuery) {
+        for (let j = 0; j < roomsDuplicate[i].participants.length; j++) {
+          if (roomsDuplicate[i].participants[j].user_id === userState.user.userId) {
+            roomsDuplicate[i].participants[j].last_read_at = currentTime;
+          }
+        }
+
+        roomsDuplicate.sort((a, b) => {
+          return a.chat_message_created_at < b.chat_message_created_at ? 1 : -1;
+        });
+        setRooms(roomsDuplicate);
+      }
+    }
     return () => {};
-  }, [roomIdQuery, userState.user.userId, wsRef]);
+    /* eslint-disable */
+  }, [roomIdQuery, userState.user.userId, wsRef, newMessage, setRooms]);
+  /* eslint-enable */
 
-  // ===== WHEN WEBSOCKET IS OPEN ===== //
-  // useEffect(() => {
-  //   if (wsRef.current) {
-  //     wsRef.current.onmessage = (e) => {
-  //       console.log(e);
-  //       // const newRawMessage = JSON.parse(eval(e.data));
-  //       // sentMessage(
-  //       //   newRawMessage,
-  //       //   chatRooms,
-  //       //   setChatRooms,
-  //       //   setTotalMessages,
-  //       //   userStorage,
-  //       //   currentChatPageId,
-  //       //   ws
-  //       // );
-  //       // setNewMessageResponse(newRawMessage);
-  //     };
-  //   }
-  //   return () => {};
-  // }, [wsRef]);
-
-  const getMessages = () => {
-    axios
-      .get(`/v1/chat/messages`, { params: { room_id: roomIdQuery, created_at: firstMessageTimestamp, count: 25 } })
-      .then((response) => {
-        setRoomMessages([...roomMessages, ...response.data]);
-        setFirstMessageTimestamp(response.data[response.data.length - 1]?.chat_message_created_at || 0);
-      })
-      .catch((e) => {
-        console.log("V1/CHAT/MESSAGES ERROR : ", e);
-      });
-  };
+  useEffect(() => {
+    if (newMessage && roomIdQuery === `${newMessage.chat_room_id}`) {
+      newMessage.user_id = newMessage.user.user_id;
+      setRoomMessages((previousMessage) => [newMessage, ...previousMessage]);
+    }
+    return () => {};
+  }, [newMessage, roomIdQuery]);
 
   useEffect(() => {
     const getInitialMessages = () => {
@@ -116,7 +109,6 @@ const ChatPanel = ({ currentRoomData }) => {
           console.log("V1/CHAT/MESSAGES INITIAL ERROR : ", e);
         });
     };
-
     if (roomIdQuery) {
       getInitialMessages();
     }
@@ -138,8 +130,21 @@ const ChatPanel = ({ currentRoomData }) => {
     return () => {};
   }, [roomIdQuery, currentRoomData]);
 
+  const getMessages = () => {
+    axios
+      .get(`/v1/chat/messages`, { params: { room_id: roomIdQuery, created_at: firstMessageTimestamp, count: 25 } })
+      .then((response) => {
+        setRoomMessages([...roomMessages, ...response.data]);
+        setFirstMessageTimestamp(response.data[response.data.length - 1]?.chat_message_created_at || 0);
+      })
+      .catch((e) => {
+        console.log("V1/CHAT/MESSAGES ERROR : ", e);
+      });
+  };
+
   const sendMessage = (text) => {
     inputRef.current.value = "";
+    setInputValue("");
     const currentTime = moment().valueOf();
     if (wsRef.current || inputRef.current?.value.replace(/\s/g, "").length !== 0) {
       wsRef.current.send(
@@ -168,6 +173,25 @@ const ChatPanel = ({ currentRoomData }) => {
           },
         })
       );
+
+      var roomsDuplicate = [...rooms];
+      for (let i = 0; i < rooms.length; i++) {
+        if (`${rooms[i].chat_room_id}` === roomIdQuery) {
+          roomsDuplicate[i].chat_message_created_at = currentTime;
+          roomsDuplicate[i].chat_message_text = text;
+
+          for (let j = 0; j < roomsDuplicate[i].participants.length; j++) {
+            if (roomsDuplicate[i].participants[j].user_id === userState.user.userId) {
+              roomsDuplicate[i].participants[j].last_read_at = currentTime;
+            }
+          }
+
+          roomsDuplicate.sort((a, b) => {
+            return a.chat_message_created_at < b.chat_message_created_at ? 1 : -1;
+          });
+          setRooms(roomsDuplicate);
+        }
+      }
     }
   };
 

@@ -13,7 +13,7 @@ import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 
-const ManageWork = () => {
+const ManageWork = ({ newMessage }) => {
   const { t } = useTranslation("manageWork");
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
@@ -23,6 +23,7 @@ const ManageWork = () => {
   const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,7 +35,6 @@ const ManageWork = () => {
       .catch((e) => {
         console.log("V1/CHAT/ROOMS ERROR : ", e);
       });
-
     return () => {};
   }, []);
 
@@ -46,9 +46,34 @@ const ManageWork = () => {
         }
       }
     }
-
     return () => {};
   }, [rooms, roomIdQuery]);
+
+  useEffect(() => {
+    var roomsDuplicate = [...rooms];
+    for (let i = 0; i < roomsDuplicate.length; i++) {
+      if (roomsDuplicate?.[i]?.chat_room_id === newMessage?.chat_room_id) {
+        roomsDuplicate[i].chat_message_created_at = newMessage.chat_message_created_at;
+        roomsDuplicate[i].chat_message_text = newMessage.chat_message_text;
+
+        roomsDuplicate.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+      }
+    }
+
+    setRooms(roomsDuplicate);
+    return () => {};
+    /* eslint-disable */
+  }, [newMessage]);
+  /* eslint-enable */
+
+  useEffect(() => {
+    setLoading(true);
+    rooms.sort((a, b) => {
+      setLoading(false);
+      return a.chat_message_created_at < b.chat_message_created_at ? 1 : -1;
+    });
+    return () => {};
+  }, [rooms]);
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
@@ -152,16 +177,15 @@ const ManageWork = () => {
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
           <p>{t("employee")}</p>
         </div>
-        {rooms
-          // .filter((item) => item.isEmployee)
-          .filter((item) => {
-            return item.participants[0]?.user_id === userState.user.userId
-              ? item.participants[1]?.user_name.includes(filterString)
-              : item.participants[0]?.user_name.includes(filterString);
-          })
-          .map((item, index) => (
-            <Cell key={index} item={item} />
-          ))}
+        {!isLoading &&
+          rooms
+            // .filter((item) => item.isEmployee)
+            .filter((item) => {
+              return item.participants[0]?.user_id === userState.user.userId
+                ? item.participants[1]?.user_name.includes(filterString)
+                : item.participants[0]?.user_name.includes(filterString);
+            })
+            .map((item, index) => <Cell key={index} item={item} />)}
         {/* <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
           <p>{t("all")}</p>
         </div>
@@ -326,7 +350,18 @@ const ManageWork = () => {
       <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
         <LeftPanel />
         <Routes>
-          <Route path="/chat" element={<ChatPanel roomId={roomIdQuery} currentRoomData={currentRoomData} />} />
+          <Route
+            path="/chat"
+            element={
+              <ChatPanel
+                roomId={roomIdQuery}
+                currentRoomData={currentRoomData}
+                rooms={rooms}
+                setRooms={setRooms}
+                newMessage={newMessage}
+              />
+            }
+          />
           <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
           <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
           <Route path="/" element={<StartPanel />} />

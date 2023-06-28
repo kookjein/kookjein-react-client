@@ -15,7 +15,7 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { AxiosInterceptor } from "./utils/authAxios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./utils/authContext";
 import WorkPost from "./pages/WorkPost";
 import Error404 from "./pages/Error404";
@@ -33,12 +33,13 @@ function App() {
   const [searchParams] = useSearchParams();
   const roomIdQuery = searchParams.get("room_id");
   const pathandQuery = window.location.pathname + window.location.search;
+  const [newMessage, setNewMessage] = useState(null);
 
   useEffect(() => {
     if (wsRef.current && userState.isAuthenticated) {
       wsRef.current.onmessage = (e) => {
         const response = JSON.parse(JSON.parse(e.data));
-        console.log(response);
+        setNewMessage(response);
         if (
           response.user.user_id !== userState.user.userId &&
           pathandQuery !== `/manage/chat?room_id=${response.chat_room_id}&u=${response.user.user_id}`
@@ -107,7 +108,10 @@ function App() {
         <Route path="/user/:userId" element={<Profile />} />
         <Route path="/company/:companyId" element={<Company />} />
         <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />
-        <Route path="/manage/*" element={userState.isAuthenticated ? <ManageWork /> : <Navigate to="/" replace />} />
+        <Route
+          path="/manage/*"
+          element={userState.isAuthenticated ? <ManageWork newMessage={newMessage} /> : <Navigate to="/" replace />}
+        />
         <Route path="/service/company" element={<ServiceCompany />} />
         <Route path="/service/developer" element={<ServiceDeveloper />} />
         <Route path="/pricing" element={<Pricing />} />
