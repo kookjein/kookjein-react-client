@@ -12,9 +12,10 @@ import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
+import moment from "moment";
 
 const ManageWork = ({ newMessage }) => {
-  const { t } = useTranslation("manageWork");
+  const { t, i18n } = useTranslation("manageWork");
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
   const pathname = window.location.pathname;
@@ -24,6 +25,7 @@ const ManageWork = ({ newMessage }) => {
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  moment.locale(i18n.language);
 
   useEffect(() => {
     axios
@@ -97,7 +99,10 @@ const ManageWork = ({ newMessage }) => {
       }, [item]);
 
       return (
-        <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full">
+        <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full relative">
+          <span className="text-xs flex-shrink-0 absolute top-3 right-2 text-gray-500">
+            {moment(item.chat_message_created_at).fromNow()}
+          </span>
           <button
             className={`${
               roomIdQuery === `${item.chat_room_id}` ? "bg-gray-200" : "bg-white hover:bg-gray-100"
