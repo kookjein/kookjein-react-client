@@ -197,12 +197,22 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
 
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      if (e.ctrlKey || e.metaKey) {
-        inputRef.current.value += "\r\n";
-      } else if (!e.shiftKey) {
-        e.preventDefault();
-        sendMessage(inputRef.current?.value);
+    if (inputValue.replace(/\s/g, "").length !== 0) {
+      if (e.keyCode === 13) {
+        if (e.ctrlKey || e.metaKey) {
+          inputRef.current.value += "\r\n";
+        } else if (!e.shiftKey) {
+          e.preventDefault();
+          sendMessage(inputRef.current?.value);
+        }
+      }
+    } else {
+      if (e.keyCode === 13) {
+        if (e.ctrlKey || e.metaKey) {
+          inputRef.current.value += "\r\n";
+        } else if (!e.shiftKey) {
+          e.preventDefault();
+        }
       }
     }
   };
@@ -286,7 +296,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
             </div>
           );
         })}
-        {firstMessageTimestamp === 0 ? (
+        {firstMessageTimestamp === 0 || roomMessages.length < 25 ? (
           <div
             className="px-3 py-1 text-green-700 font-bold rounded-lg text-sm flex items-center justify-center"
             onClick={getMessages}

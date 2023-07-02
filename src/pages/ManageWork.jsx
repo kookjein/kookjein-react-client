@@ -24,15 +24,19 @@ const ManageWork = ({ newMessage }) => {
   const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
-  const [isLoading, setLoading] = useState(false);
   moment.locale(i18n.language);
 
   useEffect(() => {
     axios
       .get(`/v1/chat/rooms`)
       .then((response) => {
-        setRooms(response.data);
-        console.log(response.data);
+        var temp = response.data;
+        if (temp.length > 0) {
+          for (let i = 0; i < temp.length; i++) {
+            temp.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+          }
+        }
+        setRooms(temp);
       })
       .catch((e) => {
         console.log("V1/CHAT/ROOMS ERROR : ", e);
@@ -53,29 +57,22 @@ const ManageWork = ({ newMessage }) => {
 
   useEffect(() => {
     var roomsDuplicate = [...rooms];
-    for (let i = 0; i < roomsDuplicate.length; i++) {
-      if (roomsDuplicate?.[i]?.chat_room_id === newMessage?.chat_room_id) {
-        roomsDuplicate[i].chat_message_created_at = newMessage.chat_message_created_at;
-        roomsDuplicate[i].chat_message_text = newMessage.chat_message_text;
-
-        roomsDuplicate.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+    if (roomsDuplicate.length > 0) {
+      for (let i = 0; i < roomsDuplicate.length; i++) {
+        if (roomsDuplicate?.[i]?.chat_room_id === newMessage?.chat_room_id) {
+          roomsDuplicate[i].chat_message_created_at = newMessage.chat_message_created_at;
+          roomsDuplicate[i].chat_message_text = newMessage.chat_message_text;
+          roomsDuplicate.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+        } else {
+          roomsDuplicate.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+        }
       }
     }
-
     setRooms(roomsDuplicate);
     return () => {};
     /* eslint-disable */
   }, [newMessage]);
   /* eslint-enable */
-
-  useEffect(() => {
-    setLoading(true);
-    rooms.sort((a, b) => {
-      setLoading(false);
-      return a.chat_message_created_at < b.chat_message_created_at ? 1 : -1;
-    });
-    return () => {};
-  }, [rooms]);
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
@@ -100,9 +97,7 @@ const ManageWork = ({ newMessage }) => {
 
       return (
         <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full relative">
-          <span className="text-xs flex-shrink-0 absolute top-3 right-2 text-gray-500">
-            {moment(item.chat_message_created_at).fromNow()}
-          </span>
+          <span className="text-xs flex-shrink-0 absolute top-3 right-2 text-gray-500"></span>
           <button
             className={`${
               roomIdQuery === `${item.chat_room_id}` ? "bg-gray-200" : "bg-white hover:bg-gray-100"
@@ -128,38 +123,45 @@ const ManageWork = ({ newMessage }) => {
             </div>
 
             <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px">
-              <p
-                style={{
-                  width: "100%",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                }}
-                className={`${hasNewMessage ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
-              >
-                {item.participants.map(
-                  (v, index) =>
-                    v.user_id !== userState.user.userId && (
-                      <span key={v.user_id}>
-                        {v?.user_name}
-                        {index < item.participants.length - 1 ? ", " : ""}
-                      </span>
-                    )
-                )}
-              </p>
-              <p
-                style={{
-                  width: "100%",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                }}
-                className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start`}
-              >
-                {item.chat_message_text}
-              </p>
+              <div className="flex items-center space-x-2">
+                <p
+                  style={{
+                    width: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                  className={`${hasNewMessage ? "font-bold" : "text-gray-600"} text-sm w-full text-left`}
+                >
+                  {item.participants.map(
+                    (v, index) =>
+                      v.user_id !== userState.user.userId && (
+                        <span key={v.user_id}>
+                          {v?.user_name}
+                          {index < item.participants.length - 1 ? ", " : ""}
+                        </span>
+                      )
+                  )}
+                </p>
+                {hasNewMessage && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
+              </div>
+              <div className="flex space-x-1">
+                <p
+                  style={{
+                    // width: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                  className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start`}
+                >
+                  {item.chat_message_text}
+                </p>
+                <p className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start flex-shrink-0`}>
+                  · {moment(item.chat_message_created_at).fromNow()}
+                </p>
+              </div>
             </div>
-            {hasNewMessage && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
           </button>
         </Link>
       );
@@ -182,15 +184,16 @@ const ManageWork = ({ newMessage }) => {
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
           <p>{t("employee")}</p>
         </div>
-        {!isLoading &&
-          rooms
-            // .filter((item) => item.isEmployee)
-            .filter((item) => {
-              return item.participants[0]?.user_id === userState.user.userId
-                ? item.participants[1]?.user_name.includes(filterString)
-                : item.participants[0]?.user_name.includes(filterString);
-            })
-            .map((item, index) => <Cell key={index} item={item} />)}
+        {rooms
+          // .filter((item) => item.isEmployee)
+          .filter((item) => {
+            return item.participants[0]?.user_id === userState.user.userId
+              ? item.participants[1]?.user_name.includes(filterString)
+              : item.participants[0]?.user_name.includes(filterString);
+          })
+          .map((item) => (
+            <Cell key={item.chat_room_id} item={item} />
+          ))}
         {/* <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
           <p>{t("all")}</p>
         </div>
