@@ -1,6 +1,6 @@
 import React from "react";
 import LogoWhite from "../assets/logo_white.png";
-import LogoGreen from "../assets/logo_green.png";
+import LogoGreen from "../assets/logo.png";
 import { 
   IoChatboxOutline, 
   // IoNotificationsOutline, 
@@ -140,7 +140,7 @@ const Navbar = ({ light }) => {
             <img
               src={light ? LogoGreen : LogoWhite}
               alt="Kookjein logo"
-              className="h-6 sm:h-8 object-contain"
+              className="h-8 object-contain"
               draggable={false}
             />
           </Link>

@@ -1,4 +1,4 @@
-import React, { } from "react";
+import React from "react";
 import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
 import { BiChevronDown } from "react-icons/bi";
@@ -168,7 +168,6 @@ const Navbar = ({ light }) => {
 
   const Dropdown = ({ button, dropdown }) => {
     const [dropdownVisibility, setDropdownVisibility] = useState(false);
-
     return (
       <div
         className="relative hidden sm:flex"
@@ -181,6 +180,28 @@ const Navbar = ({ light }) => {
             className={`${
               dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
             } absolute top-9 -left-1 shadow-xl rounded-lg ring-1 ring-gray-100`}
+          >
+            {dropdown}
+          </article>
+        )}
+      </div>
+    );
+  };
+
+  const MobileDropdown = ({ button, dropdown }) => {
+    const [dropdownVisibility, setDropdownVisibility] = useState(false);
+    return (
+      <div
+        className="relative flex sm:hidden"
+        onMouseEnter={() => setDropdownVisibility(true)}
+        onMouseLeave={() => setDropdownVisibility(false)}
+      >
+        {button}
+        {dropdownVisibility && (
+          <article
+            className={`${
+              dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
+            } absolute top-9 -right-1 shadow-xl rounded-lg ring-1 ring-gray-100`}
           >
             {dropdown}
           </article>
@@ -219,10 +240,10 @@ const Navbar = ({ light }) => {
           </button>
         </Link>
       </div>
-      <div className="hidden sm:flex space-x-1 font-poppins sm:text-base text-sm justify-end items-center">
+      <div className="flex space-x-1 font-poppins sm:text-base text-sm justify-end items-center">
         <button
           onClick={() => changeLanguage()}
-          className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm font-bold flex items-center space-x-2"
+          className="transition hover:opacity-75 rounded-lg h-8 px-3 font-nanum text-sm font-bold flex items-center space-x-2"
         >
           <img src={t("flag")} className="w-6" alt="" />
           <p>{t("language")}</p>
@@ -232,11 +253,16 @@ const Navbar = ({ light }) => {
             {t("login")}
           </button>
         </Link>
-      </div>
 
-      <button className="sm:hidden transition hover:opacity-75 rounded-lg">
-        <IoReorderThreeOutline size={36} />
-      </button>
+        <MobileDropdown
+          button={
+            <button className="block transition hover:opacity-75 rounded-lg px-2">
+              <IoReorderThreeOutline size={36} />
+            </button>
+          }
+          dropdown={<SolutionDropdown />}
+        />
+      </div>
     </header>
   );
 };

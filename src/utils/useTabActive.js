@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
+import { AuthContext } from "./authContext";
 
 const useTabActive = () => {
+  const { userState } = useContext(AuthContext);
   const [visibilityState, setVisibilityState] = useState(true);
 
   const handleVisibilityChange = useCallback(() => {
@@ -11,11 +13,13 @@ const useTabActive = () => {
     const handleActivityFalse = () => setVisibilityState(false);
     const handleActivityTrue = () => setVisibilityState(true);
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    document.addEventListener("blur", handleActivityFalse);
-    window.addEventListener("blur", handleActivityFalse);
-    window.addEventListener("focus", handleActivityTrue);
-    document.addEventListener("focus", handleActivityTrue);
+    if (userState.isAuthenticated) {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      document.addEventListener("blur", handleActivityFalse);
+      window.addEventListener("blur", handleActivityFalse);
+      window.addEventListener("focus", handleActivityTrue);
+      document.addEventListener("focus", handleActivityTrue);
+    }
 
     return () => {
       window.removeEventListener("blur", handleVisibilityChange);
@@ -24,7 +28,7 @@ const useTabActive = () => {
       document.removeEventListener("focus", handleActivityTrue);
       document.removeEventListener("visibilitychange", handleActivityTrue);
     };
-  }, [handleVisibilityChange]);
+  }, [handleVisibilityChange, userState]);
 
   return visibilityState;
 };

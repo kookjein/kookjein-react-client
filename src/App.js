@@ -7,7 +7,9 @@ import { AxiosInterceptor } from "./utils/authAxios";
 import { AuthContext } from "./utils/authContext";
 import { WebsocketContext } from "./utils/websocketContext";
 import useTabActive from "./utils/useTabActive";
+import ScrollToTop from "./utils/scrollToTop";
 import { ToastContainer, toast } from "react-toastify";
+import moment from "moment";
 import MainPage from "./pages/MainPage";
 import TermsPage from "./pages/TermsPage";
 import Privacy from "./pages/Privacy";
@@ -53,6 +55,18 @@ function App() {
           toast(<Notification item={response} />);
           audio.play();
         }
+
+        if (response.user.user_id === userState.user.userId) {
+          wsRef.current.send(
+            JSON.stringify({
+              read: {
+                user_id: userState.user.userId,
+                chat_room_id: response.chat_room_id,
+                chat_last_read_at: moment().valueOf(), // LAST CHAT MESSAGE TIMESTAMP
+              },
+            })
+          );
+        }
       };
     }
     return () => {};
@@ -60,6 +74,7 @@ function App() {
 
   return (
     <AxiosInterceptor>
+      <ScrollToTop />
       <ToastContainer />
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />

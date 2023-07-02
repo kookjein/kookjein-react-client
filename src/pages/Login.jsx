@@ -99,7 +99,6 @@ const Login = () => {
                         payload: JSON.stringify(credentialResponse),
                       },
                     });
-                    // console.log(credentialResponse);
                   }}
                   onError={() => {
                     console.log("Login Failed");
