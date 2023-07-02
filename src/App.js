@@ -1,6 +1,13 @@
 import "./App.css";
 import "./gradientAnimation.css";
-import { Link, Navigate, Route, Routes, useSearchParams } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useContext, useState } from "react";
+import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
+import { AxiosInterceptor } from "./utils/authAxios";
+import { AuthContext } from "./utils/authContext";
+import { WebsocketContext } from "./utils/websocketContext";
+import useTabActive from "./utils/useTabActive";
+import { ToastContainer, toast } from "react-toastify";
 import MainPage from "./pages/MainPage";
 import TermsPage from "./pages/TermsPage";
 import Privacy from "./pages/Privacy";
@@ -14,22 +21,17 @@ import ManageWork from "./pages/ManageWork";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { AxiosInterceptor } from "./utils/authAxios";
-import { useContext, useState } from "react";
-import { AuthContext } from "./utils/authContext";
 import WorkPost from "./pages/WorkPost";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
 import Developers from "./pages/Developers";
-import { useEffect } from "react";
-import { WebsocketContext } from "./utils/websocketContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import DefaultImage from "./assets/default-profile.png";
+import Notification from "./components/Notification";
+import NotificationSound from "./assets/notification.mp3";
 
 function App() {
   const { userState } = useContext(AuthContext);
   const { wsRef } = useContext(WebsocketContext);
+  const isTabActive = useTabActive();
   const [searchParams] = useSearchParams();
   const roomIdQuery = searchParams.get("room_id");
   const pathandQuery = window.location.pathname + window.location.search;
@@ -39,68 +41,26 @@ function App() {
     if (wsRef.current && userState.isAuthenticated) {
       wsRef.current.onmessage = (e) => {
         const response = JSON.parse(JSON.parse(e.data));
+        const audio = new Audio(NotificationSound);
         setNewMessage(response);
-        if (
+        if (!isTabActive && response.user.user_id !== userState.user.userId) {
+          toast(<Notification item={response} />);
+          audio.play();
+        } else if (
           response.user.user_id !== userState.user.userId &&
           pathandQuery !== `/manage/chat?room_id=${response.chat_room_id}&u=${response.user.user_id}`
         ) {
           toast(<Notification item={response} />);
+          audio.play();
         }
       };
     }
     return () => {};
-  }, [wsRef, userState, pathandQuery, roomIdQuery]);
-
-  const Notification = ({ item }) => {
-    return (
-      <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${item.user.user_id}`} className="w-full">
-        <button className="w-full h-14 flex items-center space-x-3 transition bg-white">
-          <div className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden space-x-px">
-            <img
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = DefaultImage;
-              }}
-              src={item.user.user_img || DefaultImage}
-              alt=""
-              draggable={false}
-              className={`h-full w-full flex object-cover`}
-            />
-          </div>
-
-          <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px">
-            <p
-              style={{
-                width: "100%",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-              className={`text-gray-600 text-sm w-full text-left`}
-            >
-              {item.user.user_name}
-            </p>
-            <p
-              style={{
-                width: "100%",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-              className={`text-gray-400 text-xs text-start`}
-            >
-              {item.chat_message_text}
-            </p>
-          </div>
-        </button>
-      </Link>
-    );
-  };
+  }, [wsRef, userState, pathandQuery, roomIdQuery, isTabActive]);
 
   return (
     <AxiosInterceptor>
       <ToastContainer />
-
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
