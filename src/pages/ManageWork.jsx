@@ -13,11 +13,9 @@ import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 import moment from "moment";
-import useWindowDimensions from "../utils/windowDimensions";
 
 const ManageWork = ({ newMessage }) => {
   const { t, i18n } = useTranslation("manageWork");
-  const { height, width } = useWindowDimensions();
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
   const pathname = window.location.pathname;
@@ -27,7 +25,21 @@ const ManageWork = ({ newMessage }) => {
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
   moment.locale(i18n.language);
-  const isMobile = width <= 768;
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const isMobile = screenWidth <= 768;
+
+  function handleWindowSizeChange() {
+    setScreenWidth(window.innerWidth);
+    setScreenHeight(window.innerHeight);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -172,7 +184,7 @@ const ManageWork = ({ newMessage }) => {
 
     return (
       <div
-        style={{ height: `calc(${height} - 5rem)`, color: "#272D37" }}
+        style={{ height: `calc(${screenHeight} - 5rem)`, color: "#272D37" }}
         className="w-screen sm:w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
       >
         <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
@@ -358,8 +370,8 @@ const ManageWork = ({ newMessage }) => {
   if (isMobile)
     return (
       <div
-        style={{ minHeight: height }}
-        className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
+        style={{ minHeight: screenHeight }}
+        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
       >
         <Navbar2 light />
         <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
