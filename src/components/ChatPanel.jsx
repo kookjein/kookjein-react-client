@@ -163,16 +163,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
           },
         })
       );
-
-      wsRef.current.send(
-        JSON.stringify({
-          read: {
-            user_id: userState.user.userId,
-            chat_room_id: roomIdQuery,
-            chat_last_read_at: currentTime, // LAST CHAT MESSAGE TIMESTAMP
-          },
-        })
-      );
+      scrollToBottom();
 
       var roomsDuplicate = [...rooms];
       for (let i = 0; i < rooms.length; i++) {
