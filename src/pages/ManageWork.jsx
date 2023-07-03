@@ -336,7 +336,7 @@ const ManageWork = ({ newMessage }) => {
     if (pathname.includes("/chat") || pathname.includes("/report") || pathname.includes("/documents"))
       return (
         <div
-          style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
+          style={{ height: `calc(${screenHeight} - 5rem)`, color: "#272D37" }}
           className="w-72 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
         >
           <div className="w-full flex flex-col items-center pt-8 h-full">
