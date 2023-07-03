@@ -259,7 +259,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   return (
     <div
       style={{ height: "calc(100svh - 5rem)" }}
-      className="w-screen sm:w-full h-screen bg-white flex flex-col relative"
+      className="w-screen sm:w-full bg-white flex flex-col relative"
     >
       <Header />
       <div

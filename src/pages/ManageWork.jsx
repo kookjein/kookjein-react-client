@@ -367,7 +367,10 @@ const ManageWork = ({ newMessage }) => {
 
   if (isMobile)
     return (
-      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
+      <div
+        style={{ height: "100svh" }}
+        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
+      >
         <Navbar2 light />
         <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
           <Routes>
