@@ -15,11 +15,13 @@ import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 import { useTranslation } from "react-i18next";
 import "moment/locale/ko";
+import useWindowDimensions from "../utils/windowDimensions";
 // DOCS - https://detaysoft.github.io/docs-react-chat-elements/
 
 const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("manageWork");
+  const { height, width } = useWindowDimensions();
 
   const [searchParams] = useSearchParams();
   const receiverIdQuery = searchParams.get("u");
@@ -257,13 +259,13 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
 
   return (
     <div
-      style={{ height: "calc(100vh - 5rem)" }}
+      style={{ height: `calc(${height} - 5rem)` }}
       className="w-screen sm:w-full h-screen bg-white flex flex-col relative"
     >
       <Header />
       <div
         onScroll={handleScroll}
-        style={{ height: "calc(100vh - 14.4rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
+        style={{ height: `calc(${height} - 14.4rem)`, backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
         className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse"
       >
         <div ref={messagesEndRef} />
