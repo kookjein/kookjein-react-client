@@ -6,8 +6,6 @@ import { BiTime } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
-import // Link,
-"react-router-dom";
 import Modal from "react-modal";
 import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
@@ -21,12 +19,14 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
 import axios from "../utils/authAxios";
 import CompanyCreateModal from "../components/CompanyCreateModal";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import ProfileCompose from "../components/ProfileCompose";
 
 const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
+  const { userState } = useContext(AuthContext);
+  const { userId } = useParams();
   const developerInfo = useRef(generalInfo.user.user_profile[0]);
   const companyInfo = useRef();
-  const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("profileEmployer");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -35,6 +35,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
   const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
+  const [composeModalIsOpen, setComposeModalOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -97,6 +98,14 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
     setCreateCompanyModalIsOpen(false);
   }
 
+  function openComposeModal() {
+    setComposeModalOpen(true);
+  }
+
+  function closeComposeModal() {
+    setComposeModalOpen(false);
+  }
+
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
 
   const Placeholder = ({ type }) => {
@@ -137,7 +146,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const LeftPanel = () => (
     <div
       style={{ minHeight: "calc(100vh - 20rem)", color: "#272D37" }}
-      className="w-96 flex border-r flex-col items-center p-8 space-y-6 flex-shrink-0 relative pb-16"
+      className="w-full sm:w-96 flex sm:border-r flex-col items-center p-6 sm:p-8 space-y-6 flex-shrink-0 relative pb-16"
     >
       <div className="w-36 h-36 bg-gray-100 rounded-full overflow-hidden">
         {isMyProfile ? (
@@ -254,8 +263,8 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
     const Cell = ({ title, text }) => {
       if (text)
         return (
-          <div className="flex text-sm">
-            <p className="w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
+          <div className="flex text-xs sm:text-sm">
+            <p className="w-16 sm:w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
             {title === t("info.4") ? (
               <p>{moment(text).format("YYYY.MM.DD")}</p>
             ) : title === t("info.9") ? (
@@ -263,12 +272,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
                 href={text.includes("//") ? text : `//${text}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-400"
+                className="text-blue-500 hover:text-blue-400 break-keep"
               >
                 {text}
               </a>
             ) : (
-              <p>{text}</p>
+              <p className="break-keep">{text}</p>
             )}
           </div>
         );
@@ -328,7 +337,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
       return (
         <div
           style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-          className="w-full flex h-full flex-col p-8 space-y-8 px-12 relative"
+          className="w-full flex h-full flex-col p-8 space-y-8 px-6 sm:px-12 relative"
         >
           <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
             <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
@@ -402,7 +411,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
           </div>
 
-          <div className="p-8 border rounded-lg grid grid-cols-2 gap-4">
+          <div className="p-8 border rounded-lg grid grid-cols-2 gap-3 sm:gap-4">
             <Cell title={t("info.1")} text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
             <Cell title={t("info.2")} text={companyInfo.current?.company?.company_info[0]?.employees} />
             <Cell title={t("info.3")} text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
@@ -491,9 +500,19 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           <CompanyCreateModal closeModal={closeCreateCompanyModal} companyInfo={companyInfo} />
         </Modal>
 
+        {!isMyProfile && (
+          <ProfileCompose
+            userId={userId}
+            openComposeModal={openComposeModal}
+            closeComposeModal={closeComposeModal}
+            composeModalIsOpen={composeModalIsOpen}
+            developerInfo={developerInfo}
+          />
+        )}
+
         <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
           <Navbar2 light />
-          <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
+          <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
             <LeftPanel />
             <RightPanel />
           </div>

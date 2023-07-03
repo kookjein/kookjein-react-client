@@ -1,6 +1,7 @@
 const profileEmployer = {
   editCompany: "Edit your company info",
   here: "here",
+  lang: "Language",
   createCompany: "Register your company",
   createHere: "here",
   editProfile: "Edit profile",
@@ -47,6 +48,11 @@ const profileEmployer = {
     9: "Website",
     10: "Address",
   },
+  sendMessage: "Send message",
+  composePlaceholder: "Ask a question or share your project details (requirements, timeline, budget, etc.)",
+  atleast40: "Use at least 30 characters",
+  sentMessage: "Successfully sent",
+  toChat: "Go to inbox",
 };
 
 export default profileEmployer;

@@ -83,7 +83,10 @@ const Browse = () => {
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
       <Navbar2 light />
       <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32">
-        <div className="w-full flex flex-wrap h-full items-center flex-shrink-0 gap-3 py-8">
+        <div
+          style={{ scrollbarWidth: 0 }}
+          className="w-full sm:flex-wrap overflow-x-auto flex h-full items-center flex-shrink-0 gap-3 py-8"
+        >
           {TagsArray.map((item) => (
             <Tags key={item} item={item} />
           ))}

@@ -135,7 +135,7 @@ const ManageWork = ({ newMessage }) => {
               )}
             </div>
 
-            <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px">
+            <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px flex-shrink-0">
               <div className="flex items-center space-x-2">
                 <p
                   style={{
@@ -158,7 +158,7 @@ const ManageWork = ({ newMessage }) => {
                 </p>
                 {hasNewMessage && <div className="w-2.5 h-2.5 bg-blue-400 flex-shrink-0 rounded-full"></div>}
               </div>
-              <div className="flex space-x-1">
+              <div style={{ width: "100%" }} className="flex space-x-1">
                 <p
                   style={{
                     // width: "100%",

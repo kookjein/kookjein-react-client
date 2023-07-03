@@ -144,8 +144,6 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   };
 
   const sendMessage = (text) => {
-    inputRef.current.value = "";
-    setInputValue("");
     const currentTime = moment().valueOf();
     if (wsRef.current || inputRef.current?.value.replace(/\s/g, "").length !== 0) {
       wsRef.current.send(
@@ -164,7 +162,6 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
           },
         })
       );
-      scrollToBottom();
 
       var roomsDuplicate = [...rooms];
       for (let i = 0; i < rooms.length; i++) {
@@ -185,6 +182,11 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
         }
       }
     }
+    inputRef.current.value = "";
+    setInputValue("");
+    setTimeout(() => {
+      scrollToBottom();
+    }, "50");
   };
 
   const handleKeypress = (e) => {
@@ -257,10 +259,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   };
 
   return (
-    <div
-      style={{ height: "calc(100svh - 5rem)" }}
-      className="w-screen sm:w-full bg-white flex flex-col relative"
-    >
+    <div style={{ height: "calc(100svh - 5rem)" }} className="w-screen sm:w-full bg-white flex flex-col relative">
       <Header />
       <div
         onScroll={handleScroll}
