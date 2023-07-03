@@ -37,18 +37,6 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   const [participantsData, setParticipantsData] = useState([]);
   const [firstMessageTimestamp, setFirstMessageTimestamp] = useState(moment().valueOf());
   moment.locale(i18n.language);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-
-  function handleWindowSizeChange() {
-    setScreenHeight(window.innerHeight);
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
-    };
-  }, []);
 
   const textDecorator = (text) => <span className="text-blue-500 hover:underline cursor-pointer">{text}</span>;
 
@@ -270,17 +258,13 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
 
   return (
     <div
-      style={{ height: `calc(${screenHeight} - 5rem)` }}
-      className="w-screen sm:w-full bg-white flex flex-col relative"
+      style={{ height: "calc(100svh - 5rem)" }}
+      className="w-screen sm:w-full h-screen bg-white flex flex-col relative"
     >
       <Header />
       <div
         onScroll={handleScroll}
-        style={{
-          height: `calc(${screenHeight} - 14.4rem)`,
-          backgroundImage: `url(${ChatBg})`,
-          backgroundRepeat: "repeat",
-        }}
+        style={{ height: "calc(100svh - 14.4rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
         className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse"
       >
         <div ref={messagesEndRef} />

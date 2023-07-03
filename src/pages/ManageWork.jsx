@@ -26,12 +26,10 @@ const ManageWork = ({ newMessage }) => {
   const [rooms, setRooms] = useState([]);
   moment.locale(i18n.language);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const isMobile = screenWidth <= 768;
 
   function handleWindowSizeChange() {
     setScreenWidth(window.innerWidth);
-    setScreenHeight(window.innerHeight);
   }
 
   useEffect(() => {
@@ -184,7 +182,7 @@ const ManageWork = ({ newMessage }) => {
 
     return (
       <div
-        style={{ height: `calc(${screenHeight} - 5rem)`, color: "#272D37" }}
+        style={{ height: "calc(100svh - 5rem)", color: "#272D37" }}
         className="w-screen sm:w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
       >
         <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
@@ -336,7 +334,7 @@ const ManageWork = ({ newMessage }) => {
     if (pathname.includes("/chat") || pathname.includes("/report") || pathname.includes("/documents"))
       return (
         <div
-          style={{ height: `calc(${screenHeight} - 5rem)`, color: "#272D37" }}
+          style={{ height: "calc(100svh - 5rem)", color: "#272D37" }}
           className="w-72 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
         >
           <div className="w-full flex flex-col items-center pt-8 h-full">
@@ -369,10 +367,7 @@ const ManageWork = ({ newMessage }) => {
 
   if (isMobile)
     return (
-      <div
-        style={{ minHeight: screenHeight }}
-        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
-      >
+      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
         <Navbar2 light />
         <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
           <Routes>
