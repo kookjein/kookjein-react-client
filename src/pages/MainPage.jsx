@@ -235,7 +235,7 @@ const MainPage = () => {
 
           <div className="mt-16 text-xs w-full flex justify-end">{t("third.timestamp")}</div>
         </div>
-        <img src={TechStack} alt="" className="max-w-lg px-4" draggable={false} />
+        <img src={TechStack} alt="" className="w-screen sm:w-auto max-w-lg px-4" draggable={false} />
       </div>
     </div>
   );
@@ -337,7 +337,7 @@ const MainPage = () => {
         <p
           className={`${
             progressIndex !== index ? "text-gray-400 group-hover:text-gray-500" : "text-black font-bold"
-          } font-poppins mb-4 sm:text-sm text-xs transition`}
+          } font-poppins mb-4 sm:text-sm text-xs transition break-keep`}
         >
           {title}
         </p>
@@ -427,7 +427,7 @@ const MainPage = () => {
     return (
       <div
         style={{ backgroundColor: "#0E5034" }}
-        className="flex w-screen items-center justify-center sm:flex-row flex-col py-24"
+        className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 text-center px-3 break-keep"
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
           <p className="font-nanum mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>

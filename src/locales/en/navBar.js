@@ -3,6 +3,7 @@ import FlagUs from "../../assets/flag_us.png"
 const navBar = {
   mode: "en",
   language: "English",
+  lang: "Language",
   flag: FlagUs,
   pricing: "Pricing",
   login: "Sign in",

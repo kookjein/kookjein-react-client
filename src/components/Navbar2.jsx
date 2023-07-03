@@ -1,10 +1,11 @@
 import React from "react";
 import LogoWhite from "../assets/logo_white.png";
-import LogoGreen from "../assets/logo.png";
-import { 
-  IoChatboxOutline, 
-  // IoNotificationsOutline, 
-  IoSearch 
+import LogoGreen from "../assets/logo_green.png";
+import {
+  IoChatboxOutline,
+  IoLanguage,
+  // IoNotificationsOutline,
+  IoSearch,
 } from "react-icons/io5";
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,7 @@ import { HttpStatusCode } from "axios";
 import { FiLogOut } from "react-icons/fi";
 import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
+import { AiOutlineRollback } from "react-icons/ai";
 
 const Navbar = ({ light }) => {
   const { t, i18n } = useTranslation("navBar2");
@@ -42,31 +44,64 @@ const Navbar = ({ light }) => {
   }
 
   const ProfileDropdown = () => (
-    <ul className="bg-white text-black rounded-lg px-4 w-56 py-2">
+    <ul className="bg-white text-black rounded-lg w-52 py-2">
       {userState.isAuthenticated && (
         <Link
           to={`/user/${userState.user.userId}`}
-          className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+          className="w-full h-12 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium hover:bg-gray-100 px-4"
         >
-          <div className="flex items-center">{t("myProfile")}</div>
+          <div className="flex items-center space-x-4 w-full">
+            <img
+              src={userState.user.userImage || DefaultImage}
+              className="w-6 h-6 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center object-cover border"
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = DefaultImage;
+              }}
+              alt="Profile"
+            />
+            <div className="w-full flex justify-between">
+              <p className="font-semibold">{t("myProfile")}</p>
+            </div>
+          </div>
         </Link>
       )}
       {!userState.isAuthenticated && (
-        <Link to="/" className="w-full h-12 text-gray-700 flex items-center group hover:text-blue-500 font-medium">
-          <div className="flex items-center">{t("toMain")}</div>
+        <Link
+          to="/"
+          className="w-full h-12 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium hover:bg-gray-100 px-4"
+        >
+          <div className="flex items-center space-x-4 w-full">
+            <AiOutlineRollback className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={22} />
+            <div className="w-full flex justify-between">
+              <p className="font-semibold">{t("toMain")}</p>
+            </div>
+          </div>
         </Link>
       )}
       <button
         onClick={() => changeLanguage()}
-        className="transition h-12 flex items-center justify-between w-full group"
+        className="w-full h-12 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium hover:bg-gray-100 px-4"
       >
-        <p className="group-hover:text-blue-500">{t("language")}</p>
-        <img src={t("flag")} className="w-5 ring-1" alt="" />
+        <div className="flex items-center space-x-4 w-full">
+          <IoLanguage className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={22} />
+          <div className="w-full flex justify-between items-center">
+            <p className="font-semibold">{t("language")}</p>
+            <img src={t("flag")} className="h-3 object-contain flex-shrink-0" alt="" />
+          </div>
+        </div>
       </button>
       {userState.isAuthenticated && (
-        <button onClick={() => logout()} className="transition h-12 flex items-center justify-between w-full group">
-          <p className="group-hover:text-red-500">{t("logout")}</p>
-          <FiLogOut className="w-4 group-hover:text-red-500 text-gray-500" />
+        <button
+          onClick={() => logout()}
+          className="w-full h-12 text-gray-700 text-sm flex items-center group hover:text-red-500 font-medium hover:bg-gray-100 px-4"
+        >
+          <div className="flex items-center space-x-4 w-full">
+            <FiLogOut className="text-gray-400 flex-shrink-0 group-hover:text-red-500" size={22} />
+            <div className="w-full flex justify-between">
+              <p className="font-semibold">{t("logout")}</p>
+            </div>
+          </div>
         </button>
       )}
     </ul>
@@ -84,7 +119,6 @@ const Navbar = ({ light }) => {
         }}
         alt="Profile"
       />
-      {/* <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 ring-2 ring-white rounded-full"></div> */}
     </button>
   );
 
@@ -93,7 +127,7 @@ const Navbar = ({ light }) => {
 
     return (
       <div
-        className="relative hidden sm:flex"
+        className="relative flex"
         onMouseEnter={() => setDropdownVisibility(true)}
         onMouseLeave={() => setDropdownVisibility(false)}
       >
@@ -102,7 +136,7 @@ const Navbar = ({ light }) => {
           <article
             className={`${
               dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
-            } absolute top-9 pt-1 -right-8 shadow-xl rounded-lg ring-1 ring-gray-200 bg-white`}
+            } absolute top-9 -right-2 sm:-right-8 shadow-xl rounded-lg ring-1 ring-gray-200 bg-white`}
           >
             {dropdown}
           </article>
@@ -113,12 +147,12 @@ const Navbar = ({ light }) => {
 
   const SearchBar = () => {
     return (
-      <div className="w-full flex items-center h-10 justify-center">
+      <div className="w-full flex items-center h-9 sm:h-10 justify-center">
         <input
-          className="border h-full w-full font-nanum text-sm px-3 rounded-l-md max-w-2xl outline-green-800"
+          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-2xl outline-green-800"
           placeholder={t("placeholder")}
         />
-        <button className="bg-green-800 text-white text px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
+        <button className="bg-green-800 text-white text px-3 sm:px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
           <IoSearch className="text-white w-5 h-5" />
         </button>
       </div>
@@ -126,12 +160,14 @@ const Navbar = ({ light }) => {
   };
 
   return (
-    <header className="w-full flex h-20 z-50 border-b justify-center bg-white">
+    <header className="w-full flex h-16 sm:h-20 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
-        className={`${light ? "text-black" : "text-white"} w-full flex h-full px-4 items-center z-50 flex-shrink-0`}
+        className={`${
+          light ? "text-black" : "text-white"
+        } w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
       >
-        <div className="flex items-center text-sm font-nanum pr-6 flex-shrink-0">
+        <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
           <Link
             to="/browse"
             aria-label="Homepage"
@@ -145,10 +181,10 @@ const Navbar = ({ light }) => {
             />
           </Link>
         </div>
-        <div className="w-full h-full flex items-center">
+        <div className="w-full h-full hidden  sm:flex items-center">
           <SearchBar />
         </div>
-        <div className="hidden sm:flex space-x-7 font-poppins sm:text-base text-sm justify-end items-center flex-shrink-0 pl-10">
+        <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-10">
           {userState.isAuthenticated ? (
             <>
               {/* <button className="relative">
@@ -161,17 +197,10 @@ const Navbar = ({ light }) => {
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
                 </button>
               </Link>
-              {/* {userState.user.userType === "employer" && (
-                <Link to="/work-post/register" state={{ tabStatus: 0 }}>
-                  <button className="px-1 py-2 rounded text-green-800 transition font-semibold text-sm filter hover:brightness-125">
-                    {t("workPost")}
-                  </button>
-                </Link>
-              )} */}
               <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
             </>
           ) : (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <Link to="/login">
                 <button className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm bg-green-800">
                   {t("signin")}
@@ -179,7 +208,7 @@ const Navbar = ({ light }) => {
               </Link>
               <Dropdown
                 button={
-                  <button className="transition hover:opacity-75 rounded-lg pl-6 h-9">
+                  <button className="transition hover:opacity-75 rounded-lg pl-1 sm:pl-6 h-9">
                     <GoThreeBars size={36} className="w-7 h-7 text-gray-500" />
                   </button>
                 }

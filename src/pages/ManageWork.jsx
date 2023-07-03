@@ -25,6 +25,19 @@ const ManageWork = ({ newMessage }) => {
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
   moment.locale(i18n.language);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const isMobile = screenWidth <= 768;
+
+  function handleWindowSizeChange() {
+    setScreenWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -170,7 +183,7 @@ const ManageWork = ({ newMessage }) => {
     return (
       <div
         style={{ height: "calc(100vh - 5rem)", color: "#272D37" }}
-        className="w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
+        className="w-screen sm:w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
       >
         <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
           <AiOutlineSearch className="text-gray-500" />
@@ -352,32 +365,63 @@ const ManageWork = ({ newMessage }) => {
     );
   };
 
-  return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
-      <Navbar2 light />
-      <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
-        <LeftPanel />
-        <Routes>
-          <Route
-            path="/chat"
-            element={
-              <ChatPanel
-                roomId={roomIdQuery}
-                currentRoomData={currentRoomData}
-                rooms={rooms}
-                setRooms={setRooms}
-                newMessage={newMessage}
-              />
-            }
-          />
-          <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
-          <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
-          <Route path="/" element={<StartPanel />} />
-        </Routes>
-        <RightPanel currentRoomData={currentRoomData} />
+  if (isMobile)
+    return (
+      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
+        <Navbar2 light />
+        <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
+          <Routes>
+            <Route path="/" element={<LeftPanel />} />
+          </Routes>
+
+          <Routes>
+            <Route
+              path="/chat"
+              element={
+                <ChatPanel
+                  roomId={roomIdQuery}
+                  currentRoomData={currentRoomData}
+                  rooms={rooms}
+                  setRooms={setRooms}
+                  newMessage={newMessage}
+                />
+              }
+            />
+            <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route path="/" element={<StartPanel />} />
+          </Routes>
+        </div>
       </div>
-    </div>
-  );
+    );
+  else
+    return (
+      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
+        <Navbar2 light />
+        <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
+          <LeftPanel />
+
+          <Routes>
+            <Route
+              path="/chat"
+              element={
+                <ChatPanel
+                  roomId={roomIdQuery}
+                  currentRoomData={currentRoomData}
+                  rooms={rooms}
+                  setRooms={setRooms}
+                  newMessage={newMessage}
+                />
+              }
+            />
+            <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route path="/" element={<StartPanel />} />
+          </Routes>
+          <RightPanel currentRoomData={currentRoomData} />
+        </div>
+      </div>
+    );
 };
 
 export default ManageWork;

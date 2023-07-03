@@ -4,7 +4,7 @@ import LogoGreen from "../assets/logo_green.png";
 import { BiChevronDown } from "react-icons/bi";
 import { MdOutlinePerson, MdWorkOutline } from "react-icons/md";
 import { RiCustomerServiceLine } from "react-icons/ri";
-import { IoReorderThreeOutline } from "react-icons/io5";
+import { IoLanguage, IoReorderThreeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -210,6 +210,84 @@ const Navbar = ({ light }) => {
     );
   };
 
+  const MobileMenu = () => {
+    return (
+      <ul className="bg-white text-black rounded-lg p-5 w-72">
+        <div className="flex">
+          <p
+            style={{ color: "#1FAD72", fontSize: "0.7rem" }}
+            className="font-black text-xs font-nanum text-white py-1 rounded-full"
+          >
+            {t("service.for")}
+          </p>
+        </div>
+        <Link
+          to="/service/company"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <MdWorkOutline className="text-gray-400 group-hover:text-blue-500 flex-shrink-0" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title1")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle1")}</p>
+            </div>
+          </div>
+        </Link>
+        <Link
+          to="/service/developer"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <MdOutlinePerson className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title2")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle2")}</p>
+            </div>
+          </div>
+        </Link>
+        <div className="flex mt-4">
+          <p
+            style={{ color: "#1FAD72", fontSize: "0.7rem" }}
+            className="font-black text-xs font-nanum text-white py-1 rounded-full"
+          >
+            {t("service.addition")}
+          </p>
+        </div>
+        <Link
+          to="/pricing"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <RiCustomerServiceLine className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title3")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle3")}</p>
+            </div>
+          </div>
+        </Link>
+
+        <p
+          style={{ color: "#1FAD72", fontSize: "0.7rem" }}
+          className="font-black text-xs font-nanum text-white py-1 rounded-full"
+        >
+          {t("lang")}
+        </p>
+        <button
+          onClick={() => changeLanguage()}
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4 w-full">
+            <IoLanguage className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={24} />
+            <div className="w-full flex justify-between">
+              <p className="font-semibold">{t("language")}</p>
+              <img src={t("flag")} className="h-4 object-contain flex-shrink-0" alt="" />
+            </div>
+          </div>
+        </button>
+      </ul>
+    );
+  };
+
   return (
     <header
       style={{ maxWidth: "1280px" }}
@@ -240,27 +318,27 @@ const Navbar = ({ light }) => {
           </button>
         </Link>
       </div>
-      <div className="flex space-x-1 font-poppins sm:text-base text-sm justify-end items-center">
-        <button
-          onClick={() => changeLanguage()}
-          className="transition hover:opacity-75 rounded-lg h-8 px-3 font-nanum text-sm font-bold flex items-center space-x-2"
-        >
-          <img src={t("flag")} className="w-6" alt="" />
-          <p>{t("language")}</p>
-        </button>
+      <div className="flex space-x-2 font-poppins sm:text-base text-sm justify-end items-center">
         <Link to="/login">
-          <button className="transition hover:opacity-75 rounded-lg h-8 px-4 font-nanum text-sm border font-bold">
+          <button className="transition hover:opacity-75 rounded h-8 px-4 font-nanum text-sm border font-bold flex-shrink-0">
             {t("login")}
           </button>
         </Link>
 
+        <button
+          onClick={() => changeLanguage()}
+          className="hidden sm:flex transition hover:opacity-75 rounded-lg h-8 px-3 font-nanum text-sm font-bold items-center"
+        >
+          <img src={t("flag")} className="w-6" alt="" />
+        </button>
+
         <MobileDropdown
           button={
-            <button className="block transition hover:opacity-75 rounded-lg px-2">
+            <button className="block transition hover:opacity-75 rounded-lg px-1">
               <IoReorderThreeOutline size={36} />
             </button>
           }
-          dropdown={<SolutionDropdown />}
+          dropdown={<MobileMenu />}
         />
       </div>
     </header>

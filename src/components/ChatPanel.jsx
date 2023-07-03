@@ -265,7 +265,10 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   };
 
   return (
-    <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-white flex flex-col relative">
+    <div
+      style={{ height: "calc(100vh - 5rem)" }}
+      className="w-screen sm:w-full h-screen bg-white flex flex-col relative"
+    >
       <Header />
       <div
         onScroll={handleScroll}
@@ -323,7 +326,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
           onKeyDown={handleKeypress}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <div className="flex-shrink-0 px-4 flex justify-end items-end bg-white py-4 absolute right-0 bottom-0">
+        <div className="flex-shrink-0 px-4 flex justify-end items-end py-4 absolute right-0 bottom-0">
           <button
             onClick={() => sendMessage(inputRef.current?.value)}
             disabled={inputValue.replace(/\s/g, "").length === 0}
