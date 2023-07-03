@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Navbar2 from "../components/Navbar2";
-import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
 import axios from "../utils/authAxios";
@@ -46,52 +45,36 @@ const Browse = () => {
   }, []);
 
   const TagsArray = [
-    "React Native",
-    "Node.js",
-    "React.js",
-    "Django",
-    "C#",
-    "Flutter",
-    "AWS",
-    "Angular.js",
-    "Python",
-    "Java",
-    "HTML/CSS",
-    "TailwindCSS",
-    "Kubernetes",
-    "Docker",
-    "php",
-    "ASP.net",
-    "Wordpress",
-    "Firebase",
-    "PostgreSQL",
-    "MySQL",
-    "MongoDB",
-    "iOS Swift",
-    "Kotlin",
-    "TypeScript",
+    "풀스택",
+    "프론트엔드",
+    "백엔드",
+    "UI개발자&퍼블리셔",
+    "데이터 전문",
     "DevOps",
-    "Cloud Computing",
-    "Laravel",
-    "AWS Cloud",
-    "Cloud development",
-    "Cloud DevOps",
-    "Data Architecture",
+    "게임 개발",
+    "보안 개발",
   ];
 
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
       <Navbar2 light />
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32">
+      <div className="w-full h-12 flex justify-center border-b">
         <div
-          style={{ scrollbarWidth: 0 }}
-          className="w-full sm:flex-wrap overflow-x-auto flex h-full items-center flex-shrink-0 gap-3 py-8"
+          style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
+          className="w-screen sm:w-full h-full px-2 flex-shrink-0 bg-white flex space-x-1 sm:justify-around overflow-x-auto"
         >
           {TagsArray.map((item) => (
-            <Tags key={item} item={item} />
+            <button className="px-4 rounded-lg transition flex-shrink-0 font-bold text-gray-500 h-full flex flex-col justify-center group items-center relative">
+              <p>{item}</p>
+              <div
+                style={{ height: "3px" }}
+                className="w-full bg-green-600 group-hover:flex hidden absolute bottom-0 rounded"
+              ></div>
+            </button>
           ))}
         </div>
-
+      </div>
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32 mt-6">
         <div className="flex justify-between w-full my-4">
           <p className="text-2xl font-bold text-gray-800">{t("developers")}</p>
           <Link to="/developers" className="text-green-600 hover:text-green-500 hover:underline font-bold">

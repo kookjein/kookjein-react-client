@@ -184,9 +184,6 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
     }
     inputRef.current.value = "";
     setInputValue("");
-    setTimeout(() => {
-      scrollToBottom();
-    }, "50");
   };
 
   const handleKeypress = (e) => {
