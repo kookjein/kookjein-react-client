@@ -18,6 +18,19 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
   const { userState } = useContext(AuthContext);
   const navigate = useNavigate();
   const lang = i18n.language.includes("en") ? "en" : "ko";
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const isMobile = screenWidth <= 768;
+
+  function handleWindowSizeChange() {
+    setScreenWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
   useEffect(() => {
     console.log(isMessageSent);
@@ -52,8 +65,8 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
   if (composeModalIsOpen)
     return (
       <div
-        style={{ boxShadow: "0 0 4px #00000040", width: "30rem", height: "30rem" }}
-        className="fixed bottom-4 right-4 bg-white rounded shadow-xl filter border z-20"
+        style={{ boxShadow: "0 0 4px #00000040", width: isMobile ? "100vw" : "30rem", height: "30rem" }}
+        className="fixed bottom-0 right-0 sm:bottom-4 sm:right-4 bg-white rounded shadow-xl filter border z-20"
       >
         <div className="w-full h-24 border-b border-gray-300 flex items-center px-6 space-x-4 relative">
           <img
