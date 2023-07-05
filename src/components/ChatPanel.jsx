@@ -281,7 +281,9 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
                 type={"text"}
                 text={
                   <ReactLinkify textDecorator={textDecorator}>
-                    <span className="break-keep">{item.chat_message_text}</span>
+                    <span style={{ maxWidth: "100%", overflowWrap: "anywhere" }} className="break-keep">
+                      {item.chat_message_text}
+                    </span>
                   </ReactLinkify>
                 }
                 date

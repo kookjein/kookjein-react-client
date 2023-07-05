@@ -114,7 +114,7 @@ const DailyReport = () => {
         <div style={{ height: "calc(100vh - 8rem)" }} className="w-full h-full overflow-y-auto flex flex-col px-6 pb-4">
           <div className="w-full flex-shrink-0 flex justify-between items-center py-6">
             <p className="text-2xl font-bold">{t("dailyReport")}</p>
-            {userState.user.userType && (
+            {userState.user.userType === "employee" && (
               <button
                 onClick={openUploadModal}
                 className="flex h-8 px-4 bg-green-700 text-white items-center rounded space-x-2 filter hover:brightness-125"
