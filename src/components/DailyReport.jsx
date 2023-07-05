@@ -90,21 +90,21 @@ const DailyReport = () => {
 
   const Cell = ({ item }) => (
     <button
-      onClick={openModal(item)}
-      className="w-full h-14 bg-white border-b flex items-center pr-4 space-x-4 text-gray-500 group hover:text-sky-500 justify-between hover:bg-gray-100"
+      onClick={() => openModal(item)}
+      className="w-full h-14 bg-white border-b border-l border-r flex items-center pr-4 space-x-4 text-gray-500 group hover:text-sky-500 justify-between hover:bg-gray-50"
     >
       <div className="flex items-center space-x-4">
-        <div className="w-14 text-gray-500 flex flex-col items-center justify-center border-r">
-          <p style={{ fontSize: "10px" }} className="text-xs">
+        <div className="w-14 text-green-700 flex flex-col items-center justify-center border-r">
+          <p style={{ fontSize: "11px" }} className="text-xs">
             {moment(item.daily_report_created_at).format("MMM")}
           </p>
-          <p style={{ marginTop: "-2px" }} className="text-sm">
+          <p style={{ marginTop: "-2px" }} className="text-sm font-bold">
             {moment(item.daily_report_created_at).format("DD")}
           </p>
         </div>
         <BsFileEarmarkRuledFill className="w-4 h-4" />
-        <p className="text-sm group-hover:underline">
-          {moment(item.daily_report_created_at).format("YYYY_MM_DD")}_{item.daily_report_content.content.author}
+        <p className="text-sm group-hover:underline font-bold">
+          {moment(item.daily_report_created_at).format("YYYY.MM.DD_HH:mm")}_{item.daily_report_content.content.author}
         </p>
       </div>
       <div className="flex flex-col items-end">
@@ -149,11 +149,21 @@ const DailyReport = () => {
               </button>
             )}
           </div>
-          <div className="w-full h-full bg-white pr-1 rounded-lg overflow-y-auto border">
+          <div className="w-full h-full bg-gray-100 rounded-lg overflow-y-auto">
+            <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100">TODAY</div>
+            {dailyReports
+              .slice(0)
+              .reverse()
+              .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day"))
+              .map((item, index) => (
+                <Cell key={index} item={item} />
+              ))}
+            <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100">ALL</div>
             {dailyReports.length > 0 ? (
               dailyReports
                 .slice(0)
                 .reverse()
+                .filter((item, idx) => !moment(item.daily_report_created_at).isSame(new Date(), "day"))
                 .map((item, index) => <Cell key={index} item={item} />)
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">{t("empty")}</div>

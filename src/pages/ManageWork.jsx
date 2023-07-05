@@ -411,7 +411,7 @@ const ManageWork = ({ newMessage }) => {
         style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
       >
         <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
-          Choose the chat room to start
+          {t("startText")}
         </div>
       </div>
     );

@@ -21,6 +21,7 @@ const manageWork = {
   dailyWorkReportUploaded: "Daily Report uploaded successfully.",
   close: "Close",
   empty: "Upload your first daily report.",
+  startText: "Choose the chat room to start",
 };
 
 export default manageWork;

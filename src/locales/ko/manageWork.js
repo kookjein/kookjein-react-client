@@ -21,6 +21,7 @@ const manageWork = {
   dailyWorkReportUploaded: "2023-07-05 일일 업무일지 업로드 완료.",
   close: "닫기",
   empty: "일일 업무일지가 없습니다.",
+  startText: "대화를 시작할 채팅방을 선택하세요",
 };
 
 export default manageWork;
