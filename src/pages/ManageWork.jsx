@@ -44,7 +44,6 @@ const ManageWork = ({ newMessage }) => {
     axios
       .get(`/v1/chat/rooms`)
       .then((response) => {
-        console.log(response.data);
         var temp = response.data;
         if (temp.length > 0) {
           for (let i = 0; i < temp.length; i++) {
@@ -378,12 +377,12 @@ const ManageWork = ({ newMessage }) => {
               <div className="w-full mt-4 border-t">
                 <Cell type={"chat"} title={t("chat")} newTab={false} leftButton={<BsChatSquare />} />
                 {currentRoomData.participants?.map(
-                  (v) =>
+                  (v, index) =>
                     v.user_id !== userState.user.userId &&
-                    coworkers.map((item2) => {
+                    coworkers.map((item2, index2) => {
                       return (
                         v.user_id === item2.user_id && (
-                          <>
+                          <div key={`${index}-${index2}`}>
                             <Cell type={"report"} title={t("dailyReport")} newTab={false} leftButton={<BsListUl />} />
                             <Cell
                               type={"documents"}
@@ -391,7 +390,7 @@ const ManageWork = ({ newMessage }) => {
                               newTab={false}
                               leftButton={<BsPaperclip />}
                             />
-                          </>
+                          </div>
                         )
                       );
                     })

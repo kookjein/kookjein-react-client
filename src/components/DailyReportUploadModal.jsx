@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 // import { AuthContext } from "../utils/authContext";
 // import axios from "../utils/authAxios";
@@ -9,24 +9,39 @@ import { Editor } from "react-draft-wysiwyg";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw, EditorState } from "draft-js";
 import moment from "moment";
+import { useSearchParams } from "react-router-dom";
+import axios from "../utils/authAxios";
 
 // import { useTranslation } from "react-i18next";
 
 const DailyReportUploadModal = ({ closeModal }) => {
   // const { userState } = useContext(AuthContext);
   // const { t } = useTranslation("companyCreateModal");
+  const [searchParams] = useSearchParams();
+  const receiverIdQuery = searchParams.get("u");
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
 
-  useEffect(() => {
-    console.log("MODAL OPEN");
-    return () => {
-      console.log("MODAL CLOSED");
-    };
-  }, []);
-
   const onEditorStateChange = (editorState) => {
-    console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     setEditorState(editorState);
+  };
+
+  const uploadReport = () => {
+    axios
+      .post(
+        `/v1/work/daily-report`,
+        {
+          content: convertToRaw(editorState.getCurrentContent()),
+        },
+        {
+          params: { employer_id: parseInt(receiverIdQuery) },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("EDIT COMPANY ERROR: ", error);
+      });
   };
 
   return (
@@ -63,6 +78,7 @@ const DailyReportUploadModal = ({ closeModal }) => {
       </div>
       <div className="w-full h-16 bg-gray-100 absolute bottom-0 px-8 flex justify-end items-center">
         <button
+          onClick={uploadReport}
           className={`${
             false
               ? "bg-gray-200 text-gray-400 hover:bg-gray-100"

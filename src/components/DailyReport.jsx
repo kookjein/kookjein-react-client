@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsFileEarmarkRuledFill, BsUpload } from "react-icons/bs";
 import Modal from "react-modal";
 import DailyReportModal from "../components/DailyReportModal";
@@ -31,6 +31,11 @@ const DailyReport = () => {
     },
     overlay: { zIndex: 1000, backgroundColor: "rgba(0, 0, 0, 0.75)" },
   };
+
+  useEffect(() => {
+    Modal.setAppElement("body");
+    return () => {};
+  }, []);
 
   function openModal() {
     setIsOpen(true);
