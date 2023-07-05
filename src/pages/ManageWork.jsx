@@ -16,6 +16,7 @@ import moment from "moment";
 
 const ManageWork = ({ newMessage }) => {
   const { t, i18n } = useTranslation("manageWork");
+  moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
   const pathname = window.location.pathname;
@@ -24,7 +25,7 @@ const ManageWork = ({ newMessage }) => {
   const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
-  moment.locale(i18n.language);
+  const [coworkers, setCoworkers] = useState([]);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const isMobile = screenWidth <= 768;
 
@@ -43,6 +44,7 @@ const ManageWork = ({ newMessage }) => {
     axios
       .get(`/v1/chat/rooms`)
       .then((response) => {
+        console.log(response.data);
         var temp = response.data;
         if (temp.length > 0) {
           for (let i = 0; i < temp.length; i++) {
@@ -54,8 +56,29 @@ const ManageWork = ({ newMessage }) => {
       .catch((e) => {
         console.log("V1/CHAT/ROOMS ERROR : ", e);
       });
+
+    if (userState.user.userType === "employee") {
+      axios
+        .get(`/v1/work/belong/employers`)
+        .then((response) => {
+          setCoworkers(response.data);
+        })
+        .catch((e) => {
+          console.log("V1/WORK/BELONG/EMPLOYERS ERROR : ", e);
+        });
+    } else {
+      axios
+        .get(`/v1/work/belong/employees`)
+        .then((response) => {
+          setCoworkers(response.data);
+        })
+        .catch((e) => {
+          console.log("V1/WORK/BELONG/EMPLOYEES ERROR : ", e);
+        });
+    }
+
     return () => {};
-  }, []);
+  }, [userState]);
 
   useEffect(() => {
     if (rooms) {
@@ -104,7 +127,6 @@ const ManageWork = ({ newMessage }) => {
             setReceiverId(item.participants[i].user_id);
           }
         }
-
         return () => {};
       }, [item]);
 
@@ -151,7 +173,7 @@ const ManageWork = ({ newMessage }) => {
                       v.user_id !== userState.user.userId && (
                         <span key={v.user_id}>
                           {v?.user_name}
-                          {index < item.participants.length - 1 ? ", " : ""}
+                          {index < item.participants.length - 1 && item.participants.length > 2 ? ", " : ""}
                         </span>
                       )
                   )}
@@ -195,10 +217,16 @@ const ManageWork = ({ newMessage }) => {
           />
         </div>
         <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
-          <p>{t("employee")}</p>
+          <p>{userState.user.userType === "employer" ? t("employee") : t("employer")}</p>
         </div>
         {rooms
-          // .filter((item) => item.isEmployee)
+          .filter((item) => {
+            return coworkers.map((item2) => {
+              return item.participants[0]?.user_id === userState.user.userId
+                ? item.participants[1]?.user_id === item2.user_id
+                : item.participants[0]?.user_id === item2.user_id;
+            })[0];
+          })
           .filter((item) => {
             return item.participants[0]?.user_id === userState.user.userId
               ? item.participants[1]?.user_name.includes(filterString)
@@ -207,15 +235,25 @@ const ManageWork = ({ newMessage }) => {
           .map((item) => (
             <Cell key={item.chat_room_id} item={item} />
           ))}
-        {/* <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
+        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
           <p>{t("all")}</p>
         </div>
         {rooms
-          .filter((item) => !item.isEmployee)
-          // .filter((item) => item.name.includes(filterString))
-          .map((item, index) => (
-            <Cell key={index} item={item} />
-          ))} */}
+          .filter((item) => {
+            return !coworkers.map((item2) => {
+              return item.participants[0]?.user_id === userState.user.userId
+                ? item.participants[1]?.user_id === item2.user_id
+                : item.participants[0]?.user_id === item2.user_id;
+            })[0];
+          })
+          .filter((item) => {
+            return item.participants[0]?.user_id === userState.user.userId
+              ? item.participants[1]?.user_name.includes(filterString)
+              : item.participants[0]?.user_name.includes(filterString);
+          })
+          .map((item) => (
+            <Cell key={item.chat_room_id} item={item} />
+          ))}
       </div>
     );
   };
@@ -277,11 +315,6 @@ const ManageWork = ({ newMessage }) => {
           {requestPressed && (
             <div className="text-sm text-green-600 break-keep mt-2 text-center">{t("assistant.response")}</div>
           )}
-          <button
-            className={`border border-green-700 text-green-700 px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-2`}
-          >
-            {t("assistant.button2")}
-          </button>
         </div>
       );
     };
@@ -320,7 +353,9 @@ const ManageWork = ({ newMessage }) => {
                     v.user_id !== userState.user.userId && (
                       <span key={v.user_id}>
                         {v.user_name}
-                        {index < currentRoomData.participants.length - 1 ? ", " : ""}
+                        {index < currentRoomData.participants.length - 1 && currentRoomData.participants.length > 2
+                          ? ", "
+                          : ""}
                       </span>
                     )
                 )}
@@ -342,8 +377,26 @@ const ManageWork = ({ newMessage }) => {
               <ProfileSection />
               <div className="w-full mt-4 border-t">
                 <Cell type={"chat"} title={t("chat")} newTab={false} leftButton={<BsChatSquare />} />
-                <Cell type={"report"} title={t("dailyReport")} newTab={false} leftButton={<BsListUl />} />
-                <Cell type={"documents"} title={t("contract")} newTab={false} leftButton={<BsPaperclip />} />
+                {currentRoomData.participants?.map(
+                  (v) =>
+                    v.user_id !== userState.user.userId &&
+                    coworkers.map((item2) => {
+                      return (
+                        v.user_id === item2.user_id && (
+                          <>
+                            <Cell type={"report"} title={t("dailyReport")} newTab={false} leftButton={<BsListUl />} />
+                            <Cell
+                              type={"documents"}
+                              title={t("contract")}
+                              newTab={false}
+                              leftButton={<BsPaperclip />}
+                            />
+                          </>
+                        )
+                      );
+                    })
+                )}
+
                 <AssistantSection />
               </div>
             </div>

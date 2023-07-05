@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsFileEarmarkRuledFill, BsUpload } from "react-icons/bs";
 import Modal from "react-modal";
 import DailyReportModal from "../components/DailyReportModal";
@@ -7,8 +7,10 @@ import DefaultImage from "../assets/default-profile.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import { AuthContext } from "../utils/authContext";
 
-const DailyReport = ({ chatId }) => {
+const DailyReport = () => {
+  const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("manageWork");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModalOpen] = useState(false);
@@ -112,13 +114,15 @@ const DailyReport = ({ chatId }) => {
         <div style={{ height: "calc(100vh - 8rem)" }} className="w-full h-full overflow-y-auto flex flex-col px-6 pb-4">
           <div className="w-full flex-shrink-0 flex justify-between items-center py-6">
             <p className="text-2xl font-bold">{t("dailyReport")}</p>
-            <button
-              onClick={openUploadModal}
-              className="flex h-8 px-4 bg-green-700 text-white items-center rounded space-x-2 filter hover:brightness-125"
-            >
-              <BsUpload />
-              <p className="text-sm">{t("uploadDailyReport")}</p>
-            </button>
+            {userState.user.userType && (
+              <button
+                onClick={openUploadModal}
+                className="flex h-8 px-4 bg-green-700 text-white items-center rounded space-x-2 filter hover:brightness-125"
+              >
+                <BsUpload />
+                <p className="text-sm">{t("uploadDailyReport")}</p>
+              </button>
+            )}
           </div>
           <div className="w-full h-full bg-white pr-1 rounded-lg overflow-y-auto shadow-inner border">
             {Array(4)

@@ -234,7 +234,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
             v.user_id !== userState.user.userId && (
               <span key={v.user_id}>
                 {v.user_name}
-                {index < currentRoomData.participants.length - 1 ? ", " : ""}
+                {index < currentRoomData.participants.length - 1 && currentRoomData.participants.length > 2 ? ", " : ""}
               </span>
             )
         )}
@@ -279,10 +279,13 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
                 onTitleClick={() => navigate(`/user/${item.user_id}`)}
                 position={item.user_id === userState.user.userId ? "right" : "left"}
                 type={"text"}
-                text={<ReactLinkify textDecorator={textDecorator}>{item.chat_message_text}</ReactLinkify>}
+                text={
+                  <ReactLinkify textDecorator={textDecorator}>
+                    <span className="break-keep">{item.chat_message_text}</span>
+                  </ReactLinkify>
+                }
                 date
                 dateString={moment(item.chat_message_created_at).fromNow()}
-                replyButton={true}
               />
             </div>
           );

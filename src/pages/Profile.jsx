@@ -50,6 +50,7 @@ const Profile = () => {
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
+        console.log(response.data)
         generalInfo.current = response.data;
         developerInfo.current = response.data.user.user_profile[0];
         registerDate.current = response.data.user.user_created_at;
