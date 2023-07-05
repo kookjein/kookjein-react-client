@@ -18,6 +18,9 @@ const manageWork = {
   uploadDailyReport: "일지 업로드",
   loadMore: "이전 메세지 보기",
   firstMessage: "첫 메세지 입니다.",
+  dailyWorkReportUploaded: "2023-07-05 일일 업무일지 업로드 완료.",
+  close: "닫기",
+  empty: "일일 업무일지가 없습니다.",
 };
 
 export default manageWork;

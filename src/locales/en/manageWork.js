@@ -18,6 +18,9 @@ const manageWork = {
   uploadDailyReport: "Upload today's report",
   loadMore: "Load more messages",
   firstMessage: "You reached the top!",
+  dailyWorkReportUploaded: "Daily Report uploaded successfully.",
+  close: "Close",
+  empty: "Upload your first daily report.",
 };
 
 export default manageWork;
