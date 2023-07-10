@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { IoDocumentAttachOutline } from "react-icons/io5";
 import DefaultImage from "../assets/default-profile.png";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../utils/authContext";
 
-const Contracts = ({ chatId }) => {
+const Contracts = ({ currentRoomData }) => {
   const { t } = useTranslation("manageWork");
+  const { userState } = useContext(AuthContext);
 
   const Header = () => (
-    <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2">
-      <Link to="/user/1">
-        <button className="flex items-center space-x-2">
-          <img alt="" src={DefaultImage} className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200" />
-          <p>모하메드 알가잘리</p>
-        </button>
-      </Link>
+    <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2 cursor-default">
+      <div className="w-7 h-7 object-cover flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden space-x-px">
+        {currentRoomData.participants?.map(
+          (v, index) =>
+            v.user_id !== userState.user.userId && (
+              <img
+                key={v.user_id}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = DefaultImage;
+                }}
+                src={v.user_img || DefaultImage}
+                alt=""
+                draggable={false}
+                className={`${index > 1 ? "h-full w-1/2" : "h-full w-full"} flex object-cover`}
+              />
+            )
+        )}
+      </div>
+      <p>
+        {currentRoomData.participants?.map(
+          (v, index) =>
+            v.user_id !== userState.user.userId && (
+              <span key={v.user_id}>
+                {v.user_name}
+                {index < currentRoomData.participants.length - 1 && currentRoomData.participants.length > 2 ? ", " : ""}
+              </span>
+            )
+        )}
+      </p>
     </div>
   );
 
