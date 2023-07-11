@@ -6,13 +6,14 @@ import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
 import ChatBg from "../assets/chat-bg.jpg";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineExclamationCircle, AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
 import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 import moment from "moment";
+import Modal from "react-modal";
 
 const ManageWork = ({ newMessage }) => {
   const { t, i18n } = useTranslation("manageWork");
@@ -26,6 +27,7 @@ const ManageWork = ({ newMessage }) => {
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [rooms, setRooms] = useState([]);
   const [coworkers, setCoworkers] = useState([]);
+  const [dailyReports, setDailyReports] = useState([]);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const isMobile = screenWidth <= 768;
 
@@ -38,6 +40,11 @@ const ManageWork = ({ newMessage }) => {
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange);
     };
+  }, []);
+
+  useEffect(() => {
+    Modal.setAppElement("body");
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -75,7 +82,6 @@ const ManageWork = ({ newMessage }) => {
           console.log("V1/WORK/BELONG/EMPLOYEES ERROR : ", e);
         });
     }
-
     return () => {};
   }, [userState]);
 
@@ -108,6 +114,36 @@ const ManageWork = ({ newMessage }) => {
     /* eslint-disable */
   }, [newMessage]);
   /* eslint-enable */
+
+  useEffect(() => {
+    currentRoomData &&
+      coworkers &&
+      currentRoomData.participants?.map((v) => {
+        return (
+          v.user_id !== userState.user.userId &&
+          coworkers.map((item2) => {
+            return (
+              v.user_id === item2.user_id &&
+              axios
+                .get(`/v1/work/daily-report/all`, {
+                  params: {
+                    employee_id: userState.user.userType === "employee" ? userState.user.userId : receiverIdQuery,
+                    employer_id: userState.user.userType === "employee" ? receiverIdQuery : userState.user.userId,
+                  },
+                })
+                .then((response) => {
+                  setDailyReports(response.data);
+                })
+                .catch((e) => {
+                  console.log("V1/WORK/DAILY_REPORT/ALL ERROR : ", e);
+                })
+            );
+          })
+        );
+      });
+
+    return () => {};
+  }, [receiverIdQuery, userState, coworkers, currentRoomData]);
 
   const LeftPanel = () => {
     const [filterString, setFilterString] = useState("");
@@ -257,10 +293,10 @@ const ManageWork = ({ newMessage }) => {
     );
   };
 
-  const RightPanel = ({ currentRoomData }) => {
+  const RightPanel = ({ currentRoomData, dailyReports }) => {
     const [requestPressed, setRequestPressed] = useState(false);
 
-    const Cell = ({ title, type, url, newTab, rightButton, leftButton }) => {
+    const Cell = ({ title, type, url, newTab, rightButton, leftButton, isReport = false, hasNew = false }) => {
       return (
         <Link
           to={url ? url : `/manage/${type}?room_id=${roomIdQuery}&u=${receiverIdQuery}`}
@@ -275,6 +311,12 @@ const ManageWork = ({ newMessage }) => {
             <div className="space-x-3 items-center flex">
               {leftButton}
               <p className="font-bold text-sm">{title}</p>
+              {isReport &&
+                (hasNew ? (
+                  <AiFillCheckCircle className="text-blue-500" />
+                ) : (
+                  <AiOutlineExclamationCircle className="text-red-500" />
+                ))}
             </div>
             {rightButton}
           </button>
@@ -383,7 +425,16 @@ const ManageWork = ({ newMessage }) => {
                       return (
                         v.user_id === item2.user_id && (
                           <div key={`${index}-${index2}`}>
-                            <Cell type={"report"} title={t("dailyReport")} newTab={false} leftButton={<BsListUl />} />
+                            <Cell
+                              type={"report"}
+                              title={t("dailyReport")}
+                              newTab={false}
+                              leftButton={<BsListUl />}
+                              isReport
+                              hasNew={moment(
+                                dailyReports[dailyReports.length - 1]?.daily_report_created_at || 0
+                              ).isSame(new Date(), "day")}
+                            />
                             <Cell
                               type={"documents"}
                               title={t("contract")}
@@ -442,7 +493,16 @@ const ManageWork = ({ newMessage }) => {
                 />
               }
             />
-            <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route
+              path="/report"
+              element={
+                <DailyReport
+                  currentRoomData={currentRoomData}
+                  setDailyReports={setDailyReports}
+                  dailyReports={dailyReports}
+                />
+              }
+            />
             <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
             <Route path="/" element={<StartPanel />} />
           </Routes>
@@ -469,11 +529,20 @@ const ManageWork = ({ newMessage }) => {
                 />
               }
             />
-            <Route path="/report" element={<DailyReport chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route
+              path="/report"
+              element={
+                <DailyReport
+                  currentRoomData={currentRoomData}
+                  setDailyReports={setDailyReports}
+                  dailyReports={dailyReports}
+                />
+              }
+            />
             <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
             <Route path="/" element={<StartPanel />} />
           </Routes>
-          <RightPanel currentRoomData={currentRoomData} />
+          <RightPanel currentRoomData={currentRoomData} dailyReports={dailyReports} />
         </div>
       </div>
     );

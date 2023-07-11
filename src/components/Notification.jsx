@@ -22,7 +22,7 @@ const Notification = ({ item }) => {
         <div style={{ width: "75%" }} className="flex flex-col items-start space-y-px">
           <p
             style={{
-              width: "100%",
+              width: "75%",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
@@ -33,7 +33,7 @@ const Notification = ({ item }) => {
           </p>
           <p
             style={{
-              width: "100%",
+              width: "75%",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",

@@ -6,6 +6,7 @@ const manageWork = {
   inputPlaceholder: "Write a message...",
   chat: "Messages",
   dailyReport: "Daily work report",
+  report: "Daily work report",
   contract: "Contracts and documents",
   assistant: {
     title: "Communication assistance",
@@ -22,6 +23,7 @@ const manageWork = {
   close: "Close",
   empty: "Upload your first daily report.",
   startText: "Choose the chat room to start",
+  missingReport: "Today's report is not submitted yet."
 };
 
 export default manageWork;

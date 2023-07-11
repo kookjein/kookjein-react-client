@@ -6,6 +6,7 @@ const manageWork = {
   inputPlaceholder: "메세지 작성...",
   chat: "메세지",
   dailyReport: "일일 업무일지",
+  report: "업무일지",
   contract: "계약서 및 기타서류",
   assistant: {
     title: "소통 보조 담당 어시스턴트",
@@ -22,6 +23,7 @@ const manageWork = {
   close: "닫기",
   empty: "일일 업무일지가 없습니다.",
   startText: "대화를 시작할 채팅방을 선택하세요",
+  missingReport: "오늘 업무일지 업로드 전"
 };
 
 export default manageWork;

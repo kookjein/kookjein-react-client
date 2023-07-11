@@ -1,25 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsFileEarmarkRuledFill, BsUpload } from "react-icons/bs";
 import Modal from "react-modal";
 import DailyReportModal from "../components/DailyReportModal";
 import DailyReportUploadModal from "./DailyReportUploadModal";
 import DefaultImage from "../assets/default-profile.png";
-import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { AuthContext } from "../utils/authContext";
-import axios from "../utils/authAxios";
+import { AiFillCheckCircle, AiOutlineExclamationCircle } from "react-icons/ai";
 
-const DailyReport = ({ currentRoomData }) => {
+const DailyReport = ({ currentRoomData, dailyReports, setDailyReports }) => {
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("manageWork");
-  const [searchParams] = useSearchParams();
-  const receiverIdQuery = searchParams.get("u");
   moment.locale(i18n.language);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModalOpen] = useState(false);
-  const [dailyReports, setDailyReports] = useState([]);
   const [currentReport, setCurrentReport] = useState({});
+  const uploadedToday =
+    dailyReports
+      .slice(0)
+      .reverse()
+      .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day")).length > 0;
 
   const customStyles = {
     content: {
@@ -36,29 +37,6 @@ const DailyReport = ({ currentRoomData }) => {
     },
     overlay: { zIndex: 1000, backgroundColor: "rgba(0, 0, 0, 0.75)" },
   };
-
-  useEffect(() => {
-    Modal.setAppElement("body");
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`/v1/work/daily-report/all`, {
-        params: {
-          employee_id: userState.user.userType === "employee" ? userState.user.userId : receiverIdQuery,
-          employer_id: userState.user.userType === "employee" ? receiverIdQuery : userState.user.userId,
-        },
-      })
-      .then((response) => {
-        setDailyReports(response.data);
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log("V1/WORK/DAILY_REPORT/ALL ERROR : ", e);
-      });
-    return () => {};
-  }, [receiverIdQuery, userState]);
 
   function openModal(item) {
     setCurrentReport(item);
@@ -114,19 +92,19 @@ const DailyReport = ({ currentRoomData }) => {
   const Cell = ({ item }) => (
     <button
       onClick={() => openModal(item)}
-      className="w-full h-14 bg-white border-b border-l border-r flex items-center pr-4 space-x-4 text-gray-500 group hover:text-sky-500 justify-between hover:bg-gray-50"
+      className="w-full h-14 bg-white border-b border-l border-r flex items-center pr-4 space-x-4 text-gray-500 group hover:text-blue-500 justify-between hover:bg-gray-50"
     >
       <div className="flex items-center space-x-4">
-        <div className="w-14 text-green-700 flex flex-col items-center justify-center border-r">
+        <div className="w-14 text-gray-500 flex flex-col items-center justify-center border-r">
           <p style={{ fontSize: "11px" }} className="text-xs">
             {moment(item.daily_report_created_at).format("MMM")}
           </p>
-          <p style={{ marginTop: "-2px" }} className="text-sm font-bold">
+          <p style={{ marginTop: "-2px" }} className="text-sm">
             {moment(item.daily_report_created_at).format("DD")}
           </p>
         </div>
-        <BsFileEarmarkRuledFill className="w-4 h-4" />
-        <p className="text-sm group-hover:underline font-bold">
+        <BsFileEarmarkRuledFill className="w-4 h-4 text-gray-400 group-hover:text-blue-400" />
+        <p className="text-sm group-hover:underline">
           {moment(item.daily_report_created_at).format("YYYY.MM.DD_HH:mm")}_{item.daily_report_content.content.author}
         </p>
       </div>
@@ -173,14 +151,25 @@ const DailyReport = ({ currentRoomData }) => {
             )}
           </div>
           <div className="w-full h-full bg-gray-100 rounded-lg overflow-y-auto">
-            <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100">TODAY</div>
-            {dailyReports
-              .slice(0)
-              .reverse()
-              .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day"))
-              .map((item, index) => (
-                <Cell key={index} item={item} />
-              ))}
+            <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100 flex items-center space-x-1">
+              <p>TODAY</p>
+              {uploadedToday ? (
+                <AiFillCheckCircle className="text-blue-500 w-4 h-4" />
+              ) : (
+                <AiOutlineExclamationCircle className="text-red-500 w-4 h-4" />
+              )}
+            </div>
+            {uploadedToday ? (
+              dailyReports
+                .slice(0)
+                .reverse()
+                .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day"))
+                .map((item, index) => <Cell key={index} item={item} />)
+            ) : (
+              <div className="w-full h-16 flex items-center justify-center text-red-500 text-xs">
+                {t("missingReport")}
+              </div>
+            )}
             <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100">ALL</div>
             {dailyReports.length > 0 ? (
               dailyReports
@@ -189,7 +178,7 @@ const DailyReport = ({ currentRoomData }) => {
                 .filter((item, idx) => !moment(item.daily_report_created_at).isSame(new Date(), "day"))
                 .map((item, index) => <Cell key={index} item={item} />)
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">{t("empty")}</div>
+              <div className="w-full py-6 flex items-center justify-center text-gray-400 text-sm">{t("empty")}</div>
             )}
           </div>
         </div>

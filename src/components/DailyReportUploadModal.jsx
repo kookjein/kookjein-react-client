@@ -29,13 +29,23 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
 
   const uploadReport = () => {
     setCurrentState("loading");
+
+    var langBasedText = convertToRaw(editorState.getCurrentContent());
+
+    langBasedText.blocks.map((value) => {
+      value.text = {
+        [userState.user.userLanguage]: value.text,
+      };
+      return value;
+    });
+
     axios
       .post(
         `/v1/work/daily-report`,
         {
           content: {
             author: userState.user.userName,
-            text: convertToRaw(editorState.getCurrentContent()),
+            report: langBasedText,
           },
         },
         {
@@ -116,6 +126,7 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
           />
         </div>
         <div className="w-full h-16 bg-gray-100 absolute bottom-0 px-8 flex justify-end items-center">
+          {currentState === "loading" && <p className="text-sm text-green-600 mr-3">Just a second. We're translating your report...</p>}
           <button
             onClick={uploadReport}
             disabled={currentState !== "ready"}
@@ -125,7 +136,11 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
                 : "bg-green-700 text-white filter hover:brightness-125"
             } border px-4 py-2 rounded transition font-semibold text-sm`}
           >
-            {t("uploadDailyReport")}
+            {currentState === "loading" ? (
+              <div className="animate-ping h-6 w-6 rounded-full bg-white mx-4" />
+            ) : (
+              t("uploadDailyReport")
+            )}
           </button>
         </div>
       </div>
