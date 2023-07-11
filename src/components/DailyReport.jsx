@@ -171,7 +171,7 @@ const DailyReport = ({ currentRoomData, dailyReports, setDailyReports }) => {
                 .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day"))
                 .map((item, index) => <Cell key={index} item={item} />)
             ) : (
-              <div className="w-full h-16 flex items-center justify-center text-red-500 text-xs">
+              <div className="w-full h-16 flex items-center justify-center text-red-500 text-sm">
                 {t("missingReport")}
               </div>
             )}

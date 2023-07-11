@@ -102,7 +102,11 @@ const ProfileCard = ({ item, isEmployer }) => {
               {info.user_profile[0].tech?.slice(0, 3).map((item, index) => (
                 <Tags key={index} item={item.text} size="sm" />
               ))}
-              <p className="text-xs text-gray-500 h-full flex items-center mt-px flex-shrink-0">+{info.user_profile[0].tech?.length - 3}</p>
+              {info.user_profile[0].tech?.length > 3 && (
+                <p className="text-xs text-gray-500 h-full flex items-center mt-px flex-shrink-0">
+                  +{info.user_profile[0].tech?.length - 3}
+                </p>
+              )}
             </div>
           </div>
         </div>
