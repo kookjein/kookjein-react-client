@@ -148,7 +148,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
     return (
       <div className="w-full flex items-center h-9 sm:h-10 justify-center">
         <input
-          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-2xl outline-green-800"
+          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-2xl outline-none"
           placeholder={t("placeholder")}
         />
         <button className="bg-green-800 text-white text px-3 sm:px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
