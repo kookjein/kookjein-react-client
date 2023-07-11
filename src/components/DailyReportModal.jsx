@@ -7,11 +7,12 @@ import moment from "moment";
 import { convertFromRaw, EditorState } from "draft-js";
 import { RxCross2 } from "react-icons/rx";
 import { useTranslation } from "react-i18next";
+import { BsTrash } from "react-icons/bs";
+import axios from "../utils/authAxios";
 
-const DailyReportModal = ({ closeModal, currentReport }) => {
+const DailyReportModal = ({ closeModal, currentReport, setDailyReports, dailyReports }) => {
   const { t, i18n } = useTranslation("manageWork");
   const lang = i18n.language.includes("en") ? "en" : "ko";
-
   const [editorState, setEditorState] = useState();
   const [isLoading, setLoading] = useState(true);
   const author = currentReport.daily_report_content.content.author;
@@ -27,6 +28,19 @@ const DailyReportModal = ({ closeModal, currentReport }) => {
     return () => {};
   }, [lang, currentReport]);
 
+  const deleteReport = () => {
+    axios
+      .post(`/v1/work/daily-report/remove`, {}, { params: { daily_report_id: currentReport.daily_report_id } })
+      .then((response) => {
+        closeModal();
+        let filtered = dailyReports.filter((item) => item.daily_report_id !== currentReport.daily_report_id);
+        setDailyReports(filtered);
+      })
+      .catch((error) => {
+        console.log("REMOVE DAILY REPORT ERROR: ", error);
+      });
+  };
+
   if (!isLoading)
     return (
       <div style={{ width: "900px", height: "calc(100vh - 12rem)" }} className="relative">
@@ -35,6 +49,9 @@ const DailyReportModal = ({ closeModal, currentReport }) => {
             {t("dailyReport")} : {moment().format("YYYY-MM-DD")}
           </p>
           <div className="flex items-center space-x-6">
+            <button onClick={deleteReport} className="hover:text-red-500 p-2">
+              <BsTrash className="w-5 h-5" />
+            </button>
             <button onClick={closeModal} className="py-2">
               <RxCross2 className="w-7 h-7" />
             </button>

@@ -132,7 +132,12 @@ const DailyReport = ({ currentRoomData, dailyReports, setDailyReports }) => {
         />
       </Modal>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} shouldCloseOnOverlayClick={false}>
-        <DailyReportModal closeModal={closeModal} currentReport={currentReport} />
+        <DailyReportModal
+          closeModal={closeModal}
+          currentReport={currentReport}
+          setDailyReports={setDailyReports}
+          dailyReports={dailyReports}
+        />
       </Modal>
       <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-gray-100">
         <Header />
