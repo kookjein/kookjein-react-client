@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
 const TermsPage = () => {
@@ -11,7 +10,6 @@ const TermsPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center bg-black bg-opacity-90 text-white font-poppins">
-      <Navbar />
       <div className="max-w-2xl w-full flex flex-col items-center py-12 pb-32 px-6">
         <h1 className="text-3xl font-medium">Turnup's Terms of Service</h1>
         <p className={timeClass}>Last update: December 23, 2022</p>

@@ -3,7 +3,7 @@ import "./gradientAnimation.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
 import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
-import { AxiosInterceptor } from "./utils/authAxios";
+import axios, { AxiosInterceptor } from "./utils/authAxios";
 import { AuthContext } from "./utils/authContext";
 import { WebsocketContext } from "./utils/websocketContext";
 import useTabActive from "./utils/useTabActive";
@@ -29,6 +29,8 @@ import Company from "./pages/Company";
 import Developers from "./pages/Developers";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
+import Navbar2 from "./components/Navbar2";
+import Navbar from "./components/Navbar";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -38,6 +40,8 @@ function App() {
   const roomIdQuery = searchParams.get("room_id");
   const pathandQuery = window.location.pathname + window.location.search;
   const [newMessage, setNewMessage] = useState(null);
+  const [rooms, setRooms] = useState([]);
+  const [hasNewMessageBubble, setHasNewMessageBubble] = useState(false);
 
   useEffect(() => {
     if (wsRef.current && userState.isAuthenticated) {
@@ -54,6 +58,7 @@ function App() {
         ) {
           toast(<Notification item={response} />);
           audio.play();
+          setHasNewMessageBubble(true);
         }
 
         if (response.user.user_id === userState.user.userId) {
@@ -72,10 +77,55 @@ function App() {
     return () => {};
   }, [wsRef, userState, pathandQuery, roomIdQuery, isTabActive]);
 
+  useEffect(() => {
+    if (userState.isAuthenticated) {
+      axios
+        .get(`/v1/chat/rooms`)
+        .then((response) => {
+          var temp = response.data;
+          if (temp.length > 0) {
+            for (let i = 0; i < temp.length; i++) {
+              temp.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
+            }
+          }
+          setRooms(temp);
+          temp.map((item) => {
+            return item.participants.map((v) => {
+              return (
+                v.user_id === userState.user.userId &&
+                v.last_read_at < item.chat_message_created_at &&
+                setHasNewMessageBubble(true)
+              );
+            });
+          });
+        })
+        .catch((e) => {
+          console.log("V1/CHAT/ROOMS ERROR : ", e);
+        });
+    }
+    return () => {
+      setHasNewMessageBubble(false);
+    };
+  }, [userState]);
+
   return (
     <AxiosInterceptor>
       <ScrollToTop />
       <ToastContainer />
+      <Routes>
+        <Route
+          path="/*"
+          element={userState.isAuthenticated ? <Navbar2 hasNewMessageBubble={hasNewMessageBubble} /> : <Navbar />}
+        />
+        <Route path="/browse" element={<Navbar2 hasNewMessageBubble={hasNewMessageBubble} />} />
+        <Route path="/service/company" element={<Navbar light />} />
+        <Route path="/service/developer" element={<Navbar light />} />
+        <Route path="/pricing" element={<Navbar light />} />
+        <Route path="/login" element={<Navbar />} />
+        <Route path="/signup" element={<Navbar />} />
+        <Route path="/error404" element={<Navbar light />} />
+      </Routes>
+
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
@@ -85,7 +135,13 @@ function App() {
         <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />
         <Route
           path="/manage/*"
-          element={userState.isAuthenticated ? <ManageWork newMessage={newMessage} /> : <Navigate to="/" replace />}
+          element={
+            userState.isAuthenticated ? (
+              <ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
         />
         <Route path="/service/company" element={<ServiceCompany />} />
         <Route path="/service/developer" element={<ServiceDeveloper />} />

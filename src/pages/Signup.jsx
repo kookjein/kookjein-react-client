@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import Navbar from "../components/Navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
@@ -253,7 +252,6 @@ const Signup = () => {
 
   return (
     <div className="w-full h-screen flex flex-col items-center">
-      <Navbar />
       {signupStep === 0 ? <SignupSection0 /> : <SignupSection1 />}
       <Footer />
     </div>

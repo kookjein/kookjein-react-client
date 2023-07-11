@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Navbar2 from "../components/Navbar2";
 import { useTranslation } from "react-i18next";
 import { Link, Route, Routes, useParams, useSearchParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
@@ -15,7 +14,7 @@ import { AuthContext } from "../utils/authContext";
 import moment from "moment";
 import Modal from "react-modal";
 
-const ManageWork = ({ newMessage }) => {
+const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const { t, i18n } = useTranslation("manageWork");
   moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
@@ -25,7 +24,6 @@ const ManageWork = ({ newMessage }) => {
   const roomIdQuery = searchParams.get("room_id");
   const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
-  const [rooms, setRooms] = useState([]);
   const [coworkers, setCoworkers] = useState([]);
   const [dailyReports, setDailyReports] = useState([]);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -48,21 +46,6 @@ const ManageWork = ({ newMessage }) => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`/v1/chat/rooms`)
-      .then((response) => {
-        var temp = response.data;
-        if (temp.length > 0) {
-          for (let i = 0; i < temp.length; i++) {
-            temp.sort((a, b) => (a.chat_message_created_at < b.chat_message_created_at ? 1 : -1));
-          }
-        }
-        setRooms(temp);
-      })
-      .catch((e) => {
-        console.log("V1/CHAT/ROOMS ERROR : ", e);
-      });
-
     if (userState.user.userType === "employee") {
       axios
         .get(`/v1/work/belong/employers`)
@@ -474,7 +457,6 @@ const ManageWork = ({ newMessage }) => {
         style={{ height: "100svh" }}
         className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
       >
-        <Navbar2 light />
         <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
           <Routes>
             <Route path="/" element={<LeftPanel />} />
@@ -511,8 +493,7 @@ const ManageWork = ({ newMessage }) => {
     );
   else
     return (
-      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
-        <Navbar2 light />
+      <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
         <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
           <LeftPanel />
 

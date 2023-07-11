@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
 import CheckFill from "../assets/pricing/check_fill.png";
@@ -371,8 +370,7 @@ const Pricing = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar light />
+    <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
       <WelcomeSection />
       <SecondSection />
       <ThirdSection />

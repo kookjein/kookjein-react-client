@@ -289,57 +289,59 @@ const Navbar = ({ light }) => {
   };
 
   return (
-    <header
-      style={{ maxWidth: "1280px" }}
-      className={`${
-        light ? "text-black" : "text-white"
-      } w-full flex h-16 px-4 items-center justify-between z-50 flex-shrink-0 absolute top-0`}
-    >
-      <div className="flex items-center text-sm font-nanum">
-        <Link
-          to="/"
-          aria-label="Homepage"
-          className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-3"
-        >
-          <img
-            src={light ? LogoGreen : LogoWhite}
-            alt="Kookjein logo"
-            className="h-8 object-contain"
-            draggable={false}
-          />
-        </Link>
+    <header className="w-full flex justify-center absolute top-0">
+      <div
+        style={{ maxWidth: "1280px" }}
+        className={`${
+          light ? "text-black" : "text-white"
+        } w-full flex h-16 px-4 items-center justify-between z-50 flex-shrink-0`}
+      >
+        <div className="flex items-center text-sm font-nanum">
+          <Link
+            to="/"
+            aria-label="Homepage"
+            className="flex items-center justify-center flex-shrink-0 transform transition hover:scale-105 mr-3"
+          >
+            <img
+              src={light ? LogoGreen : LogoWhite}
+              alt="Kookjein logo"
+              className="h-8 object-contain"
+              draggable={false}
+            />
+          </Link>
 
-        <Dropdown button={<SolutionButton />} dropdown={<SolutionDropdown />} />
-        <Dropdown button={<CompanyButton />} dropdown={<CompanyDropdown />} />
-        <Dropdown button={<ResourcesButton />} dropdown={<ResourcesDropdown />} />
-        <Link to="/pricing">
-          <button className="hidden sm:flex items-center font-bold group transition hover:opacity-75 px-3">
-            <p>{t("pricing")}</p>
-          </button>
-        </Link>
-      </div>
-      <div className="flex space-x-2 font-poppins sm:text-base text-sm justify-end items-center">
-        <Link to="/login">
-          <button className="transition hover:opacity-75 rounded h-8 px-4 font-nanum text-sm border font-bold flex-shrink-0">
-            {t("login")}
-          </button>
-        </Link>
-
-        <button
-          onClick={() => changeLanguage()}
-          className="hidden sm:flex transition hover:opacity-75 rounded-lg h-8 px-3 font-nanum text-sm font-bold items-center"
-        >
-          <img src={t("flag")} className="w-6" alt="" />
-        </button>
-
-        <MobileDropdown
-          button={
-            <button className="block transition hover:opacity-75 rounded-lg px-1">
-              <IoReorderThreeOutline size={36} />
+          <Dropdown button={<SolutionButton />} dropdown={<SolutionDropdown />} />
+          <Dropdown button={<CompanyButton />} dropdown={<CompanyDropdown />} />
+          <Dropdown button={<ResourcesButton />} dropdown={<ResourcesDropdown />} />
+          <Link to="/pricing">
+            <button className="hidden sm:flex items-center font-bold group transition hover:opacity-75 px-3">
+              <p>{t("pricing")}</p>
             </button>
-          }
-          dropdown={<MobileMenu />}
-        />
+          </Link>
+        </div>
+        <div className="flex space-x-2 font-poppins sm:text-base text-sm justify-end items-center">
+          <Link to="/login">
+            <button className="transition hover:opacity-75 rounded h-8 px-4 font-nanum text-sm border font-bold flex-shrink-0">
+              {t("login")}
+            </button>
+          </Link>
+
+          <button
+            onClick={() => changeLanguage()}
+            className="hidden sm:flex transition hover:opacity-75 rounded-lg h-8 px-3 font-nanum text-sm font-bold items-center"
+          >
+            <img src={t("flag")} className="w-6" alt="" />
+          </button>
+
+          <MobileDropdown
+            button={
+              <button className="block transition hover:opacity-75 rounded-lg px-1">
+                <IoReorderThreeOutline size={36} />
+              </button>
+            }
+            dropdown={<MobileMenu />}
+          />
+        </div>
       </div>
     </header>
   );

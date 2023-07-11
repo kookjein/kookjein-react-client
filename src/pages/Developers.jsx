@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
@@ -57,8 +56,7 @@ const Developers = () => {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar2 light />
+    <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
       <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex-shrink-0 pb-32">
         <div className="w-full flex flex-wrap h-full items-center flex-shrink-0 gap-3 py-6">
           {TagsArray.map((item) => (

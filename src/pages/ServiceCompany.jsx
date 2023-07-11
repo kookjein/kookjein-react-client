@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import CompanyWelcome from "../assets/service/company_welcome.png";
 import CompanyWelcome2 from "../assets/service/company_welcome2.png";
 import Solution1 from "../assets/service/solution1.png";
@@ -275,7 +274,6 @@ const ServiceCompany = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar light />
       <WelcomeSection />
       <SecondSection />
       <ThirdSection />

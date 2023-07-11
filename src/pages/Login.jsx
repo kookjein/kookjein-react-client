@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
@@ -170,7 +169,6 @@ const Login = () => {
 
   return (
     <div className="w-full h-screen flex flex-col items-center">
-      <Navbar />
       <LoginSection />
       <Footer />
     </div>

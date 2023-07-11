@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
@@ -511,7 +510,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
         )}
 
         <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-          <Navbar2 light />
           <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
             <LeftPanel />
             <RightPanel />

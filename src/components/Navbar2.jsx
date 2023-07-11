@@ -1,5 +1,4 @@
 import React from "react";
-import LogoWhite from "../assets/logo_white.png";
 import LogoGreen from "../assets/logo_green.png";
 import {
   IoChatboxOutline,
@@ -18,7 +17,7 @@ import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import { AiOutlineRollback } from "react-icons/ai";
 
-const Navbar = ({ light }) => {
+const Navbar = ({ hasNewMessageBubble }) => {
   const { t, i18n } = useTranslation("navBar2");
   const navigate = useNavigate();
   const { userState, updateAccessToken } = useContext(AuthContext);
@@ -163,9 +162,7 @@ const Navbar = ({ light }) => {
     <header className="w-full flex h-16 sm:h-20 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
-        className={`${
-          light ? "text-black" : "text-white"
-        } w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
+        className={`text-black w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
       >
         <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
           <Link
@@ -173,12 +170,7 @@ const Navbar = ({ light }) => {
             aria-label="Homepage"
             className="flex items-center justify-center flex-shrink-0 transition mr-1 sm:mr-3 filter hover:brightness-150"
           >
-            <img
-              src={light ? LogoGreen : LogoWhite}
-              alt="Kookjein logo"
-              className="h-8 object-contain"
-              draggable={false}
-            />
+            <img src={LogoGreen} alt="Kookjein logo" className="h-8 object-contain" draggable={false} />
           </Link>
         </div>
         <div className="w-full h-full hidden  sm:flex items-center">
@@ -192,9 +184,11 @@ const Navbar = ({ light }) => {
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button> */}
               <Link to="/manage" className="flex items-center">
-                <button className="relative">
-                  <IoChatboxOutline className="w-6 h-6 text-gray-500" />
-                  <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
+                <button className="relative p-1 hover:opacity-80">
+                  <IoChatboxOutline className="w-7 h-7 text-gray-500" />
+                  {hasNewMessageBubble && (
+                    <div className="absolute top-1 right-1 right-0 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                  )}
                 </button>
               </Link>
               <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />

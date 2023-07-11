@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import DevSolution1 from "../assets/service/dev_solution1.png";
 import DevSolution2 from "../assets/service/dev_solution2.png";
 import DevSolution3 from "../assets/service/dev_solution3.png";
@@ -244,7 +243,6 @@ const ServiceDeveloper = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar light />
       <WelcomeSection />
       <SecondSection />
       <ThirdSection />

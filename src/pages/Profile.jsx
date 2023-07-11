@@ -6,7 +6,6 @@ import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 //COMPONENTS
-import Navbar2 from "../components/Navbar2";
 import Tags from "../components/Tags";
 import Footer from "../components/Footer";
 import UploadProfile from "../components/UploadProfile";
@@ -579,7 +578,6 @@ const Profile = () => {
             />
           )}
           <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-            <Navbar2 light />
             <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
               <LeftPanel />
               <RightPanel />

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar2 from "../components/Navbar2";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import // Link,
@@ -244,8 +243,7 @@ const Company = () => {
           />
         </Modal>
 
-        <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-          <Navbar2 light />
+        <div className="w-full h-full flex flex-col items-center overflow-x-hidden z-10">
           <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
             <RightPanel />
           </div>

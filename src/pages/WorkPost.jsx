@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Navbar2 from "../components/Navbar2";
 // import { useTranslation } from "react-i18next";
 import { Link, Route, Routes, useParams } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -133,7 +132,6 @@ const WorkPost = () => {
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
-      <Navbar2 light />
       <div style={{ maxWidth: "1480px" }} className="w-full h-full flex shadow">
         <LeftPanel />
         <Routes>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
 import Hero1 from "../assets/main/hero1.jpg";
 import Hero2 from "../assets/main/hero2.jpg";
 import Hero3 from "../assets/main/hero3.png";
@@ -445,8 +444,7 @@ const MainPage = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar />
+    <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
       <WelcomeSection />
       <ClientSection />
       <SecondSection />

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar2 from "../components/Navbar2";
 import ProfileCard from "../components/ProfileCard";
 import Footer from "../components/Footer";
 import axios from "../utils/authAxios";
@@ -56,8 +55,7 @@ const Browse = () => {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col items-center min-h-screen overflow-x-hidden">
-      <Navbar2 light />
+    <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
       <div className="w-full h-12 flex justify-center border-b">
         <div
           style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
