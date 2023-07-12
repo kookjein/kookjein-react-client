@@ -7,12 +7,13 @@ import Contracts from "../components/Contracts";
 import ChatBg from "../assets/chat-bg.jpg";
 import { AiFillCheckCircle, AiOutlineExclamationCircle, AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
-import { BsChatSquare, BsListUl, BsPaperclip } from "react-icons/bs";
+import { BsCardChecklist, BsChatSquare, BsJournalBookmark, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 import moment from "moment";
 import Modal from "react-modal";
+import Feedback from "../components/Feedback";
 
 const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const { t, i18n } = useTranslation("manageWork");
@@ -279,7 +280,17 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const RightPanel = ({ currentRoomData, dailyReports }) => {
     const [requestPressed, setRequestPressed] = useState(false);
 
-    const Cell = ({ title, type, url, newTab, rightButton, leftButton, isReport = false, hasNew = false }) => {
+    const Cell = ({
+      title,
+      type,
+      url,
+      newTab,
+      rightButton,
+      leftButton,
+      isReport = false,
+      isFeedback = false,
+      hasNew = false,
+    }) => {
       return (
         <Link
           to={url ? url : `/manage/${type}?room_id=${roomIdQuery}&u=${receiverIdQuery}`}
@@ -294,6 +305,12 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
             <div className="space-x-3 items-center flex">
               {leftButton}
               <p className="font-bold text-sm">{title}</p>
+              {isFeedback && hasNew && (
+                <div style={{ fontSize: "10px" }} className="bg-red-500 text-white rounded text-xs px-1">
+                  N
+                </div>
+              )}
+
               {isReport &&
                 (hasNew ? (
                   <AiFillCheckCircle className="text-blue-500" />
@@ -390,11 +407,16 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
       );
     };
 
-    if (pathname.includes("/chat") || pathname.includes("/report") || pathname.includes("/documents"))
+    if (
+      pathname.includes("/chat") ||
+      pathname.includes("/report") ||
+      pathname.includes("/documents") ||
+      pathname.includes("/check")
+    )
       return (
         <div
           style={{ height: "calc(100svh - 5rem)", color: "#272D37" }}
-          className="w-72 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
+          className="w-80 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
         >
           <div className="w-full flex flex-col items-center pt-8 h-full">
             <div className="w-full flex flex-col items-center h-full">
@@ -409,10 +431,18 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
                         v.user_id === item2.user_id && (
                           <div key={`${index}-${index2}`}>
                             <Cell
+                              type={"check"}
+                              title={"체크사항"}
+                              newTab={false}
+                              leftButton={<BsCardChecklist />}
+                              hasNew={true}
+                              isFeedback
+                            />
+                            <Cell
                               type={"report"}
                               title={t("dailyReport")}
                               newTab={false}
-                              leftButton={<BsListUl />}
+                              leftButton={<BsJournalBookmark />}
                               isReport
                               hasNew={moment(
                                 dailyReports[dailyReports.length - 1]?.daily_report_created_at || 0
@@ -494,7 +524,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
   else
     return (
       <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
-        <div style={{ maxWidth: "1480px" }} className="w-full h-full flex">
+        <div className="w-full h-full flex">
           <LeftPanel />
 
           <Routes>
@@ -521,6 +551,16 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
               }
             />
             <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
+            <Route
+              path="/check"
+              element={
+                <Feedback
+                  currentRoomData={currentRoomData}
+                  setDailyReports={setDailyReports}
+                  dailyReports={dailyReports}
+                />
+              }
+            />
             <Route path="/" element={<StartPanel />} />
           </Routes>
           <RightPanel currentRoomData={currentRoomData} dailyReports={dailyReports} />
