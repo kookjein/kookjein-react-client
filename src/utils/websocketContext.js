@@ -6,12 +6,12 @@ export const WebsocketContext = createContext(null);
 
 export const WebsocketProvider = ({children}) => {
     const [isInitialized, setIsInitialized] = useState(false)
-    const {accessTokenRef} = useContext(AuthContext)
+    const {accessTokenRef, userState} = useContext(AuthContext)
     const wsRef = useRef(null)
 
     const connect = useCallback(() => {
         return new Promise((resolve, reject) => {
-            if (wsRef.current) {
+            if (wsRef.current || !accessTokenRef.current || !userState.isAuthenticated) {
                 resolve()
                 return
             }
@@ -27,12 +27,12 @@ export const WebsocketProvider = ({children}) => {
                 setTimeout(connect, 10000)
             }
         })
-    }, [accessTokenRef])
+    }, [accessTokenRef, userState])
 
     useEffect(() => {
         connect().then(() => setIsInitialized(true))
         return () => {
-            wsRef.current.close()
+            wsRef.current?.close()
         }
     }, [connect])
 
