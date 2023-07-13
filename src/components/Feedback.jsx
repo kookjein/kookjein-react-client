@@ -4,15 +4,13 @@ import DefaultImage from "../assets/default-profile.png";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { AuthContext } from "../utils/authContext";
-import { IoIosArrowBack } from "react-icons/io";
 import FeedbackTable from "./FeedbackTable";
 
 const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("manageWork");
   moment.locale(i18n.language);
-  const [, setIsOpen] = useState(false);
-  const [, setCurrentReport] = useState({});
+  const [currentFeedback, setCurrentFeedback] = useState(null);
   const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const uploadedToday =
     dailyReports
@@ -20,10 +18,15 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
       .reverse()
       .filter((item, idx) => moment(item.daily_report_created_at).isSame(new Date(), "day")).length > 0;
 
-  function openModal(item) {
-    setCurrentReport(item);
-    setIsOpen(true);
-  }
+  const uploadButtonPressed = () => {
+    setCurrentFeedback(null);
+    setFeedbackOpen(true);
+  };
+
+  const specificFeedbackPressed = (item) => {
+    setCurrentFeedback(item);
+    setFeedbackOpen(true);
+  };
 
   const Header = () => (
     <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2 cursor-default">
@@ -61,52 +64,37 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
 
   const Cell = ({ item }) => (
     <button
-      onClick={() => openModal(item)}
+      onClick={() => specificFeedbackPressed(item)}
       className="w-full h-14 bg-white border-b border-l border-r flex items-center pr-4 space-x-4 text-gray-500 group hover:text-blue-500 justify-between hover:bg-gray-50"
     >
       <div className="flex items-center space-x-4">
         <div className="w-14 text-gray-500 flex flex-col items-center justify-center border-r">
           <p style={{ fontSize: "11px" }} className="text-xs">
-            {moment(item.daily_report_created_at).format("MMM")}
+            {/* {moment(item.daily_report_created_at).format("MMM")} */}
+            {moment().format("MMM")}
           </p>
           <p style={{ marginTop: "-2px" }} className="text-sm">
-            {moment(item.daily_report_created_at).format("DD")}
+            {/* {moment(item.daily_report_created_at).format("DD")} */}
+            {moment().format("DD")}
           </p>
         </div>
         <BsFileEarmarkRuledFill className="w-4 h-4 text-gray-400 group-hover:text-blue-400" />
         <p className="text-sm group-hover:underline">
-          {moment(item.daily_report_created_at).format("YYYY.MM.DD_HH:mm")}_{item.daily_report_content.content.author}
+          {/* {moment(item.daily_report_created_at).format("YYYY.MM.DD_HH:mm")}_{item.daily_report_content.content.author} */}
+          {moment().format("YYYY.MM.DD_HH:mm")}_FEEDBACK
         </p>
       </div>
       <div className="flex flex-col items-end">
         <p className="text-xs text-gray-400">
-          last edited: {moment(item.daily_report_created_at).format("YYYY.MM.DD a hh:mm")}
+          {/* last edited: {moment(item.daily_report_created_at).format("YYYY.MM.DD a hh:mm")} */}
+          last edited: {moment().format("YYYY.MM.DD a hh:mm")}
         </p>
-        <p className="text-xs text-gray-400">by {item.daily_report_content.content.author}</p>
+        {/* <p className="text-xs text-gray-400">by {item.daily_report_content.content.author}</p> */}
       </div>
     </button>
   );
 
-  if (isFeedbackOpen)
-    return (
-      <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-gray-100 z-10">
-        <div className="h-12 w-full bg-white border-b flex items-center px-4 text-sm space-x-2 cursor-default text-gray-500 justify-between">
-          <div className="flex items-center space-x-2">
-            <button className="p-1 hover:text-black" onClick={() => setFeedbackOpen(false)}>
-              <IoIosArrowBack className="w-5 h-5" />
-            </button>
-            <p className="text-lg">2023-07-21 FEEDBACK</p>
-          </div>
-          <button
-            className={`bg-green-700 text-white filter hover:brightness-125 border px-6 py-1 rounded font-semibold text-sm`}
-          >
-            Save
-          </button>
-        </div>
-
-        <FeedbackTable />
-      </div>
-    );
+  if (isFeedbackOpen) return <FeedbackTable setFeedbackOpen={setFeedbackOpen} currentFeedback={currentFeedback} />;
   else
     return (
       <>
@@ -120,7 +108,7 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
               <p className="text-2xl font-bold">체크사항</p>
               {userState.user.userType === "employee" && (
                 <button
-                  onClick={() => setFeedbackOpen(true)}
+                  onClick={uploadButtonPressed}
                   className="flex h-8 px-4 bg-green-700 text-white items-center rounded space-x-2 filter hover:brightness-125"
                 >
                   <BsUpload />
@@ -137,7 +125,7 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
                   </div>
                 )}
               </div>
-              {uploadedToday ? (
+              {/* {uploadedToday ? (
                 dailyReports
                   .slice(0)
                   .reverse()
@@ -146,9 +134,10 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
                 <div className="w-full h-16 flex items-center justify-center text-gray-400 text-sm">
                   {t("missingReport")}
                 </div>
-              )}
+              )} */}
+              <Cell />
               <div className="px-3 py-2 text font-bold border-b text-green-700 bg-gray-100">ALL</div>
-              {dailyReports.length > 0 ? (
+              {/* {dailyReports.length > 0 ? (
                 dailyReports
                   .slice(0)
                   .reverse()
@@ -156,7 +145,8 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
                   .map((item, index) => <Cell key={index} item={item} />)
               ) : (
                 <div className="w-full py-6 flex items-center justify-center text-gray-400 text-sm">{t("empty")}</div>
-              )}
+              )} */}
+              <Cell />
             </div>
           </div>
         </div>

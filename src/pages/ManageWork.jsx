@@ -4,7 +4,6 @@ import { Link, Route, Routes, useParams, useSearchParams } from "react-router-do
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
-import ChatBg from "../assets/chat-bg.jpg";
 import { AiFillCheckCircle, AiOutlineExclamationCircle, AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
 import { BsCardChecklist, BsChatSquare, BsJournalBookmark, BsPaperclip } from "react-icons/bs";
@@ -472,7 +471,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
     return (
       <div
         className="w-full border-r flex items-center justify-center"
-        style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
+        // style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "round" }}
       >
         <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
           {t("startText")}

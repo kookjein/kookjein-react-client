@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { MessageBox, Input } from "react-chat-elements";
 import "../utils/chat.css";
-import ChatBg from "../assets/chat-bg.jpg";
 import { IoSend } from "react-icons/io5";
 import { useRef, useEffect } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
@@ -260,30 +259,50 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
       <Header />
       <div
         onScroll={handleScroll}
-        style={{ height: "calc(100svh - 14.4rem)", backgroundImage: `url(${ChatBg})`, backgroundRepeat: "repeat" }}
-        className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse"
+        style={{ height: "calc(100svh - 14.4rem)" }}
+        className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse bg-gray-100"
       >
         <div ref={messagesEndRef} />
         {roomMessages.map((item, index) => {
+          var dayChanged = false;
           var isFirstMessage = false;
           if (index < roomMessages.length - 1 && roomMessages[index + 1].user_id === roomMessages[index].user_id) {
             isFirstMessage = false;
           } else {
             isFirstMessage = true;
           }
+          if (
+            index < roomMessages.length - 1 &&
+            !moment(roomMessages[index + 1].chat_message_created_at).isSame(
+              moment(roomMessages[index].chat_message_created_at),
+              "day"
+            )
+          ) {
+            dayChanged = true;
+          } else {
+            dayChanged = false;
+          }
           return (
             <div key={item.chat_message_id} style={{ marginTop: isFirstMessage && "10px" }}>
+              {dayChanged && (
+                <div className="w-full flex justify-center my-6 cursor-default">
+                  <div className="px-4 text-sm bg-white rounded-lg border py-1 text-blue-500">
+                    {moment(item.chat_message_created_at).format("YYYY, Mo Do")}
+                  </div>
+                </div>
+              )}
               <MessageBox
                 avatar={isFirstMessage && participantsData[item.user_id]?.user_img}
                 title={isFirstMessage && participantsData[item.user_id]?.user_name}
                 onTitleClick={() => navigate(`/user/${item.user_id}`)}
                 position={item.user_id === userState.user.userId ? "right" : "left"}
                 type={"text"}
+                notch={false}
                 text={
                   <ReactLinkify textDecorator={textDecorator}>
                     <span
                       style={{ maxWidth: "100%", overflowWrap: "anywhere", whiteSpace: "pre-line" }}
-                      className="break-keep"
+                      className="break-keep cursor-default"
                     >
                       {item.chat_message_text}
                     </span>
@@ -297,14 +316,14 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
         })}
         {firstMessageTimestamp === 0 || roomMessages.length < 25 ? (
           <div
-            className="px-3 py-1 text-green-700 font-bold rounded-lg text-sm flex items-center justify-center"
+            className="px-3 py-1 text-blue-500 font-bold rounded-lg text-sm flex items-center justify-center"
             onClick={getMessages}
           >
             {t("firstMessage")}
           </div>
         ) : (
           <button
-            className="px-3 py-1 bg-white text-green-700 font-bold shadow rounded-lg text-sm hover:bg-gray-100"
+            className="px-3 py-1 bg-white text-blue-500 font-bold shadow rounded-lg text-sm hover:bg-gray-50"
             onClick={getMessages}
           >
             {t("loadMore")}
