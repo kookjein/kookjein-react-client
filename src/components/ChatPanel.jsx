@@ -150,7 +150,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
         JSON.stringify({
           message: {
             chat_message_id: uuidv4(),
-            chat_message_text: { [lang]: text },
+            chat_message_text: { [userState.user.userLanguage]: text },
             chat_message_created_at: currentTime,
             chat_room_id: roomIdQuery || null,
             chat_participants: [userState.user.userId, receiverIdQuery],
@@ -167,7 +167,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
       for (let i = 0; i < rooms.length; i++) {
         if (`${rooms[i].chat_room_id}` === roomIdQuery) {
           roomsDuplicate[i].chat_message_created_at = currentTime;
-          roomsDuplicate[i].chat_message_text[lang] = text;
+          // roomsDuplicate[i].chat_message_text[lang] = text;
 
           for (let j = 0; j < roomsDuplicate[i].participants.length; j++) {
             if (roomsDuplicate[i].participants[j].user_id === userState.user.userId) {
