@@ -64,11 +64,11 @@ const Contracts = ({ currentRoomData }) => {
     <div style={{ height: "calc(100vh - 5rem)" }} className="w-full h-screen bg-white">
       <Header />
 
-      <div style={{ height: "calc(100vh - 8rem)" }} className="w-full overflow-y-auto pb-12 px-6 pb-4 bg-gray-100">
+      <div style={{ height: "calc(100vh - 8rem)" }} className="overflow-y-auto px-6 bg-gray-100">
         <div className="w-full flex-shrink-0 flex justify-between items-center py-6">
           <p className="text-2xl font-bold">{t("contract")}</p>
         </div>
-        <div className="grid grid-cols-4 grid-rows-2 w-full gap-4 bg-white rounded-lg border p-4">
+        <div className="grid grid-cols-5 grid-rows-2 w-full gap-4 bg-white rounded-lg border p-4">
           <Cell title="Non-disclosure agreement" />
           <Cell title="Employement contract" />
           <Cell title="Milestone agreement" />

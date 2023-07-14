@@ -16,6 +16,7 @@ import Feedback from "../components/Feedback";
 
 const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const { t, i18n } = useTranslation("manageWork");
+  const lang = i18n.language.includes("en") ? "en" : "ko";
   moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
@@ -208,7 +209,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
                   }}
                   className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start`}
                 >
-                  {item.chat_message_text}
+                  {item.chat_message_text[lang]}
                 </p>
                 <p className={`${hasNewMessage ? "text-black" : "text-gray-400"} text-xs text-start flex-shrink-0`}>
                   · {moment(item.chat_message_created_at).fromNow()}

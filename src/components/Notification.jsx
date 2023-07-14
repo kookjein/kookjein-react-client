@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
+import { useTranslation } from "react-i18next";
 
 const Notification = ({ item }) => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language.includes("en") ? "en" : "ko";
+
   return (
     <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${item.user.user_id}`} className="w-full">
       <button className="w-full h-14 flex items-center space-x-3 transition bg-white">
@@ -40,7 +44,7 @@ const Notification = ({ item }) => {
             }}
             className={`text-gray-400 text-xs text-start`}
           >
-            {item.chat_message_text}
+            {item.chat_message_text[lang]}
           </p>
         </div>
       </button>

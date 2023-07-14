@@ -19,6 +19,7 @@ import "moment/locale/ko";
 const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("manageWork");
+  const lang = i18n.language.includes("en") ? "en" : "ko";
 
   const [searchParams] = useSearchParams();
   const receiverIdQuery = searchParams.get("u");
@@ -149,7 +150,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
         JSON.stringify({
           message: {
             chat_message_id: uuidv4(),
-            chat_message_text: text,
+            chat_message_text: { [lang]: text },
             chat_message_created_at: currentTime,
             chat_room_id: roomIdQuery || null,
             chat_participants: [userState.user.userId, receiverIdQuery],
@@ -166,7 +167,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
       for (let i = 0; i < rooms.length; i++) {
         if (`${rooms[i].chat_room_id}` === roomIdQuery) {
           roomsDuplicate[i].chat_message_created_at = currentTime;
-          roomsDuplicate[i].chat_message_text = text;
+          roomsDuplicate[i].chat_message_text[lang] = text;
 
           for (let j = 0; j < roomsDuplicate[i].participants.length; j++) {
             if (roomsDuplicate[i].participants[j].user_id === userState.user.userId) {
@@ -304,7 +305,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
                       style={{ maxWidth: "100%", overflowWrap: "anywhere", whiteSpace: "pre-line" }}
                       className="break-keep cursor-default"
                     >
-                      {item.chat_message_text}
+                      {item.chat_message_text[lang]}
                     </span>
                   </ReactLinkify>
                 }

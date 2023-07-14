@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { AuthContext } from "../utils/authContext";
 import FeedbackTable from "./FeedbackTable";
+import FeedbackDetail from "./FeedbackDetail";
 
 const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
   const { userState } = useContext(AuthContext);
   const { t, i18n } = useTranslation("manageWork");
   moment.locale(i18n.language);
+  const [isUploadOpen, setUploadOpen] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState(null);
   const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const uploadedToday =
@@ -20,7 +22,7 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
 
   const uploadButtonPressed = () => {
     setCurrentFeedback(null);
-    setFeedbackOpen(true);
+    setUploadOpen(true);
   };
 
   const specificFeedbackPressed = (item) => {
@@ -94,7 +96,9 @@ const Feedback = ({ currentRoomData, dailyReports, setDailyReports }) => {
     </button>
   );
 
-  if (isFeedbackOpen) return <FeedbackTable setFeedbackOpen={setFeedbackOpen} currentFeedback={currentFeedback} />;
+  if (isUploadOpen) return <FeedbackTable setUploadOpen={setUploadOpen} currentFeedback={currentFeedback} />;
+  else if (isFeedbackOpen)
+    return <FeedbackDetail setFeedbackOpen={setFeedbackOpen} currentFeedback={currentFeedback} />;
   else
     return (
       <>

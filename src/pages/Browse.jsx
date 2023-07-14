@@ -61,8 +61,11 @@ const Browse = () => {
           style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
           className="w-screen sm:w-full h-full px-2 flex-shrink-0 bg-white flex space-x-1 sm:justify-around overflow-x-auto"
         >
-          {TagsArray.map((item) => (
-            <button className="px-4 rounded-lg transition flex-shrink-0 font-bold text-gray-500 h-full flex flex-col justify-center group items-center relative">
+          {TagsArray.map((item, index) => (
+            <button
+              key={index}
+              className="px-4 rounded-lg transition flex-shrink-0 font-bold text-gray-500 h-full flex flex-col justify-center group items-center relative"
+            >
               <p>{item}</p>
               <div
                 style={{ height: "3px" }}

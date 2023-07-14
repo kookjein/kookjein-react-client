@@ -54,7 +54,6 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
       )
       .then((response) => {
         setCurrentState("complete");
-        console.log(response.data);
         setDailyReports((prevState) => [...prevState, response.data]);
       })
       .catch((error) => {

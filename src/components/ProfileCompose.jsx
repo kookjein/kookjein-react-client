@@ -32,12 +32,6 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
     };
   }, []);
 
-  useEffect(() => {
-    console.log(isMessageSent);
-
-    return () => {};
-  }, [isMessageSent]);
-
   const sendMessage = () => {
     setInputValue("");
     setMessageSent(true);
@@ -47,7 +41,7 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
         JSON.stringify({
           message: {
             chat_message_id: uuidv4(),
-            chat_message_text: inputValue,
+            chat_message_text: { [lang]: inputValue },
             chat_message_created_at: moment().valueOf(),
             chat_room_id: null,
             chat_participants: [userState.user.userId, userId],
