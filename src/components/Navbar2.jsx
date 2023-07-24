@@ -179,6 +179,14 @@ const Navbar = ({ hasNewMessageBubble }) => {
         <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-10">
           {userState.isAuthenticated ? (
             <>
+              {userState.user.userType === "employer" && (
+                <Link to={"/post-job"}>
+                  <button className="h-9 px-4 bg-green-600 text-sm text-white rounded hover:brightness-125">
+                    채용 등록
+                  </button>
+                </Link>
+              )}
+
               {/* <button className="relative">
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>

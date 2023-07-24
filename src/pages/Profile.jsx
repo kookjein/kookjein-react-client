@@ -205,9 +205,9 @@ const Profile = () => {
           >
             {t("sendMessage")}
           </button>
-          {/* <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-gray-100 hover:bg-gray-200 transition shadow border flex-shrink-0">
+          <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-green-600 text-white hover:brightness-125 transition flex-shrink-0">
             {t("hire")}
-          </button> */}
+          </button>
           <button
             onClick={() => openModal()}
             className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border flex-shrink-0"
