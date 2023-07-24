@@ -1,3 +1,4 @@
+import "../utils/drawer.css";
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment/moment";
@@ -5,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
+import Drawer from "react-modern-drawer";
 //COMPONENTS
 import Tags from "../components/Tags";
 import Footer from "../components/Footer";
@@ -20,6 +22,7 @@ import { BiTime } from "react-icons/bi";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import { BsPatchCheckFill } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -39,6 +42,7 @@ const Profile = () => {
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [kYos, setKYos] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     setIsMyProfile(userState.user?.userId === parseInt(userId));
@@ -74,6 +78,10 @@ const Profile = () => {
     Modal.setAppElement("body");
     return () => {};
   }, []);
+
+  const toggleDrawer = () => {
+    setDrawerOpen((prevState) => !prevState);
+  };
 
   const customStyles = {
     content: {
@@ -205,7 +213,10 @@ const Profile = () => {
           >
             {t("sendMessage")}
           </button>
-          <button className="px-4 flex items-center justify-center h-8 rounded text-sm bg-green-600 text-white hover:brightness-125 transition flex-shrink-0">
+          <button
+            onClick={toggleDrawer}
+            className="px-4 flex items-center justify-center h-8 rounded text-sm bg-green-600 text-white hover:brightness-125 transition flex-shrink-0"
+          >
             {t("hire")}
           </button>
           <button
@@ -566,6 +577,67 @@ const Profile = () => {
           >
             <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
           </Modal>
+
+          <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
+            <div className="w-full h-16 border-b flex items-center justify-between px-6">
+              <p className="text-gray-700">채용 신청</p>
+              <button onClick={toggleDrawer}>
+                <RxCross2 className="w-7 h-7" />
+              </button>
+            </div>
+            <div className="p-6">
+              <p className="text-xl">인사말/간단한 소개</p>
+              <input className="w-full h-32 border rounded mt-4" />
+
+              <p className="text-xl mt-4">내 채용 등록</p>
+              <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
+                선택하기
+              </div>
+
+              <p className="text-xl mt-4">어시스턴트 옵션</p>
+              <div className="w-full py-4 border mt-4 p-4">
+                <div className="flex justify-between w-full">
+                  <div>
+                    <p className="text-xl">무료플랜</p>
+                    <p className="text-sm text-gray-500 mt-2">₩0원/월</p>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <p>고객 지원 및 분쟁 해결</p>
+                    <p>개발자 매칭 시 마일스톤 검증</p>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full py-4 border mt-4 p-4">
+                <div className="flex justify-between w-full">
+                  <div>
+                    <p className="text-xl">스탠다드 플랜</p>
+                    <p className="text-sm text-gray-500 mt-2">₩40만원/월</p>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <p>고객 지원 및 분쟁 해결</p>
+                    <p>개발자 매칭 시 마일스톤 검증</p>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full py-4 border mt-4 p-4">
+                <div className="flex justify-between w-full">
+                  <div>
+                    <p className="text-xl">엔터프라이즈 플랜</p>
+                    <p className="text-sm text-gray-500 mt-2">₩160만F원/월</p>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <p>고객 지원 및 분쟁 해결</p>
+                    <p>개발자 매칭 시 마일스톤 검증</p>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
+                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">
+                  채용 등록
+                </button>
+              </div>
+            </div>
+          </Drawer>
 
           {!isMyProfile && (
             <ProfileCompose
