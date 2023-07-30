@@ -62,7 +62,7 @@ const PostJob = () => {
           </div>
           <button className="w-full h-10 bg-green-600 rounded text-white flex items-center justify-center space-x-2 hover:brightness-125">
             <AiOutlinePlus className="text-white w-4 h-4" />
-            <p className="text-sm">새로운 채용 등록</p>
+            <p className="text-sm">새로운 프로젝트 등록</p>
           </button>
         </div>
         <Cell />
@@ -201,7 +201,7 @@ const PostJob = () => {
           </div>
         </div>
         <div className="w-full flex justify-end">
-          <button className="h-9 px-6 bg-green-600 text-sm text-white rounded hover:brightness-125">채용 등록</button>
+          <button className="h-9 px-6 bg-green-600 text-sm text-white rounded hover:brightness-125">프로젝트 등록</button>
         </div>
       </div>
     );

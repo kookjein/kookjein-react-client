@@ -196,7 +196,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           </button> */}
           <button
             onClick={() => openModal()}
-            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border flex-shrink-0"
+            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition border flex-shrink-0"
             style={{ display: isMyProfile ? "" : "none" }}
           >
             {t("editProfile")}

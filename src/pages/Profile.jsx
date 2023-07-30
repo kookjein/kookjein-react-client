@@ -207,21 +207,26 @@ const Profile = () => {
 
       {userState.isAuthenticated && (
         <div className="w-full flex justify-center items-center space-x-2">
-          <button
-            onClick={() => openComposeModal()}
-            className="px-4 flex items-center justify-center h-8 rounded text-sm transition border flex-shrink-0 border-green-600 text-green-600 hover:brightness-125 filter"
-          >
-            {t("sendMessage")}
-          </button>
-          <button
-            onClick={toggleDrawer}
-            className="px-4 flex items-center justify-center h-8 rounded text-sm bg-green-600 text-white hover:brightness-125 transition flex-shrink-0"
-          >
-            {t("hire")}
-          </button>
+          {!isMyProfile && (
+            <>
+              <button
+                onClick={() => openComposeModal()}
+                className="px-4 flex items-center justify-center h-8 rounded text-sm transition border flex-shrink-0 border-green-600 text-green-600 hover:brightness-125 filter"
+              >
+                {t("sendMessage")}
+              </button>
+              <button
+                onClick={toggleDrawer}
+                className="px-4 flex items-center justify-center h-8 rounded text-sm bg-green-600 text-white hover:brightness-125 transition flex-shrink-0"
+              >
+                {t("hire")}
+              </button>
+            </>
+          )}
+
           <button
             onClick={() => openModal()}
-            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition shadow border flex-shrink-0"
+            className="px-4 flex items-center justify-center h-8 bg-green-600 text-white rounded text-sm hover:bg-green-500 transition flex-shrink-0"
             style={{ display: isMyProfile ? "" : "none" }}
           >
             {t("editProfile")}
@@ -589,7 +594,7 @@ const Profile = () => {
               <p className="text-xl">인사말/간단한 소개</p>
               <input className="w-full h-32 border rounded mt-4" />
 
-              <p className="text-xl mt-4">내 채용 등록</p>
+              <p className="text-xl mt-4">내 프로젝트</p>
               <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
                 선택하기
               </div>
@@ -632,9 +637,7 @@ const Profile = () => {
                 </div>
               </div>
               <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">
-                  채용 등록
-                </button>
+                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">프로젝트 초대</button>
               </div>
             </div>
           </Drawer>
