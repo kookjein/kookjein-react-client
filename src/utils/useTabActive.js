@@ -1,36 +1,29 @@
-import { useCallback, useEffect, useState, useContext } from "react";
+import { useCallback, useEffect, useContext } from "react";
 import { AuthContext } from "./authContext";
+import { focusTab, blurTab } from "../redux/actions/sessionActions";
+import { useDispatch } from "react-redux";
 
 const useTabActive = () => {
   const { userState } = useContext(AuthContext);
-  const [visibilityState, setVisibilityState] = useState(true);
+  const dispatch = useDispatch();
 
   const handleVisibilityChange = useCallback(() => {
-    setVisibilityState(document.visibilityState === "visible");
-  }, []);
+    if (document.visibilityState === "visible") {
+      dispatch(focusTab());
+    } else {
+      dispatch(blurTab());
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    const handleActivityFalse = () => setVisibilityState(false);
-    const handleActivityTrue = () => setVisibilityState(true);
-
     if (userState.isAuthenticated) {
       document.addEventListener("visibilitychange", handleVisibilityChange);
-      document.addEventListener("blur", handleActivityFalse);
-      window.addEventListener("blur", handleActivityFalse);
-      window.addEventListener("focus", handleActivityTrue);
-      document.addEventListener("focus", handleActivityTrue);
     }
 
     return () => {
-      window.removeEventListener("blur", handleVisibilityChange);
-      document.removeEventListener("blur", handleActivityFalse);
-      window.removeEventListener("focus", handleActivityFalse);
-      document.removeEventListener("focus", handleActivityTrue);
-      document.removeEventListener("visibilitychange", handleActivityTrue);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [handleVisibilityChange, userState]);
-
-  return visibilityState;
+  }, [handleVisibilityChange, userState, dispatch]);
 };
 
 export default useTabActive;

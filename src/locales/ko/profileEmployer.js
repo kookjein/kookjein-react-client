@@ -3,6 +3,7 @@ const profileEmployer = {
   here: "수정하기",
   lang: "소통 언어",
   createCompany: "내 회사 정보",
+  addInfo: "내 정보를 추가하세요",
   createHere: "등록하기",
   editProfile: "프로필 수정",
   companyIntro: "기업소개",

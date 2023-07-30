@@ -3,6 +3,7 @@ import "./gradientAnimation.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
 import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios, { AxiosInterceptor } from "./utils/authAxios";
 import { AuthContext } from "./utils/authContext";
 import { WebsocketContext } from "./utils/websocketContext";
@@ -32,17 +33,21 @@ import NotificationSound from "./assets/notification.mp3";
 import Navbar2 from "./components/Navbar2";
 import Navbar from "./components/Navbar";
 import PostJob from "./pages/PostJob";
+import StartPost from "./pages/StartPost";
+import CreateCompany from "./pages/CreateCompany";
 
 function App() {
   const { userState } = useContext(AuthContext);
   const { wsRef } = useContext(WebsocketContext);
-  const isTabActive = useTabActive();
   const [searchParams] = useSearchParams();
+  const isTabFocused = useSelector((state) => state.session.isTabFocused);
   const roomIdQuery = searchParams.get("room_id");
   const pathandQuery = window.location.pathname + window.location.search;
   const [newMessage, setNewMessage] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [hasNewMessageBubble, setHasNewMessageBubble] = useState(false);
+
+  useTabActive();
 
   useEffect(() => {
     if (wsRef.current && userState.isAuthenticated) {
@@ -50,7 +55,7 @@ function App() {
         const response = JSON.parse(JSON.parse(e.data));
         const audio = new Audio(NotificationSound);
         setNewMessage(response);
-        if (!isTabActive && response.user.user_id !== userState.user.userId) {
+        if (!isTabFocused && response.user.user_id !== userState.user.userId) {
           toast(<Notification item={response} />);
           audio.play();
         } else if (
@@ -76,7 +81,7 @@ function App() {
       };
     }
     return () => {};
-  }, [wsRef, userState, pathandQuery, roomIdQuery, isTabActive]);
+  }, [wsRef, userState, pathandQuery, roomIdQuery, isTabFocused]);
 
   useEffect(() => {
     if (userState.isAuthenticated) {
@@ -129,7 +134,9 @@ function App() {
 
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
+        <Route path="/create-company" element={userState.isAuthenticated ? <CreateCompany /> : <MainPage />} />
         <Route path="/post-job" element={userState.isAuthenticated ? <PostJob /> : <MainPage />} />
+        <Route path="/post-job/flow-1" element={userState.isAuthenticated ? <StartPost /> : <MainPage />} />
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
         <Route path="/developers" element={<Developers />} />
         <Route path="/user/:userId" element={<Profile />} />

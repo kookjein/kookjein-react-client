@@ -58,7 +58,7 @@ const Signup = () => {
         onClick={() => cardSelected(cardType)}
         className={`${
           accountType === cardType ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-        } flex h-full w-full rounded border ring-green-600 transition flex items-start justify-center relative flex-col px-6`}
+        } h-full w-full rounded border ring-green-600 transition flex items-start justify-center relative flex-col px-6`}
       >
         {icon}
         <h1 className="text-lg font-bold mt-4 text-start break-keep">{text}</h1>
@@ -175,15 +175,6 @@ const Signup = () => {
                 onChange={(e) => setNameValue(e.target.value)}
                 className="w-full border rounded px-3 py-2 outline-none"
               />
-              {accountType !== "employee" && (
-                <input
-                  placeholder={t("companyName")}
-                  value={emailValue}
-                  onChange={(e) => setEmailValue(e.target.value)}
-                  className="w-full border rounded px-3 py-2 outline-none"
-                />
-              )}
-
               <input
                 placeholder={t("email")}
                 value={emailValue}

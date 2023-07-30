@@ -24,7 +24,7 @@ const WorkPost = () => {
     const Cell = () => {
       const Title = ({ title, text }) => (
         <div className="flex space-x-2">
-          <div className="text-xs w-12 text-left flex-shrink-0">{title}</div>
+          <div className="text-xs w-12 text-left flex-shrink-0 tracking-tight">{title}</div>
           <p
             style={{
               width: "100%",
@@ -41,7 +41,7 @@ const WorkPost = () => {
       );
       return (
         <Link to={"/work-post/1"} className="w-full relative">
-          <div className="absolute top-4 right-3 h-5 flex text-xs space-x-1 flex items-center">
+          <div className="absolute top-4 right-3 h-5 flex text-xs space-x-1 items-center">
             <p className="text-green-600 h-full flex items-center rounded font-bold">지원자 7명</p>
             <div
               style={{ fontSize: "1px" }}

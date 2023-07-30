@@ -1,4 +1,4 @@
-const companyEditProfileModal = {
+const companyEditModal = {
   edit: "회사 정보 수정",
   company: "기업",
   basic: "기본 정보",
@@ -31,4 +31,4 @@ const companyEditProfileModal = {
   saveDesc: "탭을 변경하기 전에 변경 내용을 저장하세요",
 };
 
-export default companyEditProfileModal;
+export default companyEditModal;

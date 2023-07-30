@@ -180,9 +180,9 @@ const Navbar = ({ hasNewMessageBubble }) => {
           {userState.isAuthenticated ? (
             <>
               {userState.user.userType === "employer" && (
-                <Link to={"/post-job"}>
-                  <button className="h-9 px-4 bg-green-600 text-sm text-white rounded hover:brightness-125">
-                    채용 등록
+                <Link to={"/post-job/flow-1"}>
+                  <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
+                    프로젝트 등록
                   </button>
                 </Link>
               )}
@@ -195,7 +195,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
                 <button className="relative p-1 hover:opacity-80">
                   <IoChatboxOutline className="w-7 h-7 text-gray-500" />
                   {hasNewMessageBubble && (
-                    <div className="absolute top-1 right-1 right-0 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                    <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
                   )}
                 </button>
               </Link>

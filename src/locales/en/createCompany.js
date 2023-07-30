@@ -1,7 +1,9 @@
-const companyCreateModal = {
+const createCompany = {
   create: "Register company on Kookjein",
 
   title1: "Add the following information to register your company",
+  title2: "You must add your company info before registering a project.",
+
   image: "Compnay Logo",
   imageSubtitle: "- 320px * 320px Recommended",
   fullname: "Company name",
@@ -18,4 +20,4 @@ const companyCreateModal = {
   close: "Close",
 };
 
-export default companyCreateModal;
+export default createCompany;

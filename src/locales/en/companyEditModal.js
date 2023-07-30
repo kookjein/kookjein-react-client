@@ -1,4 +1,4 @@
-const companyEditProfileModal = {
+const companyEditModal = {
   edit: "Edit Company Information",
   company: "Company",
   basic: "Basic",
@@ -31,4 +31,4 @@ const companyEditProfileModal = {
   saveDesc: "Make sure to save your changes before changing tabs.",
 };
 
-export default companyEditProfileModal;
+export default companyEditModal;

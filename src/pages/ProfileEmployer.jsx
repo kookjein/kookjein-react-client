@@ -15,9 +15,8 @@ import { languageArray } from "../utils/arrays";
 import moment from "moment/moment";
 import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
+import CompanyEditModal from "../components/companyEditModal/CompanyEditModal";
 import axios from "../utils/authAxios";
-import CompanyCreateModal from "../components/CompanyCreateModal";
 import { Link, useParams } from "react-router-dom";
 import ProfileCompose from "../components/ProfileCompose";
 
@@ -30,7 +29,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
-  const [createCompanyModalIsOpen, setCreateCompanyModalIsOpen] = useState(false);
   const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
   const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
@@ -87,14 +85,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   function closeCompanyModal() {
     setCompanyModalIsOpen(false);
     setCompanyModalInitialTab("Basic");
-  }
-
-  function openCreateCompanyModal() {
-    setCreateCompanyModalIsOpen(true);
-  }
-
-  function closeCreateCompanyModal() {
-    setCreateCompanyModalIsOpen(false);
   }
 
   function openComposeModal() {
@@ -292,12 +282,9 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
               <div className="flex items-center">
                 <AiOutlineExclamationCircle className="w-4 h-4" />
                 <p className="mx-1">{t("createCompany")}</p>
-                <button
-                  onClick={() => openCreateCompanyModal()}
-                  className="text-green-700 underline filter hover:brightness-125"
-                >
-                  {t("createHere")}
-                </button>
+                <Link to="/create-company" state={companyInfo.current}>
+                  <button className="text-green-700 underline filter hover:brightness-125">{t("createHere")}</button>
+                </Link>
               </div>
             </div>
           )}
@@ -483,20 +470,11 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           style={customStyles}
           shouldCloseOnOverlayClick={false}
         >
-          <CompanyEditProfileModal
+          <CompanyEditModal
             initialTab={companyModalInitialTab}
             closeModal={closeCompanyModal}
             companyInfo={companyInfo}
           />
-        </Modal>
-
-        <Modal
-          isOpen={createCompanyModalIsOpen}
-          onRequestClose={closeCreateCompanyModal}
-          style={customStyles}
-          shouldCloseOnOverlayClick={false}
-        >
-          <CompanyCreateModal closeModal={closeCreateCompanyModal} companyInfo={companyInfo} />
         </Modal>
 
         {!isMyProfile && (

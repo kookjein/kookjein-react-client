@@ -8,7 +8,7 @@ import DefaultImage from "../assets/default-profile.png";
 import DefaultCompany from "../assets/default-company.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import moment from "moment/moment";
-import CompanyEditProfileModal from "../components/CompanyEditProfileModal";
+import CompanyEditModal from "../components/companyEditModal/CompanyEditModal";
 import axios from "../utils/authAxios";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../utils/authContext";
@@ -237,7 +237,7 @@ const Company = () => {
           style={customStyles}
           shouldCloseOnOverlayClick={false}
         >
-          <CompanyEditProfileModal
+          <CompanyEditModal
             initialTab={companyModalInitialTab}
             closeModal={closeCompanyModal}
             companyInfo={companyInfo}
