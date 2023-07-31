@@ -3,6 +3,7 @@ const profileEmployer = {
   here: "here",
   lang: "Language",
   createCompany: "Register your company",
+  projects: 'Projects',
   addInfo: "Add your information",
   createHere: "here",
   editProfile: "Edit profile",

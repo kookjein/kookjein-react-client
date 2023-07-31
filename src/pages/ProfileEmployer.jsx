@@ -15,7 +15,6 @@ import { languageArray } from "../utils/arrays";
 import moment from "moment/moment";
 import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import CompanyEditModal from "../components/companyEditModal/CompanyEditModal";
 import axios from "../utils/authAxios";
 import { Link, useParams } from "react-router-dom";
 import ProfileCompose from "../components/ProfileCompose";
@@ -29,8 +28,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
-  const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
-  const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
   const [composeModalIsOpen, setComposeModalOpen] = useState(false);
 
@@ -76,15 +73,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   function closeModal() {
     setIsOpen(false);
     setModalInitialTab("Basic");
-  }
-
-  function openCompanyModal() {
-    setCompanyModalIsOpen(true);
-  }
-
-  function closeCompanyModal() {
-    setCompanyModalIsOpen(false);
-    setCompanyModalInitialTab("Basic");
   }
 
   function openComposeModal() {
@@ -249,36 +237,66 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   );
 
   const RightPanel = () => {
-    const Cell = ({ title, text }) => {
-      if (text)
-        return (
-          <div className="flex text-xs sm:text-sm">
-            <p className="w-16 sm:w-24 text-left text-gray-500 flex-shrink-0">{title}</p>
-            {title === t("info.4") ? (
-              <p>{moment(text).format("YYYY.MM.DD")}</p>
-            ) : title === t("info.9") ? (
-              <a
-                href={text.includes("//") ? text : `//${text}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-400 break-keep"
-              >
-                {text}
-              </a>
-            ) : (
-              <p className="break-keep">{text}</p>
-            )}
+    const ProjectCell = () => {
+      const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
+      return (
+        <div className="w-full py-4 border-b cursor-pointer group">
+          <div className="flex justify-between">
+            <p className="text-xl font-bold text-green-700 group-hover:underline">020 커머스 서비스 플랫폼 개발</p>
+            <div className="flex space-x-1">
+              <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">단기 프로젝트</div>
+              <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">인력 구인</div>
+            </div>
           </div>
-        );
+          <div className="flex space-x-2 mt-2">
+            <Tags title="React.js" />
+            <Tags title="Javascript" />
+            <Tags title="front-end" />
+            <Tags title="backend" />
+            <Tags title="aws" />
+          </div>
+
+          <div className="w-full h-10 bg-gray-100 mt-3 rounded flex overflow-hidden">
+            <div className="w-1/3 border-r flex items-center justify-center text-sm border-white border-2">
+              예상비용 4,000 만원
+            </div>
+            <div className="w-1/3 border-r flex items-center justify-center text-sm border-white border-2">
+              예상기간 120일
+            </div>
+            <div className="w-1/3 flex items-center justify-center text-sm border-white border-2">마감일정 D-4</div>
+          </div>
+
+          <div className="p-3">
+            <div className="text-sm mt-3 line-clamp-3">
+              ※ 프로젝트의 진행 방식 - 최초 온라인 인터뷰 - 계약 방식 : 기간제 계약 - 근무 형태 : 주 5회 풀상주 - 근무지
+              : 서울특별시, 영등포구 - 근무기간 : 6개월 ~ 1년 :: 협의 가능 - 근무시간 : 오전 9시 ~ 오후 6시 - 희망 근무
+              시작일 : 8월 1째주 이내 (ASAP) - 개인장비 지참가능합니다. 필요 시 지원가능합니다. - 연차 협의 가능합니다.
+              + 필요인력 및 월급여 - front-end | 중고급(6년 차 이 개인장비 지참가능합니다. 필요 시 지원가능합니다. -
+              연차 협의 가능합니다. + 필요인력 및 월급여 - front-end
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Title = ({ title }) => {
+      return (
+        <div className="flex space-x-2 items-center text-green-800">
+          <div className="h-7 w-1 bg-green-800 rounded"></div>
+          <p className="text-2xl text-green-800">{title}</p>
+        </div>
+      );
     };
     if (!companyInfo.current)
       return (
         <div
           style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
-          className="w-full flex h-full flex-col p-8 space-y-6 px-12 relative"
+          className="w-full flex h-full flex-col p-8 px-12 relative"
         >
+          <Title title={t("companyIntro")} />
+
           {isMyProfile && (
-            <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
+            <div className="flex bg-white border p-3 rounded-lg shadow text-sm mb-12 mt-4">
               <div className="flex items-center">
                 <AiOutlineExclamationCircle className="w-4 h-4" />
                 <p className="mx-1">{t("createCompany")}</p>
@@ -288,35 +306,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
               </div>
             </div>
           )}
-          <div className="flex items-center space-x-6">
-            <div className="w-32 h-32 bg-gray-100 rounded-lg"></div>
-            <div className="space-y-2">
-              <p className="text-3xl font-bold bg-gradient-to-r from-gray-100 via-gray-100 to-white w-56 h-8 rounded"></p>
-              <p className="text-sm bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6 rounded"></p>
-            </div>
-          </div>
 
-          <div className="flex space-x-2 items-center">
-            <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
-          </div>
+          <Title title={t("projects")} />
 
-          <div className="space-y-2">
-            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-64 h-6"></p>
-            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6"></p>
+          <div className="space-y-2 mt-4">
+            <p className="mx-1 text-sm text-gray-500">※ 회사 정보 등록 후에 프로젝트를 등록할 수 있습니다.</p>
           </div>
-
-          <div className="flex space-x-2 items-center">
-            <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
-          </div>
-
-          <div className="space-y-2">
-            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-64 h-6"></p>
-            <p className="bg-gradient-to-r from-gray-100 via-gray-100 to-white w-40 h-6"></p>
-          </div>
-
-          <div className="h-16" />
         </div>
       );
     else
@@ -325,130 +320,52 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           style={{ minHeight: "calc(100vh - 5rem)", color: "#272D37" }}
           className="w-full flex h-full flex-col p-8 space-y-8 px-6 sm:px-12 relative"
         >
-          <div className="flex bg-white border p-3 rounded-lg shadow text-sm">
-            <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
-            {developerInfo.current?.title?.[lang] && (
-              <p className="flex-shrink-0">{developerInfo.current?.title?.[lang]}</p>
-            )}
-            {generalInfo?.company && (
-              <div className="flex items-center flex-shrink-0">
-                <p className="mx-1">at</p>
-                <Link to={`/company/${companyInfo.current.company?.company_id}`}>
-                  <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
-                    {companyInfo.current?.company?.company_info[0]?.name}
-                  </button>
-                </Link>
-                <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
+          <Title title={t("companyIntro")} />
+
+          <Link to={`/company/${companyInfo.current?.company?.company_id}`} className="w-full">
+            <button className="flex items-center justify-start space-x-4 p-3 rounded-lg border hover:bg-gray-100 transition w-full">
+              <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                <img
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = DefaultCompany;
+                  }}
+                  src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
+                  alt=""
+                  draggable={false}
+                  className="hover:cursor-pointer object-cover h-full w-full border rounded-lg"
+                />
               </div>
-            )}
-            {isMyProfile && (
-              <div className="flex items-center justify-end w-full mr-3">
-                <p className="mx-1">{t("editCompany")}</p>
-                <button
-                  onClick={() => openCompanyModal()}
-                  className="text-green-700 underline filter hover:brightness-125"
-                >
-                  {t("here")}
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div className="flex items-center space-x-6">
-            <div className="w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
-              <img
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  currentTarget.src = DefaultCompany;
-                }}
-                src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
-                alt=""
-                draggable={false}
-                className="hover:cursor-pointer object-cover h-32 w-32 border rounded-lg"
-              />
-            </div>
-            <div className="space-y-2">
-              <p className="text-3xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
-              <p className="text-sm">{companyInfo.current?.company?.company_info[0]?.industry?.[lang]}</p>
-              <a
-                href={
-                  companyInfo.current?.company?.company_info[0]?.website.includes("//")
-                    ? companyInfo.current?.company?.company_info[0]?.website
-                    : `//${companyInfo.current?.company?.company_info[0]?.website}`
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-500 hover:text-blue-400"
-              >
-                {companyInfo.current?.company?.company_info[0]?.website}{" "}
-              </a>
-            </div>
-          </div>
-
-          <div className="flex space-x-2 items-center">
-            <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">{t("companyIntro")}</p>
-          </div>
-
-          <p className="">{companyInfo.current?.company?.company_info[0]?.intro?.[lang]}</p>
-
-          <div className="flex space-x-2 items-center">
-            <div className="h-7 w-1 bg-gray-600 rounded"></div>
-            <p className="text-2xl text-gray-600">{t("companyInfo")}</p>
-          </div>
-
-          <div className="p-8 border rounded-lg grid grid-cols-2 gap-3 sm:gap-4">
-            <Cell title={t("info.1")} text={companyInfo.current?.company?.company_info[0]?.industry?.[lang]} />
-            <Cell title={t("info.2")} text={companyInfo.current?.company?.company_info[0]?.employees} />
-            <Cell title={t("info.3")} text={companyInfo.current?.company?.company_info[0]?.type?.[lang]} />
-            <Cell title={t("info.4")} text={companyInfo.current?.company?.company_info[0]?.foundingDate} />
-            <Cell title={t("info.5")} text={companyInfo.current?.company?.company_info[0]?.funding} />
-            <Cell title={t("info.6")} text={companyInfo.current?.company?.company_info[0]?.revenue} />
-            <Cell title={t("info.7")} text={companyInfo.current?.company?.company_info[0]?.ceo?.[lang]} />
-            <Cell title={t("info.8")} text={companyInfo.current?.company?.company_info[0]?.service?.[lang]} />
-            <Cell title={t("info.9")} text={companyInfo.current?.company?.company_info[0]?.website} />
-            <Cell title={t("info.10")} text={companyInfo.current?.company?.company_info[0]?.address?.[lang]} />
-          </div>
-
-          {companyInfo.current.users?.length > 0 && (
-            <div className="w-full">
-              <div className="flex space-x-2 items-center mb-4">
-                <div className="h-7 w-1 bg-gray-600 rounded"></div>
-                <p className="text-2xl text-gray-600">{t("companyEmployees")}</p>
-              </div>
-
-              {companyInfo.current.users?.map((item, index) => (
-                <Link key={item.user_id} to={`/user/${item.user_id}`} className="w-full">
-                  <button className="py-3 border-b flex items-center hover:bg-gray-100 transition px-3 w-full">
-                    <img
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = DefaultImage;
-                      }}
-                      src={item.user_img || DefaultImage}
-                      alt=""
-                      draggable={false}
-                      className="hover:cursor-pointer object-cover h-12 w-12 rounded-full border"
-                    />
-                    <div className="ml-4 flex flex-col">
-                      <p className="font-bold text-left">{item.user_profile[0].name?.[lang]}</p>
-                      <div className="flex items-center text-gray-600 text-xs">
-                        {item.user_profile[0].title?.[lang] && <p>{item.user_profile[0].title?.[lang]}</p>}
-                        {generalInfo?.company && (
-                          <div className="flex items-center flex-shrink-0">
-                            <p className="mx-1">at</p>
-                            <div className="text-green-700">{companyInfo.current?.company?.company_info[0]?.name}</div>
-                            <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
-                          </div>
-                        )}
-                      </div>
+              <div className="space-y-1 w-full text-left">
+                <p className="text-xl font-bold">{companyInfo.current?.company?.company_info[0]?.name}</p>
+                <div className="flex text-xs">
+                  <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
+                  {generalInfo?.company && (
+                    <div className="flex items-center flex-shrink-0">
+                      <p className="mx-1">at</p>
+                      <Link to={`/company/${companyInfo.current.company?.company_id}`}>
+                        <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
+                          {companyInfo.current?.company?.company_info[0]?.name}
+                        </button>
+                      </Link>
+                      <BsPatchCheckFill className="text-sky-500 w-3 h-3 ml-1" />
                     </div>
-                  </button>
-                </Link>
-              ))}
+                  )}
+                </div>
+              </div>
+            </button>
+          </Link>
+
+          <Title title={t("projects")} />
+
+          {false ? (
+            <div className="text-sm text-gray-600">※ 등록된 프로젝트가 없습니다.</div>
+          ) : (
+            <div className="space-y-2">
+              <ProjectCell />
+              <ProjectCell />
             </div>
           )}
-
           <div className="h-16" />
         </div>
       );
@@ -464,19 +381,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             developerInfo={developerInfo}
           />
         </Modal>
-        <Modal
-          isOpen={companyModalIsOpen}
-          onRequestClose={closeCompanyModal}
-          style={customStyles}
-          shouldCloseOnOverlayClick={false}
-        >
-          <CompanyEditModal
-            initialTab={companyModalInitialTab}
-            closeModal={closeCompanyModal}
-            companyInfo={companyInfo}
-          />
-        </Modal>
-
         {!isMyProfile && (
           <ProfileCompose
             userId={userId}

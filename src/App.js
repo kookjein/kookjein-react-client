@@ -32,9 +32,9 @@ import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
 import Navbar2 from "./components/Navbar2";
 import Navbar from "./components/Navbar";
-import PostJob from "./pages/PostJob";
 import StartPost from "./pages/StartPost";
 import CreateCompany from "./pages/CreateCompany";
+import BrowseJobs from "./pages/BrowseJobs";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -135,9 +135,9 @@ function App() {
       <Routes>
         <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
         <Route path="/create-company" element={userState.isAuthenticated ? <CreateCompany /> : <MainPage />} />
-        <Route path="/post-job" element={userState.isAuthenticated ? <PostJob /> : <MainPage />} />
         <Route path="/post-job/flow-1" element={userState.isAuthenticated ? <StartPost /> : <MainPage />} />
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
+        <Route path="/browse-jobs" element={<BrowseJobs />} />
         <Route path="/developers" element={<Developers />} />
         <Route path="/user/:userId" element={<Profile />} />
         <Route path="/company/:companyId" element={<Company />} />

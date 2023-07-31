@@ -181,14 +181,14 @@ const Navbar = ({ hasNewMessageBubble }) => {
             <>
               {userState.user.userType === "employer" && (
                 <>
-                  <Link to={"/post-job/flow-1"}>
-                    <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
-                      프로젝트 등록
+                  <Link to={"/browse-jobs"}>
+                    <button className="h-9 px-2 text-sm text-green-700 rounded hover:brightness-125 font-sm font-bold">
+                      전체 프로젝트
                     </button>
                   </Link>
                   <Link to={"/post-job/flow-1"}>
-                    <button className="h-9 px-2 text-sm text-green-700 rounded hover:brightness-125 font-sm font-bold">
-                      프로젝트 현황
+                    <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
+                      프로젝트 등록
                     </button>
                   </Link>
                 </>
