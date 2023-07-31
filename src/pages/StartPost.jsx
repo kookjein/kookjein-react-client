@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BsUpload } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { WithContext as ReactTags } from "react-tag-input";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import Dropzone from "../components/Dropzone";
 
 const StartPost = () => {
   const [projectMethod, setProjectMethod] = useState();
@@ -11,6 +11,7 @@ const StartPost = () => {
   const [projectCategory, setProjectCategory] = useState([]);
   const [projectStatus, setProjectStatus] = useState([]);
   const [tech, setTech] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([])
 
   const options = ["one", "two", "three"];
 
@@ -274,16 +275,25 @@ const StartPost = () => {
           title="7. 프로젝트 자료"
           subtitle="아이디어, 기획문서, 개발/수정 내역 등  관련 문서를 추가해 주세요. 문서/압축/이미지/텍스트/PDF 파일만 등록 가능합니다."
         />
-        <div className="w-1/2 h-24 bg-gray-100 rounded-lg mt-4 flex items-center justify-center space-x-4 border border-2 border-dashed hover:border-green-700 transition">
-          <BsUpload />
-          <p>파일 업로드</p>
-        </div>
-        <div className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm">
-          <p>요구사항_일정_20210203.pptx</p>
-          <button className="">
-            <IoClose className="w-5 h-5 hover:text-red-500" />
-          </button>
-        </div>
+        <Dropzone setUploadedFiles={setUploadedFiles}/>
+        {
+          uploadedFiles.map((value, index) => {
+            return <div key={index} className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm">
+                <div>
+                  <p>{value.name}</p>
+                </div>
+                <button className="" onClick={(event)=> {
+                  setUploadedFiles((prevState) => {
+                    const updatedFiles = [...prevState]
+                    updatedFiles.splice(index, 1)
+                    return updatedFiles
+                  })
+                }}>
+                  <IoClose className="w-5 h-5 hover:text-red-500" />
+                </button>
+            </div>
+          })
+        }
         <Title
           title="8. 프로젝트 상세 설명"
           subtitle="프로젝트 내용을 상세히 작성해 주실 수록, 더욱 빠르게 개발자 매칭이 됩니다. "
