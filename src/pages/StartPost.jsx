@@ -11,9 +11,17 @@ const StartPost = () => {
   const [projectCategory, setProjectCategory] = useState([]);
   const [projectStatus, setProjectStatus] = useState([]);
   const [tech, setTech] = useState([]);
-  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
-  const options = ["one", "two", "three"];
+  const options = [
+    "500만원 이하",
+    "500만원 ~ 1,000만원",
+    "1,000만원 ~ 2,000만원",
+    "2,000만원 ~ 3,000만원",
+    "3,000만원 ~ 5,000만원",
+    "5,000만원 ~ 1억원",
+    "1억원 이상",
+  ];
 
   const KeyCodes = {
     comma: 188,
@@ -55,7 +63,7 @@ const StartPost = () => {
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full p-4 py-8 pb-48">
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full p-4 py-8 pb-64">
         <h1 className="font-bold text-3xl">프로젝트 등록</h1>
         <p className="text-gray-600 text-sm mt-2">효율적인 개발자 매칭을 위한 첫 단계</p>
         <Title title="1. 프로젝트 방식" subtitle="어떤 방식으로 프로젝트를 진행하시나요?" />
@@ -275,25 +283,31 @@ const StartPost = () => {
           title="7. 프로젝트 자료"
           subtitle="아이디어, 기획문서, 개발/수정 내역 등  관련 문서를 추가해 주세요. 문서/압축/이미지/텍스트/PDF 파일만 등록 가능합니다."
         />
-        <Dropzone setUploadedFiles={setUploadedFiles}/>
-        {
-          uploadedFiles.map((value, index) => {
-            return <div key={index} className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm">
-                <div>
-                  <p>{value.name}</p>
-                </div>
-                <button className="" onClick={(event)=> {
+        <Dropzone setUploadedFiles={setUploadedFiles} />
+        {uploadedFiles.map((value, index) => {
+          return (
+            <div
+              key={index}
+              className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm"
+            >
+              <div>
+                <p>{value.name}</p>
+              </div>
+              <button
+                className=""
+                onClick={(event) => {
                   setUploadedFiles((prevState) => {
-                    const updatedFiles = [...prevState]
-                    updatedFiles.splice(index, 1)
-                    return updatedFiles
-                  })
-                }}>
-                  <IoClose className="w-5 h-5 hover:text-red-500" />
-                </button>
+                    const updatedFiles = [...prevState];
+                    updatedFiles.splice(index, 1);
+                    return updatedFiles;
+                  });
+                }}
+              >
+                <IoClose className="w-5 h-5 hover:text-red-500" />
+              </button>
             </div>
-          })
-        }
+          );
+        })}
         <Title
           title="8. 프로젝트 상세 설명"
           subtitle="프로젝트 내용을 상세히 작성해 주실 수록, 더욱 빠르게 개발자 매칭이 됩니다. "
@@ -305,7 +319,36 @@ const StartPost = () => {
           className="w-full rounded-lg border outline-green-600 p-3 mt-4"
         />
         <Title title="9. 프로젝트 예산" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
-        <Dropdown className="mt-4" options={options} placeholder="Select an option" />;
+        <Dropdown
+          className="mt-4"
+          options={options}
+          placeholderClassName="text-gray-700"
+          placeholder="~원(부가세 별도)"
+        />
+
+        <Title title="10. 프로젝트 희망 착수일" subtitle="희망하는 프로젝트 착수일을 선택해 주세요." />
+        <div className="mt-4 w-64">
+          <input
+            placeholder={"숫자만 기입. 예시) 3"}
+            className="w-64 h-12 rounded-lg border outline-green-600 p-3 border"
+            type="date"
+          />
+        </div>
+
+        <Title title="11. 프로젝트 예상 진행 기간" subtitle="프로젝트 예상 진행 기간을 선택해 주세요." />
+        <div className="flex items-center mt-4 space-x-3">
+          <input
+            placeholder={"숫자만 기입. 예시) 3"}
+            className="w-54 h-12 rounded-lg border outline-green-600 p-3 border"
+            type="number"
+            maxLength={3}
+          />
+          <p className="text-gray-700 text-lg">개월</p>
+        </div>
+
+        <div className="w-full h-12 flex justify-end mt-24">
+          <button className="px-8 h-12 flex items-center bg-green-700 text-white rounded hover:bg-green-600">프로젝트 등록</button>
+        </div>
       </div>
     </div>
   );

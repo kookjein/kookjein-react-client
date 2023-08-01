@@ -35,6 +35,7 @@ import Navbar from "./components/Navbar";
 import StartPost from "./pages/StartPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
+import JobPost from "./pages/JobPost";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -139,6 +140,7 @@ function App() {
         <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
         <Route path="/browse-jobs" element={<BrowseJobs />} />
         <Route path="/developers" element={<Developers />} />
+        <Route path="/jobs/:jobId" element={<JobPost />} />
         <Route path="/user/:userId" element={<Profile />} />
         <Route path="/company/:companyId" element={<Company />} />
         <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />

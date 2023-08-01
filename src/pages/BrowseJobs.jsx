@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const BrowseJobs = () => {
   const [first, setFirst] = useState();
@@ -7,9 +8,11 @@ const BrowseJobs = () => {
   const ProjectCell = () => {
     const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
     return (
-      <div className="w-full p-6 border-b cursor-pointer group bg-white border rounded">
+      <div className="w-full p-6 border-b bg-white border rounded">
         <div className="flex justify-between">
-          <p className="text-xl font-bold text-green-700 group-hover:underline">020 커머스 서비스 플랫폼 개발</p>
+          <Link to={`/jobs/1`}>
+            <p className="text-xl font-bold text-green-700 hover:underline cursor-pointer">020 커머스 서비스 플랫폼 개발</p>
+          </Link>
           <div className="flex space-x-1">
             <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">단기 프로젝트</div>
             <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">인력 구인</div>
