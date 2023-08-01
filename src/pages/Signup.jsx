@@ -168,7 +168,7 @@ const Signup = () => {
           <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
             <h1 className="text-3xl font-bold">{t("signup")}</h1>
 
-            <div  onKeyDown={handleKeypress} className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
+            <div onKeyDown={handleKeypress} className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">
               <input
                 placeholder={t("name")}
                 value={nameValue}
