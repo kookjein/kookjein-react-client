@@ -2,7 +2,7 @@ import "./App.css";
 import "./gradientAnimation.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
-import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios, { AxiosInterceptor } from "./utils/authAxios";
 import { AuthContext } from "./utils/authContext";
@@ -31,7 +31,6 @@ import Developers from "./pages/Developers";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
 import Navbar2 from "./components/Navbar2";
-import Navbar from "./components/Navbar";
 import StartPost from "./pages/StartPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
@@ -115,58 +114,60 @@ function App() {
     };
   }, [userState]);
 
-  return (
-    <AxiosInterceptor>
-      <ScrollToTop />
-      <ToastContainer />
-      <Routes>
-        <Route
-          path="/*"
-          element={userState.isAuthenticated ? <Navbar2 hasNewMessageBubble={hasNewMessageBubble} /> : <Navbar />}
-        />
-        <Route path="/browse" element={<Navbar2 hasNewMessageBubble={hasNewMessageBubble} />} />
-        <Route path="/service/company" element={<Navbar light />} />
-        <Route path="/service/developer" element={<Navbar light />} />
-        <Route path="/pricing" element={<Navbar light />} />
-        <Route path="/login" element={<Navbar />} />
-        <Route path="/signup" element={<Navbar />} />
-        <Route path="/error404" element={<Navbar light />} />
-      </Routes>
-
-      <Routes>
-        <Route path="/*" element={userState.isAuthenticated ? <Browse /> : <MainPage />} />
-        <Route path="/create-company" element={userState.isAuthenticated ? <CreateCompany /> : <MainPage />} />
-        <Route path="/post-job/flow-1" element={userState.isAuthenticated ? <StartPost /> : <MainPage />} />
-        <Route path="/browse" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Browse />} />
-        <Route path="/browse-jobs" element={<BrowseJobs />} />
-        <Route path="/developers" element={<Developers />} />
-        <Route path="/jobs/:jobId" element={<JobPost />} />
-        <Route path="/user/:userId" element={<Profile />} />
-        <Route path="/company/:companyId" element={<Company />} />
-        <Route path="/work-post/*" element={userState.isAuthenticated ? <WorkPost /> : <Navigate to="/" replace />} />
-        <Route
-          path="/manage/*"
-          element={
-            userState.isAuthenticated ? (
-              <ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
-        <Route path="/service/company" element={<ServiceCompany />} />
-        <Route path="/service/developer" element={<ServiceDeveloper />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="legal/" element={<Legal />} />
-        <Route path="legal/terms-of-use" element={<TermsPage />} />
-        <Route path="legal/privacy-policy" element={<Privacy />} />
-        <Route path="legal/payment-terms" element={<PaymentTerms />} />
-        <Route path="/login" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/signup" element={userState.isAuthenticated ? <Navigate to="/" replace /> : <Signup />} />
-        <Route path="/error404" element={<Error404 />} />
-      </Routes>
-    </AxiosInterceptor>
-  );
+  if (userState.isAuthenticated)
+    return (
+      <AxiosInterceptor>
+        <ScrollToTop />
+        <ToastContainer />
+        <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
+        <Routes>
+          <Route path="/*" element={<Browse />} />
+          <Route path="/create-company" element={<CreateCompany />} />
+          <Route path="/post-job/flow-1" element={<StartPost />} />
+          <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/developers" element={<Developers />} />
+          <Route path="/jobs/:jobId" element={<JobPost />} />
+          <Route path="/user/:userId" element={<Profile />} />
+          <Route path="/company/:companyId" element={<Company />} />
+          <Route path="/work-post/*" element={<WorkPost />} />
+          <Route path="/manage/*" element={<ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
+          <Route path="/service/company" element={<ServiceCompany />} />
+          <Route path="/service/developer" element={<ServiceDeveloper />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/legal/" element={<Legal />} />
+          <Route path="/legal/terms-of-use" element={<TermsPage />} />
+          <Route path="/legal/privacy-policy" element={<Privacy />} />
+          <Route path="/legal/payment-terms" element={<PaymentTerms />} />
+          <Route path="/error404" element={<Error404 />} />
+        </Routes>
+      </AxiosInterceptor>
+    );
+  else
+    return (
+      <AxiosInterceptor>
+        <ScrollToTop />
+        <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
+        <Routes>
+          <Route path="/*" element={<MainPage />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/developers" element={<Developers />} />
+          <Route path="/jobs/:jobId" element={<JobPost />} />
+          <Route path="/user/:userId" element={<Profile />} />
+          <Route path="/company/:companyId" element={<Company />} />
+          <Route path="/service/company" element={<ServiceCompany />} />
+          <Route path="/service/developer" element={<ServiceDeveloper />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/legal/" element={<Legal />} />
+          <Route path="/legal/terms-of-use" element={<TermsPage />} />
+          <Route path="/legal/privacy-policy" element={<Privacy />} />
+          <Route path="/legal/payment-terms" element={<PaymentTerms />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/error404" element={<Error404 />} />
+        </Routes>
+      </AxiosInterceptor>
+    );
 }
 
 export default App;
