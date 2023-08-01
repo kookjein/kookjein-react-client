@@ -48,7 +48,7 @@ const Dropzone = ({setUploadedFiles}) => {
     }, [setUploadedFiles])
     const handleClick = useCallback((e) => {
         fileInputRef.current.click()
-    }, [setUploadedFiles])
+    }, [])
 
     useEffect(() => {
         dropzoneRef.current.addEventListener('dragenter', handleDragEnter)
