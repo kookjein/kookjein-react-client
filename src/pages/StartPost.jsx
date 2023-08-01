@@ -185,6 +185,7 @@ const StartPost = () => {
                 handleTagClick={handleTagClickTECH}
                 inputFieldPosition="top"
                 autocomplete
+                autofocus={false}
                 placeholder={"개발 언어 또는 개발 환경을 입력해주세요. 예시) React JS"}
                 classNames={{
                     tags: "mb-12",
