@@ -73,11 +73,11 @@ const Signup = () => {
     );
     return (
       <div
-        style={{ minHeight: "calc(100vh - 3rem)" }}
-        className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
+      style={{ minHeight: "calc(100vh - 8rem)" }}
+      className="w-full flex flex-col items-center justify-center relative bg-gray-200 flex-shrink-0"
       >
         <div className="max-w-2xl px-4 w-full">
-          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:py-12 rounded shadow-lg ring-1 w-full">
+          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:py-12 rounded shadow-lg w-full">
             <h1 className="text-2xl font-bold">{t("companyOrDev")}</h1>
             <div className="flex h-40 w-full mt-8 space-x-6">
               <Card cardType={"employer"} text={t("companyCard")} icon={<BsFillBuildingFill className="w-10 h-10" />} />
@@ -161,11 +161,11 @@ const Signup = () => {
     };
     return (
       <div
-        style={{ minHeight: "calc(100vh - 3rem)" }}
-        className="w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-green-900 to-emerald-900 flex-shrink-0"
+        style={{ minHeight: "calc(100vh - 8rem)" }}
+        className="w-full flex flex-col items-center justify-center relative bg-gray-200 flex-shrink-0"
       >
         <div className="max-w-md px-4">
-          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg ring-1">
+          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg">
             <h1 className="text-3xl font-bold">{t("signup")}</h1>
 
             <div onKeyDown={handleKeypress} className="mt-8 bg-white rounded bg-opacity-10 w-full space-y-5">

@@ -11,6 +11,38 @@ const navBar2 = {
   signin: "Sign in",
   logout: "Log out",
   placeholder: "What kind of developer are you looking for?",
+  pricing: "Pricing",
+  login: "Sign in",
+  signup: "Sign up",
+  //DROPDOWNS
+  service: {
+    service: "Service",
+    for: "Service for",
+    addition: "Additional service",
+    title1: "SMEs",
+    title2: "Developers",
+    title3: "Assistant / PM",
+    subtitle1: "Find perfect global developers",
+    subtitle2: "Your Career with Korean SMEs",
+    subtitle3: "Helping with communication",
+  },
+  company: {
+    company: "Company",
+    internal: "Internal",
+    external: "External",
+    partners: "Partners",
+    team: "Team Namsan",
+    blog: "Blog",
+    news: "News / Media",
+    investor: "Investor Relations",
+  },
+  resources: {
+    resources: "Resources",
+    faq: "FAQ",
+    community: "Community",
+    customer: "Customer Service",
+    legal: "Legal",
+  },
 };
 
 export default navBar2;

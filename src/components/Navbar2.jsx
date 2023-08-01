@@ -16,6 +16,9 @@ import { FiLogOut } from "react-icons/fi";
 import { AuthContext } from "../utils/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import { AiOutlineRollback } from "react-icons/ai";
+import { BiChevronDown } from "react-icons/bi";
+import { MdOutlinePerson, MdWorkOutline } from "react-icons/md";
+import { RiCustomerServiceLine } from "react-icons/ri";
 
 const Navbar = ({ hasNewMessageBubble }) => {
   const { t, i18n } = useTranslation("navBar2");
@@ -25,6 +28,156 @@ const Navbar = ({ hasNewMessageBubble }) => {
   function changeLanguage() {
     i18n.language.includes("en") ? i18n.changeLanguage("ko") : i18n.changeLanguage("en");
   }
+
+  const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
+
+  const SolutionDropdown = () => {
+    return (
+      <ul className="bg-white text-black rounded-lg p-5 w-72">
+        <div className="flex">
+          <p
+            style={{ color: "#1FAD72", fontSize: "0.7rem" }}
+            className="font-black text-xs font-nanum text-white py-1 rounded-full"
+          >
+            {t("service.for")}
+          </p>
+        </div>
+        <Link
+          to="/service/company"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <MdWorkOutline className="text-gray-400 group-hover:text-blue-500 flex-shrink-0" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title1")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle1")}</p>
+            </div>
+          </div>
+        </Link>
+        <Link
+          to="/service/developer"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <MdOutlinePerson className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title2")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle2")}</p>
+            </div>
+          </div>
+        </Link>
+        <div className="flex mt-4">
+          <p
+            style={{ color: "#1FAD72", fontSize: "0.7rem" }}
+            className="font-black text-xs font-nanum text-white py-1 rounded-full"
+          >
+            {t("service.addition")}
+          </p>
+        </div>
+        <Link
+          to="/pricing"
+          className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
+        >
+          <div className="flex items-center space-x-4">
+            <RiCustomerServiceLine className="text-gray-400 flex-shrink-0 group-hover:text-blue-500" size={24} />
+            <div className="w-full flex flex-col items-start space-y-px">
+              <p className="font-semibold">{t("service.title3")}</p>
+              <p className="text-xs text-gray-500 group-hover:text-blue-500">{t("service.subtitle3")}</p>
+            </div>
+          </div>
+        </Link>
+      </ul>
+    );
+  };
+
+  const CompanyDropdown = () => (
+    <ul className="bg-white text-black rounded-lg p-5 w-56 text-sm">
+      <p className="font-semibold font-sans text-gray-600 mb-2">{t("company.internal")}</p>
+      <Link
+        to="https://candle-chemistry-608.notion.site/62a540c630b948e8817bdb36f262d5c8"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("company.partners")}</div>
+      </Link>
+      <Link
+        to="https://www.namsancompany.com"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("company.team")}</div>
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/Tech-65b1bae7371f461db0238f6cabe18484"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("company.blog")}</div>
+      </Link>
+
+      <Divider />
+      <p className="font-semibold font-sans text-gray-600 mb-2">{t("company.external")}</p>
+      <Link
+        to="https://candle-chemistry-608.notion.site/7f34a912fa764803aa270f1f21754d5e"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("company.news")}</div>
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/5bfc7fb3a6234942bf9ab43be65268f3?v=2e8c1d8335954f6a923bd196baaa2d1a"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("company.investor")}</div>
+      </Link>
+    </ul>
+  );
+
+  const ResourcesDropdown = () => (
+    <ul className="bg-white text-black rounded-lg p-5 w-56 text-sm">
+      <Link
+        to="https://candle-chemistry-608.notion.site/FAQ-9b9927f37295435dbe5114157a498e48"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("resources.faq")}</div>
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/e5ec81c45bd141f49b716ce8fc7b9b0e"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("resources.community")}</div>
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/08aae9cfc4bb4b1ea1dbcbdafd6a6b1a"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("resources.customer")}</div>
+      </Link>
+      <Link
+        to="https://candle-chemistry-608.notion.site/Legal-9faf14d01dd14883ab0096f1702e0824"
+        className="w-full h-10 text-gray-700 flex items-center group hover:text-blue-500 font-medium"
+      >
+        <div className="flex items-center">{t("resources.legal")}</div>
+      </Link>
+    </ul>
+  );
+
+  const SolutionButton = () => (
+    <button className="flex items-center font-light group transition h-9 px-3">
+      <p className="group-hover:opacity-75 transition font-bold">{t("service.service")}</p>
+      <BiChevronDown className={`opacity-75 text-xl`} />
+    </button>
+  );
+
+  const CompanyButton = () => (
+    <button className="flex items-center font-light group transition h-9 px-3">
+      <p className="group-hover:opacity-75 transition font-bold">{t("company.company")}</p>
+      <BiChevronDown className="opacity-75 text-xl" />
+    </button>
+  );
+
+  const ResourcesButton = () => (
+    <button className="flex items-center font-light group transition h-9 px-3">
+      <p className="group-hover:opacity-75 transition font-bold">{t("resources.resources")}</p>
+      <BiChevronDown className="opacity-75 text-xl" />
+    </button>
+  );
 
   function logout() {
     axios
@@ -148,7 +301,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
     return (
       <div className="w-full flex items-center h-9 sm:h-10 justify-center">
         <input
-          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-2xl outline-none"
+          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-sm outline-none"
           placeholder={t("placeholder")}
         />
         <button className="bg-green-800 text-white text px-3 sm:px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
@@ -164,67 +317,88 @@ const Navbar = ({ hasNewMessageBubble }) => {
         style={{ maxWidth: "1280px" }}
         className={`text-black w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
       >
-        <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
-          <Link
-            to="/browse"
-            aria-label="Homepage"
-            className="flex items-center justify-center flex-shrink-0 transition mr-1 sm:mr-3 filter hover:brightness-150"
-          >
-            <img src={LogoGreen} alt="Kookjein logo" className="h-8 object-contain" draggable={false} />
-          </Link>
-        </div>
-        <div className="w-full h-full hidden  sm:flex items-center">
-          <SearchBar />
-        </div>
-        <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-10">
-          {userState.isAuthenticated ? (
-            <>
-              {userState.user.userType === "employer" && (
-                <>
-                  <Link to={"/browse-jobs"}>
-                    <button className="h-9 px-2 text-sm text-green-700 rounded hover:brightness-125 font-sm font-bold">
-                      전체 프로젝트
-                    </button>
-                  </Link>
-                  <Link to={"/post-job/flow-1"}>
-                    <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
-                      프로젝트 등록
-                    </button>
-                  </Link>
-                </>
-              )}
+        <div className="w-full flex items-center">
+          <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
+            <Link
+              to={userState.isAuthenticated ? "/browse" : "/"}
+              aria-label="Homepage"
+              className="flex items-center justify-center flex-shrink-0 transition mr-1 sm:mr-3 filter hover:brightness-150"
+            >
+              <img src={LogoGreen} alt="Kookjein logo" className="h-8 object-contain" draggable={false} />
+            </Link>
+          </div>
 
-              {/* <button className="relative">
+          {!userState.isAuthenticated ? (
+            <>
+              <Dropdown button={<SolutionButton />} dropdown={<SolutionDropdown />} />
+              <Dropdown button={<CompanyButton />} dropdown={<CompanyDropdown />} />
+              <Dropdown button={<ResourcesButton />} dropdown={<ResourcesDropdown />} />
+              <Link to="/pricing">
+                <button className="hidden sm:flex items-center font-bold group transition hover:opacity-75 px-3">
+                  <p>{t("pricing")}</p>
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={"/browse-jobs"}>
+                <button className="h-9 px-2 text-sm text-green-700 rounded hover:brightness-125 font-sm font-bold">
+                  전체 프로젝트
+                </button>
+              </Link>
+            </>
+          )}
+        </div>
+
+        <div className="flex items-center w-full">
+          <div className="w-full h-full hidden sm:flex items-center">
+            <SearchBar />
+          </div>
+          <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-10">
+            {userState.isAuthenticated ? (
+              <>
+                {userState.user.userType === "employer" && (
+                  <>
+                    <Link to={"/post-job/flow-1"}>
+                      <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
+                        프로젝트 등록
+                      </button>
+                    </Link>
+                  </>
+                )}
+
+                {/* <button className="relative">
                 <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
                 <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
               </button> */}
-              <Link to="/manage" className="flex items-center">
-                <button className="relative p-1 hover:opacity-80">
-                  <IoChatboxOutline className="w-7 h-7 text-gray-500" />
-                  {hasNewMessageBubble && (
-                    <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
-                  )}
-                </button>
-              </Link>
-              <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
-            </>
-          ) : (
-            <div className="flex items-center space-x-3">
-              <Link to="/login">
-                <button className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm bg-green-800">
-                  {t("signin")}
-                </button>
-              </Link>
-              <Dropdown
-                button={
-                  <button className="transition hover:opacity-75 rounded-lg pl-1 sm:pl-6 h-9">
-                    <GoThreeBars size={36} className="w-7 h-7 text-gray-500" />
+                <Link to="/manage" className="flex items-center">
+                  <button className="relative p-1 hover:opacity-80">
+                    <IoChatboxOutline className="w-7 h-7 text-gray-500" />
+                    {hasNewMessageBubble && (
+                      <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                    )}
                   </button>
-                }
-                dropdown={<ProfileDropdown />}
-              />
-            </div>
-          )}
+                </Link>
+                <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
+              </>
+            ) : (
+              <div className="flex items-center space-x-3">
+                <Link to="/login">
+                  <button className="text-white text px-4 py-2 rounded hover:opacity-90 transition font-nanum font-semibold text-sm bg-green-800">
+                    {t("signin")}
+                  </button>
+                </Link>
+                <Dropdown
+                  button={
+                    <button className="transition hover:opacity-75 rounded-lg pl-1 sm:pl-6 h-9">
+                      <GoThreeBars size={36} className="w-7 h-7 text-gray-500" />
+                    </button>
+                  }
+                  dropdown={<ProfileDropdown />}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
