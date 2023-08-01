@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
+import Drawer from "react-modern-drawer";
+import { RxCross2 } from "react-icons/rx";
 
 const JobPost = () => {
   const { jobId } = useParams();
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
+
+  const toggleDrawer = () => {
+    setDrawerOpen((prevState) => !prevState);
+  };
 
   const SummaryCell = ({ title, value }) => (
     <div className="flex text-sm h-7 flex-items-center">
@@ -14,8 +21,57 @@ const JobPost = () => {
     </div>
   );
 
+  const ProjectCell = () => {
+    const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
+    return (
+      <div className="w-full py-4 border cursor-default bg-white rounded p-4 rounded">
+        <div className="flex justify-between">
+          <p className="text-lg font-bold text-green-700">020 커머스 서비스 플랫폼 개발</p>
+        </div>
+        <div className="flex space-x-2 mt-2">
+          <Tags title="React.js" />
+          <Tags title="Javascript" />
+          <Tags title="front-end" />
+          <Tags title="backend" />
+          <Tags title="aws" />
+        </div>
+
+        <div className="w-full h-10 bg-gray-100 mt-3 rounded flex overflow-hidden">
+          <div className="w-1/3 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+            예상비용 4,000 만원
+          </div>
+          <div className="w-1/3 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+            예상기간 120일
+          </div>
+          <div className="w-1/3 flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+            마감일정 D-4
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
+      <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
+        <div className="w-full h-16 border-b flex items-center justify-between px-6">
+          <p className="text-gray-700">채용 신청</p>
+          <button onClick={toggleDrawer}>
+            <RxCross2 className="w-7 h-7" />
+          </button>
+        </div>
+        <div className="p-6">
+          <p className="text-xl mb-4">지원 프로젝트</p>
+          <ProjectCell />
+
+          <p className="text-xl mt-8">인사말/간단한 소개</p>
+          <textarea className="w-full h-48 border rounded mt-4 outline-green-600 p-3" />
+
+          <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
+            <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">메세지 보내기</button>
+          </div>
+        </div>
+      </Drawer>
       <div
         style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around overflow-x-auto"
@@ -33,7 +89,9 @@ const JobPost = () => {
                 <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">
                   프로젝트 방식
                 </div>
-                <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">프로젝트 카테고리</div>
+                <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">
+                  프로젝트 카테고리
+                </div>
               </div>
             </div>
             <div className="flex space-x-2 mt-4">
@@ -130,7 +188,10 @@ const JobPost = () => {
               </div>
             </div>
 
-            <button className="w-full h-10 bg-green-700 mt-4 rounded text-white text-sm hover:bg-green-600">
+            <button
+              onClick={() => toggleDrawer()}
+              className="w-full h-10 bg-green-700 mt-4 rounded text-white text-sm hover:bg-green-600"
+            >
               프로젝트 지원
             </button>
           </div>
