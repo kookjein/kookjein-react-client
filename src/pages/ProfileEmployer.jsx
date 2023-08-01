@@ -342,6 +342,9 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
                   <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p>
                   {generalInfo?.company && (
                     <div className="flex items-center flex-shrink-0">
+                      {developerInfo.current?.title?.[lang] && (
+                        <p className="">{developerInfo.current?.title?.[lang]}</p>
+                      )}
                       <p className="mx-1">at</p>
                       <Link to={`/company/${companyInfo.current.company?.company_id}`}>
                         <button className="text-green-700 hover:underline filter hover:brightness-125 font-bold">
