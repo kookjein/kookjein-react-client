@@ -35,6 +35,7 @@ import StartPost from "./pages/StartPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
 import JobPost from "./pages/JobPost";
+import ClientMain from "./pages/ClientMain";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -121,10 +122,11 @@ function App() {
         <ToastContainer />
         <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
-          <Route path="/*" element={userState.user.userType === "employee" ? <BrowseJobs /> : <Browse />} />
+          <Route path="/*" element={userState.user.userType === "employee" ? <BrowseJobs /> : <ClientMain />} />
           <Route path="/create-company" element={<CreateCompany />} />
           <Route path="/post-job/flow-1" element={<StartPost />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/browse" element={<Browse />} />
           <Route path="/developers" element={<Developers />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
