@@ -121,7 +121,7 @@ function App() {
         <ToastContainer />
         <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
-          <Route path="/*" element={<Browse />} />
+          <Route path="/*" element={userState.user.userType === "employee" ? <BrowseJobs /> : <Browse />} />
           <Route path="/create-company" element={<CreateCompany />} />
           <Route path="/post-job/flow-1" element={<StartPost />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />

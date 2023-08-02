@@ -11,7 +11,9 @@ const BrowseJobs = () => {
       <div className="w-full p-6 border-b bg-white border rounded">
         <div className="flex justify-between">
           <Link to={`/jobs/1`}>
-            <p className="text-xl font-bold text-green-700 hover:underline cursor-pointer">020 커머스 서비스 플랫폼 개발</p>
+            <p className="text-xl font-bold text-green-700 hover:underline cursor-pointer">
+              020 커머스 서비스 플랫폼 개발
+            </p>
           </Link>
           <div className="flex space-x-1">
             <div className="h-7 px-2 bg-blue-500 text-white rounded-lg flex items-center text-sm">단기 프로젝트</div>
@@ -56,6 +58,13 @@ const BrowseJobs = () => {
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around overflow-x-auto"
       >
         <div className="w-full mt-8 flex">
+          <div className="w-full px-6 pb-12 space-y-4 bg-gray-100">
+            <ProjectCell />
+            <ProjectCell />
+            <ProjectCell />
+            <ProjectCell />
+            <ProjectCell />
+          </div>
           <div className="w-64 h-full border pb-8 flex-shrink-0 bg-white rounded overflow-hidden">
             <div className="w-full h-12 bg-green-700 flex items-center px-6 text-white">
               <p>프로젝트 필터</p>
@@ -126,13 +135,6 @@ const BrowseJobs = () => {
                 <p className="text-sm">기타 소프트웨어</p>
               </button>
             </div>
-          </div>
-          <div className="w-full px-6 pb-12 space-y-4 bg-gray-100">
-            <ProjectCell />
-            <ProjectCell />
-            <ProjectCell />
-            <ProjectCell />
-            <ProjectCell />
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ const Login = () => {
         .then((response) => {
           if (response.status === HttpStatusCode.Ok) {
             updateAccessToken(response.data.access_token).then();
-            navigate("/browse");
+            navigate("/");
           } else {
             setErrorMessage(t("error.unknown"));
           }

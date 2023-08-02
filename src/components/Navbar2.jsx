@@ -1,11 +1,6 @@
 import React from "react";
 import LogoGreen from "../assets/logo_green.png";
-import {
-  IoChatboxOutline,
-  IoLanguage,
-  // IoNotificationsOutline,
-  IoSearch,
-} from "react-icons/io5";
+import { IoLanguage, IoNotificationsOutline, IoSearch } from "react-icons/io5";
 import { GoThreeBars } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { useState, useContext } from "react";
@@ -159,21 +154,21 @@ const Navbar = ({ hasNewMessageBubble }) => {
   );
 
   const SolutionButton = () => (
-    <button className="flex items-center font-light group transition h-9 px-3">
+    <button className="flex items-center font-light group transition h-9 px-3 text-gray-700">
       <p className="group-hover:opacity-75 transition font-bold">{t("service.service")}</p>
       <BiChevronDown className={`opacity-75 text-xl`} />
     </button>
   );
 
   const CompanyButton = () => (
-    <button className="flex items-center font-light group transition h-9 px-3">
+    <button className="flex items-center font-light group transition h-9 px-3 text-gray-700">
       <p className="group-hover:opacity-75 transition font-bold">{t("company.company")}</p>
       <BiChevronDown className="opacity-75 text-xl" />
     </button>
   );
 
   const ResourcesButton = () => (
-    <button className="flex items-center font-light group transition h-9 px-3">
+    <button className="flex items-center font-light group transition h-9 px-3 text-gray-700">
       <p className="group-hover:opacity-75 transition font-bold">{t("resources.resources")}</p>
       <BiChevronDown className="opacity-75 text-xl" />
     </button>
@@ -276,7 +271,6 @@ const Navbar = ({ hasNewMessageBubble }) => {
 
   const Dropdown = ({ button, dropdown }) => {
     const [dropdownVisibility, setDropdownVisibility] = useState(false);
-
     return (
       <div
         className="relative flex"
@@ -299,20 +293,18 @@ const Navbar = ({ hasNewMessageBubble }) => {
 
   const SearchBar = () => {
     return (
-      <div className="w-full flex items-center h-9 sm:h-10 justify-center">
+      <div className="w-full flex items-center h-9 sm:h-10 justify-center relative max-w-sm rounded-full border pl-11">
         <input
-          className="border h-full w-full font-nanum text-xs sm:text-sm px-2 sm:px-3 rounded-l-md max-w-sm outline-none"
+          className="h-full w-full font-nanum text-xs sm:text-sm pr-3 outline-none rounded-r-full"
           placeholder={t("placeholder")}
         />
-        <button className="bg-green-800 text-white text px-3 sm:px-4 py-1 rounded-r-md hover:opacity-90 transition font-nanum font-semibold text-sm h-full outline-px">
-          <IoSearch className="text-white w-5 h-5" />
-        </button>
+        <IoSearch className="text-gray-400 w-5 h-5 absolute left-4 cursor-pointer hover:text-green-600" />
       </div>
     );
   };
 
   return (
-    <header className="w-full flex h-16 sm:h-20 z-50 border-b justify-center bg-white">
+    <header className="w-full flex h-16 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
         className={`text-black w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
@@ -320,11 +312,11 @@ const Navbar = ({ hasNewMessageBubble }) => {
         <div className="w-full flex items-center">
           <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
             <Link
-              to={userState.isAuthenticated ? "/browse" : "/"}
+              to={"/"}
               aria-label="Homepage"
               className="flex items-center justify-center flex-shrink-0 transition mr-1 sm:mr-3 filter hover:brightness-150"
             >
-              <img src={LogoGreen} alt="Kookjein logo" className="h-8 object-contain" draggable={false} />
+              <img src={LogoGreen} alt="Kookjein logo" className="h-7 object-contain" draggable={false} />
             </Link>
           </div>
 
@@ -340,45 +332,56 @@ const Navbar = ({ hasNewMessageBubble }) => {
               </Link>
             </>
           ) : (
-            <>
-              <Link to={"/browse-jobs"}>
-                <button className="h-9 px-2 text-sm text-green-700 rounded hover:brightness-125 font-sm font-bold">
-                  전체 프로젝트
+            <div className="flex space-x-6">
+              {userState.user.userType === "employee" ? (
+                <Link to={"/browse-jobs"}>
+                  <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">
+                    지원 현황
+                  </button>
+                </Link>
+              ) : (
+                <Link to={"/browse"}>
+                  <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">
+                    개발자 찾기
+                  </button>
+                </Link>
+              )}
+              <Link to="/" className="flex items-center">
+                <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
+                  <p>계약 내역</p>
                 </button>
               </Link>
-            </>
+              <Link to="/manage" className="flex items-center">
+                <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
+                  <p>메세지</p>
+                  {hasNewMessageBubble && (
+                    <div className="absolute top-1 -right-2 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                  )}
+                </button>
+              </Link>
+            </div>
           )}
         </div>
 
-        <div className="flex items-center w-full">
-          <div className="w-full h-full hidden sm:flex items-center">
-            <SearchBar />
-          </div>
-          <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-10">
+        <div className="flex items-center justify-end w-full">
+          {userState.isAuthenticated && <SearchBar />}
+          <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-8">
             {userState.isAuthenticated ? (
               <>
                 {userState.user.userType === "employer" && (
                   <>
                     <Link to={"/post-job/flow-1"}>
-                      <button className="h-9 px-4 bg-green-800 text-sm text-white rounded hover:brightness-125 font-sm">
+                      <button className="h-9 px-2 text-green-700 font-bold rounded hover:brightness-125">
                         프로젝트 등록
                       </button>
                     </Link>
                   </>
                 )}
 
-                {/* <button className="relative">
-                <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
-                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 ring-1 ring-white rounded-full"></div>
-              </button> */}
-                <Link to="/manage" className="flex items-center">
-                  <button className="relative p-1 hover:opacity-80">
-                    <IoChatboxOutline className="w-7 h-7 text-gray-500" />
-                    {hasNewMessageBubble && (
-                      <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
-                    )}
-                  </button>
-                </Link>
+                <button className="relative">
+                  <IoNotificationsOutline className="w-6 h-6 text-gray-500" />
+                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                </button>
                 <Dropdown button={<ProfileButton />} dropdown={<ProfileDropdown />} />
               </>
             ) : (
