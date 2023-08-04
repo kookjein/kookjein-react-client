@@ -1,4 +1,4 @@
-const manageWork = {
+const chatPage = {
   searchPlaceholder: "Search user",
   employee: "Hired employees",
   employer: "Employers",
@@ -26,4 +26,4 @@ const manageWork = {
   missingReport: "Today's report is not submitted yet."
 };
 
-export default manageWork;
+export default chatPage;

@@ -1,4 +1,4 @@
-const manageWork = {
+const chatPage = {
   searchPlaceholder: "이름 검색",
   employee: "채용된 직원",
   employer: "관리자",
@@ -26,4 +26,4 @@ const manageWork = {
   missingReport: "오늘 업무일지 업로드 전"
 };
 
-export default manageWork;
+export default chatPage;

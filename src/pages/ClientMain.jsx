@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import EmptyFile from "../assets/empty-file.png";
 import { AuthContext } from "../utils/authContext";
@@ -8,7 +8,6 @@ import ProjectCell from "../components/ProjectCell";
 
 const ClientMain = () => {
   const { userState } = useContext(AuthContext);
-  const [currentJob, setCurrentJob] = useState(0);
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
@@ -25,22 +24,8 @@ const ClientMain = () => {
         </div>
         <div className="flex space-x-6">
           <div className="mt-4 w-full border rounded-xl py-6">
-            <h1 className="text-lg font-bold mx-6">내 프로젝트</h1>
-            <div className="h-12 w-full border-b flex items-center px-6 mt-4 space-x-4">
-              <button
-                onClick={() => setCurrentJob(0)}
-                className="h-full px-1 relative flex items-center justify-center"
-              >
-                <p className={`text-sm text-gray-600 ${currentJob === 0 && "font-bold"}`}>진행중인 프로젝트</p>
-                {currentJob === 0 && <div className="rounded-t-sm h-0.5 w-full bg-green-700 absolute bottom-0"></div>}
-              </button>
-              <button
-                onClick={() => setCurrentJob(1)}
-                className="h-full px-1 relative flex items-center justify-center"
-              >
-                <p className={`text-sm text-gray-600 ${currentJob === 1 && "font-bold"}`}>이전 프로젝트</p>
-                {currentJob === 1 && <div className="rounded-t-sm h-0.5 w-full bg-green-700 absolute bottom-0"></div>}
-              </button>
+            <div className="w-full items-center border-b pb-3">
+              <h1 className="text-lg font-bold mx-6">내 프로젝트</h1>
             </div>
             <div className="py-4">
               <ProjectCell />
@@ -110,7 +95,7 @@ const ClientMain = () => {
                   </div>
                 </>
               ) : (
-                <Link to={`/user/${userState.user.userId}`}>
+                <Link to={`/company/${userState.user.userId}`}>
                   <div className="flex items-center group space-x-3">
                     <img
                       onError={({ currentTarget }) => {

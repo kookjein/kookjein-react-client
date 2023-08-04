@@ -11,11 +11,9 @@ import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 import moment from "moment";
 import Modal from "react-modal";
-import Drawer from "react-modern-drawer";
-import { RxCross2 } from "react-icons/rx";
 
-const ManageWork = ({ newMessage, rooms, setRooms }) => {
-  const { t, i18n } = useTranslation("manageWork");
+const ChatPage = ({ newMessage, rooms, setRooms }) => {
+  const { t, i18n } = useTranslation("chatPage");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
@@ -26,17 +24,12 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [coworkers, setCoworkers] = useState([]);
   const [dailyReports, setDailyReports] = useState([]);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const isMobile = screenWidth <= 768;
 
   function handleWindowSizeChange() {
     setScreenWidth(window.innerWidth);
   }
-
-  const toggleDrawer = () => {
-    setDrawerOpen((prevState) => !prevState);
-  };
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
@@ -341,12 +334,11 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
             <ProfileSection />
             <div className="px-6 w-full mt-6">
               {userState.user.userType === "employer" && (
-                <button
-                  onClick={toggleDrawer}
-                  className="bg-green-700 text-white filter hover:brightness-125 py-2 rounded-full transition font-semibold text-sm w-full"
-                >
-                  채용 제안서 보내기
-                </button>
+                <Link to="/manage">
+                  <button className="bg-green-700 text-white filter hover:brightness-125 py-2 rounded-full transition font-semibold text-sm w-full">
+                    계약 및 채용하기
+                  </button>
+                </Link>
               )}
             </div>
           </div>
@@ -411,64 +403,6 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
         style={{ height: "calc(100svh - 4rem)" }}
         className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
       >
-        <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
-          <div className="w-full h-16 border-b flex items-center justify-between px-6">
-            <p className="text-gray-700">채용 신청</p>
-            <button onClick={toggleDrawer}>
-              <RxCross2 className="w-7 h-7" />
-            </button>
-          </div>
-          <div className="p-6">
-            <p className="text-xl">인사말/간단한 소개</p>
-            <input className="w-full h-32 border rounded mt-4" />
-
-            <p className="text-xl mt-4">내 프로젝트</p>
-            <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
-              선택하기
-            </div>
-
-            <p className="text-xl mt-4">어시스턴트 옵션</p>
-            <div className="w-full py-4 border mt-4 p-4">
-              <div className="flex justify-between w-full">
-                <div>
-                  <p className="text-xl">무료플랜</p>
-                  <p className="text-sm text-gray-500 mt-2">₩0원/월</p>
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p>고객 지원 및 분쟁 해결</p>
-                  <p>개발자 매칭 시 마일스톤 검증</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full py-4 border mt-4 p-4">
-              <div className="flex justify-between w-full">
-                <div>
-                  <p className="text-xl">스탠다드 플랜</p>
-                  <p className="text-sm text-gray-500 mt-2">₩40만원/월</p>
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p>고객 지원 및 분쟁 해결</p>
-                  <p>개발자 매칭 시 마일스톤 검증</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full py-4 border mt-4 p-4">
-              <div className="flex justify-between w-full">
-                <div>
-                  <p className="text-xl">엔터프라이즈 플랜</p>
-                  <p className="text-sm text-gray-500 mt-2">₩160만F원/월</p>
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p>고객 지원 및 분쟁 해결</p>
-                  <p>개발자 매칭 시 마일스톤 검증</p>
-                </div>
-              </div>
-            </div>
-            <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-              <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">채용 제안서 보내기</button>
-            </div>
-          </div>
-        </Drawer>
         <div style={{ maxWidth: "1480px", height: "calc(100svh - 4rem)" }} className="w-full flex">
           <LeftPanel />
           {roomIdQuery && currentRoomData ? (
@@ -490,4 +424,4 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
     );
 };
 
-export default ManageWork;
+export default ChatPage;

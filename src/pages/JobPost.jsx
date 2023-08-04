@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineFile } from "react-icons/ai";
+import { AuthContext } from "../utils/authContext";
 
 const JobPost = () => {
   const { jobId } = useParams();
+  const { userState } = useContext(AuthContext);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
@@ -185,10 +187,24 @@ const JobPost = () => {
 
           {/* RIGHT PANEL */}
           <div className="w-80 h-full p-6 flex-shrink-0 overflow-hidden">
+            <p className="font-bold mb-4">채용된 직원</p>
+            <div className="mb-12">
+              <div className="flex items-center space-x-4">
+                <img src={DefaultImage} alt="" className="w-14 h-14 rounded-full flex-shrink-0 bg-gray-100" />
+                <p>Andrew Jang</p>
+              </div>
+              <Link to="/manage">
+                <button className="flex items-center flex-shrink-0 text-white text-sm w-full bg-green-600 h-10 mt-4 rounded justify-center">
+                  계약 및 관리 페이지
+                </button>
+              </Link>
+            </div>
+
+            <p className="font-bold mb-4">프로젝트 오너</p>
             <div className="flex space-x-3 items-center">
               <img src={DefaultImage} alt="" className="w-14 h-14 rounded-full flex-shrink-0 bg-gray-100" />
               <div>
-                <p>andrewdhjang</p>
+                <p>John Kim</p>
                 <div className="flex items-center flex-shrink-0 text-sm">
                   {/* <p className="mr-1 font-bold flex-shrink-0">{developerInfo.current.name?.[lang]} - </p> */}
                   {/* {developerInfo.current?.title?.[lang] && (
@@ -218,12 +234,14 @@ const JobPost = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => toggleDrawer()}
-              className="w-full h-10 bg-green-700 mt-4 rounded text-white text-sm hover:bg-green-600"
-            >
-              프로젝트 지원
-            </button>
+            {userState.user.userType !== "employer" && (
+              <button
+                onClick={() => toggleDrawer()}
+                className="w-full h-10 bg-green-700 mt-4 rounded text-white text-sm hover:bg-green-600"
+              >
+                프로젝트 지원
+              </button>
+            )}
           </div>
         </div>
       </div>

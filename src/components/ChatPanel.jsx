@@ -18,7 +18,7 @@ import "moment/locale/ko";
 
 const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation("manageWork");
+  const { t, i18n } = useTranslation("chatPage");
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
   const [searchParams] = useSearchParams();

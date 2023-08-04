@@ -13,4 +13,4 @@ export { default as employerEditProfileModal } from "./employerEditProfileModal"
 export { default as createCompany } from "./createCompany";
 export { default as companyEditModal } from "./companyEditModal";
 export { default as browse } from "./browse";
-export { default as manageWork } from "./manageWork";
+export { default as chatPage } from "./chatPage";

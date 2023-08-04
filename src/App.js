@@ -20,7 +20,7 @@ import ServiceCompany from "./pages/ServiceCompany";
 import ServiceDeveloper from "./pages/ServiceDeveloper";
 import Pricing from "./pages/Pricing";
 import Browse from "./pages/Browse";
-import ManageWork from "./pages/ManageWork";
+import ChatPage from "./pages/ChatPage";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -36,6 +36,7 @@ import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
 import JobPost from "./pages/JobPost";
 import ClientMain from "./pages/ClientMain";
+import ManagePage from "./pages/ManagePage";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -127,12 +128,13 @@ function App() {
           <Route path="/post-job/flow-1" element={<StartPost />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/browse" element={<Browse />} />
+          <Route path="/manage" element={<ManagePage />} />
           <Route path="/developers" element={<Developers />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/work-post/*" element={<WorkPost />} />
-          <Route path="/chat/*" element={<ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
+          <Route path="/chat/*" element={<ChatPage newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/pricing" element={<Pricing />} />
