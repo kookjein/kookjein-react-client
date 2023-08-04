@@ -292,15 +292,19 @@ const Navbar = ({ hasNewMessageBubble }) => {
   };
 
   const SearchBar = () => {
+    const [searchType, setSearchType] = useState("employee");
     return (
       <div className="w-full flex items-center h-9 sm:h-10 justify-center relative max-w-md rounded-full border pl-11 pr-1">
         <input
           className="h-full w-full font-nanum text-xs sm:text-sm pr-3 outline-none rounded-r-full"
-          placeholder={userState.user.userType === "employee" ? t("placeholderEmployee") : t("placeholderEmployer")}
+          placeholder={userState.user.userType === searchType ? t("placeholderEmployee") : t("placeholderEmployer")}
         />
-        <div className="h-8 px-4 flex text-xs flex-shrink-0 flex items-center rounded-full border">
-          {userState.user.userType === "employee" ? "프로젝트 검색" : "개발자 검색"}
-        </div>
+        <button
+          onClick={() => (searchType === "employee" ? setSearchType("employer") : setSearchType("employee"))}
+          className="h-8 px-4 flex text-xs flex-shrink-0 flex items-center rounded-full border hover:bg-green-600 hover:text-white"
+        >
+          {userState.user.userType === searchType ? "프로젝트 검색" : "개발자 검색"}
+        </button>
         <IoSearch className="text-gray-400 w-5 h-5 absolute left-4 cursor-pointer hover:text-green-600" />
       </div>
     );
