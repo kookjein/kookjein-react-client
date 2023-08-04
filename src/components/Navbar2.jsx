@@ -293,11 +293,14 @@ const Navbar = ({ hasNewMessageBubble }) => {
 
   const SearchBar = () => {
     return (
-      <div className="w-full flex items-center h-9 sm:h-10 justify-center relative max-w-sm rounded-full border pl-11">
+      <div className="w-full flex items-center h-9 sm:h-10 justify-center relative max-w-md rounded-full border pl-11 pr-1">
         <input
           className="h-full w-full font-nanum text-xs sm:text-sm pr-3 outline-none rounded-r-full"
-          placeholder={t("placeholder")}
+          placeholder={userState.user.userType === "employee" ? t("placeholderEmployee") : t("placeholderEmployer")}
         />
+        <div className="h-8 px-4 flex text-xs flex-shrink-0 flex items-center rounded-full border">
+          {userState.user.userType === "employee" ? "프로젝트 검색" : "개발자 검색"}
+        </div>
         <IoSearch className="text-gray-400 w-5 h-5 absolute left-4 cursor-pointer hover:text-green-600" />
       </div>
     );

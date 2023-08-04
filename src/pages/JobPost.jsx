@@ -73,7 +73,7 @@ const JobPost = () => {
         </div>
       </Drawer>
       <div
-        style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
+        style={{ maxWidth: "1240px", scrollbarWidth: 0 }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around overflow-x-auto"
       >
         <div className="w-full h-full my-8 flex border bg-white">
