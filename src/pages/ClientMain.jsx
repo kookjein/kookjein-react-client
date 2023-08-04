@@ -60,7 +60,7 @@ const ClientMain = () => {
       <div style={{ maxWidth: "1000px" }} className="w-full h-full p-4 py-8 pb-24">
         <h1 className="text-2xl font-bold">내 대시보드</h1>
 
-        <div className="h-12 w-full flex justify-end space-x-4">
+        <div className="h-12 w-full flex justify-end space-x-4 text-sm">
           <Link to={"/browse-jobs"}>
             <button className="h-9 px-6 text-green-700 rounded hover:brightness-125">전체 프로젝트</button>
           </Link>
@@ -99,7 +99,7 @@ const ClientMain = () => {
               </div>
 
               <Link to={"/post-job/flow-1"}>
-                <button className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125">프로젝트 등록</button>
+                <button className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125 text-sm">프로젝트 등록</button>
               </Link>
             </div>
           </div>

@@ -223,7 +223,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
 
     return (
       <div
-        style={{ height: "calc(100svh - 5rem)", color: "#272D37" }}
+        style={{ height: "calc(100svh - 4rem)", color: "#272D37" }}
         className="w-screen sm:w-80 flex border-r flex-col items-center flex-shrink-0 overflow-y-auto bg-white border-l"
       >
         <div className="border-b w-full h-12 px-4 py-2 flex items-center space-x-2">
@@ -415,7 +415,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
     )
       return (
         <div
-          style={{ height: "calc(100svh - 5rem)", color: "#272D37" }}
+          style={{ height: "calc(100svh - 4rem)", color: "#272D37" }}
           className="w-80 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
         >
           <div className="w-full flex flex-col items-center pt-8 h-full">
@@ -471,7 +471,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const StartPanel = () => {
     return (
       <div
-        className="w-full border-r flex items-center justify-center"
+        className="w-full border-r flex items-center justify-center bg-gray-200"
         // style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "round" }}
       >
         <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
@@ -523,10 +523,12 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
     );
   else
     return (
-      <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
-        <div className="w-full h-full flex">
+      <div
+        style={{ height: "calc(100svh - 4rem)" }}
+        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
+      >
+        <div style={{ maxWidth: "1480px", height: "calc(100svh - 4rem)" }} className="w-full flex">
           <LeftPanel />
-
           <Routes>
             <Route
               path="/chat"

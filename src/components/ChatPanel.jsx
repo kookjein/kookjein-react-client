@@ -256,11 +256,11 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
   };
 
   return (
-    <div style={{ height: "calc(100svh - 5rem)" }} className="w-screen sm:w-full bg-white flex flex-col relative">
+    <div style={{ height: "calc(100svh - 4rem)" }} className="w-screen sm:w-full bg-white flex flex-col relative">
       <Header />
       <div
         onScroll={handleScroll}
-        style={{ height: "calc(100svh - 14.4rem)" }}
+        style={{ height: "calc(100svh - 13rem)" }}
         className="w-full h-full overflow-y-auto py-6 px-4 pb-8 relative flex flex-col-reverse bg-gray-100"
       >
         <div ref={messagesEndRef} />
