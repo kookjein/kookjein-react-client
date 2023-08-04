@@ -637,12 +637,12 @@ const Profile = () => {
                 </div>
               </div>
               <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">프로젝트 초대</button>
+                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">채용 제안서 보내기</button>
               </div>
             </div>
           </Drawer>
 
-          {!isMyProfile && (
+          {!isMyProfile && userState.user.userType !== "employee" && (
             <ProfileCompose
               userId={userId}
               openComposeModal={openComposeModal}

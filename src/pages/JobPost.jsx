@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
 import { RxCross2 } from "react-icons/rx";
+import { AiOutlineFile } from "react-icons/ai";
 
 const JobPost = () => {
   const { jobId } = useParams();
@@ -37,19 +38,35 @@ const JobPost = () => {
         </div>
 
         <div className="w-full h-10 bg-gray-100 mt-3 rounded flex overflow-hidden">
-          <div className="w-1/3 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+          <div className="w-1/4 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
             예상비용 4,000 만원
           </div>
-          <div className="w-1/3 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+          <div className="w-1/4 border-r flex items-center justify-center text-xs border-white bg-gray-100 border-2">
             예상기간 120일
           </div>
-          <div className="w-1/3 flex items-center justify-center text-xs border-white bg-gray-100 border-2">
+          <div className="w-1/4 flex items-center justify-center text-xs border-white bg-gray-100 border-2">
             마감일정 D-4
           </div>
+          <div className="w-1/4 flex items-center justify-center text-sm border-white border-2">지원자 0</div>
         </div>
       </div>
     );
   };
+
+  const CandidateCell = () => (
+    <div className="p-4 bg-gray-100 rounded-lg flex flex-col items-center px-4">
+      <div className="w-16 h-16 bg-gray-200 rounded-full"></div>
+      <p className="mt-4 font-bold">Andrew Jang</p>
+      <p className="text-sm text-gray-600">Title/Position</p>
+
+      <div className="w-full h-10 text-sm flex items-center justify-center font-bold text-green-700">개발자 제안</div>
+      <div className="w-full text-sm flex items-center justify-center">3,000만원 / 90일</div>
+
+      <button className="w-full h-9 bg-green-600 mt-4 rounded text-sm text-white hover:brightness-125">
+        메세지 보내기
+      </button>
+    </div>
+  );
 
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
@@ -103,13 +120,14 @@ const JobPost = () => {
             </div>
 
             <div className="w-full h-10 bg-gray-100 mt-3 rounded flex overflow-hidden">
-              <div className="w-1/3 border-r flex items-center justify-center text-sm border-white border-2">
+              <div className="w-1/4 border-r flex items-center justify-center text-sm border-white border-2">
                 예상비용 4,000 만원
               </div>
-              <div className="w-1/3 border-r flex items-center justify-center text-sm border-white border-2">
+              <div className="w-1/4 border-r flex items-center justify-center text-sm border-white border-2">
                 예상기간 120일
               </div>
-              <div className="w-1/3 flex items-center justify-center text-sm border-white border-2">마감일정 D-4</div>
+              <div className="w-1/4 flex items-center justify-center text-sm border-white border-2">마감일정 D-4</div>
+              <div className="w-1/4 flex items-center justify-center text-sm border-white border-2">지원자 0</div>
             </div>
 
             <div className="py-8 px-6">
@@ -122,13 +140,25 @@ const JobPost = () => {
               <SummaryCell title="예상 진행 기간" value="3개월" />
             </div>
 
-            <p className="text-xl px-3">프로젝트 자료</p>
-            <div className="px-3 mb-8">
-              <div className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm">
-                <div>
-                  <p>FILE_NAME</p>
+            {true && (
+              <div className="w-full mb-12 px-3">
+                <p className="text-xl font-bold">지원자 - 3</p>
+                <div className="grid grid-cols-4 gap-4 mt-4">
+                  <CandidateCell />
+                  <CandidateCell />
+                  <CandidateCell />
                 </div>
               </div>
+            )}
+
+            <p className="text-xl px-3">프로젝트 자료</p>
+            <div className="px-3 mb-8">
+              <button className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm hover:bg-gray-100 transition">
+                <div className="flex items-center space-x-2">
+                  <AiOutlineFile />
+                  <p>FILE_NAME</p>
+                </div>
+              </button>
             </div>
 
             <p className="text-xl px-3">프로젝트 상세</p>

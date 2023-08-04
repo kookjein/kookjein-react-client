@@ -132,7 +132,7 @@ function App() {
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/work-post/*" element={<WorkPost />} />
-          <Route path="/manage/*" element={<ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
+          <Route path="/chat/*" element={<ManageWork newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/pricing" element={<Pricing />} />

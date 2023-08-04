@@ -358,7 +358,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
                   <p>계약 내역</p>
                 </button>
               </Link>
-              <Link to="/manage" className="flex items-center">
+              <Link to="/chat" className="flex items-center">
                 <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
                   <p>메세지</p>
                   {hasNewMessageBubble && (

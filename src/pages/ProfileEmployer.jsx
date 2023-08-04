@@ -388,7 +388,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             developerInfo={developerInfo}
           />
         </Modal>
-        {!isMyProfile && (
+        {!isMyProfile && userState.user.userType !== "employee" && (
           <ProfileCompose
             userId={userId}
             openComposeModal={openComposeModal}

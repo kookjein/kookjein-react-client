@@ -4,15 +4,15 @@ import { Link, Route, Routes, useParams, useSearchParams } from "react-router-do
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
 import Contracts from "../components/Contracts";
-import { AiFillCheckCircle, AiOutlineExclamationCircle, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
-import { BsCardChecklist, BsChatSquare, BsJournalBookmark, BsPaperclip } from "react-icons/bs";
 import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../utils/authContext";
 import moment from "moment";
 import Modal from "react-modal";
-import Feedback from "../components/Feedback";
+import Drawer from "react-modern-drawer";
+import { RxCross2 } from "react-icons/rx";
 
 const ManageWork = ({ newMessage, rooms, setRooms }) => {
   const { t, i18n } = useTranslation("manageWork");
@@ -20,19 +20,23 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
   moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
   const { chatId } = useParams();
-  const pathname = window.location.pathname;
   const [searchParams] = useSearchParams();
   const roomIdQuery = searchParams.get("room_id");
   const receiverIdQuery = searchParams.get("u");
   const [currentRoomData, setCurrentRoomData] = useState({});
   const [coworkers, setCoworkers] = useState([]);
   const [dailyReports, setDailyReports] = useState([]);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const isMobile = screenWidth <= 768;
 
   function handleWindowSizeChange() {
     setScreenWidth(window.innerWidth);
   }
+
+  const toggleDrawer = () => {
+    setDrawerOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
@@ -150,7 +154,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
       }, [item]);
 
       return (
-        <Link to={`/manage/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full relative">
+        <Link to={`/chat?room_id=${item.chat_room_id}&u=${receiverId}`} className="w-full relative">
           <span className="text-xs flex-shrink-0 absolute top-3 right-2 text-gray-500"></span>
           <button
             className={`${
@@ -277,89 +281,7 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
     );
   };
 
-  const RightPanel = ({ currentRoomData, dailyReports }) => {
-    const [requestPressed, setRequestPressed] = useState(false);
-
-    const Cell = ({
-      title,
-      type,
-      url,
-      newTab,
-      rightButton,
-      leftButton,
-      isReport = false,
-      isFeedback = false,
-      hasNew = false,
-    }) => {
-      return (
-        <Link
-          to={url ? url : `/manage/${type}?room_id=${roomIdQuery}&u=${receiverIdQuery}`}
-          target={newTab ? "_blank" : "_self"}
-          rel="noopener noreferrer"
-        >
-          <button
-            className={`${
-              pathname === `/manage/${type}` ? "bg-gray-200 text-gray-700" : "bg-white hover:bg-gray-100 text-gray-600"
-            } w-full h-14 flex items-center px-4 space-x-3 transition border-b justify-between`}
-          >
-            <div className="space-x-3 items-center flex">
-              {leftButton}
-              <p className="font-bold text-sm">{title}</p>
-              {isFeedback && hasNew && (
-                <div style={{ fontSize: "10px" }} className="bg-red-500 text-white rounded text-xs px-1">
-                  N
-                </div>
-              )}
-
-              {isReport &&
-                (hasNew ? (
-                  <AiFillCheckCircle className="text-blue-500" />
-                ) : (
-                  <AiOutlineExclamationCircle className="text-red-500" />
-                ))}
-            </div>
-            {rightButton}
-          </button>
-        </Link>
-      );
-    };
-
-    const AssistantSection = () => {
-      return (
-        <div className="w-full flex-shrink-0 text-sm p-4 py-4">
-          <p className="font-bold text-gray-500 text-xs">{t("assistant.title")}</p>
-
-          <div className="w-full text-gray-700 mt-3 text-sm flex flex-col p-2 rounded border">
-            <div className="flex items-center space-x-2">
-              <img
-                alt=""
-                src={DefaultImage}
-                className="w-10 h-10 object-cover flex-shrink-0 rounded-full bg-gray-200"
-              />
-              <div>
-                <p className="font-bold">장동해 (Andrew Jang)</p>
-                <p className="text-xs">{t("assistant.subtitle")}</p>
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setRequestPressed(!requestPressed)}
-            className={`${
-              requestPressed
-                ? "bg-gray-200 text-gray-400 hover:bg-gray-100"
-                : "bg-green-700 text-white filter hover:brightness-125"
-            } border px-4 py-2 rounded transition font-nanum font-semibold text-sm w-full mt-4`}
-          >
-            {requestPressed ? t("assistant.button1Cancel") : t("assistant.button1")}
-          </button>
-          {requestPressed && (
-            <div className="text-sm text-green-600 break-keep mt-2 text-center">{t("assistant.response")}</div>
-          )}
-        </div>
-      );
-    };
-
+  const RightPanel = ({ currentRoomData }) => {
     const ProfileSection = () => {
       return (
         <div className="flex flex-col items-center space-y-3 group mb-4">
@@ -401,79 +323,41 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
                     )
                 )}
               </p>
+              <div className="flex justify-center px-4 mt-2">
+                <p className="text-center text-xs line-clamp-2">안녕하세요 남산컴퍼니 / 국제인 대표 장동해입니다.</p>
+              </div>
             </button>
           </Link>
         </div>
       );
     };
-
-    if (
-      pathname.includes("/chat") ||
-      pathname.includes("/report") ||
-      pathname.includes("/documents") ||
-      pathname.includes("/check")
-    )
-      return (
-        <div
-          style={{ height: "calc(100svh - 4rem)", color: "#272D37" }}
-          className="w-80 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
-        >
-          <div className="w-full flex flex-col items-center pt-8 h-full">
-            <div className="w-full flex flex-col items-center h-full">
-              <ProfileSection />
-              <div className="w-full mt-4 border-t">
-                <Cell type={"chat"} title={t("chat")} newTab={false} leftButton={<BsChatSquare />} />
-                {currentRoomData.participants?.map(
-                  (v, index) =>
-                    v.user_id !== userState.user.userId &&
-                    coworkers.map((item2, index2) => {
-                      return (
-                        v.user_id === item2.user_id && (
-                          <div key={`${index}-${index2}`}>
-                            <Cell
-                              type={"check"}
-                              title={"체크사항"}
-                              newTab={false}
-                              leftButton={<BsCardChecklist />}
-                              hasNew={true}
-                              isFeedback
-                            />
-                            <Cell
-                              type={"report"}
-                              title={t("dailyReport")}
-                              newTab={false}
-                              leftButton={<BsJournalBookmark />}
-                              isReport
-                              hasNew={moment(
-                                dailyReports[dailyReports.length - 1]?.daily_report_created_at || 0
-                              ).isSame(new Date(), "day")}
-                            />
-                            <Cell
-                              type={"documents"}
-                              title={t("contract")}
-                              newTab={false}
-                              leftButton={<BsPaperclip />}
-                            />
-                          </div>
-                        )
-                      );
-                    })
-                )}
-
-                <AssistantSection />
-              </div>
+    return (
+      <div
+        style={{ height: "calc(100svh - 4rem)", color: "#272D37" }}
+        className="w-80 flex border-r border-l flex-col items-center flex-shrink-0 overflow-y-auto bg-white"
+      >
+        <div className="w-full flex flex-col items-center pt-8 h-full">
+          <div className="w-full flex flex-col items-center h-full">
+            <ProfileSection />
+            <div className="px-6 w-full mt-6">
+              {userState.user.userType === "employer" && (
+                <button
+                  onClick={toggleDrawer}
+                  className="bg-green-700 text-white filter hover:brightness-125 py-2 rounded-full transition font-semibold text-sm w-full"
+                >
+                  채용 제안서 보내기
+                </button>
+              )}
             </div>
           </div>
         </div>
-      );
+      </div>
+    );
   };
 
   const StartPanel = () => {
     return (
-      <div
-        className="w-full border-r flex items-center justify-center bg-gray-200"
-        // style={{ backgroundImage: `url(${ChatBg})`, backgroundRepeat: "round" }}
-      >
+      <div className="w-full border-r flex items-center justify-center bg-gray-200">
         <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
           {t("startText")}
         </div>
@@ -527,45 +411,80 @@ const ManageWork = ({ newMessage, rooms, setRooms }) => {
         style={{ height: "calc(100svh - 4rem)" }}
         className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
       >
+        <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
+          <div className="w-full h-16 border-b flex items-center justify-between px-6">
+            <p className="text-gray-700">채용 신청</p>
+            <button onClick={toggleDrawer}>
+              <RxCross2 className="w-7 h-7" />
+            </button>
+          </div>
+          <div className="p-6">
+            <p className="text-xl">인사말/간단한 소개</p>
+            <input className="w-full h-32 border rounded mt-4" />
+
+            <p className="text-xl mt-4">내 프로젝트</p>
+            <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
+              선택하기
+            </div>
+
+            <p className="text-xl mt-4">어시스턴트 옵션</p>
+            <div className="w-full py-4 border mt-4 p-4">
+              <div className="flex justify-between w-full">
+                <div>
+                  <p className="text-xl">무료플랜</p>
+                  <p className="text-sm text-gray-500 mt-2">₩0원/월</p>
+                </div>
+                <div className="text-sm text-gray-600">
+                  <p>고객 지원 및 분쟁 해결</p>
+                  <p>개발자 매칭 시 마일스톤 검증</p>
+                </div>
+              </div>
+            </div>
+            <div className="w-full py-4 border mt-4 p-4">
+              <div className="flex justify-between w-full">
+                <div>
+                  <p className="text-xl">스탠다드 플랜</p>
+                  <p className="text-sm text-gray-500 mt-2">₩40만원/월</p>
+                </div>
+                <div className="text-sm text-gray-600">
+                  <p>고객 지원 및 분쟁 해결</p>
+                  <p>개발자 매칭 시 마일스톤 검증</p>
+                </div>
+              </div>
+            </div>
+            <div className="w-full py-4 border mt-4 p-4">
+              <div className="flex justify-between w-full">
+                <div>
+                  <p className="text-xl">엔터프라이즈 플랜</p>
+                  <p className="text-sm text-gray-500 mt-2">₩160만F원/월</p>
+                </div>
+                <div className="text-sm text-gray-600">
+                  <p>고객 지원 및 분쟁 해결</p>
+                  <p>개발자 매칭 시 마일스톤 검증</p>
+                </div>
+              </div>
+            </div>
+            <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
+              <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">채용 제안서 보내기</button>
+            </div>
+          </div>
+        </Drawer>
         <div style={{ maxWidth: "1480px", height: "calc(100svh - 4rem)" }} className="w-full flex">
           <LeftPanel />
-          <Routes>
-            <Route
-              path="/chat"
-              element={
-                <ChatPanel
-                  roomId={roomIdQuery}
-                  currentRoomData={currentRoomData}
-                  rooms={rooms}
-                  setRooms={setRooms}
-                  newMessage={newMessage}
-                />
-              }
-            />
-            <Route
-              path="/report"
-              element={
-                <DailyReport
-                  currentRoomData={currentRoomData}
-                  setDailyReports={setDailyReports}
-                  dailyReports={dailyReports}
-                />
-              }
-            />
-            <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
-            <Route
-              path="/check"
-              element={
-                <Feedback
-                  currentRoomData={currentRoomData}
-                  setDailyReports={setDailyReports}
-                  dailyReports={dailyReports}
-                />
-              }
-            />
-            <Route path="/" element={<StartPanel />} />
-          </Routes>
-          <RightPanel currentRoomData={currentRoomData} dailyReports={dailyReports} />
+          {roomIdQuery && currentRoomData ? (
+            <>
+              <ChatPanel
+                roomId={roomIdQuery}
+                currentRoomData={currentRoomData}
+                rooms={rooms}
+                setRooms={setRooms}
+                newMessage={newMessage}
+              />
+              <RightPanel currentRoomData={currentRoomData} dailyReports={dailyReports} />
+            </>
+          ) : (
+            <StartPanel />
+          )}
         </div>
       </div>
     );
