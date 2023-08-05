@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/authContext";
 import axios from "../../utils/authAxios";
-import "../../utils/datePicker.css";
-import "react-calendar/dist/Calendar.css";
 import CompanyLogo from "../CompanyLogo";
 import { useTranslation } from "react-i18next";
 import { uploadImage } from "../../utils/uploadImage";

@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/authContext";
 import axios from "../../utils/authAxios";
-import "../../utils/datePicker.css";
-import "react-calendar/dist/Calendar.css";
 import { useTranslation } from "react-i18next";
-import DatePicker from "react-date-picker";
 
 const SkillsetPanel = ({ companyInfo }) => {
   const { userState } = useContext(AuthContext);
@@ -199,7 +196,13 @@ const SkillsetPanel = ({ companyInfo }) => {
           onChange={(e) => setEmployees(e.target.value)}
         />
         <div className="text-sm text-gray-500 mb-2">{t("founding")}</div>
-        <DatePicker className={"outline-green-700 mb-4"} onChange={setFoundingDate} value={foundingDate} />
+        <input
+          className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3 mb-4"
+          type="date"
+          value={new Date(foundingDate).toISOString().split("T")[0]}
+          max={new Date().toISOString().split("T")[0]}
+          onChange={(e) => setFoundingDate(new Date(e.target.value).getTime())}
+        />
         <div className="text-sm text-gray-500 mb-2 ">
           {t("revenue")} <div className="text-xs text-green-700 inline"> {t("revenueSub")}</div>
         </div>

@@ -6,7 +6,6 @@ const navBar2 = {
   lang: "Language",
   flag: FlagUs,
   toMain: "Back to Main",
-  workPost: "Post a job",
   myProfile: "My profile",
   signin: "Sign in",
   logout: "Log out",

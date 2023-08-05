@@ -1,5 +1,3 @@
-import "../utils/datePicker.css";
-import "react-calendar/dist/Calendar.css";
 import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";

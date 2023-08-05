@@ -27,7 +27,7 @@ const JobPost = () => {
   const ProjectCell = () => {
     const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
     return (
-      <div className="w-full py-4 border cursor-default bg-white rounded p-4 rounded">
+      <div className="w-full py-4 border cursor-default bg-white rounded p-4">
         <div className="flex justify-between">
           <p className="text-lg font-bold text-green-700">020 커머스 서비스 플랫폼 개발</p>
         </div>
@@ -234,10 +234,10 @@ const JobPost = () => {
               </div>
             </div>
 
-            {userState.user.userType !== "employer" && (
+            {!userState.user.userType !== "employer" && (
               <button
                 onClick={() => toggleDrawer()}
-                className="w-full h-10 bg-green-700 mt-4 rounded text-white text-sm hover:bg-green-600"
+                className="w-full h-10 bg-green-600 mt-4 rounded text-white text-sm hover:bg-green-500"
               >
                 프로젝트 지원
               </button>

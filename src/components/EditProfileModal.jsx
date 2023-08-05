@@ -5,22 +5,12 @@ import { AuthContext } from "../utils/authContext";
 import axios from "../utils/authAxios";
 import { WithContext as ReactTags } from "react-tag-input";
 import { languageArray } from "../utils/arrays";
-import DatePicker from "react-date-picker";
-import "../utils/datePicker.css";
-import "react-calendar/dist/Calendar.css";
 import { MdDelete } from "react-icons/md";
 import moment from "moment";
 
 const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) => {
   const { userState } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState(initialTab);
-
-  useEffect(() => {
-    console.log("MODAL OPEN");
-    return () => {
-      console.log("MODAL CLOSED");
-    };
-  }, []);
 
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
@@ -544,8 +534,8 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     };
 
     const NewCell = () => {
-      const [startValue, setStartValue] = useState(new Date());
-      const [endValue, setEndValue] = useState(new Date());
+      const [startValue, setStartValue] = useState(new Date().toISOString().split("T")[0]);
+      const [endValue, setEndValue] = useState(new Date().toISOString().split("T")[0]);
       const [companyName, setCompanyName] = useState("");
       const [position, setPosition] = useState("");
       const [description, setDescription] = useState("");
@@ -558,8 +548,8 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           {
             company: companyName,
             title: { [userState.user.userLanguage]: position },
-            from: startValue.getTime(),
-            to: endValue.getTime(),
+            from: new Date(startValue).getTime(),
+            to: new Date(endValue).getTime(),
             desc: { [userState.user.userLanguage]: description },
           },
         ]);
@@ -600,13 +590,26 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div>
               <div className="text-sm text-gray-500 mb-2">From</div>
               <div className="mb-6">
-                <DatePicker className={" outline-green-700"} onChange={setStartValue} value={startValue} />
+                <input
+                  className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3"
+                  type="date"
+                  value={startValue}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setStartValue(e.target.value)}
+                />
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-500 mb-2">To</div>
               <div className="mb-6">
-                <DatePicker className={" outline-green-700"} onChange={setEndValue} value={endValue} />
+                <input
+                  className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3"
+                  type="date"
+                  value={endValue}
+                  min={startValue}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setEndValue(e.target.value)}
+                />
               </div>
             </div>
           </div>
@@ -935,8 +938,8 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
     const NewCell = () => {
       const [name, setName] = useState("");
       const [title, setTitle] = useState("");
-      const [startValue, setStartValue] = useState(new Date());
-      const [endValue, setEndValue] = useState(new Date());
+      const [startValue, setStartValue] = useState(new Date().toISOString().split("T")[0]);
+      const [endValue, setEndValue] = useState(new Date().toISOString().split("T")[0]);
       const [description, setDescription] = useState("");
       const [isReady, setReady] = useState(false);
       const maxLength = 1000;
@@ -947,8 +950,8 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           {
             name: name,
             title: { [userState.user.userLanguage]: title },
-            from: startValue.getTime(),
-            to: endValue.getTime(),
+            from: new Date(startValue).getTime(),
+            to: new Date(endValue).getTime(),
             desc: { [userState.user.userLanguage]: description },
           },
         ]);
@@ -989,13 +992,26 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div>
               <div className="text-sm text-gray-500 mb-2">From</div>
               <div className="mb-6">
-                <DatePicker className={" outline-green-700"} onChange={setStartValue} value={startValue} />
+                <input
+                  className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3"
+                  type="date"
+                  value={startValue}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setStartValue(e.target.value)}
+                />
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-500 mb-2">To</div>
               <div className="mb-6">
-                <DatePicker className={" outline-green-700"} onChange={setEndValue} value={endValue} />
+                <input
+                  className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3"
+                  type="date"
+                  value={endValue}
+                  min={startValue}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setEndValue(e.target.value)}
+                />
               </div>
             </div>
           </div>
@@ -1125,7 +1141,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
 
     const NewCell = () => {
       const [name, setName] = useState("");
-      const [dateValue, setDateValue] = useState(new Date());
+      const [dateValue, setDateValue] = useState(new Date().toISOString().split("T")[0]);
       const [isReady, setReady] = useState(false);
 
       const addPressed = () => {
@@ -1133,7 +1149,7 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           ...certification,
           {
             name: name,
-            date: dateValue.getTime(),
+            date: new Date(dateValue).getTime(),
           },
         ]);
       };
@@ -1165,7 +1181,13 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             <div>
               <div className="text-sm text-gray-500 mb-2">Date</div>
               <div className="mb-6">
-                <DatePicker className={" outline-green-700"} onChange={setDateValue} value={dateValue} />
+                <input
+                  className="w-48 h-9 rounded border border-gray-300 outline-green-600 p-3"
+                  type="date"
+                  value={dateValue}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setDateValue(e.target.value)}
+                />
               </div>
             </div>
           </div>

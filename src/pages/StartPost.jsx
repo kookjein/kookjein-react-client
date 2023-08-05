@@ -310,7 +310,7 @@ const StartPost = () => {
             <div className="mt-4 w-64">
                 <input
                     placeholder={"숫자만 기입. 예시) 3"}
-                    className="w-64 h-12 rounded-lg border outline-green-600 p-3 border"
+                    className="w-64 h-12 rounded-lg border outline-green-600 p-3"
                     type="date"
                     onChange={(event) => setProjectStartAt(new Date(event.target.value).getTime())}
                 />
@@ -320,7 +320,7 @@ const StartPost = () => {
             <div className="flex items-center mt-4 space-x-3">
                 <input
                     placeholder={"숫자만 기입. 예시) 3"}
-                    className="w-54 h-12 rounded-lg border outline-green-600 p-3 border"
+                    className="w-54 h-12 rounded-lg border outline-green-600 p-3"
                     type="number"
                     maxLength={3}
                     onChange={(event) => setProjectDuration(event.target.value)}

@@ -24,7 +24,6 @@ import ChatPage from "./pages/ChatPage";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import WorkPost from "./pages/WorkPost";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
 import Developers from "./pages/Developers";
@@ -133,7 +132,6 @@ function App() {
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
-          <Route path="/work-post/*" element={<WorkPost />} />
           <Route path="/chat/*" element={<ChatPage newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />

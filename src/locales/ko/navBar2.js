@@ -6,7 +6,6 @@ const navBar2 = {
   lang: "언어 선택",
   flag: FlagKr,
   toMain: "메인으로 이동",
-  workPost: "구인 등록",
   myProfile: "마이페이지",
   signin: "로그인",
   logout: "로그아웃",
