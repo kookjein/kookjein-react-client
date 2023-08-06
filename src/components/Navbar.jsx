@@ -16,7 +16,7 @@ import { MdOutlinePerson, MdWorkOutline } from "react-icons/md";
 import { RiCustomerServiceLine } from "react-icons/ri";
 
 const Navbar = ({ hasNewMessageBubble }) => {
-  const { t, i18n } = useTranslation("navBar2");
+  const { t, i18n } = useTranslation("navBar");
   const navigate = useNavigate();
   const { userState, updateAccessToken } = useContext(AuthContext);
 

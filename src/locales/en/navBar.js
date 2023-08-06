@@ -1,6 +1,6 @@
 import FlagUs from "../../assets/flag_us.png";
 
-const navBar2 = {
+const navBar = {
   mode: "en",
   language: "English",
   lang: "Language",
@@ -45,4 +45,4 @@ const navBar2 = {
   },
 };
 
-export default navBar2;
+export default navBar;

@@ -1,6 +1,6 @@
 import FlagKr from "../../assets/flag_kr.png";
 
-const navBar2 = {
+const navBar = {
   mode: "ko",
   language: "한국어",
   lang: "언어 선택",
@@ -45,4 +45,4 @@ const navBar2 = {
   },
 };
 
-export default navBar2;
+export default navBar;

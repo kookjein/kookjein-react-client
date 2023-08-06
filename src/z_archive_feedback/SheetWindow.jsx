@@ -1,6 +1,6 @@
 import Handsontable from "handsontable";
 import { useCallback, useEffect, useRef } from "react";
-import { customImageRenderer, customStatusRenderer } from "../utils/hotRenderer";
+import { customImageRenderer, customStatusRenderer } from "./hotRenderer";
 import "../utils/handsontable.css";
 
 const SheetWindow = (props) => {

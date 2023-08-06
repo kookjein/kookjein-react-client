@@ -1,5 +1,4 @@
 import "./App.css";
-import "./gradientAnimation.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
@@ -29,7 +28,7 @@ import Company from "./pages/Company";
 import Developers from "./pages/Developers";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
-import Navbar2 from "./components/Navbar2";
+import Navbar from "./components/Navbar";
 import StartPost from "./pages/StartPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
@@ -120,7 +119,7 @@ function App() {
       <AxiosInterceptor>
         <ScrollToTop />
         <ToastContainer />
-        <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
+        <Navbar hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
           <Route path="/*" element={userState.user.userType === "employee" ? <BrowseJobs /> : <ClientMain />} />
           <Route path="/create-company" element={<CreateCompany />} />
@@ -148,7 +147,7 @@ function App() {
     return (
       <AxiosInterceptor>
         <ScrollToTop />
-        <Navbar2 hasNewMessageBubble={hasNewMessageBubble} />
+        <Navbar hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
           <Route path="/*" element={<MainPage />} />
           <Route path="/browse" element={<Browse />} />
