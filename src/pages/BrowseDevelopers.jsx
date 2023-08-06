@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import axios from "../utils/authAxios";
 import { useTranslation } from "react-i18next";
 
-const Developers = () => {
+const BrowseDevelopers = () => {
   const { t } = useTranslation("browse");
   const [employeeArray, setEmployeeArray] = useState({});
 
@@ -81,4 +81,4 @@ const Developers = () => {
   );
 };
 
-export default Developers;
+export default BrowseDevelopers;

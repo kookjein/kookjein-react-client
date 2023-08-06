@@ -1,14 +1,14 @@
 import React from "react";
-import CompanyWelcome from "../assets/service/company_welcome.png";
-import CompanyWelcome2 from "../assets/service/company_welcome2.png";
-import Solution1 from "../assets/service/solution1.png";
-import Solution2 from "../assets/service/solution2.png";
-import Solution3 from "../assets/service/solution3.png";
-import Solution4 from "../assets/service/solution4.png";
-import Solution5 from "../assets/service/solution5.png";
-import Solution6 from "../assets/service/solution6.png";
-import CompanyDevs from "../assets/service/company_devs.png";
-import Footer from "../components/Footer";
+import CompanyWelcome from "../../assets/service/company_welcome.png";
+import CompanyWelcome2 from "../../assets/service/company_welcome2.png";
+import Solution1 from "../../assets/service/solution1.png";
+import Solution2 from "../../assets/service/solution2.png";
+import Solution3 from "../../assets/service/solution3.png";
+import Solution4 from "../../assets/service/solution4.png";
+import Solution5 from "../../assets/service/solution5.png";
+import Solution6 from "../../assets/service/solution6.png";
+import CompanyDevs from "../../assets/service/company_devs.png";
+import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 

@@ -31,7 +31,7 @@ const Company = () => {
         .get(`/v1/company/`, { params: { company_id: companyId } })
         .then((response) => {
           companyInfo.current = response.data;
-          console.log(response.data)
+          console.log(response.data);
           if (response.data.users || userState.isAuthenticated) {
             for (let i = 0; i < response.data.users.length; i++) {
               if (companyInfo.current.users[i].user_id === userState.user?.userId) {

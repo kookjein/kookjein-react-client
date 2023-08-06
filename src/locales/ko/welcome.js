@@ -1,7 +1,7 @@
 import WelcomeKor from "../../assets/main/welcome_kor.png";
 import LanyardKor from "../../assets/main/lanyard_kor.png";
 
-const mainPage = {
+const welcome = {
   mode: "ko",
   welcomeText: WelcomeKor,
   welcomeButton: "해외 개발자 둘러보기",
@@ -120,4 +120,4 @@ const mainPage = {
   }
 };
 
-export default mainPage;
+export default welcome;

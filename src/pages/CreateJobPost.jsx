@@ -7,7 +7,7 @@ import Dropzone from "../components/Dropzone";
 import axios from "../utils/authAxios";
 import {AuthContext} from "../context/authContext";
 
-const StartPost = () => {
+const CreateJobPost = () => {
     const {userState} = useContext(AuthContext);
     const [projectTitle, setProjectTitle] = useState(null);
     const [projectDetail, setProjectDetail] = useState(null);
@@ -361,4 +361,4 @@ const StartPost = () => {
     </div>);
 };
 
-export default StartPost;
+export default CreateJobPost;

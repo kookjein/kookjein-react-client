@@ -1,11 +1,11 @@
 import React from "react";
-import DevSolution1 from "../assets/service/dev_solution1.png";
-import DevSolution2 from "../assets/service/dev_solution2.png";
-import DevSolution3 from "../assets/service/dev_solution3.png";
-import DevWelcome2 from "../assets/service/dev_welcome2.png";
-import DevPeople from "../assets/service/dev_people.png";
-import Footer from "../components/Footer";
-import Checkmark from "../assets/main/checkmark.png";
+import DevSolution1 from "../../assets/service/dev_solution1.png";
+import DevSolution2 from "../../assets/service/dev_solution2.png";
+import DevSolution3 from "../../assets/service/dev_solution3.png";
+import DevWelcome2 from "../../assets/service/dev_welcome2.png";
+import DevPeople from "../../assets/service/dev_people.png";
+import Checkmark from "../../assets/main/checkmark.png";
+import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 

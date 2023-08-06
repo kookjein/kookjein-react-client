@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
-import Hero1 from "../assets/main/hero1.jpg";
-import Hero2 from "../assets/main/hero2.jpg";
-import Hero3 from "../assets/main/hero3.png";
-import Hero4 from "../assets/main/hero4.png";
-import Client1 from "../assets/main/client1.png";
-import Client2 from "../assets/main/client2.png";
-import Client3 from "../assets/main/client3.png";
-import Client4 from "../assets/main/client4.png";
-import Client5 from "../assets/main/client5.png";
-import FourthType1 from "../assets/main/type1.png";
-import FourthType2 from "../assets/main/type2.png";
-import FourthType3 from "../assets/main/type3.png";
-import FourthType4 from "../assets/main/type4.png";
-import FourthType5 from "../assets/main/type5.png";
-import FourthType6 from "../assets/main/type6.png";
-import Process1 from "../assets/main/process1.png";
-import Process2 from "../assets/main/process2.png";
-import Process3 from "../assets/main/process3.png";
-import Process4 from "../assets/main/process4.png";
-import LeftArrow from "../assets/main/left_arrow.png";
-import RightArrow from "../assets/main/right_arrow.png";
-import Checkmark from "../assets/main/checkmark.png";
-import TechStack from "../assets/main/techstack.png";
-import Partner1 from "../assets/main/partner1.png";
+import Hero1 from "../../assets/main/hero1.jpg";
+import Hero2 from "../../assets/main/hero2.jpg";
+import Hero3 from "../../assets/main/hero3.png";
+import Hero4 from "../../assets/main/hero4.png";
+import Client1 from "../../assets/main/client1.png";
+import Client2 from "../../assets/main/client2.png";
+import Client3 from "../../assets/main/client3.png";
+import Client4 from "../../assets/main/client4.png";
+import Client5 from "../../assets/main/client5.png";
+import FourthType1 from "../../assets/main/type1.png";
+import FourthType2 from "../../assets/main/type2.png";
+import FourthType3 from "../../assets/main/type3.png";
+import FourthType4 from "../../assets/main/type4.png";
+import FourthType5 from "../../assets/main/type5.png";
+import FourthType6 from "../../assets/main/type6.png";
+import Process1 from "../../assets/main/process1.png";
+import Process2 from "../../assets/main/process2.png";
+import Process3 from "../../assets/main/process3.png";
+import Process4 from "../../assets/main/process4.png";
+import LeftArrow from "../../assets/main/left_arrow.png";
+import RightArrow from "../../assets/main/right_arrow.png";
+import Checkmark from "../../assets/main/checkmark.png";
+import TechStack from "../../assets/main/techstack.png";
+import Partner1 from "../../assets/main/partner1.png";
 import { AiFillStar } from "react-icons/ai";
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const MainPage = () => {
-  const { t } = useTranslation("mainPage");
+const Welcome = () => {
+  const { t } = useTranslation("welcome");
 
   const WelcomeSection = () => {
     const [heroIndex, setHeroIndex] = useState(0);
@@ -458,4 +458,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Welcome;

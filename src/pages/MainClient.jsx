@@ -6,7 +6,7 @@ import DefaultImage from "../assets/default-profile.png";
 import DefaultCompany from "../assets/default-company.png";
 import ProjectCell from "../components/ProjectCell";
 
-const ClientMain = () => {
+const MainClient = () => {
   const { userState } = useContext(AuthContext);
 
   return (
@@ -131,4 +131,4 @@ const ClientMain = () => {
   );
 };
 
-export default ClientMain;
+export default MainClient;

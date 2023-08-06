@@ -1,19 +1,18 @@
-import React from "react";
-import LogoGreen from "../assets/logo_green.png";
-import { IoLanguage, IoNotificationsOutline, IoSearch } from "react-icons/io5";
-import { GoThreeBars } from "react-icons/go";
-import { useTranslation } from "react-i18next";
-import { useState, useContext } from "react";
-import axios from "../utils/authAxios";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { HttpStatusCode } from "axios";
-import { FiLogOut } from "react-icons/fi";
+import axios from "../utils/authAxios";
 import { AuthContext } from "../context/authContext";
+import LogoGreen from "../assets/logo_green.png";
 import DefaultImage from "../assets/default-profile.png";
 import { AiOutlineRollback } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 import { MdOutlinePerson, MdWorkOutline } from "react-icons/md";
 import { RiCustomerServiceLine } from "react-icons/ri";
+import { IoLanguage, IoNotificationsOutline, IoSearch } from "react-icons/io5";
+import { GoThreeBars } from "react-icons/go";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = ({ hasNewMessageBubble }) => {
   const { t, i18n } = useTranslation("navBar");
@@ -256,7 +255,6 @@ const Navbar = ({ hasNewMessageBubble }) => {
 
   const ProfileButton = () => (
     <button className="w-9 h-9 rounded-full relative flex items-center justify-center">
-      {/* <GoThreeBars className="w-6 h-6 text-gray-500" /> */}
       <img
         src={userState.user.userImage || DefaultImage}
         className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden relative flex items-center justify-center object-cover border"
@@ -301,7 +299,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
         />
         <button
           onClick={() => (searchType === "employee" ? setSearchType("employer") : setSearchType("employee"))}
-          className="h-8 px-4 flex text-xs flex-shrink-0 flex items-center rounded-full border hover:bg-green-600 hover:text-white"
+          className="h-8 px-4 text-xs flex-shrink-0 flex items-center rounded-full border hover:bg-green-600 hover:text-white"
         >
           {userState.user.userType === searchType ? "프로젝트 검색" : "개발자 검색"}
         </button>

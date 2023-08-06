@@ -1,4 +1,4 @@
-export { default as mainPage } from "./mainPage";
+export { default as welcome } from "./welcome";
 export { default as footer } from "./footer";
 export { default as serviceCompany } from "./serviceCompany";
 export { default as serviceDeveloper } from "./serviceDeveloper";

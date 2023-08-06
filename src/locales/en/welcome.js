@@ -1,7 +1,7 @@
 import WelcomeEng from "../../assets/main/welcome_eng.png";
 import LanyardEng from "../../assets/main/lanyard_eng.png";
 
-const mainPage = {
+const welcome = {
   mode: "en",
   welcomeText: WelcomeEng,
   welcomeButton: "Get started Free",
@@ -126,4 +126,4 @@ const mainPage = {
   }
 };
 
-export default mainPage;
+export default welcome;

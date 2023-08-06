@@ -3,21 +3,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios, { AxiosInterceptor } from "./utils/authAxios";
-import { AuthContext } from "./context/authContext";
-import { WebsocketContext } from "./context/websocketContext";
-import useTabActive from "./utils/useTabActive";
-import ScrollToTop from "./utils/scrollToTop";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
-import MainPage from "./pages/MainPage";
-import TermsPage from "./pages/TermsPage";
-import Privacy from "./pages/Privacy";
-import Legal from "./pages/Legal";
-import PaymentTerms from "./pages/PaymentTerms";
-import ServiceCompany from "./pages/ServiceCompany";
-import ServiceDeveloper from "./pages/ServiceDeveloper";
-import Pricing from "./pages/Pricing";
+import { AuthContext } from "./context/authContext";
+import { WebsocketContext } from "./context/websocketContext";
+import axios, { AxiosInterceptor } from "./utils/authAxios";
+import useTabActive from "./utils/useTabActive";
+import ScrollToTop from "./utils/scrollToTop";
+// INTRO PAGES
+import Welcome from "./pages/intro/Welcome";
+import ServiceCompany from "./pages/intro/ServiceCompany";
+import ServiceDeveloper from "./pages/intro/ServiceDeveloper";
+import Pricing from "./pages/intro/Pricing";
+// APP PAGES
 import Browse from "./pages/Browse";
 import ChatPage from "./pages/ChatPage";
 import Profile from "./pages/Profile";
@@ -25,15 +23,16 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
-import Developers from "./pages/Developers";
+import BrowseDevelopers from "./pages/BrowseDevelopers";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
 import Navbar from "./components/Navbar";
-import StartPost from "./pages/StartPost";
+import CreateJobPost from "./pages/CreateJobPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";
 import JobPost from "./pages/JobPost";
-import ClientMain from "./pages/ClientMain";
+import MainClient from "./pages/MainClient";
+import MainDeveloper from "./pages/MainDeveloper";
 import ManagePage from "./pages/ManagePage";
 
 function App() {
@@ -121,13 +120,13 @@ function App() {
         <ToastContainer />
         <Navbar hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
-          <Route path="/*" element={userState.user.userType === "employee" ? <BrowseJobs /> : <ClientMain />} />
+          <Route path="/*" element={userState.user.userType === "employee" ? <MainDeveloper /> : <MainClient />} />
           <Route path="/create-company" element={<CreateCompany />} />
-          <Route path="/post-job/flow-1" element={<StartPost />} />
-          <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/post-job/flow-1" element={<CreateJobPost />} />
           <Route path="/browse" element={<Browse />} />
+          <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/developers" element={<BrowseDevelopers />} />
           <Route path="/manage" element={<ManagePage />} />
-          <Route path="/developers" element={<Developers />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
@@ -135,10 +134,6 @@ function App() {
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/legal/" element={<Legal />} />
-          <Route path="/legal/terms-of-use" element={<TermsPage />} />
-          <Route path="/legal/privacy-policy" element={<Privacy />} />
-          <Route path="/legal/payment-terms" element={<PaymentTerms />} />
           <Route path="/error404" element={<Error404 />} />
         </Routes>
       </AxiosInterceptor>
@@ -149,23 +144,19 @@ function App() {
         <ScrollToTop />
         <Navbar hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>
-          <Route path="/*" element={<MainPage />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/browse-jobs" element={<BrowseJobs />} />
-          <Route path="/developers" element={<Developers />} />
-          <Route path="/jobs/:jobId" element={<JobPost />} />
-          <Route path="/user/:userId" element={<Profile />} />
-          <Route path="/company/:companyId" element={<Company />} />
+          <Route path="/*" element={<Welcome />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/legal/" element={<Legal />} />
-          <Route path="/legal/terms-of-use" element={<TermsPage />} />
-          <Route path="/legal/privacy-policy" element={<Privacy />} />
-          <Route path="/legal/payment-terms" element={<PaymentTerms />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/error404" element={<Error404 />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/browse-jobs" element={<BrowseJobs />} />
+          <Route path="/developers" element={<BrowseDevelopers />} />
+          <Route path="/jobs/:jobId" element={<JobPost />} />
+          <Route path="/user/:userId" element={<Profile />} />
+          <Route path="/company/:companyId" element={<Company />} />
         </Routes>
       </AxiosInterceptor>
     );
