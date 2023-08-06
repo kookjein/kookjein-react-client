@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import axios from "../../utils/authAxios";
-import CompanyLogo from "../CompanyLogo";
+import CompanyLogo from "../UploadCompanyLogo";
 import { useTranslation } from "react-i18next";
 import { uploadImage } from "../../utils/uploadImage";
 

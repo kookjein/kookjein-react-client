@@ -54,7 +54,7 @@ const BrowseJobs = () => {
                 </div>
               </Link>
             </div>
-            <div className="w-64 border pb-8 flex-shrink-0 bg-white rounded overflow-hidden rounded-xl">
+            <div className="w-64 border pb-8 flex-shrink-0 bg-white overflow-hidden rounded-xl">
               <div className="w-full h-12 bg-green-700 flex items-center px-6 text-white">
                 <p>프로젝트 필터</p>
               </div>

@@ -33,7 +33,7 @@ import BrowseJobs from "./pages/BrowseJobs";
 import JobPost from "./pages/JobPost";
 import MainClient from "./pages/MainClient";
 import MainDeveloper from "./pages/MainDeveloper";
-import ManagePage from "./pages/ManagePage";
+import Contract from "./pages/Contract";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -126,7 +126,7 @@ function App() {
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/developers" element={<BrowseDevelopers />} />
-          <Route path="/manage" element={<ManagePage />} />
+          <Route path="/contract" element={<Contract />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />

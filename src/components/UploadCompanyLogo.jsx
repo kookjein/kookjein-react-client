@@ -3,7 +3,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import DefaultImage from "../assets/default-company.png";
 import { useState } from "react";
 
-const CompanyLogo = ({ width, height, borderRadius, setImage, image }) => {
+const UploadCompanyLogo = ({ width, height, borderRadius, setImage, image }) => {
   const [currentImage, setCurrentImage] = useState(image);
 
   async function onChangePicture(e) {
@@ -48,4 +48,4 @@ const CompanyLogo = ({ width, height, borderRadius, setImage, image }) => {
   );
 };
 
-export default CompanyLogo;
+export default UploadCompanyLogo;

@@ -87,7 +87,7 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
             <BsCheckCircleFill className="w-8 h-8 text-sky-500" />
             <p className="mt-4">{t("sentMessage")}</p>
 
-            <Link to="/manage">
+            <Link to="/chat">
               <button className="bg-green-600 text-white px-8 py-2 rounded-full mt-6">{t("toChat")}</button>
             </Link>
           </div>

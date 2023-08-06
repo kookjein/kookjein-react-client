@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/authContext";
 import axios from "../utils/authAxios";
 // import { languageArray } from "../utils/arrays";
-import CompanyLogo from "../components/CompanyLogo";
+import CompanyLogo from "../components/UploadCompanyLogo";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import { uploadImage } from "../utils/uploadImage";

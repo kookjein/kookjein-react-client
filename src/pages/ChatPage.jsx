@@ -1,23 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Route, Routes, useParams, useSearchParams } from "react-router-dom";
+import { Link, Route, Routes, useSearchParams } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import DailyReport from "../components/DailyReport";
-import Contracts from "../components/Contracts";
-import { AiOutlineSearch } from "react-icons/ai";
-import { IoMdOpen } from "react-icons/io";
-import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
 import { AuthContext } from "../context/authContext";
 import moment from "moment";
 import Modal from "react-modal";
+import { AiOutlineSearch } from "react-icons/ai";
+import { IoMdOpen } from "react-icons/io";
+import DefaultImage from "../assets/default-profile.png";
 
 const ChatPage = ({ newMessage, rooms, setRooms }) => {
   const { t, i18n } = useTranslation("chatPage");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   moment.locale(i18n.language);
   const { userState } = useContext(AuthContext);
-  const { chatId } = useParams();
   const [searchParams] = useSearchParams();
   const roomIdQuery = searchParams.get("room_id");
   const receiverIdQuery = searchParams.get("u");
@@ -334,7 +332,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
             <ProfileSection />
             <div className="px-6 w-full mt-6">
               {userState.user.userType === "employer" && (
-                <Link to="/manage">
+                <Link to="/contract">
                   <button className="bg-green-700 text-white filter hover:brightness-125 py-2 rounded-full transition font-semibold text-sm w-full">
                     계약 및 채용하기
                   </button>
@@ -391,7 +389,6 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
                 />
               }
             />
-            <Route path="/documents" element={<Contracts chatId={chatId} currentRoomData={currentRoomData} />} />
             <Route path="/" element={<StartPanel />} />
           </Routes>
         </div>
