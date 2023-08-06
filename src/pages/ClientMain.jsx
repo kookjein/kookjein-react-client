@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import EmptyFile from "../assets/empty-file.png";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import DefaultCompany from "../assets/default-company.png";
 import ProjectCell from "../components/ProjectCell";

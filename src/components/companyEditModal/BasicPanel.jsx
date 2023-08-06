@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../context/authContext";
 import axios from "../../utils/authAxios";
 import CompanyLogo from "../CompanyLogo";
 import { useTranslation } from "react-i18next";

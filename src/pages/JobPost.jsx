@@ -4,7 +4,7 @@ import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineFile } from "react-icons/ai";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const JobPost = () => {
   const { jobId } = useParams();

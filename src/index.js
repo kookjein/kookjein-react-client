@@ -11,8 +11,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { en, ko } from "./locales";
 import XHR from "i18next-xhr-backend";
-import { AuthProvider } from "./utils/authContext";
-import { WebsocketProvider } from "./utils/websocketContext";
+import { AuthProvider } from "./context/authContext";
+import { WebsocketProvider } from "./context/websocketContext";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 

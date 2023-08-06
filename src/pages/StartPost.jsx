@@ -5,7 +5,7 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Dropzone from "../components/Dropzone";
 import axios from "../utils/authAxios";
-import {AuthContext} from "../utils/authContext";
+import {AuthContext} from "../context/authContext";
 
 const StartPost = () => {
     const {userState} = useContext(AuthContext);

@@ -8,7 +8,7 @@ import axios from "../utils/authAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { HttpStatusCode } from "axios";
 import { FiLogOut } from "react-icons/fi";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import { AiOutlineRollback } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";

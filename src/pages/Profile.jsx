@@ -5,7 +5,7 @@ import moment from "moment/moment";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import axios from "../utils/authAxios";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import Drawer from "react-modern-drawer";
 //COMPONENTS
 import Tags from "../components/Tags";

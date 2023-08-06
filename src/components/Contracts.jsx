@@ -3,7 +3,7 @@ import { AiOutlineDownload } from "react-icons/ai";
 import { IoDocumentAttachOutline } from "react-icons/io5";
 import DefaultImage from "../assets/default-profile.png";
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const Contracts = ({ currentRoomData }) => {
   const { t } = useTranslation("manageWork");

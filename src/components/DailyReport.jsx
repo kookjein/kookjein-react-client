@@ -6,7 +6,7 @@ import DailyReportUploadModal from "./DailyReportUploadModal";
 import DefaultImage from "../assets/default-profile.png";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import { AiFillCheckCircle, AiOutlineExclamationCircle } from "react-icons/ai";
 
 const DailyReport = ({ currentRoomData, dailyReports, setDailyReports }) => {

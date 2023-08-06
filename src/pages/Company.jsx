@@ -11,7 +11,7 @@ import moment from "moment/moment";
 import CompanyEditModal from "../components/companyEditModal/CompanyEditModal";
 import axios from "../utils/authAxios";
 import { Link, useParams } from "react-router-dom";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const Company = () => {
   const { companyId } = useParams();

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const Signup = () => {
   const navigate = useNavigate();

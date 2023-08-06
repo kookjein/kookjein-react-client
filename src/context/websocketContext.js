@@ -1,5 +1,5 @@
 import {createContext, useCallback, useContext, useEffect, useRef, useState} from "react";
-import {localWsUrl, wsUrl} from "./config";
+import {localWsUrl, wsUrl} from "../utils/config";
 import {AuthContext} from "./authContext";
 
 export const WebsocketContext = createContext(null);

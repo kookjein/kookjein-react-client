@@ -8,7 +8,7 @@ import axios from "../utils/authAxios";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) => {
   const { t } = useTranslation("manageWork");

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import ProjectCell from "../components/ProjectCell";
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { WebsocketContext } from "../utils/websocketContext";
+import { WebsocketContext } from "../context/websocketContext";
 import { useTranslation } from "react-i18next";
 import { IoClose } from "react-icons/io5";
 import { BiSend } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 import { BsCheckCircleFill } from "react-icons/bs";
 import moment from "moment";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 

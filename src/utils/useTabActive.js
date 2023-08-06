@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useContext } from "react";
-import { AuthContext } from "./authContext";
+import { AuthContext } from "../context/authContext";
 import { focusTab, blurTab } from "../redux/actions/sessionActions";
 import { useDispatch } from "react-redux";
 

@@ -6,7 +6,7 @@ import { MdOutlineWork } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import DefaultCompany from "../assets/default-company.png";
 import { BsPatchCheckFill } from "react-icons/bs";

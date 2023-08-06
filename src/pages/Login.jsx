@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 
 const Login = () => {
   const navigate = useNavigate();

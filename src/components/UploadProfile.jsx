@@ -3,7 +3,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import DefaultImage from "../assets/default-profile.png";
 import AWS from "aws-sdk";
 import imageCompression from "browser-image-compression";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import axios from "../utils/authAxios";
 
 const UploadProfile = ({ width, height, borderRadius, developerInfo }) => {

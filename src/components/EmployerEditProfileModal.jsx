@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import UploadProfile from "./UploadProfile";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import axios from "../utils/authAxios";
 import { languageArray } from "../utils/arrays";
 import { useTranslation } from "react-i18next";

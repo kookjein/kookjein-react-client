@@ -8,7 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
 import DefaultImage from "../assets/default-profile.png";
 import axios from "../utils/authAxios";
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../context/authContext";
 import moment from "moment";
 import Modal from "react-modal";
 
