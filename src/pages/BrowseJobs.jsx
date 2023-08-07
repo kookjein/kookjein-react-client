@@ -4,7 +4,7 @@ import { AuthContext } from "../context/authContext";
 import DefaultImage from "../assets/default-profile.png";
 import ProjectCell from "../components/ProjectCell";
 
-const BrowseJobs = () => {
+const BrowseJobs = ({ child }) => {
   const { userState } = useContext(AuthContext);
 
   const [first, setFirst] = useState();
@@ -18,6 +18,9 @@ const BrowseJobs = () => {
       >
         <div className="w-full mt-8 flex">
           <div className="w-full px-6 pb-12 space-y-4 bg-gray-100 py-4">
+            {child}
+
+            <p className="text-xl font-bold pt-8">전체 프로젝트</p>
             <ProjectCell border />
             <ProjectCell border />
             <ProjectCell border />

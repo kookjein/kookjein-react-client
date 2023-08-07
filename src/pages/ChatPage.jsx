@@ -230,36 +230,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
             onChange={(e) => setFilterString(e.target.value)}
           />
         </div>
-        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500">
-          <p>{userState.user.userType === "employer" ? t("employee") : t("employer")}</p>
-        </div>
         {rooms
-          .filter((item) => {
-            return coworkers.map((item2) => {
-              return item.participants[0]?.user_id === userState.user.userId
-                ? item.participants[1]?.user_id === item2.user_id
-                : item.participants[0]?.user_id === item2.user_id;
-            })[0];
-          })
-          .filter((item) => {
-            return item.participants[0]?.user_id === userState.user.userId
-              ? item.participants[1]?.user_name.includes(filterString)
-              : item.participants[0]?.user_name.includes(filterString);
-          })
-          .map((item) => (
-            <Cell key={item.chat_room_id} item={item} />
-          ))}
-        <div className="py-2 w-full px-3 text-sm font-bold text-gray-500 border-t">
-          <p>{t("all")}</p>
-        </div>
-        {rooms
-          .filter((item) => {
-            return !coworkers.map((item2) => {
-              return item.participants[0]?.user_id === userState.user.userId
-                ? item.participants[1]?.user_id === item2.user_id
-                : item.participants[0]?.user_id === item2.user_id;
-            })[0];
-          })
           .filter((item) => {
             return item.participants[0]?.user_id === userState.user.userId
               ? item.participants[1]?.user_name.includes(filterString)
