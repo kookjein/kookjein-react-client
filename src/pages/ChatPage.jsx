@@ -332,7 +332,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
             <ProfileSection />
             <div className="px-6 w-full mt-6">
               {userState.user.userType === "employer" && (
-                <Link to="/contract">
+                <Link to="/contract?flow=1">
                   <button className="bg-green-700 text-white filter hover:brightness-125 py-2 rounded-full transition font-semibold text-sm w-full">
                     계약 및 채용하기
                   </button>
