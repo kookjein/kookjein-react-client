@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Footer from "../components/Footer";
 import { BsFileEarmarkCodeFill, BsFillBuildingFill } from "react-icons/bs";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
@@ -244,7 +243,6 @@ const Signup = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center">
       {signupStep === 0 ? <SignupSection0 /> : <SignupSection1 />}
-      <Footer />
     </div>
   );
 };

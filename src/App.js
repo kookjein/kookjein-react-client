@@ -23,7 +23,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
-import BrowseDevelopers from "./pages/BrowseDevelopers";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
 import Navbar from "./components/Navbar";
@@ -34,6 +33,7 @@ import JobPost from "./pages/JobPost";
 import MainClient from "./pages/MainClient";
 import MainDeveloper from "./pages/MainDeveloper";
 import Contract from "./pages/contract/Contract";
+import Footer from "./components/Footer";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -125,7 +125,6 @@ function App() {
           <Route path="/post-job/flow-1" element={<CreateJobPost />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
-          <Route path="/developers" element={<BrowseDevelopers />} />
           <Route path="/contract/*" element={<Contract />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
@@ -136,6 +135,7 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/error404" element={<Error404 />} />
         </Routes>
+        <Footer />
       </AxiosInterceptor>
     );
   else
@@ -153,11 +153,11 @@ function App() {
           <Route path="/error404" element={<Error404 />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
-          <Route path="/developers" element={<BrowseDevelopers />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
         </Routes>
+        <Footer />
       </AxiosInterceptor>
     );
 }

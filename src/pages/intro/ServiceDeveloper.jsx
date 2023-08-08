@@ -5,7 +5,6 @@ import DevSolution3 from "../../assets/service/dev_solution3.png";
 import DevWelcome2 from "../../assets/service/dev_welcome2.png";
 import DevPeople from "../../assets/service/dev_people.png";
 import Checkmark from "../../assets/main/checkmark.png";
-import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -15,7 +14,7 @@ const ServiceDeveloper = () => {
   const WelcomeSection = () => (
     <div
       style={{ backgroundColor: "#FAFAFD" }}
-      className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition py-24 mt-16`}
+      className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition py-24`}
     >
       <div
         style={{ maxWidth: "1280px" }}
@@ -248,7 +247,6 @@ const ServiceDeveloper = () => {
       <ThirdSection />
       <FifthSection />
       <SeventhSection />
-      <Footer />
     </div>
   );
 };

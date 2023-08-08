@@ -38,9 +38,6 @@ const ProfileCard = ({ item, isEmployer }) => {
             {info.user_profile[0].title && (
               <p className="text-sm rounded-full text-green-700 font-bold">{info.user_profile[0].title?.[lang]}</p>
             )}
-            <p style={{ color: "#555" }} className="text-sm font-bold">
-              member since {moment(info.user_created_at).year()}
-            </p>
 
             <p
               style={{

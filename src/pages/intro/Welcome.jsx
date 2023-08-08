@@ -24,12 +24,28 @@ import Checkmark from "../../assets/main/checkmark.png";
 import TechStack from "../../assets/main/techstack.png";
 import Partner1 from "../../assets/main/partner1.png";
 import { AiFillStar } from "react-icons/ai";
-import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import axios from "../../utils/authAxios";
+import CompanyCard from "../../components/CompanyCard";
 
 const Welcome = () => {
   const { t } = useTranslation("welcome");
+  const [companyArray, setCompanyArray] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/v1/company/all`)
+      .then((response) => {
+        setCompanyArray(response.data);
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/COMPANY/ALL ERROR : ", e);
+      });
+
+    return () => {};
+  }, []);
 
   const WelcomeSection = () => {
     const [heroIndex, setHeroIndex] = useState(0);
@@ -160,7 +176,7 @@ const Welcome = () => {
               <Link to="/browse">
                 <button
                   style={{ backgroundColor: "#1FAD72" }}
-                  className="text-white text px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+                  className="text-white text px-4 py-2 rounded-full shadow hover:opacity-90 transition font-semibold"
                 >
                   {t("welcomeButton")}
                 </button>
@@ -180,7 +196,7 @@ const Welcome = () => {
       style={{ backgroundColor: "#FAFAFD" }}
       className="py-12 sm:py-0 w-screen sm:h-24 flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20"
     >
-      <p style={{ color: "#A5A5A5" }} className="font-semibold font-nanum">
+      <p style={{ color: "#A5A5A5" }} className="font-semibold">
         Trusted by:
       </p>
       <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
@@ -199,7 +215,7 @@ const Welcome = () => {
         className="flex items-center justify-between sm:flex-row flex-col px-4 sm:space-x-24 sm:pr-12"
       >
         <img src={t("second.lanyard")} alt="" className="max-w-xs -mt-12" draggable={false} />
-        <div className="flex flex-col items-center sm:ml-16 sm:mt-32 mt-12 font-nanum">
+        <div className="flex flex-col items-center sm:ml-16 sm:mt-32 mt-12">
           <p className="text-3xl font-bold">{t("second.title1")}</p>
           <p className="text-3xl font-bold mt-2">{t("second.title2")}</p>
           <p className="mt-12">{t("second.body1")}</p>
@@ -222,7 +238,7 @@ const Welcome = () => {
         style={{ maxWidth: "1280px" }}
         className="flex items-center justify-center sm:flex-row flex-col-reverse sm:space-x-24 sm:pl-12"
       >
-        <div className="flex flex-col items-center mt-12 sm:mt-0 font-nanum">
+        <div className="flex flex-col items-center mt-12 sm:mt-0">
           <p className="text-3xl font-bold">{t("third.title1")}</p>
           <p className="text-3xl font-bold mt-2">{t("third.title2")}</p>
           <p className="mt-12">{t("third.body1")}</p>
@@ -241,7 +257,7 @@ const Welcome = () => {
 
   const FourthSection = () => {
     const Cell = ({ icon, title, text1, text2 }) => (
-      <div className="flex flex-col items-center font-nanum">
+      <div className="flex flex-col items-center">
         <img src={icon} className="w-16" alt="" draggable={false} />
         <p className="font-semibold mt-4">{title}</p>
         <p style={{ fontSize: "0.85rem" }} className="text-sm mt-4">
@@ -254,8 +270,8 @@ const Welcome = () => {
     );
     return (
       <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
-        <div style={{ maxWidth: "1280px" }}>
-          <p className="font-nanum text-lg mb-16 px-4">{t("fourth.sectionTitle")}</p>
+        <div style={{ maxWidth: "1280px" }} className="w-full">
+          <p className="text-lg mb-16 px-4 font-bold">{t("fourth.sectionTitle")}</p>
           <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16">
             <Cell
               icon={FourthType1}
@@ -349,20 +365,20 @@ const Welcome = () => {
     const IndexCell = () => (
       <div className="flex p-8 w-full">
         <div className="sm:w-1/2 w-full">
-          <p style={{ color: "#1FAD72" }} className="font-nanum font-bold text">
+          <p style={{ color: "#1FAD72" }} className="font-bold text">
             {progressData[progressIndex].step}
           </p>
 
-          <p className="font-nanum font-bold text-lg mt-8 break-keep">{progressData[progressIndex].title}</p>
+          <p className="font-bold text-lg mt-8 break-keep">{progressData[progressIndex].title}</p>
 
           <div className="mt-8">
             <div className="flex items-start">
               <img src={Checkmark} className="w-3 object-contain" alt="" />
-              <p className="text-xs font-nanum ml-2 break-keep">{progressData[progressIndex].text1}</p>
+              <p className="text-xs ml-2 break-keep">{progressData[progressIndex].text1}</p>
             </div>
             <div className="flex items-start mt-4">
               <img src={Checkmark} className="w-3 object-contain" alt="" />
-              <p className="text-xs font-nanum ml-2 break-keep">{progressData[progressIndex].text2}</p>
+              <p className="text-xs ml-2 break-keep">{progressData[progressIndex].text2}</p>
             </div>
           </div>
         </div>
@@ -382,15 +398,15 @@ const Welcome = () => {
         className="flex w-screen items-center justify-center sm:flex-row flex-col-reverse py-24"
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col w-full items-center h-full px-4">
-          <p className="font-nanum text-lg mb-16 px-4 max-w-4xl w-full">{t("fifth.sectionTitle")}</p>
+          <p className="text-xl font-bold mb-20 px-4 w-full">{t("fifth.sectionTitle")}</p>
 
-          <div className="flex w-full mb-12 max-w-4xl px-4">
+          <div className="flex max-w-4xl w-full mb-12 px-4">
             <BarCell index={0} title={t("fifth.1.bar")} />
             <BarCell index={1} title={t("fifth.2.bar")} />
             <BarCell index={2} title={t("fifth.3.bar")} />
             <BarCell index={3} title={t("fifth.4.bar")} />
           </div>
-          <div className="max-w-4xl w-full flex h-full">
+          <div className="w-full flex h-full max-w-4xl">
             <button
               onClick={() => progressIndex > 0 && setProgressIndex(progressIndex - 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
@@ -410,30 +426,48 @@ const Welcome = () => {
     );
   };
 
-  const SixthSection = () => {
+  const SixthSection = ({ companies }) => (
+    <div className="mt-12">
+      <div
+        style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
+        className="w-screen sm:w-full h-full px-6 flex-shrink-0 bg-white space-x-1 sm:justify-around"
+      >
+        <p className="text-xl font-bold text-gray-800 my-4">{t("companies")}</p>
+        <div className="w-full grid grid-cols-1 sm:grid-cols-3 h-full items-center flex-shrink-0 gap-x-3 gap-y-4 py-6">
+          {Object.entries(companies).map((item, index) => (
+            <CompanyCard key={index} item={item} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const SeventhSection = () => {
     return (
-      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
-        <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
-          <p className="font-nanum text-2xl font-bold">{t("sixth.title")}</p>
-          <p className="font-nanum mt-2 mb-16">{t("sixth.subtitle")}</p>
-          <img src={Partner1} alt="" className="h-20" draggable={false} />
+      <div className="flex w-screen items-center justify-center sm:flex-row flex-col mt-12 mb-24">
+        <div style={{ maxWidth: "1280px" }} className="w-full px-6">
+          <p className="text-xl font-bold">{t("sixth.title")}</p>
+          <p className="mt-2 mb-16">{t("sixth.subtitle")}</p>
+          <div className="flex w-full justify-center">
+            <img src={Partner1} alt="" className="h-20 w object-contain" draggable={false} />
+          </div>
         </div>
       </div>
     );
   };
 
-  const SeventhSection = () => {
+  const EighthSection = () => {
     return (
       <div
         style={{ backgroundColor: "#0E5034" }}
         className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 text-center px-3 break-keep"
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
-          <p className="font-nanum mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
+          <p className="mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
           <Link to="/browse">
             <button
               style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
-              className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-nanum font-semibold"
+              className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition font-semibold"
             >
               {t("seventh.button")}
             </button>
@@ -451,9 +485,9 @@ const Welcome = () => {
       <ThirdSection />
       <FourthSection />
       <FifthSection />
-      <SixthSection />
+      <SixthSection companies={companyArray} />
       <SeventhSection />
-      <Footer />
+      <EighthSection />
     </div>
   );
 };

@@ -9,7 +9,6 @@ import { AuthContext } from "../context/authContext";
 import Drawer from "react-modern-drawer";
 //COMPONENTS
 import Tags from "../components/Tags";
-import Footer from "../components/Footer";
 import UploadProfile from "../components/UploadProfile";
 import ProfileEmployer from "./ProfileEmployer";
 import EditProfileModal from "../components/EditProfileModal";
@@ -637,12 +636,14 @@ const Profile = () => {
                 </div>
               </div>
               <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">계약 및 채용하기</button>
+                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">
+                  계약 및 채용하기
+                </button>
               </div>
             </div>
           </Drawer>
 
-          {!isMyProfile && userState.user.userType !== "employee" && (
+          {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
             <ProfileCompose
               userId={userId}
               openComposeModal={openComposeModal}
@@ -656,7 +657,6 @@ const Profile = () => {
               <LeftPanel />
               <RightPanel />
             </div>
-            <Footer />
           </div>
         </>
       );

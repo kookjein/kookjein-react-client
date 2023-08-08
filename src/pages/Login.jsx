@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Footer from "../components/Footer";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "../utils/authAxios";
 import { HttpStatusCode } from "axios";
@@ -170,7 +169,6 @@ const Login = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center">
       <LoginSection />
-      <Footer />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import // Link,
 "react-router-dom";
@@ -248,7 +247,6 @@ const Company = () => {
           <div style={{ maxWidth: "1280px" }} className="w-full h-full px-4 flex">
             <RightPanel />
           </div>
-          <Footer />
         </div>
       </>
     );

@@ -5,6 +5,8 @@ const welcome = {
   mode: "ko",
   welcomeText: WelcomeKor,
   welcomeButton: "해외 개발자 둘러보기",
+  companies: "국제인을 사용하는 기업",
+
   hero1: {
     title: "(주)픽톨로지, 프론트엔드",
     name: "모 알가잘리 (Mo Alghazali)",

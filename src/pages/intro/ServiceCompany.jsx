@@ -8,7 +8,6 @@ import Solution4 from "../../assets/service/solution4.png";
 import Solution5 from "../../assets/service/solution5.png";
 import Solution6 from "../../assets/service/solution6.png";
 import CompanyDevs from "../../assets/service/company_devs.png";
-import Footer from "../../components/Footer";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -280,7 +279,6 @@ const ServiceCompany = () => {
       <FourthSection />
       <FifthSection />
       <SeventhSection />
-      <Footer />
     </div>
   );
 };

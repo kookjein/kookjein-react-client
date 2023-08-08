@@ -3,7 +3,6 @@ import Tags from "../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
-import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import { AuthContext } from "../context/authContext";
@@ -380,7 +379,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             developerInfo={developerInfo}
           />
         </Modal>
-        {!isMyProfile && userState.user.userType !== "employee" && (
+        {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
           <ProfileCompose
             userId={userId}
             openComposeModal={openComposeModal}
@@ -395,7 +394,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             <LeftPanel />
             <RightPanel />
           </div>
-          <Footer />
         </div>
       </>
     );

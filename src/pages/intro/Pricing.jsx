@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "../../components/Footer";
 import { useState } from "react";
 import CheckFill from "../../assets/pricing/check_fill.png";
 import CheckEmpty from "../../assets/pricing/check_empty.png";
@@ -377,7 +376,6 @@ const Pricing = () => {
       <FourthSection />
       <FifthSection />
       <SeventhSection />
-      <Footer />
     </div>
   );
 };
