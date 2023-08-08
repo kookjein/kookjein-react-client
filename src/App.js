@@ -1,7 +1,7 @@
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useContext, useState } from "react";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import { Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
@@ -38,6 +38,7 @@ import Footer from "./components/Footer";
 function App() {
   const { userState } = useContext(AuthContext);
   const { wsRef } = useContext(WebsocketContext);
+  const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const isTabFocused = useSelector((state) => state.session.isTabFocused);
   const roomIdQuery = searchParams.get("room_id");
@@ -135,7 +136,7 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/error404" element={<Error404 />} />
         </Routes>
-        <Footer />
+        {!pathname.includes("/chat") && <Footer />}
       </AxiosInterceptor>
     );
   else

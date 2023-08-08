@@ -318,7 +318,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
 
   const StartPanel = () => {
     return (
-      <div className="w-full border-r flex items-center justify-center bg-gray-200">
+      <div className="w-full border-r flex items-center justify-center bg-gray-100">
         <div className="select-none rounded-full bg-black bg-opacity-50 px-4 py-1 text-sm text-white">
           {t("startText")}
         </div>
@@ -369,7 +369,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
     return (
       <div
         style={{ height: "calc(100svh - 4rem)" }}
-        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100"
+        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-white"
       >
         <div style={{ maxWidth: "1480px", height: "calc(100svh - 4rem)" }} className="w-full flex">
           <LeftPanel />
