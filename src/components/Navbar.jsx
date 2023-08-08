@@ -339,11 +339,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
           ) : (
             <div className="flex space-x-6">
               {userState.user.userType === "employee" ? (
-                <Link to={"/browse-jobs"}>
-                  <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">
-                    프로젝트 찾기
-                  </button>
-                </Link>
+                <></>
               ) : (
                 <Link to={"/browse"}>
                   <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">

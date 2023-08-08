@@ -369,7 +369,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
     return (
       <div
         style={{ height: "calc(100svh - 4rem)" }}
-        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-white"
+        className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-50"
       >
         <div style={{ maxWidth: "1480px", height: "calc(100svh - 4rem)" }} className="w-full flex">
           <LeftPanel />
