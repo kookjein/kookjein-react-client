@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const ProjectCell = ({ border }) => {
   const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
   return (
-    <div className={`${border ? "border" : "border-b"} w-full p-6 bg-white rounded-xl`}>
+    <div className={`${border ? "border" : "border-b"} w-full p-6 bg-white`}>
       <div className="flex justify-between">
         <Link to={`/jobs/1`}>
           <p className="text-xl font-bold text-green-700 hover:underline cursor-pointer">
