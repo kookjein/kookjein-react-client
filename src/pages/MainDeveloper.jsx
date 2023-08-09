@@ -39,6 +39,23 @@ const MainDeveloper = () => {
         {selectedTab === title && <div className="h-0.5 rounded-full w-full bg-green-600 absolute bottom-0" />}
       </button>
     );
+
+    const Empty = () => (
+      <div className="flex flex-col flex-shrink-0 items-center justify-center space-y-6 py-16">
+        <img src={EmptyFile} alt="" className="w-32" />
+        <div className="flex flex-col items-center space-y-1">
+          <p className="text-lg font-bold">진행중인 프로젝트가 없습니다</p>
+          <p className="text-sm">프로젝트를 등록하면 여러 개발자들이 지원할 수 있습니다.</p>
+        </div>
+
+        <button
+          onClick={() => setSelectedTab("프로젝트 찾기")}
+          className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125 text-sm"
+        >
+          프로젝트 찾기
+        </button>
+      </div>
+    );
     return (
       <div className="flex space-x-6">
         <div className="w-full border rounded-xl py-6 bg-white shadow-lg">
@@ -51,7 +68,7 @@ const MainDeveloper = () => {
               <TabButton title={"프로젝트 찾기"} />
             </div>
           </div>
-          <div className="py-4 px-4">
+          <div className="">
             {selectedTab === "진행중" ? (
               <></>
             ) : selectedTab === "지원 현황" ? (
@@ -71,20 +88,7 @@ const MainDeveloper = () => {
             )}
           </div>
 
-          <div className="flex flex-col flex-shrink-0 items-center justify-center space-y-6 py-6 mb-12">
-            <img src={EmptyFile} alt="" className="w-32" />
-            <div className="flex flex-col items-center space-y-1">
-              <p className="text-lg font-bold">진행중인 프로젝트가 없습니다</p>
-              <p className="text-sm">프로젝트를 등록하면 여러 개발자들이 지원할 수 있습니다.</p>
-            </div>
-
-            <button
-              onClick={() => setSelectedTab("프로젝트 찾기")}
-              className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125 text-sm"
-            >
-              프로젝트 찾기
-            </button>
-          </div>
+          <Empty />
         </div>
       </div>
     );
@@ -92,7 +96,9 @@ const MainDeveloper = () => {
 
   const DeveloperHelp = () => (
     <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col p-6 bg-white shadow-lg space-y-4 text-gray-600">
-      <p className="text-xs">Make sure to join Kookjein's Discord server when you apply for projects to get full support from our team.</p>
+      <p className="text-xs">
+        Make sure to join Kookjein's Discord server when you apply for projects to get full support from our team.
+      </p>
       <a href="/">
         <div className="flex space-x-2 items-center hover:text-blue-500">
           <p className="text-sm font-bold underline">Kookjein's Discord Server</p>
