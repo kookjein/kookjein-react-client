@@ -6,6 +6,7 @@ import "react-dropdown/style.css";
 import Dropzone from "../components/Dropzone";
 import axios from "../utils/authAxios";
 import {AuthContext} from "../context/authContext";
+import {s3Upload} from "../utils/s3Upload";
 
 const CreateJobPost = () => {
     const {userState} = useContext(AuthContext);
@@ -331,7 +332,7 @@ const CreateJobPost = () => {
             <div className="w-full h-12 flex justify-end mt-24">
                 <button className="px-8 h-12 flex items-center bg-green-700 text-white rounded hover:bg-green-600"
                         onClick={() => {
-                            axios.post('v1/project', {
+                            axios.post('v1/project/', {
                                 project: {
                                     project_info: [{
                                         method: projectMethod ? 'recruit' : 'contract',
@@ -344,7 +345,6 @@ const CreateJobPost = () => {
                                         }[value])),
                                         tech: tech,
                                         status: projectStatus,
-                                        files: [/* TODO AWS links */],
                                         detail: projectDetail,
                                         budget: projectBudget,
                                         start_at: projectStartAt,
@@ -352,7 +352,13 @@ const CreateJobPost = () => {
                                     }]
                                 }
                             }).then((response) => {
-                                console.log(response)
+                                if (uploadedFiles.length) {
+                                    s3Upload(`project/${response.data}`, uploadedFiles).then(projectFiles => {
+                                        axios.put('v1/project/', {
+                                            project: {project_id: response.data, project_info: [{files: projectFiles}]}
+                                        }).then()
+                                    })
+                                }
                             })
                         }}>프로젝트 등록
                 </button>
