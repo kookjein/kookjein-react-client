@@ -65,22 +65,48 @@ const JobPost = () => {
     </button>
   );
 
+  const Title = ({ title, subtitle }) => (
+    <>
+      <div className="flex space-x-2 mt-8">
+        <h1 className="font-bold text-lg text-gray-700">{title}</h1>
+        <h1 className="font-bold text-lg text-red-500">*</h1>
+      </div>
+      <p className="text-gray-600 text-xs mt-2">{subtitle}</p>
+    </>
+  );
+
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100 pb-12">
       <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
         <div className="w-full h-16 border-b flex items-center justify-between px-6">
-          <p className="text-gray-700">채용 신청</p>
+          <p className="text-gray-700 font-bold">프로젝트 지원</p>
           <button onClick={toggleDrawer}>
             <RxCross2 className="w-7 h-7" />
           </button>
         </div>
+        <ProjectCell small />
+
         <div className="p-6">
-          <p className="text-xl mb-4">지원 프로젝트</p>
-          <ProjectCell />
-
-          <p className="text-xl mt-8">인사말/간단한 소개</p>
-          <textarea className="w-full h-48 border rounded mt-4 outline-green-600 p-3" />
-
+          <Title title="프로젝트 예산 제안" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
+          <div className="flex items-center mt-4 space-x-3">
+            <p className="text-gray-700 text-lg">₩</p>
+            <input
+              placeholder={"숫자만 기입. 예시) 300"}
+              className="w-full h-12 rounded-lg border outline-green-600 p-3"
+              type="number"
+              maxLength={3}
+            />
+          </div>
+          <Title title="프로젝트 진행 기간 제안" subtitle="프로젝트 예상 진행 기간을 선택해 주세요." />
+          <div className="flex items-center mt-4 space-x-3">
+            <input
+              placeholder={"숫자만 기입. 예시) 3"}
+              className="w-54 h-12 rounded-lg border outline-green-600 p-3"
+              type="number"
+              maxLength={3}
+            />
+            <p className="text-gray-700 text-lg">개월</p>
+          </div>
           <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
             <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">메세지 보내기</button>
           </div>

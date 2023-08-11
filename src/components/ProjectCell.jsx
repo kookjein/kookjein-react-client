@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ProjectCell = ({ border }) => {
+const ProjectCell = ({ border, small }) => {
   const Tags = ({ title }) => (
-    <div className="text-xs px-3 py-1 rounded-full bg-green-800 bg-opacity-10 text-green-800 hover:bg-opacity-20 cursor-pointer">
+    <div className="text-xs px-3 py-1 rounded-full bg-green-800 bg-opacity-10 text-green-800 hover:bg-opacity-20 cursor-pointer flex-shrink-0">
       {title}
     </div>
   );
   return (
     <Link to={`/jobs/1`}>
       <button
-        className={`${border ? "border" : "border-b"} w-full p-8 bg-white group hover:bg-green-600 hover:bg-opacity-5`}
+        className={`${border ? "border" : "border-b"} p-8 w-full bg-white group hover:bg-green-600 hover:bg-opacity-5`}
       >
         <p className="text-lg font-bold group-hover:text-green-700 cursor-pointer text-gray-700 w-full text-left">
           커머스 서비스 플랫폼 개발
@@ -36,7 +36,7 @@ const ProjectCell = ({ border }) => {
 
         <div className="text-xs w-full text-left mt-6 font-bold text-gray-700">지원자: 0</div>
 
-        <div className="flex space-x-2 mt-6">
+        <div className="flex gap-2 mt-6 flex-wrap">
           <Tags title="React.js" />
           <Tags title="Javascript" />
           <Tags title="front-end" />
