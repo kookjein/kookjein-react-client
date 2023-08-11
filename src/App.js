@@ -17,6 +17,7 @@ import ServiceDeveloper from "./pages/intro/ServiceDeveloper";
 import Pricing from "./pages/intro/Pricing";
 // APP PAGES
 import Browse from "./pages/Browse";
+import History from "./pages/History";
 import ChatPage from "./pages/ChatPage";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
@@ -127,6 +128,7 @@ function App() {
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/contract/*" element={<Contract />} />
+          <Route path="/history/*" element={<History />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />

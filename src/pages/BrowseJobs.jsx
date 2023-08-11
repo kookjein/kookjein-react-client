@@ -7,7 +7,7 @@ const BrowseJobs = () => {
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <div
         style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
-        className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around overflow-x-auto px-8 pb-12"
+        className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-8 pb-12"
       >
         <p className="text-2xl font-bold mt-8">프로젝트 찾기</p>
         <div className="w-full mt-8 flex space-x-6">

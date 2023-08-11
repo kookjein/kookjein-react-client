@@ -57,7 +57,7 @@ const Browse = () => {
       <div className="w-full h-12 flex justify-center border-b">
         <div
           style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
-          className="w-screen sm:w-full h-full px-2 flex-shrink-0 bg-white flex space-x-1 sm:justify-around overflow-x-auto"
+          className="w-screen sm:w-full h-full px-2 flex-shrink-0 bg-white flex space-x-1 sm:justify-around"
         >
           {TagsArray.map((item, index) => (
             <button

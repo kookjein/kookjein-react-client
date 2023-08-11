@@ -1,7 +1,7 @@
 const browse = {
-  developers: "채용 가능 개발자",
-  companies: "국제인 등록 기업",
-  employers: "인사 담당자",
+  developers: "개발자 찾기",
+  companies: "기업",
+  employers: "클라이언트",
   viewMore: "더보기",
 };
 export default browse;
