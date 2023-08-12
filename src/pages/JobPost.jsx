@@ -86,13 +86,13 @@ const JobPost = () => {
         </div>
         <ProjectCell small />
 
-        <div className="p-6">
+        <div className="px-6">
           <Title title="프로젝트 예산 제안" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
           <div className="flex items-center mt-4 space-x-3">
-            <p className="text-gray-700 text-lg">₩</p>
+            <p className="text-gray-700">₩</p>
             <input
               placeholder={"숫자만 기입. 예시) 300"}
-              className="w-full h-12 rounded-lg border outline-green-600 p-3"
+              className="w-full h-10 rounded-lg border outline-green-600 px-3"
               type="number"
               maxLength={3}
             />
@@ -101,15 +101,13 @@ const JobPost = () => {
           <div className="flex items-center mt-4 space-x-3">
             <input
               placeholder={"숫자만 기입. 예시) 3"}
-              className="w-54 h-12 rounded-lg border outline-green-600 p-3"
+              className="w-54 h-10 rounded-lg border outline-green-600 px-3"
               type="number"
               maxLength={3}
             />
-            <p className="text-gray-700 text-lg">개월</p>
+            <p className="text-gray-700">개월</p>
           </div>
-          <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-            <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">메세지 보내기</button>
-          </div>
+          <button className="h-10 w-full mt-12 bg-green-700 text-white rounded hover:brightness-125 font-bold">프로젝트 지원</button>
         </div>
       </Drawer>
       <div
