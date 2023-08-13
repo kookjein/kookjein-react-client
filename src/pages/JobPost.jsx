@@ -240,9 +240,9 @@ const JobPost = () => {
               >
                 Applied
               </button>
-              <Link to="/contract?flow=1">
+              <Link to="/manage">
                 <button className="w-full h-10 bg-green-700 rounded text-white text-sm hover:brightness-110 font-bold mt-2">
-                  계약 및 관리 페이지
+                  관리 페이지
                 </button>
               </Link>
             </>

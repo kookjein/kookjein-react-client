@@ -30,8 +30,8 @@ const Contract = () => {
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <div
-        style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
-        className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around pb-12 px-4"
+        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: 'calc(100svh - 10rem)' }}
+        className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around pb-24 px-4"
       >
         <div className="w-full flex items-center mt-8 space-x-6 text-sm">
           <DirectoryCell title="최종 예산, 기간, 마일스톤 설정" order={1} />

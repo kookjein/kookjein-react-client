@@ -108,6 +108,12 @@ const RightPanel = () => {
             </button>
           </Link>
         )}
+        <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125">
+          프로젝트 제출
+        </button>
+        <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125">
+          프로젝트 승인 및 에스크로 결제
+        </button>
       </div>
     </div>
   );

@@ -35,6 +35,7 @@ import MainClient from "./pages/MainClient";
 import MainDeveloper from "./pages/MainDeveloper";
 import Contract from "./pages/contract/Contract";
 import Footer from "./components/Footer";
+import Manage from "./pages/manage/Manage";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -61,7 +62,7 @@ function App() {
           audio.play();
         } else if (
           response.user.user_id !== userState.user.userId &&
-          pathandQuery !== `/manage/chat?room_id=${response.chat_room_id}&u=${response.user.user_id}`
+          pathandQuery !== `/chat?room_id=${response.chat_room_id}&u=${response.user.user_id}`
         ) {
           toast(<Notification item={response} />);
           audio.play();
@@ -128,6 +129,7 @@ function App() {
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/contract/*" element={<Contract />} />
+          <Route path="/manage/*" element={<Manage />} />
           <Route path="/history/*" element={<History />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
