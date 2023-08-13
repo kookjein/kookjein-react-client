@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { IoSearch } from "react-icons/io5";
 import { AuthContext } from "../../context/authContext";
 
-const Search = () => {
+const SearchBar = () => {
   const { t } = useTranslation("navBar");
   const { userState } = useContext(AuthContext);
   const [searchType, setSearchType] = useState("employee");
@@ -25,4 +25,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchBar;

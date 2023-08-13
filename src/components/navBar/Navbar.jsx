@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../context/authContext";
-import Search from "./Search";
+import SearchBar from "./SearchBar";
 import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import SolutionDropdown from "./SolutionDropdown";
@@ -83,7 +83,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
         </div>
 
         <div className="flex items-center justify-end w-full">
-          {userState.isAuthenticated && <Search />}
+          {userState.isAuthenticated && <SearchBar />}
           <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-8">
             {userState.isAuthenticated ? (
               <>
