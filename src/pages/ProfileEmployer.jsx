@@ -16,7 +16,7 @@ import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import axios from "../utils/authAxios";
 import { Link, useParams } from "react-router-dom";
-import ProfileCompose from "../components/ProfileCompose";
+import ComposeProfile from "../components/ComposeProfile";
 
 const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const { userState } = useContext(AuthContext);
@@ -380,7 +380,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           />
         </Modal>
         {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
-          <ProfileCompose
+          <ComposeProfile
             userId={userId}
             openComposeModal={openComposeModal}
             closeComposeModal={closeComposeModal}

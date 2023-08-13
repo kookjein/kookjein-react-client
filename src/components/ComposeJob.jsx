@@ -7,16 +7,15 @@ import { v4 as uuidv4 } from "uuid";
 import { BsCheckCircleFill } from "react-icons/bs";
 import moment from "moment";
 import { AuthContext } from "../context/authContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 
-const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeModalIsOpen, developerInfo }) => {
+const ComposeJob = ({ userId, closeComposeModal, composeModalIsOpen, developerInfo }) => {
   const { wsRef } = useContext(WebsocketContext);
   const { t, i18n } = useTranslation("profileEmployer");
   const [inputValue, setInputValue] = useState("");
   const [isMessageSent, setMessageSent] = useState();
   const { userState } = useContext(AuthContext);
-  const navigate = useNavigate();
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const isMobile = screenWidth <= 768;
@@ -123,29 +122,6 @@ const ProfileCompose = ({ userId, openComposeModal, closeComposeModal, composeMo
         )}
       </div>
     );
-  else
-    return (
-      <button
-        style={{ boxShadow: "0 6px 12px #00000040" }}
-        onClick={userState.isAuthenticated ? openComposeModal : () => navigate("/login")}
-        className="fixed bottom-4 right-4 bg-white p-2 pr-8 rounded-full shadow-xl flex items-center space-x-4 filter hover:bg-gray-100 border z-30"
-      >
-        <img
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null; // prevents looping
-            currentTarget.src = DefaultImage;
-          }}
-          src={developerInfo.current?.img || DefaultImage}
-          alt=""
-          draggable={false}
-          className="object-cover w-14 h-14 rounded-full flex-shrink-0"
-        />
-        <div className="flex flex-col text-gray-700 w-full items-start">
-          <span className="font-bold text-lg">{t("sendMessage")}</span>
-          <span className="">{developerInfo.current.name?.[lang]}</span>
-        </div>
-      </button>
-    );
 };
 
-export default ProfileCompose;
+export default ComposeJob;

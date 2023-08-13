@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineFile } from "react-icons/ai";
 import ProjectCell from "../components/ProjectCell";
+import ComposeJob from "../components/ComposeJob";
 
 const JobPost = () => {
   const { jobId } = useParams();
+  const developerInfo = useRef({});
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [composeModalIsOpen, setComposeModalOpen] = useState(false);
 
   const Tags = ({ title }) => (
     <div className="text-xs px-3 py-1 rounded-full bg-green-800 bg-opacity-10 text-green-800 hover:bg-opacity-20 cursor-pointer">
@@ -28,8 +31,8 @@ const JobPost = () => {
   );
 
   const CandidateCell = () => (
-    <button className="w-full ring-1 ring-gray-200 rounded-sm overflow-hidden hover:shadow filter transition h-44 items-center p-4 bg-white hover:bg-gray-100">
-      <div className="flex items-center">
+    <div className="w-full ring-1 ring-gray-200 rounded-sm overflow-hidden hover:shadow filter transition h-56 items-center p-4 bg-white ">
+      <button className="flex items-center hover:text-green-700 cursor-pointer w-full">
         <img
           onError={({ currentTarget }) => {
             currentTarget.onerror = null; // prevents looping
@@ -45,7 +48,7 @@ const JobPost = () => {
           <p className="font-bold text-lg">Andrew Jang</p>
           <p className="text-xs">Title/Position</p>
         </div>
-      </div>
+      </button>
       <div className="flex items-center mt-3">
         <div className="bg-purple-100 rounded-full py-0.5 px-2">
           <p style={{ fontSize: "10px" }} className="text-xs text-purple-600">
@@ -62,7 +65,17 @@ const JobPost = () => {
         지속적으로 찾고 있습니다. 최고의 품질을 유지하고 능력의 한계를 넓히도록 노력함으로써 최종적인 목표를 달성하기를
         바랍니다.
       </p>
-    </button>
+      <div className="flex space-x-3 mt-4">
+        <button onClick={openComposeModal} className="w-full h-9 rounded text-xs font-bold border hover:bg-gray-50 border-gray-300">
+          메세지 보내기
+        </button>
+        <Link to="/contract?flow=1" className="w-full">
+          <button className="w-full h-9 border border-green-700 text-green-700 rounded text-xs font-bold hover:bg-gray-50">
+            채용하기
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 
   const Title = ({ title, subtitle }) => (
@@ -74,6 +87,15 @@ const JobPost = () => {
       <p className="text-gray-600 text-xs mt-2">{subtitle}</p>
     </>
   );
+
+  
+  function openComposeModal() {
+    setComposeModalOpen(true);
+  }
+
+  function closeComposeModal() {
+    setComposeModalOpen(false);
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100 pb-12">
@@ -107,9 +129,19 @@ const JobPost = () => {
             />
             <p className="text-gray-700">개월</p>
           </div>
-          <button className="h-10 w-full mt-12 bg-green-700 text-white rounded hover:brightness-125 font-bold">프로젝트 지원</button>
+          <button className="h-10 w-full mt-12 bg-green-700 text-white rounded hover:brightness-125 font-bold">
+            프로젝트 지원
+          </button>
         </div>
       </Drawer>
+
+      <ComposeJob
+        userId={1}
+        openComposeModal={openComposeModal}
+        closeComposeModal={closeComposeModal}
+        composeModalIsOpen={composeModalIsOpen}
+        developerInfo={developerInfo}
+      />
       <div
         style={{ maxWidth: "1260px", scrollbarWidth: 0 }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-6"

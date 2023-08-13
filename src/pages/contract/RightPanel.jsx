@@ -103,13 +103,13 @@ const RightPanel = () => {
 
         {flowQuery === "2" && (
           <Link to="/contract?flow=3">
-            <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold">에스크로 결제 진행</button>
+            <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125">에스크로 결제 진행</button>
           </Link>
         )}
 
         {flowQuery === "3" && (
           <Link to="/contract?flow=3">
-            <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold">프로젝트 제출 / 프로젝트 승인</button>
+            <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125">프로젝트 제출 / 프로젝트 승인</button>
           </Link>
         )}
       </div>

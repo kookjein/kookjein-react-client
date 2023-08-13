@@ -12,7 +12,7 @@ import Tags from "../components/Tags";
 import UploadProfile from "../components/UploadProfile";
 import ProfileEmployer from "./ProfileEmployer";
 import EditProfileModal from "../components/EditProfileModal";
-import ProfileCompose from "../components/ProfileCompose";
+import ComposeProfile from "../components/ComposeProfile";
 //ASSETS
 import { languageArray } from "../utils/arrays";
 import DefaultImage from "../assets/default-profile.png";
@@ -644,7 +644,7 @@ const Profile = () => {
           </Drawer>
 
           {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
-            <ProfileCompose
+            <ComposeProfile
               userId={userId}
               openComposeModal={openComposeModal}
               closeComposeModal={closeComposeModal}

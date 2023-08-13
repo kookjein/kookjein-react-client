@@ -148,9 +148,7 @@ const ContractFlow1 = () => {
         </div>
         <div className="w-full flex justify-end mt-8">
           <Link to="/contract?flow=2">
-            <button className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125 text-sm font-bold">
-              에스크로 결제 진행
-            </button>
+            <button className="mt-8 px-6 h-10 bg-gray-800 rounded text-white font-bold text-sm hover:brightness-125">에스크로 결제 진행</button>
           </Link>
         </div>
       </div>

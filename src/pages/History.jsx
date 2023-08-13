@@ -26,7 +26,7 @@ const History = () => {
         <p className="text-2xl font-bold text-gray-800 my-6">결제 내역</p>
 
         <div className="w-full border rounded-lg bg-white shadow-lg overflow-hidden">
-          <div className="w-full h-10 bg-gray-200 border-b flex text-xs font-bold text-gray-600 space-x-2">
+          <div className="w-full h-10  border-b flex text-xs font-bold text-gray-600 space-x-2">
             <p className="w-24 flex-shrink-0 flex items-center ml-8">일시</p>
             <p className="w-48 flex-shrink-0 flex items-center">개발자 / 클라이언트</p>
             <p className="w-full flex items-center">프로젝트 제목</p>
