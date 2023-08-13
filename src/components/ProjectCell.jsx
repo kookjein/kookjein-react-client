@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 const ProjectCell = ({border, small, project}) => {
-    const {t, i18n} = useTranslation("profile");
+    const {i18n} = useTranslation("profile");
     const lang = i18n.language.includes("en") ? "en" : "ko";
     console.log(project);
     const Tags = ({title}) => (<div

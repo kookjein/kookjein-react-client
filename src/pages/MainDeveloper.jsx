@@ -14,7 +14,7 @@ const MainDeveloper = () => {
     const [myInfo, setMyInfo] = useState();
     const [projects, setProjects] = useState();
     const [selectedTab, setSelectedTab] = useState("프로젝트 찾기");
-    const {t, i18n} = useTranslation("profile");
+    const {i18n} = useTranslation("profile");
     const lang = i18n.language.includes("en") ? "en" : "ko";
 
     useEffect(() => {
