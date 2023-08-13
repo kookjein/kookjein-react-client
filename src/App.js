@@ -26,7 +26,7 @@ import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
 import Notification from "./components/Notification";
 import NotificationSound from "./assets/notification.mp3";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navBar/Navbar";
 import CreateJobPost from "./pages/CreateJobPost";
 import CreateCompany from "./pages/CreateCompany";
 import BrowseJobs from "./pages/BrowseJobs";

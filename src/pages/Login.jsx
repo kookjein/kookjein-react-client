@@ -78,10 +78,10 @@ const Login = () => {
       <div
         style={{ minHeight: "calc(100vh - 8rem)" }}
         onKeyDown={handleKeypress}
-        className="w-full flex flex-col items-center justify-center relative bg-gray-200 flex-shrink-0"
+        className="w-full flex flex-col items-center justify-center relative bg-gray-100 flex-shrink-0"
       >
         <div className="max-w-md px-4">
-          <div className="bg-gray-50 px-6 sm:px-10 pt-6 sm:pt-12 rounded shadow-lg">
+          <div className="bg-white px-6 sm:px-10 pt-6 sm:pt-12 rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold">{t("title")}</h1>
 
             <div ref={googleLoginRef} className={"mt-8"} style={{ width: "100%" }}>
@@ -167,7 +167,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center">
+    <div className="w-full flex flex-col items-center">
       <LoginSection />
     </div>
   );
