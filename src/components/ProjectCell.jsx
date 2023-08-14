@@ -2,16 +2,15 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
-const ProjectCell = ({border, small, project}) => {
+const ProjectCell = ({project}) => {
     const {i18n} = useTranslation("profile");
     const lang = i18n.language.includes("en") ? "en" : "ko";
-    console.log(project);
     const Tags = ({title}) => (<div
         className="text-xs px-3 py-1 rounded-full bg-green-800 bg-opacity-10 text-green-800 hover:bg-opacity-20 cursor-pointer flex-shrink-0">
         {title}</div>);
     return (<Link to={`/jobs/1`}>
         <button
-            className={`${border ? "border" : "border-b"} p-8 w-full bg-white group hover:bg-green-600 hover:bg-opacity-5`}>
+            className={`border-b p-8 w-full bg-white group hover:bg-green-600 hover:bg-opacity-5`}>
             <p className="text-lg font-bold group-hover:text-green-700 cursor-pointer text-gray-700 w-full text-left">
                 {project?.project_info[0].title[lang]}
             </p>

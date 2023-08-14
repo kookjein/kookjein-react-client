@@ -106,7 +106,7 @@ const JobPost = () => {
             <RxCross2 className="w-7 h-7" />
           </button>
         </div>
-        <ProjectCell small />
+        <ProjectCell />
 
         <div className="px-6">
           <Title title="프로젝트 예산 제안" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
