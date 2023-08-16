@@ -59,21 +59,91 @@ const CreateJobPost = () => {
     console.log("The tag at index " + index + " was clicked");
   };
 
-  const Title = ({ title, subtitle }) => (
+  const Title = ({ title, subtitle, notRequired }) => (
     <>
       <div className="flex space-x-2 mt-12">
         <h1 className="font-bold text-xl text-gray-700">{title}</h1>
-        <h1 className="font-bold text-xl text-red-500">*</h1>
+        {!notRequired && <h1 className="font-bold text-xl text-red-500">*</h1>}
       </div>
       <p className="text-gray-600 text-sm mt-2">{subtitle}</p>
     </>
   );
+
+  const registerPost = () => {
+    var arrayOfFields = [
+      { projectTitle: projectTitle },
+      { projectDetail: projectDetail },
+      { projectMethod: projectMethod },
+      { projectType: projectType },
+      { projectCategory: projectCategory },
+      { projectStatus: projectStatus },
+      { tech: tech },
+      { projectBudget: projectBudget },
+      { projectStartAt: projectStartAt },
+      { projectDuration: projectDuration },
+    ];
+
+    var missingArray = [];
+    for (let i = 0; i < arrayOfFields.length; i++) {
+      console.log(Object.keys(arrayOfFields[i])[0], Object.values(arrayOfFields[i])[0]);
+      if (
+        !Object.values(arrayOfFields[i])[0] ||
+        Object.values(arrayOfFields[i])[0] === null ||
+        Object.values(arrayOfFields[i])[0] === undefined ||
+        Object.values(arrayOfFields[i])[0].length === 0
+      ) {
+        missingArray.push(Object.keys(arrayOfFields[i])[0]);
+      }
+    }
+    console.log(missingArray);
+
+    axios
+      .post("v1/project/", {
+        project: {
+          project_info: [
+            {
+              method: projectMethod ? "recruit" : "contract",
+              type: projectType ? "maintenance" : "new",
+              title: { [userState.user.userLanguage]: projectTitle },
+              category: projectCategory.map(
+                (value) =>
+                  ({
+                    0: "web",
+                    1: "mobile",
+                    2: "other",
+                  }[value])
+              ),
+              tech: tech,
+              status: projectStatus,
+              detail: projectDetail,
+              budget: projectBudget,
+              start_at: projectStartAt,
+              duration: projectDuration,
+            },
+          ],
+        },
+      })
+      .then((response) => {
+        if (uploadedFiles.length) {
+          s3Upload(`project/${response.data}`, uploadedFiles).then((projectFiles) => {
+            axios
+              .put("v1/project/", {
+                project: { project_id: response.data, project_info: [{ files: projectFiles }] },
+              })
+              .then(() => {
+                navigate("/");
+              });
+          });
+        }
+      });
+  };
 
   return (
     <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
       <div style={{ maxWidth: "1280px" }} className="w-full h-full p-4 py-8 pb-24">
         <h1 className="font-bold text-3xl">프로젝트 등록</h1>
         <p className="text-gray-600 text-sm mt-2">효율적인 개발자 매칭을 위한 첫 단계</p>
+
         <Title title="1. 프로젝트 방식" subtitle="어떤 방식으로 프로젝트를 진행하시나요?" />
         <div className="flex space-x-4 mt-4">
           <button
@@ -146,7 +216,7 @@ const CreateJobPost = () => {
         <Title title="3. 프로젝트 제목" subtitle="개발자가 이해하기 쉽게 한줄로 요약해 주세요." />
         <input
           placeholder={"예시) 굿즈 사업자 브랜드 홈페이지 제작"}
-          className="w-full h-12 rounded-lg border outline-green-600 p-3 border mt-4"
+          className="w-full h-12 rounded-lg border outline-green-600 p-3 mt-4"
           onChange={(event) => setProjectTitle(event.target.value)}
         />
         <Title title="4. 프로젝트 카테고리" subtitle="복수 선택이 가능합니다." />
@@ -348,6 +418,7 @@ const CreateJobPost = () => {
         <Title
           title="7. 프로젝트 자료"
           subtitle="아이디어, 기획문서, 개발/수정 내역 등  관련 문서를 추가해 주세요. 문서/압축/이미지/텍스트/PDF 파일만 등록 가능합니다."
+          notRequired
         />
         <Dropzone setUploadedFiles={setUploadedFiles} />
         {uploadedFiles.map((value, index) => {
@@ -417,48 +488,8 @@ const CreateJobPost = () => {
 
         <div className="w-full h-12 flex justify-end mt-24">
           <button
-            className="px-8 h-12 flex items-center bg-green-700 text-white rounded hover:bg-green-600"
-            onClick={() => {
-              axios
-                .post("v1/project/", {
-                  project: {
-                    project_info: [
-                      {
-                        method: projectMethod ? "recruit" : "contract",
-                        type: projectType ? "maintenance" : "new",
-                        title: { [userState.user.userLanguage]: projectTitle },
-                        category: projectCategory.map(
-                          (value) =>
-                            ({
-                              0: "web",
-                              1: "mobile",
-                              2: "other",
-                            }[value])
-                        ),
-                        tech: tech,
-                        status: projectStatus,
-                        detail: projectDetail,
-                        budget: projectBudget,
-                        start_at: projectStartAt,
-                        duration: projectDuration,
-                      },
-                    ],
-                  },
-                })
-                .then((response) => {
-                  if (uploadedFiles.length) {
-                    s3Upload(`project/${response.data}`, uploadedFiles).then((projectFiles) => {
-                      axios
-                        .put("v1/project/", {
-                          project: { project_id: response.data, project_info: [{ files: projectFiles }] },
-                        })
-                        .then(() => {
-                          navigate("/");
-                        });
-                    });
-                  }
-                });
-            }}
+            className="px-12 h-11 flex items-center bg-green-700 text-white rounded hover:bg-green-600"
+            onClick={registerPost}
           >
             프로젝트 등록
           </button>
