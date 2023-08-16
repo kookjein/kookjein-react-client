@@ -20,7 +20,7 @@ const JobPost = () => {
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
   useEffect(()=>{
-    axios.get(`v1/project`, {params: {project_id: jobId}}).then((response)=>{
+    axios.get(`v1/project/`, {params: {project_id: jobId}}).then((response)=>{
       setProject(response.data)
     })
   }, [jobId])
