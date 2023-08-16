@@ -86,11 +86,14 @@ const CreateCompany = () => {
 
   if (isSaved)
     return (
-      <div className="flex flex-col w-full h-full items-center justify-center space-y-8 py-12">
-        <AiFillCheckCircle className="w-24 h-24 text-sky-500" />
+      <div
+        style={{ minHeight: "calc(100svh - 10rem)" }}
+        className="flex flex-col w-full h-full items-center justify-center space-y-8 py-12"
+      >
+        <AiFillCheckCircle className="w-24 h-24 text-green-600" />
         <p>{t("success")}</p>
         <Link to={`/user/${myUserId}`}>
-          <button className="px-12 flex items-center justify-center h-10 bg-green-600 text-white rounded hover:bg-green-500 transition shadow border flex-shrink-0">
+          <button className="px-12 flex items-center justify-center h-10 bg-gray-800 text-white rounded hover:brightness-125 transition border flex-shrink-0">
             {t("close")}
           </button>
         </Link>
@@ -99,7 +102,7 @@ const CreateCompany = () => {
   else
     return (
       <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
-        <div style={{ maxWidth: "1280px" }} className="w-full h-full">
+        <div style={{ maxWidth: "1280px", minHeight: "calc(100svh - 10rem)" }} className="w-full h-full">
           <div className="w-full flex-shrink-0 p-6">
             <p className="font-bold text-xl">{t("create")}</p>
             <p className="mt-3 text-gray-700 text-sm">{t("title2")}</p>

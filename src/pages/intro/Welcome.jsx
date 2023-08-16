@@ -38,7 +38,6 @@ const Welcome = () => {
       .get(`/v1/company/all`)
       .then((response) => {
         setCompanyArray(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log("V1/COMPANY/ALL ERROR : ", e);

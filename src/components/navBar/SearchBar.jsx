@@ -11,7 +11,7 @@ const SearchBar = () => {
   const searchQuery = searchParams.get("search_item");
   const { userState } = useContext(AuthContext);
   const [searchType, setSearchType] = useState("employee");
-  const [searchText, setSearchText] = useState(searchQuery);
+  const [searchText, setSearchText] = useState(searchQuery || "");
 
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {

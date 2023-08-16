@@ -78,7 +78,7 @@ const MainClient = () => {
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-4 pb-24"
       >
         <div className="w-full mt-8 flex">
-          <div className="w-full px-6 pb-12 space-y-4  py-4">
+          <div className="w-full px-6 pb-12 space-y-4 py-4">
             <Dashboard />
           </div>
           <RightPanel />

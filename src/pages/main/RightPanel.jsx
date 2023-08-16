@@ -12,64 +12,99 @@ import { useState } from "react";
 const RightPanel = ({ selectedTab }) => {
   const { userState } = useContext(AuthContext);
   const { i18n } = useTranslation("profile");
-  const [myInfo, setMyInfo] = useState();
   const lang = i18n.language.includes("en") ? "en" : "ko";
+  const [myInfo, setMyInfo] = useState();
+  const [companyInfo, setCompanyInfo] = useState();
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(`/v1/user/`, { params: { user_id: userState.user.userId } })
       .then((response) => {
-        console.log(response.data);
+        console.log("USER INFO : ", response.data);
         setMyInfo(response.data);
+        setLoading(false);
+        if (response.data.company?.company_id) {
+          axios
+            .get(`/v1/company/`, { params: { company_id: response.data.company?.company_id } })
+            .then((response) => {
+              console.log("COMPANY INFO : ", response.data);
+              setCompanyInfo(response.data);
+            })
+            .catch((e) => {
+              console.log("V1/USER/ ERROR : ", e);
+            });
+        }
       })
       .catch((e) => {
         console.log("V1/USER/ ERROR : ", e);
+        setLoading(false);
       });
   }, [userState]);
 
-  const MyProfileSummary = () => (
-    <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col items-center p-6 bg-white shadow-lg">
-      <Link to={`/user/${userState.user.userId}`}>
-        <div className="flex flex-col items-center group">
-          <img
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null; // prevents looping
-              currentTarget.src = DefaultImage;
-            }}
-            src={DefaultImage}
-            alt=""
-            draggable={false}
-            className="w-16 h-16 bg-gray-100 rounded-full mb-4"
-          />
-          <p className="text-lg group-hover:text-green-600 group-hover:underline">
-            {myInfo?.user.user_profile[0].name?.[lang]}
-          </p>
-          <p className="text-xs line-clamp-1 text-gray-600">{myInfo?.user.user_profile[0].oneLiner?.[lang]}</p>
-        </div>
-        <div className="w-full mt-6 text-sm text-green-700 font-bold">
-          <p>프로필을 완료하세요</p>
-          <div className="flex items-center space-x-3">
-            <div className="w-full h-1 rounded-full bg-gray-300">
-              <div className="w-1/2 h-full bg-green-700"></div>
+  const MyProfileSummary = () => {
+    if (!isLoading)
+      return (
+        <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col items-center p-6 bg-white shadow-lg">
+          <Link to={`/user/${userState.user.userId}`} className="w-full">
+            <div className="flex flex-col items-center group w-full">
+              <img
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = DefaultImage;
+                }}
+                src={myInfo?.user.user_img || DefaultImage}
+                alt=""
+                draggable={false}
+                className="w-16 h-16 bg-gray-100 rounded-full mb-4 object-cover"
+              />
+              <p className="text-lg group-hover:text-green-600 group-hover:underline line-clamp-1 text-center">
+                {myInfo?.user.user_profile[0].name?.[lang]}
+              </p>
+              {myInfo?.user.user_profile[0].oneLiner?.[lang] && (
+                <p className="text-xs line-clamp-2 text-gray-600 text-center break-keep mt-2">
+                  {myInfo?.user.user_profile[0].oneLiner?.[lang]}
+                </p>
+              )}
             </div>
-            <p className="text-xs font-normal text-gray-600">50%</p>
-          </div>
+            <div className="w-full mt-6 text-sm text-green-700 font-bold w-full">
+              <p>프로필을 완료하세요</p>
+              <div className="flex items-center space-x-3">
+                <div className="w-full h-1 rounded-full bg-gray-300 overflow-hidden">
+                  <div
+                    style={{
+                      width:
+                        userState.user.userType === "employee"
+                          ? `${Math.round((Object.keys(myInfo?.user.user_profile[0])?.length / 15) * 100)}%`
+                          : `${Math.round((Object.keys(myInfo?.user.user_profile[0])?.length / 5) * 100)}%`,
+                    }}
+                    className="h-full bg-green-700 rounded-full"
+                  ></div>
+                </div>
+                <p className="text-xs font-normal text-gray-600">
+                  {userState.user.userType === "employee"
+                    ? Math.round((Object.keys(myInfo?.user.user_profile[0])?.length / 15) * 100)
+                    : Math.round((Object.keys(myInfo?.user.user_profile[0])?.length / 5) * 100)}
+                  %
+                </p>
+              </div>
+            </div>
+          </Link>
         </div>
-      </Link>
-    </div>
-  );
+      );
+  };
 
   const CompanySummary = () => (
     <div className="mt-4 w-full border rounded-xl flex-shrink-0 p-6 bg-white shadow-lg">
-      {false ? (
+      {!companyInfo ? (
         <>
           <Link to={"/create-company"}>
-            <button className="h-9 px-6 bg-green-600 text-white rounded-full hover:brightness-125 w-full text-sm">
+            <button className="h-9 px-6 bg-gray-800 text-white rounded hover:brightness-125 w-full text-sm">
               기업 등록
             </button>
           </Link>
           <div className="w-full mt-6 text-sm text-green-700 font-bold">
-            <p>기업 프로필을 완료하세요</p>
+            <p>기업 프로필을 등록하세요</p>
             <div className="flex items-center space-x-3">
               <div className="w-full h-1 rounded-full bg-gray-300">
                 <div className="w-0 h-full bg-green-700"></div>
@@ -79,21 +114,23 @@ const RightPanel = ({ selectedTab }) => {
           </div>
         </>
       ) : (
-        <Link to={`/company/${userState.user.userId}`}>
+        <Link to={`/company/${companyInfo.company.company_id}`}>
           <div className="flex items-center group space-x-3">
             <img
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
                 currentTarget.src = DefaultCompany;
               }}
-              src={DefaultCompany}
+              src={companyInfo.company.company_info[0].img || DefaultCompany}
               alt=""
               draggable={false}
-              className="w-12 h-12 bg-gray-100 rounded-full flex-shrink-0"
+              className="w-10 h-10 bg-gray-100 rounded-full flex-shrink-0 object-cover"
             />
             <div className="">
-              <p className="group-hover:text-green-600 group-hover:underline">국제인</p>
-              <p className="text-xs line-clamp-1 text-gray-600">국제 HR 플랫폼</p>
+              <p className="group-hover:text-green-600 group-hover:underline line-clamp-1">
+                {companyInfo.company.company_info[0].name}
+              </p>
+              <p className="text-xs line-clamp-1 text-gray-600">{companyInfo.company.company_info[0].industry[lang]}</p>
             </div>
           </div>
           <div className="w-full mt-6 text-sm text-green-700 font-bold">
