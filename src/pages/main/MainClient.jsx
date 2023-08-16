@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProjectCell from "../../components/ProjectCell";
 import EmptyFile from "../../assets/empty-file.png";
@@ -6,12 +6,13 @@ import RightPanel from "./RightPanel";
 import axios from "../../utils/authAxios";
 
 const MainClient = () => {
-  const [selectedTab, setSelectedTab] = useState("진행중");
+  const [selectedTab, setSelectedTab] = useState("내 프로젝트");
   const [projects, setProjects] = useState();
 
   useEffect(() => {
     axios.get(`/v1/project/owner`).then((response) => {
       setProjects(response.data);
+      console.log("PROJECT:", response.data);
     });
   }, []);
 
@@ -58,8 +59,8 @@ const MainClient = () => {
             </div>
 
             <div className="w-full h-12 space-x-3 px-6 flex items-center">
-              <TabButton title={"진행중"} />
               <TabButton title={"내 프로젝트"} />
+              <TabButton title={"진행중"} />
             </div>
           </div>
           <div className="flex flex-col divide-y">
@@ -83,7 +84,7 @@ const MainClient = () => {
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <div
-        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: 'calc(100svh - 10rem)' }}
+        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: "calc(100svh - 10rem)" }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-4 pb-24"
       >
         <div className="w-full mt-8 flex">

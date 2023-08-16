@@ -66,7 +66,10 @@ const JobPost = () => {
         바랍니다.
       </p>
       <div className="flex space-x-3 mt-4">
-        <button onClick={openComposeModal} className="w-full h-9 rounded text-xs font-bold border hover:bg-gray-50 border-gray-300">
+        <button
+          onClick={openComposeModal}
+          className="w-full h-9 rounded text-xs font-bold border hover:bg-gray-50 border-gray-300"
+        >
           메세지 보내기
         </button>
         <Link to="/contract?flow=1" className="w-full">
@@ -88,7 +91,6 @@ const JobPost = () => {
     </>
   );
 
-  
   function openComposeModal() {
     setComposeModalOpen(true);
   }
@@ -106,6 +108,7 @@ const JobPost = () => {
             <RxCross2 className="w-7 h-7" />
           </button>
         </div>
+
         <ProjectCell />
 
         <div className="px-6">
