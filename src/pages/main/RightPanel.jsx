@@ -136,10 +136,15 @@ const RightPanel = ({ selectedTab }) => {
           <div className="w-full mt-6 text-sm text-green-700 font-bold">
             <p>기업 프로필을 완료하세요</p>
             <div className="flex items-center space-x-3">
-              <div className="w-full h-1 rounded-full bg-gray-300">
-                <div className="w-1/2 h-full bg-green-700"></div>
+              <div className="w-full h-1 rounded-full bg-gray-300 overflow-hidden">
+                <div
+                  style={{ width: `${Math.round((Object.keys(companyInfo.company.company_info[0])?.length / 13) * 100)}%` }}
+                  className="h-full bg-green-700 rounded-full"
+                ></div>
               </div>
-              <p className="text-xs font-normal text-gray-600">50%</p>
+              <p className="text-xs font-normal text-gray-600">
+                {Math.round((Object.keys(companyInfo.company.company_info[0])?.length / 13) * 100)}%
+              </p>
             </div>
           </div>
         </Link>
