@@ -87,7 +87,7 @@ const MainDeveloper = () => {
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <div
-        style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
+        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: 'calc(100svh - 10rem)' }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-4 pb-24"
       >
         <div className="w-full mt-8 flex">
