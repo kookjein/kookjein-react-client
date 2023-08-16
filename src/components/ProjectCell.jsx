@@ -18,7 +18,7 @@ const ProjectCell = ({ project }) => {
           {project?.project_info[0].title[lang]}
         </p>
 
-        <div className="flex mt-6 text-gray-700 divide-x">
+        <div className="flex mt-6 text-green-800 divide-x">
           <div className="text-xs font-bold pr-3">{project?.project_info[0].budget.label}</div>
           <div className="text-xs px-3">
             {project?.project_info[0].method === "contract" ? "단기 프로젝트" : "인력 구인"}
@@ -27,7 +27,7 @@ const ProjectCell = ({ project }) => {
           <div className="text-xs px-3">
             마감일정 D - {moment(new Date()).diff(moment(project?.project_info[0].start_at), 'days')}
           </div>
-          <div className="text-xs px-3">최초 등록: {moment(project?.project_created_at).fromNow()}</div>
+          <div className="text-xs px-3 text-gray-500">최초 등록: {moment(project?.project_created_at).fromNow()}</div>
         </div>
 
         <div className="text-xs mt-4 line-clamp-4 tracking-tight w-full text-left break-keep">
