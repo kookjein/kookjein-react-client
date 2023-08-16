@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
@@ -6,12 +6,24 @@ import { RxCross2 } from "react-icons/rx";
 import { AiOutlineFile } from "react-icons/ai";
 import ProjectCell from "../components/ProjectCell";
 import ComposeJob from "../components/ComposeJob";
+import axios from "../utils/authAxios";
+import {useTranslation} from "react-i18next";
+import moment from "moment/moment";
 
 const JobPost = () => {
   const { jobId } = useParams();
   const developerInfo = useRef({});
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [composeModalIsOpen, setComposeModalOpen] = useState(false);
+  const [project, setProject] = useState(null);
+  const { i18n } = useTranslation("profile");
+  const lang = i18n.language.includes("en") ? "en" : "ko";
+
+  useEffect(()=>{
+    axios.get(`v1/project`, {params: {project_id: jobId}}).then((response)=>{
+      setProject(response.data)
+    })
+  }, [jobId])
 
   const Tags = ({ title }) => (
     <div className="text-xs px-3 py-1 rounded-full bg-green-800 bg-opacity-10 text-green-800 hover:bg-opacity-20 cursor-pointer">
@@ -99,7 +111,7 @@ const JobPost = () => {
     setComposeModalOpen(false);
   }
 
-  return (
+  return (project &&
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100 pb-12">
       <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
         <div className="w-full h-16 border-b flex items-center justify-between px-6">
@@ -109,7 +121,7 @@ const JobPost = () => {
           </button>
         </div>
 
-        <ProjectCell />
+        <ProjectCell project={project}/>
 
         <div className="px-6">
           <Title title="프로젝트 예산 제안" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
@@ -152,29 +164,27 @@ const JobPost = () => {
         <div className="w-full h-full my-8 flex border bg-white rounded-xl shadow-lg overflow-hidden pb-12">
           {/* LEFT PANEL */}
           <div className="w-full p-8 bg-white border-r">
-            <p className="text-xl font-bold text-gray-700 tracking-tight">020 커머스 서비스 플랫폼 개발 {jobId}</p>
-            <p className="text-xs text-gray-500 mt-2 tracking-tight">마감일정 D-4 - 등록시간: 1시간 전</p>
+            <p className="text-xl font-bold text-gray-700 tracking-tight">{project.project_info[0].title[lang]}</p>
+            <p className="text-xs text-gray-500 mt-2 tracking-tight">마감일정 D - {moment(project.project_info[0].start_at).diff(moment(new Date()), "days")}</p>
 
             <div className="py-6 border-t mt-8">
               <p className="text-gray-600 font-bold tracking-tight mb-6">프로젝트 개발 언어 및 환경</p>
               <div className="flex space-x-2">
-                <Tags title="React.js" />
-                <Tags title="Javascript" />
-                <Tags title="front-end" />
-                <Tags title="backend" />
-                <Tags title="aws" />
+                {project.project_info[0].tech.map((value) => (
+                  <Tags key={value.id} title={value.text} />
+                ))}
               </div>
             </div>
 
             <div className="py-6 border-t">
-              <SummaryCell title="프로젝트 방식" value="단기 프로젝트" />
-              <SummaryCell title="프로젝트 예산" value="500만원 ~ 1,000만원" />
-              <SummaryCell title="예상 진행 기간" value="3개월" />
-              <SummaryCell title="희망 착수일" value="2023년 8월 21일" />
+              <SummaryCell title="프로젝트 방식" value={project.project_info[0].method === "contract" ? "단기 프로젝트" : "인력 구인"} />
+              <SummaryCell title="프로젝트 예산" value={project.project_info[0].budget.label} />
+              <SummaryCell title="예상 진행 기간" value={`${project.project_info[0].duration}개월`} />
+              <SummaryCell title="희망 착수일" value={project.project_info[0].start_at} />
 
-              <SummaryCell title="프로젝트 분류" value="신규 개발" />
-              <SummaryCell title="프로젝트 카테고리" value="웹사이트" />
-              <SummaryCell title="현재 프로젝트 단계" value="아이디어 단계, 기획된 문서가 있습니다." />
+              <SummaryCell title="프로젝트 분류" value={project.project_info[0].type === "new" ? "신규 프로젝트" : "유지 보수"} />
+              <SummaryCell title="프로젝트 카테고리" value={project.project_info[0].category.map((value)=> {return value === "web" ? "웹사이트" : value === "mobile" ? "모바일 앱" : "기타 소프트웨어"}).join(', ')} />
+              <SummaryCell title="현재 프로젝트 단계" value={project.project_info[0].status.map((value)=> {return value === 0 ? "아이디어 단계" : value === 1 ? "기획된 문서가 있습니다" : value === 2 ? "디자인이 있습니다" : "MVP가 있습니다"}).join(', ')} />
             </div>
 
             {true && (
