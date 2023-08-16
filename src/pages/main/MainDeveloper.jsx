@@ -15,7 +15,7 @@ const MainDeveloper = () => {
   console.log("TODO", lang);
 
   useEffect(() => {
-    axios.get(`/v1/project/all/`).then((response) => {
+    axios.get(`/v1/project/all`).then((response) => {
       setProjects(response.data);
     });
   }, [userState]);
