@@ -15,7 +15,8 @@ const RightPanel = ({ assistantPlan }) => {
       currency: 'CURRENCY_KRW',
       channelKey: 'channel-key-abdd03be-58cd-4b13-b234-45a868c91e84', // 콘솔 결제 연동 화면에서 채널 연동 시 사용한 이름을 입력해주세요.
       payMethod: "CARD",
-    }).then((response)=>{
+    }).then((response)=> {
+      // eslint-disable-next-line
       const {paymentId, transactionType, txId, code, message} = response
       if (!code) navigate('/contract?flow=3')
     })
