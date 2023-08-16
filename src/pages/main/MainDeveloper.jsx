@@ -50,35 +50,30 @@ const MainDeveloper = () => {
       </div>
     );
     return (
-      <div className="flex space-x-6">
-        <div className="w-full border rounded-xl py-6 bg-white shadow-lg">
-          <div className="w-full items-center border-b">
-            <h1 className="text-xl font-bold mx-8 mb-3 text-gray-700">대시보드</h1>
+      <div className="w-full border rounded-xl bg-white shadow-lg">
+        <div className="w-full items-center border-b pt-6">
+          <h1 className="text-xl font-bold mx-8 mb-3 text-gray-700">대시보드</h1>
 
-            <div className="w-full h-12 space-x-3 px-6 flex items-center">
-              <TabButton title={"프로젝트 찾기"} />
-              <TabButton title={"진행중"} />
-              <TabButton title={"지원 현황"} />
-            </div>
+          <div className="w-full h-12 space-x-3 px-6 flex items-center">
+            <TabButton title={"프로젝트 찾기"} />
+            <TabButton title={"진행중"} />
+            <TabButton title={"지원 현황"} />
           </div>
-          <div className="">
-            {selectedTab === "진행중" ? (
-              <></>
-            ) : selectedTab === "지원 현황" ? (
-              <>
-                <ProjectCell />
-                <ProjectCell />
-              </>
-            ) : (
-              <>
-                {projects?.map((project) => (
-                  <ProjectCell key={project.project_id} project={project} />
-                ))}
-              </>
-            )}
-          </div>
-
-          <Empty />
+        </div>
+        <div className="divide-y h-full flex flex-col">
+          {selectedTab === "진행중" ? (
+            <>
+              <Empty />
+            </>
+          ) : selectedTab === "지원 현황" ? (
+            <>
+              <ProjectCell />
+              <ProjectCell />
+              <Empty />
+            </>
+          ) : (
+            projects?.map((project) => <ProjectCell key={project.project_id} project={project} />)
+          )}
         </div>
       </div>
     );
@@ -87,7 +82,7 @@ const MainDeveloper = () => {
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
       <div
-        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: 'calc(100svh - 10rem)' }}
+        style={{ maxWidth: "1280px", scrollbarWidth: 0, minHeight: "calc(100svh - 10rem)" }}
         className="w-screen sm:w-full h-full flex-shrink-0 sm:justify-around px-4 pb-24"
       >
         <div className="w-full mt-8 flex">

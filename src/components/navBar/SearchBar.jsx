@@ -10,7 +10,7 @@ const SearchBar = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search_item");
   const { userState } = useContext(AuthContext);
-  const [searchType, setSearchType] = useState("employee");
+  const [searchType, setSearchType] = useState(userState.user.userType);
   const [searchText, setSearchText] = useState(searchQuery || "");
 
   const handleKeyDown = (event) => {
@@ -20,7 +20,11 @@ const SearchBar = () => {
   };
 
   const search = () => {
-    navigate(searchType === "employee" ? `/browse-jobs?search_item=${searchText}` : `/browse?search_item=${searchText}`);
+    if (searchType === "employee") {
+      navigate(`/browse-jobs?search_item=${searchText}`);
+    } else {
+      navigate(`/browse?search_item=${searchText}`);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const SearchBar = () => {
     >
       <input
         className="h-full w-full font-nanum text-xs sm:text-sm pr-3 outline-none rounded-r-full"
-        placeholder={userState.user.userType === searchType ? t("placeholderEmployee") : t("placeholderEmployer")}
+        placeholder={searchType === "employee" ? t("placeholderEmployee") : t("placeholderEmployer")}
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
@@ -43,7 +47,7 @@ const SearchBar = () => {
         onClick={() => (searchType === "employee" ? setSearchType("employer") : setSearchType("employee"))}
         className="h-8 px-4 text-xs flex-shrink-0 flex items-center rounded-full border hover:bg-green-700 hover:text-white bg-gray-100 font-bold"
       >
-        {userState.user.userType === searchType ? "프로젝트 검색" : "개발자 검색"}
+        {searchType === "employee" ? "프로젝트 검색" : "개발자 검색"}
       </button>
       <button onClick={search} className="flex items-center justify-center">
         <IoSearch className="text-gray-400 w-5 h-5 absolute left-4 cursor-pointer hover:text-green-700" />

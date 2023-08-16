@@ -314,7 +314,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           {false ? (
             <div className="text-sm text-gray-600">※ 등록된 프로젝트가 없습니다.</div>
           ) : (
-            <div className="space-y-2">
+            <div className="flex flex-col divide-y">
               <ProjectCell />
               <ProjectCell />
             </div>

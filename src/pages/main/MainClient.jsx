@@ -38,9 +38,9 @@ const MainClient = () => {
 
     return (
       <div className="flex space-x-6">
-        <div className="w-full border rounded-xl py-6 bg-white shadow-lg">
+        <div className="w-full border rounded-xl bg-white shadow-lg">
           <div className="w-full items-center border-b">
-            <div className="flex justify-between w-full px-8">
+            <div className="flex justify-between w-full px-8 pt-6">
               <h1 className="text-xl font-bold mb-3 text-gray-700">대시보드</h1>
               <Link to="/post-job/flow-1">
                 <button className="h-9 px-6 bg-green-700 text-white rounded hover:brightness-125 text-sm">
@@ -54,7 +54,7 @@ const MainClient = () => {
               <TabButton title={"내 프로젝트"} />
             </div>
           </div>
-          <div className="">
+          <div className="flex flex-col divide-y">
             {selectedTab === "진행중" ? (
               <></>
             ) : (

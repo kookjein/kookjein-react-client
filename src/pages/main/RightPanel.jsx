@@ -138,7 +138,9 @@ const RightPanel = ({ selectedTab }) => {
             <div className="flex items-center space-x-3">
               <div className="w-full h-1 rounded-full bg-gray-300 overflow-hidden">
                 <div
-                  style={{ width: `${Math.round((Object.keys(companyInfo.company.company_info[0])?.length / 13) * 100)}%` }}
+                  style={{
+                    width: `${Math.round((Object.keys(companyInfo.company.company_info[0])?.length / 13) * 100)}%`,
+                  }}
                   className="h-full bg-green-700 rounded-full"
                 ></div>
               </div>
@@ -154,8 +156,8 @@ const RightPanel = ({ selectedTab }) => {
 
   const ClientHelp = () => (
     <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col p-6 bg-white shadow-lg space-y-4 text-gray-600">
-      <p className="text-sm break-keep font-bold">
-        안녕하세요. ****님의 프로젝트 성공을 돕기 위해 배정된 국제인 어시스턴트 장동해입니다.
+      <p className="text-sm break-keep ">
+        {myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 국제인 어시스턴트 장동해입니다.
       </p>
 
       <div className="flex space-x-3 items-center py-4">
