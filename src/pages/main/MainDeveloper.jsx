@@ -50,7 +50,7 @@ const MainDeveloper = () => {
       </div>
     );
     return (
-      <div className="w-full border rounded-xl bg-white shadow-lg">
+      <div className="w-full border rounded-xl bg-white shadow-lg overflow-hidden">
         <div className="w-full items-center border-b pt-6">
           <h1 className="text-xl font-bold mx-8 mb-3 text-gray-700">대시보드</h1>
 

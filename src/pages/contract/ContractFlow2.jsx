@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import RightPanel from "./RightPanel";
+import { useTranslation } from "react-i18next";
+import CheckFill from "../../assets/pricing/check_fill.png";
+import CheckEmpty from "../../assets/pricing/check_empty.png";
 
 const ContractFlow2 = () => {
+  const { t } = useTranslation("pricing");
+  const [assistantPlan, setAssistantPlan] = useState(0);
 
   const MilestoneCell = ({ order }) => (
     <div className="flex items-center space-x-4">
@@ -59,6 +64,60 @@ const ContractFlow2 = () => {
     </div>
   );
 
+  const PriceCard = ({ price, plan, text, includes, isYear, type }) => {
+    return (
+      <button
+        onClick={() => setAssistantPlan(type)}
+        style={{ height: "23rem" }}
+        className={`${
+          assistantPlan === type ? "ring-2 ring-green-700 bg-green-700 bg-opacity-10" : "ring-0"
+        } w-full border max-w-sm rounded-md p-8 px-6 flex flex-col`}
+      >
+        <div className="flex items-end space-x-2 mb-2">
+          <p style={{ color: "#272D37" }} className="text-xl font-bold">
+            {price === 0
+              ? t("second.card.free")
+              : isYear
+              ? `${price * 11}${t("second.card.currency")}`
+              : `${price}${t("second.card.currency")}`}
+          </p>
+          {price !== 0 && (
+            <p style={{ color: "#5F6D7E" }} className="text-xs mb-1">
+              {isYear ? t("second.card.year") : t("second.card.month")}
+            </p>
+          )}
+        </div>
+
+        <p className="text-sm font-bold mb-3 text-green-800">{plan}</p>
+        <p style={{ color: "#5F6D7E" }} className="text-xs break-keep mb-6 text-left">
+          {text}
+        </p>
+        <div className="w-full h-px bg-gray-200 mb-6" />
+
+        <div className="space-y-4">
+          <div className="flex">
+            <img className="w-4 object-contain" src={includes > 0 ? CheckFill : CheckEmpty} alt="" />
+            <p className="text-sm ml-3">{t("second.card.menu1")}</p>
+          </div>
+          <div className="flex">
+            <img className="w-4 object-contain" src={includes > 1 ? CheckFill : CheckEmpty} alt="" />
+            <p className="text-sm ml-3">{t("second.card.menu2")}</p>
+          </div>
+          <div className="flex">
+            <img className="w-4 object-contain" src={includes > 2 ? CheckFill : CheckEmpty} alt="" />
+            <p className={`${includes > 3 && "font-bold"} text-sm ml-3`}>
+              {includes > 3 ? t("second.card.menu3_diff") : t("second.card.menu3")}
+            </p>
+          </div>
+          <div className="flex">
+            <img className="w-4 object-contain" src={includes > 3 ? CheckFill : CheckEmpty} alt="" />
+            <p className="text-sm ml-3">{t("second.card.menu4")}</p>
+          </div>
+        </div>
+      </button>
+    );
+  };
+
   return (
     <div className="w-full mt-8 flex space-x-4">
       <div className="w-full px-6 pb-12 bg-white py-6 h-full rounded-lg border shadow-lg">
@@ -90,8 +149,17 @@ const ContractFlow2 = () => {
             <MonthlyPayment />
           </div>
         </div>
+
+        <div className="pt-12 border-t">
+          <p className="font-bold font-gray-600">마일스톤 설정 후 분할 지급</p>
+          <div className="flex space-x-2 w-full justify-center items-center mt-4">
+            <PriceCard price={0} plan={t("second.1.title")} text={t("second.1.text")} includes={2} type={0} />
+            <PriceCard price={40} plan={t("second.2.title")} text={t("second.2.text")} includes={3} type={1} />
+            <PriceCard price={160} plan={t("second.3.title")} text={t("second.3.text")} includes={4} type={2} />
+          </div>
+        </div>
       </div>
-      <RightPanel confirmed />
+      <RightPanel confirmed assistantPlan={assistantPlan} />
     </div>
   );
 };

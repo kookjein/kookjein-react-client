@@ -169,6 +169,7 @@ const Pricing = () => {
         </div>
       );
     };
+    
     return (
       <div
         style={{ backgroundColor: "#fff" }}

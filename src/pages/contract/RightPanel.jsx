@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-const RightPanel = () => {
+const RightPanel = ({ assistantPlan }) => {
   const [searchParams] = useSearchParams();
   const flowQuery = searchParams.get("flow");
   const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
@@ -88,6 +88,10 @@ const RightPanel = () => {
             <div className="w-full py-1 flex items-center text-sm justify-between">
               <p>서비스 수수료 10%</p>
               <p className="font-bold">30 만원</p>
+            </div>
+            <div className="w-full py-1 flex items-center text-sm justify-between">
+              <p>어시스턴트 플랜</p>
+              <p className="font-bold">{assistantPlan}</p>
             </div>
           </div>
         )}

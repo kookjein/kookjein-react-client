@@ -69,11 +69,11 @@ const Manage = () => {
             <EventCell title="개발자의 마일스톤 급여가 지급되었습니다." />
             <div className="mt-8 space-y-6 px-12 mb-8"></div>
             <EventCell title="프로젝트가 승인되었습니다." />
-            <div className="mt-8 space-y-6 px-12 mb-8"></div>
+            <div className="mt-8 space-y-6 px-12 mb-12"></div>
 
             <DateTag />
             <EventCell title="프로젝트가 제출되었습니다." />
-            <div className="mt-8 space-y-6 px-12 mb-8"></div>
+            <div className="mt-8 space-y-6 px-12 mb-12"></div>
 
             <DateTag />
             <EventCell title="마일스톤이 등록 되었습니다." />
@@ -90,17 +90,15 @@ const Manage = () => {
 
             <DateTag />
             <EventCell title="개발자 승인 대기중 (3일 안에 승인이 안나면 자동환불 처리됩니다.)" />
-            <div className="mt-8 space-y-6 px-12 mb-8"></div>
+            <div className="mt-8 space-y-6 px-12 mb-12"></div>
 
             <DateTag />
             <EventCell title="개발자 승인 완료 / 프로젝트 시작" />
-
-            <div className="mt-8 space-y-6 px-12 mb-8"></div>
+            <div className="mt-8 space-y-6 px-12 mb-12"></div>
 
             <DateTag />
             <EventCell title="개발자가 프로젝트를 제출했습니다. / 프로젝트 승인 대기중" />
-
-            <div className="mt-8 space-y-6 px-12 mb-8"></div>
+            <div className="mt-8 space-y-6 px-12 mb-12"></div>
 
             <DateTag />
             <EventCell title="프로젝트 승인 완료 / 마일스톤 #2의 에스크로 결제 완료" />
