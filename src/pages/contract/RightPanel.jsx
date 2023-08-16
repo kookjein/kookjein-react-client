@@ -1,9 +1,25 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 
 const RightPanel = ({ assistantPlan }) => {
   const [searchParams] = useSearchParams();
   const flowQuery = searchParams.get("flow");
+  const {PortOne} = window;
+  const navigate = useNavigate()
+  const requestPayment = () => {
+    PortOne.requestPayment({
+      storeId: 'store-98605057-b2d7-490c-b79a-6bb8e40bf143', // 가맹점 storeId로 변경해주세요.
+      paymentId: `paymentId_${Date.now()}`,
+      orderName: '모하메드 알가잘리',
+      totalAmount: 1000,
+      currency: 'CURRENCY_KRW',
+      channelKey: 'channel-key-abdd03be-58cd-4b13-b234-45a868c91e84', // 콘솔 결제 연동 화면에서 채널 연동 시 사용한 이름을 입력해주세요.
+      payMethod: "CARD",
+    }).then((response)=>{
+      const {paymentId, transactionType, txId, code, message} = response
+      if (!code) navigate('/contract?flow=3')
+    })
+  }
   const Tags = ({ title }) => <div className="text-xs px-2 border py-1 rounded">{title}</div>;
 
   return (
@@ -106,11 +122,9 @@ const RightPanel = ({ assistantPlan }) => {
         )}
 
         {flowQuery === "2" && (
-          <Link to="/contract?flow=3">
-            <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125">
-              에스크로 결제 진행
-            </button>
-          </Link>
+          <button className="mt-8 w-full h-12 bg-gray-800 rounded text-white font-bold hover:brightness-125" onClick={requestPayment}>
+            에스크로 결제 진행
+          </button>
         )}
       </div>
     </div>
