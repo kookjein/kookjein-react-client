@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import ProjectCell from "../../components/ProjectCell";
 import EmptyFile from "../../assets/empty-file.png";
 import RightPanel from "./RightPanel";
+import axios from "../../utils/authAxios";
 
 const MainClient = () => {
   const [selectedTab, setSelectedTab] = useState("진행중");
+  const [projects, setProjects] = useState();
+
+  useEffect(() => {
+    axios.get(`/v1/project/owner`).then((response) => {
+      setProjects(response.data);
+    });
+  }, []);
 
   const Dashboard = () => {
     const TabButton = ({ title }) => (
@@ -59,8 +67,9 @@ const MainClient = () => {
               <></>
             ) : (
               <>
-                <ProjectCell />
-                <ProjectCell />
+                {projects?.map((project) => (
+                  <ProjectCell key={project.project_id} project={project} />
+                ))}
               </>
             )}
           </div>
