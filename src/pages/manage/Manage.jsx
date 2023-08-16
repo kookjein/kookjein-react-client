@@ -62,7 +62,7 @@ const Manage = () => {
           <div className="w-full pb-12 bg-white h-full rounded-lg border shadow-lg">
             <div className="flex text-gray-600 tracking-tight border-b mb-8 h-14">
               <TabButton title={"관리 내역"} />
-              <TabButton title={"업무일지"} />
+              {/* <TabButton title={"업무일지"} /> */}
             </div>
 
             <DateTag />

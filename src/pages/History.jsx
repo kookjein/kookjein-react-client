@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const History = () => {
   const Cell = ({ date, status, method, badge }) => (
     <div className="h-14 w-full flex space-x-2 tracking-tight text-sm">
       <div className="w-24 flex-shrink-0 flex items-center ml-8 text-xs">{date}</div>
-      <div className="w-48 flex-shrink-0 flex items-center space-x-2 group cursor-pointer">
+      <div className="w-36 flex-shrink-0 flex items-center space-x-2 group cursor-pointer">
         <p className="group-hover:underline group-hover:text-green-700">장동해</p>
       </div>
       <div className="w-full flex items-center turncate space-x-2 group cursor-pointer">
@@ -13,7 +14,12 @@ const History = () => {
       </div>
       <div className="w-40 flex-shrink-0 flex items-center">{method}</div>
       <div className="w-32 flex-shrink-0 flex items-center">₩3,300,000</div>
-      <div className="w-36 flex-shrink-0 flex items-center pr-4">{status}</div>
+      <div className="w-36 flex-shrink-0 flex items-center">{status}</div>
+      <div className="w-28 flex-shrink-0 flex items-center justify-center text-blue-500 hover:brightness-125 text-sm">
+        <Link to="/manage">
+          <button>자세히 보기</button>
+        </Link>
+      </div>
     </div>
   );
 
@@ -28,11 +34,12 @@ const History = () => {
         <div className="w-full border rounded-lg bg-white shadow-lg overflow-hidden">
           <div className="w-full h-10  border-b flex text-xs font-bold text-gray-600 space-x-2">
             <p className="w-24 flex-shrink-0 flex items-center ml-8">일시</p>
-            <p className="w-48 flex-shrink-0 flex items-center">개발자 / 클라이언트</p>
+            <p className="w-36 flex-shrink-0 flex items-center">개발자 / 클라이언트</p>
             <p className="w-full flex items-center">프로젝트 제목</p>
             <p className="w-40 flex-shrink-0 flex items-center">프로젝트 방식</p>
             <p className="w-32 flex-shrink-0 flex items-center">결제 금액</p>
             <p className="w-36 flex-shrink-0 flex items-center pr-4">상태</p>
+            <div className="w-28 flex-shrink-0 flex items-center pr-4"></div>
           </div>
           <div className="divide-y">
             <Cell date="5월 14일" badge={"마일스톤 2"} status={"에스크로 결제완료"} method="마일스톤 단위 결제" />
