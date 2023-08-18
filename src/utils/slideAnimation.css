@@ -1,0 +1,21 @@
+.wrap .banner {
+  animation: banneranimation 40s infinite;
+  animation-timing-function: linear;
+  position: relative;
+}
+.wrap:hover .banner {
+  -webkit-animation-play-state: paused;
+  -moz-animation-play-state: paused;
+  -o-animation-play-state: paused;
+  animation-play-state: paused;
+}
+
+@keyframes banneranimation {
+  0% {
+    left: 1000px;
+  }
+
+  100% {
+    left: -1200px;
+  }
+}

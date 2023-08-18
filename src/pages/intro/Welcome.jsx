@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Hero1 from "../../assets/main/hero1.jpg";
-import Hero2 from "../../assets/main/hero2.jpg";
-import Hero3 from "../../assets/main/hero3.png";
-import Hero4 from "../../assets/main/hero4.png";
 import Client1 from "../../assets/main/client1.png";
 import Client2 from "../../assets/main/client2.png";
 import Client3 from "../../assets/main/client3.png";
@@ -23,15 +19,18 @@ import RightArrow from "../../assets/main/right_arrow.png";
 import Checkmark from "../../assets/main/checkmark.png";
 import TechStack from "../../assets/main/techstack.png";
 import Partner1 from "../../assets/main/partner1.png";
-import { AiFillStar } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import axios from "../../utils/authAxios";
 import CompanyCard from "../../components/CompanyCard";
+import { TypeAnimation } from "react-type-animation";
+import ProfileCard from "../../components/ProfileCard";
+import "../../utils/slideAnimation.css";
 
 const Welcome = () => {
   const { t } = useTranslation("welcome");
   const [companyArray, setCompanyArray] = useState([]);
+  const [employeeArray, setEmployeeArray] = useState({});
 
   useEffect(() => {
     axios
@@ -43,177 +42,116 @@ const Welcome = () => {
         console.log("V1/COMPANY/ALL ERROR : ", e);
       });
 
+    axios
+      .get(`/v1/user/employees`)
+      .then((response) => {
+        setEmployeeArray(response.data);
+      })
+      .catch((e) => {
+        console.log("V1/USER/EMPLOYEES ERROR : ", e);
+      });
+
     return () => {};
   }, []);
 
   const WelcomeSection = () => {
-    const [heroIndex, setHeroIndex] = useState(0);
-
-    function preloadImage(src) {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = function () {
-          resolve(img);
-        };
-        img.onerror = img.onabort = function () {
-          reject(src);
-        };
-        img.src = src;
-      });
-    }
-
-    const heros = [
-      {
-        image: Hero1,
-        title: t("hero1.title"),
-        name: t("hero1.name"),
-      },
-      {
-        image: Hero4,
-        title: t("hero2.title"),
-        name: t("hero2.name"),
-      },
-      {
-        image: Hero2,
-        title: t("hero3.title"),
-        name: t("hero3.name"),
-      },
-      {
-        image: Hero3,
-        title: t("hero4.title"),
-        name: t("hero4.name"),
-      },
-    ];
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (heroIndex === 3) {
-          setHeroIndex(0);
-        } else {
-          setHeroIndex(heroIndex + 1);
-        }
-      }, 6000);
-      return () => clearInterval(interval);
-    }, [heroIndex]);
-
-    useEffect(() => {
-      const preloadSrcList = [Hero1, Hero2, Hero3, Hero4];
-
-      let isCancelled = false;
-
-      async function effect() {
-        if (isCancelled) {
-          return;
-        }
-
-        const imagesPromiseList = [];
-        for (const i of preloadSrcList) {
-          imagesPromiseList.push(preloadImage(i));
-        }
-
-        await Promise.all(imagesPromiseList);
-
-        if (isCancelled) {
-          return;
-        }
-      }
-
-      effect();
-
-      return () => {
-        isCancelled = true;
-      };
-    }, []);
-    const HeroProfile = ({ img, title, name }) => (
-      <div
-        style={{
-          maxHeight: "30rem",
-          maxWidth: "30rem",
-          animation: "fade 6s infinite",
-        }}
-        className="relative w-full"
-      >
-        <div
-          className={`w-full sm:w-64 h-24 absolute flex flex-col justify-center px-4 bottom-0 right-0 z-30 items-end`}
-        >
-          <div className="space-x-1 flex text-yellow-500">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-          </div>
-          <p className="text-white text-sm mt-2 font-bold">{title}</p>
-          <p className="text-white text-sm mt-1 font-bold">{name}</p>
-        </div>
-        <img
-          src={img}
-          style={{
-            maxHeight: "30rem",
-            aspectRatio: 1,
-          }}
-          alt=""
-          className="object-cover rounded-3xl z-20 w-full h-full"
-          draggable={false}
-        />
-      </div>
-    );
     return (
       <div
-        style={{ minHeight: "42rem" }}
-        className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition bg-gradient-to-b from-green-900 to-emerald-900`}
+        style={{ background: "linear-gradient(180deg, #16653420, #ffffff)" }}
+        className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition`}
       >
-        <div
-          style={{ maxWidth: "1280px" }}
-          className="w-full relative h-full flex px-4 sm:flex-row flex-col items-center"
-        >
-          <div
-            style={{ maxWidth: "39rem" }}
-            className="flex flex-col justify-center h-full z-20 sm:mt-0 mt-48 px-4 sm:px-12"
-          >
-            <img src={t("welcomeText")} alt="" className="object-contain" draggable={false} />
-            <div className="w-full mt-8 flex justify-center sm:justify-start">
-              <Link to="/browse">
-                <button
-                  style={{ backgroundColor: "#1FAD72" }}
-                  className="text-white text px-4 py-2 rounded-full shadow hover:opacity-90 transition font-semibold"
-                >
-                  {t("welcomeButton")}
-                </button>
-              </Link>
-            </div>
-          </div>
-          <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
-            <HeroProfile img={heros[heroIndex].image} title={heros[heroIndex].title} name={heros[heroIndex].name} />
+        <div style={{ maxWidth: "1280px" }} className="w-full relative h-full px-4 flex flex-col items-center pt-24">
+          <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              "플랫폼 제작",
+              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              "웹 서비스 개발",
+              1000,
+              "개발자 구인",
+              1000,
+              "프론트엔드 제작",
+              1000,
+              "스타트업 MVP 제작",
+              1000,
+              "정부지원사업 외주 개발",
+              1000,
+              "어플리케이션 제작",
+              1000,
+            ]}
+            wrapper="span"
+            speed={25}
+            style={{ fontSize: "4em", display: "inline-block" }}
+            repeat={Infinity}
+            className="font-bold tracking-tight"
+          />
+          <p style={{ fontSize: "4em", display: "inline-block" }} className="font-bold leading-snug">
+            저렴하고 확실하게
+          </p>
+          <p
+            style={{ whiteSpace: "pre-line" }}
+            className="mt-8 text-xl text-gray-600 tracking-tight text-center leading-9"
+          >{`상위 3%의 해외 개발자를 국내 개발자 대비 \n40% 저렴한 비용으로 매칭해주는 플랫폼입니다.`}</p>
+
+          <div className="w-full flex justify-center space-x-4 mt-8">
+            <button className="text-white text-lg px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
+              무료로 프로젝트 등록하기
+            </button>
+            <button className="bg-white text-lg px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100">
+              소통이 걱정되시나요?
+            </button>
           </div>
         </div>
       </div>
     );
   };
 
-  const ClientSection = () => (
+  const HeroSection = () => (
     <div
-      style={{ backgroundColor: "#FAFAFD" }}
-      className="py-12 sm:py-0 w-screen sm:h-24 flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20"
+      className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition mt-12`}
     >
-      <p style={{ color: "#A5A5A5" }} className="font-semibold">
-        Trusted by:
-      </p>
-      <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
-
-      <img draggable={false} src={Client3} className="object-contain h-10" alt="" />
-      <img draggable={false} src={Client2} className="object-contain h-6" alt="" />
-      <img draggable={false} src={Client4} className="object-contain h-7" alt="" />
-      <img src={Client1} draggable={false} className="object-contain h-8" alt="" />
+      <div style={{ maxWidth: "1280px" }} className="w-full relative h-full px-4 flex flex-col items-center">
+        <div className="mt-24 w-full px-4 sm:mb-12 mb-24">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">이달의 우수 개발자</p>
+          <div className="w-full flex justify-around space-x-4">
+            {Object.entries(employeeArray)
+              .filter((item, idx) => item[1].user_img)
+              .filter(
+                (item, idx) =>
+                  item[1].user_id === 6 || item[1].user_id === 8 || item[1].user_id === 10 || item[1].user_id === 12
+              )
+              .map((item, index) => (
+                <ProfileCard key={index} item={item} isEmployer={false} />
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  const ClientSection = () => (
+    <div className="flex flex-col items-center py-12">
+      <p className="font-semibold text-gray-600">국제인은 아래의 기업과의 협업으로 신뢰도를 쌓고 있습니다</p>
+      <div className="py-16 w-screen flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20">
+        <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
+        <img draggable={false} src={Client3} className="object-contain h-10" alt="" />
+        <img draggable={false} src={Client2} className="object-contain h-6" alt="" />
+        <img draggable={false} src={Client4} className="object-contain h-7" alt="" />
+        <img draggable={false} src={Partner1} className="object-contain h-12" alt="" />
+        <img src={Client1} draggable={false} className="object-contain h-8" alt="" />
+      </div>
     </div>
   );
 
   const SecondSection = () => (
-    <div className="flex w-screen items-center justify-center sm:flex-row flex-col pb-24">
+    <div
+      style={{ backgroundColor: "#FAFAFD" }}
+      className="flex w-screen items-center justify-center sm:flex-row flex-col pb-24"
+    >
       <div
         style={{ maxWidth: "1280px" }}
         className="flex items-center justify-between sm:flex-row flex-col px-4 sm:space-x-24 sm:pr-12"
       >
-        <img src={t("second.lanyard")} alt="" className="max-w-xs -mt-12" draggable={false} />
+        <img src={t("second.lanyard")} alt="" className="max-w-xs" draggable={false} />
         <div className="flex flex-col items-center sm:ml-16 sm:mt-32 mt-12">
           <p className="text-3xl font-bold">{t("second.title1")}</p>
           <p className="text-3xl font-bold mt-2">{t("second.title2")}</p>
@@ -426,7 +364,7 @@ const Welcome = () => {
   };
 
   const SixthSection = ({ companies }) => (
-    <div className="mt-12">
+    <div className="mt-12 mb-24">
       <div
         style={{ maxWidth: "1280px", scrollbarWidth: 0 }}
         className="w-screen sm:w-full h-full px-6 flex-shrink-0 bg-white space-x-1 sm:justify-around"
@@ -442,20 +380,6 @@ const Welcome = () => {
   );
 
   const SeventhSection = () => {
-    return (
-      <div className="flex w-screen items-center justify-center sm:flex-row flex-col mt-12 mb-24">
-        <div style={{ maxWidth: "1280px" }} className="w-full px-6">
-          <p className="text-xl font-bold">{t("sixth.title")}</p>
-          <p className="mt-2 mb-16">{t("sixth.subtitle")}</p>
-          <div className="flex w-full justify-center">
-            <img src={Partner1} alt="" className="h-20 w object-contain" draggable={false} />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const EighthSection = () => {
     return (
       <div
         style={{ backgroundColor: "#0E5034" }}
@@ -479,6 +403,7 @@ const Welcome = () => {
   return (
     <div className="w-full h-full flex flex-col items-center overflow-x-hidden">
       <WelcomeSection />
+      <HeroSection />
       <ClientSection />
       <SecondSection />
       <ThirdSection />
@@ -486,7 +411,6 @@ const Welcome = () => {
       <FifthSection />
       <SixthSection companies={companyArray} />
       <SeventhSection />
-      <EighthSection />
     </div>
   );
 };

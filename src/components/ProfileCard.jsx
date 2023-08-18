@@ -27,7 +27,7 @@ const ProfileCard = ({ item, isEmployer }) => {
       <Link to={`/user/${info.user_id}`}>
         <div
           style={{ color: "#272D37" }}
-          className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
+          className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition flex-shrink-0"
         >
           <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
             <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
@@ -60,8 +60,8 @@ const ProfileCard = ({ item, isEmployer }) => {
     return (
       <Link to={`/user/${info.user_id}`}>
         <div
-          style={{ color: "#272D37" }}
-          className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition"
+          style={{ color: "#272D37", minWidth:'18rem' }}
+          className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-green-700 hover:bg-opacity-10 transition flex-shrink-0 shadow"
         >
           <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
             <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
@@ -95,7 +95,7 @@ const ProfileCard = ({ item, isEmployer }) => {
               {info.user_profile[0].oneLiner?.[lang]}
             </p>
 
-            <div className="flex flex items-center space-x-2 overflow-hidden">
+            <div className="flex items-center space-x-2 overflow-hidden">
               {info.user_profile[0].tech?.slice(0, 3).map((item, index) => (
                 <Tags key={index} item={item.text} size="sm" />
               ))}
