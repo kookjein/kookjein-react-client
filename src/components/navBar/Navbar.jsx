@@ -20,8 +20,8 @@ const Navbar = ({ hasNewMessageBubble }) => {
   const { userState } = useContext(AuthContext);
 
   const NavButton = ({ title }) => (
-    <button className="flex items-center font-light group transition h-9 px-3 text-gray-700">
-      <p className="group-hover:opacity-75 transition font-bold">{title}</p>
+    <button className="flex items-center group transition h-9 px-3 text-gray-700 flex-shrink-0">
+      <p className="group-hover:opacity-75 transition font-bold tracking-tight">{title}</p>
       <BiChevronDown className={`opacity-75 text-xl`} />
     </button>
   );
@@ -48,11 +48,6 @@ const Navbar = ({ hasNewMessageBubble }) => {
               <Dropdown button={<NavButton title={t("service.service")} />} dropdown={<SolutionDropdown />} />
               <Dropdown button={<NavButton title={t("company.company")} />} dropdown={<CompanyDropdown />} />
               <Dropdown button={<NavButton title={t("resources.resources")} />} dropdown={<ResourcesDropdown />} />
-              <Link to="/pricing">
-                <button className="hidden sm:flex items-center font-bold group transition hover:opacity-75 px-3">
-                  <p>{t("pricing")}</p>
-                </button>
-              </Link>
             </>
           ) : (
             <div className="flex space-x-6">
@@ -82,7 +77,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
           )}
         </div>
 
-        <div className="flex items-center justify-end w-full">
+        <div className="items-center justify-end w-full sm:flex hidden">
           {userState.isAuthenticated && <SearchBar />}
           <div className="flex space-x-4 sm:space-x-7 sm:text-base text-sm justify-end items-center flex-shrink-0 pl-4 sm:pl-8">
             {userState.isAuthenticated ? (
@@ -91,7 +86,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
                 <ProfileButton />
               </>
             ) : (
-              <div className="flex items-center space-x-3">
+              <div className="items-center space-x-3 flex">
                 <Link to="/login">
                   <button className="text-white text px-5 py-2 rounded hover:opacity-90 transition font-semibold text-sm bg-green-700">
                     {t("signin")}

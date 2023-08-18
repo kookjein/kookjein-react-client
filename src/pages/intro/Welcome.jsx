@@ -64,41 +64,40 @@ const Welcome = () => {
           <TypeAnimation
             sequence={[
               // Same substring at the start will only be typed out once, initially
-              "플랫폼 제작",
+              t("type.1"),
               1000, // wait 1s before replacing "Mice" with "Hamsters"
-              "웹 서비스 개발",
+              t("type.2"),
               1000,
-              "개발자 구인",
+              t("type.3"),
               1000,
-              "프론트엔드 제작",
+              t("type.4"),
               1000,
-              "스타트업 MVP 제작",
+              t("type.5"),
               1000,
-              "정부지원사업 외주 개발",
+              t("type.6"),
               1000,
-              "어플리케이션 제작",
+              t("type.7"),
               1000,
             ]}
             wrapper="span"
             speed={25}
-            style={{ fontSize: "4em", display: "inline-block" }}
             repeat={Infinity}
-            className="font-bold tracking-tight"
+            className="font-bold tracking-tight sm:text-6xl text-4xl"
           />
-          <p style={{ fontSize: "4em", display: "inline-block" }} className="font-bold leading-snug">
-            저렴하고 확실하게
-          </p>
+          <p className="font-bold leading-relaxed sm:text-6xl text-4xl">{t("type.fixed")}</p>
           <p
             style={{ whiteSpace: "pre-line" }}
-            className="mt-8 text-xl text-gray-600 tracking-tight text-center leading-9"
-          >{`상위 3%의 해외 개발자를 국내 개발자 대비 \n40% 저렴한 비용으로 매칭해주는 플랫폼입니다.`}</p>
+            className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9"
+          >
+            {t("subtitle")}
+          </p>
 
-          <div className="w-full flex justify-center space-x-4 mt-8">
-            <button className="text-white text-lg px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
-              무료로 프로젝트 등록하기
+          <div className="w-full flex justify-center space-x-4 mt-8 tracking-tight">
+            <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
+              {t("create")}
             </button>
-            <button className="bg-white text-lg px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100">
-              소통이 걱정되시나요?
+            <button className="bg-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100">
+              {t("problem")}
             </button>
           </div>
         </div>
@@ -112,8 +111,8 @@ const Welcome = () => {
     >
       <div style={{ maxWidth: "1280px" }} className="w-full relative h-full px-4 flex flex-col items-center">
         <div className="mt-24 w-full px-4 sm:mb-12 mb-24">
-          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">이달의 우수 개발자</p>
-          <div className="w-full flex justify-around space-x-4">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("best")}</p>
+          <div className="w-full flex sm:flex-row flex-col justify-around sm:space-x-4 space-y-4 sm:space-y-0">
             {Object.entries(employeeArray)
               .filter((item, idx) => item[1].user_img)
               .filter(
@@ -130,7 +129,7 @@ const Welcome = () => {
   );
   const ClientSection = () => (
     <div className="flex flex-col items-center py-12">
-      <p className="font-semibold text-gray-600">국제인은 아래의 기업과의 협업으로 신뢰도를 쌓고 있습니다</p>
+      <p className="font-semibold text-gray-600 text-center">{t("trust")}</p>
       <div className="py-16 w-screen flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20">
         <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
         <img draggable={false} src={Client3} className="object-contain h-10" alt="" />

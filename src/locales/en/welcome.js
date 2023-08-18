@@ -7,22 +7,24 @@ const welcome = {
   welcomeButton: "Get started Free",
   companies: "Companies",
 
-  hero1: {
-    title: "Pictologi Co.LTD, Frontend",
-    name: "Mo Alghazali",
+  type: {
+    1: "Platform Development",
+    2: "Web Service Development",
+    3: "Developer Recruitment",
+    4: "Frontend Development",
+    5: "Startup MVP Development",
+    6: "Project Outsourcing",
+    7: "Application Development",
+    fixed: "Affordable and Reliable",
   },
-  hero2: {
-    title: "Pictologi Co.LTD, Full Stack",
-    name: "Sereen Daud",
-  },
-  hero3: {
-    title: "Playnow Inc, Node JS",
-    name: "Ahmad Safi",
-  },
-  hero4: {
-    title: "VerticV Inc, iOS developer",
-    name: "Andre volchki",
-  },
+
+  subtitle:
+    "Kookjein is a platform that matches the top 3% of international developers\nwith a 40% lower cost compared to domestic developers.",
+  create: "Register Your Project for Free",
+  problem: "Worried about communication?",
+  best: "Top Developers of the Month",
+  trust: "Kookjein has built trust through collaboration with the following companies:",
+
   second: {
     lanyard: LanyardEng,
     title1: "Over 3,000 verified",
