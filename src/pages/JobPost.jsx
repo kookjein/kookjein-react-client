@@ -16,6 +16,8 @@ const JobPost = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [composeModalIsOpen, setComposeModalOpen] = useState(false);
   const [project, setProject] = useState(null);
+  const budgetInputRef = useRef(null);
+  const durationInputRef = useRef(null);
   const { i18n } = useTranslation("profile");
   const lang = i18n.language.includes("en") ? "en" : "ko";
 
@@ -128,6 +130,7 @@ const JobPost = () => {
           <div className="flex items-center mt-4 space-x-3">
             <p className="text-gray-700">₩</p>
             <input
+              ref={budgetInputRef}
               placeholder={"숫자만 기입. 예시) 300"}
               className="w-full h-10 rounded-lg border outline-green-600 px-3"
               type="number"
@@ -137,6 +140,7 @@ const JobPost = () => {
           <Title title="프로젝트 진행 기간 제안" subtitle="프로젝트 예상 진행 기간을 선택해 주세요." />
           <div className="flex items-center mt-4 space-x-3">
             <input
+              ref={durationInputRef}
               placeholder={"숫자만 기입. 예시) 3"}
               className="w-54 h-10 rounded-lg border outline-green-600 px-3"
               type="number"
@@ -144,7 +148,17 @@ const JobPost = () => {
             />
             <p className="text-gray-700">개월</p>
           </div>
-          <button className="h-10 w-full mt-12 bg-green-700 text-white rounded hover:brightness-125 font-bold">
+          <button className="h-10 w-full mt-12 bg-green-700 text-white rounded hover:brightness-125 font-bold"
+                  onClick={()=>{
+                    if (budgetInputRef.current.value && durationInputRef.current.value) {
+                      axios.post('v1/project/apply', {
+                          project_id: project.project_id,
+                          project_proposal: [{
+                              budget: budgetInputRef.current.value,
+                              duration: durationInputRef.current.value
+                          }]
+                      }).then().catch(err => console.log(err))}
+                  }}>
             프로젝트 지원
           </button>
         </div>
@@ -200,39 +214,20 @@ const JobPost = () => {
 
             <div className="py-6 border-t">
               <p className="text-gray-600 font-bold tracking-tight mb-6">프로젝트 자료</p>
-              <button className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm hover:bg-gray-100 transition">
-                <div className="flex items-center space-x-2">
-                  <AiOutlineFile />
-                  <p>FILE_NAME</p>
-                </div>
-              </button>
+                {project.project_info[0].files?.map((value, index) => {
+                  return <button className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm hover:bg-gray-100 transition" key={index}>
+                    <div className="flex items-center space-x-2">
+                      <AiOutlineFile />
+                      <p>{value.split('/').slice(-1)[0]}</p>
+                    </div>
+                  </button>
+                })}
             </div>
 
             <div className="py-6 border-t">
               <p className="text-gray-600 font-bold tracking-tight mb-6">프로젝트 상세</p>
               <div style={{ whiteSpace: "pre-line" }} className="text-sm mt-3 w-full">
-                {`※ 프로젝트의 진행 방식 \n
-                - 최초 온라인 인터뷰 
-                - 계약 방식 : 기간제 계약 
-                - 근무 형태 : 주 5회 풀상주 
-                - 근무지 : 서울특별시, 영등포구 
-                - 근무기간 : 6개월 ~ 1년 :: 협의 가능 
-                - 근무시간 : 오전 9시 ~ 오후 6시
-                - 희망 근무 시작일 : 8월 1째주 이내 (ASAP)\n 
-                - 개인장비 지참가능합니다. 필요 시 지원가능합니다. 
-                - 연차 협의 가능합니다. + 필요인력 및 월급여 
-                - front-end | 중고급(6년 차 이 개인장비 지참가능합니다. 필요 시
-                지원가능합니다. 
-                - 연차 협의 가능합니다. + 필요인력 및 월급여 - front-end프로젝트의 진행 방식 - 최초
-                온라인 인터뷰 - 계약 방식 : 기간제 계약 - 근무 형태 : 주 5회 풀상주 - 근무지 : 서울특별시, 영등포구 -
-                근무기간 : 6개월 ~ 1년 :: 협의 가능 - 근무시간 : 오전 9시 ~ 오후 6시 - 희망 근무 시작일 : 8월 1째주 이내
-                (ASAP) - 개인장비 지참가능합니다. 필요 시 지원가능합니다. - 연차 협의 가능합니다. + 필요인력 및 월급여 -
-                front-end | 중고급(6년 차 이 개인장비 지참가능합니다.\n\n 필요 시 지원가능합니다. - 연차 협의 가능합니다. +
-                필요인력 및 월급여 - front-end프로젝트의 진행 방식 - 최초 온라인 인터뷰 - 계약 방식 : 기간제 계약 - 근무
-                형태 : 주 5회 풀상주 - 근무지 : 서울특별시, 영등포구 - 근무기간 : 6개월 ~ 1년 :: 협의 가능 - 근무시간 :
-                오전 9시 ~ 오후 6시 - 희망 근무 시작일 : 8월 1째주 이내 (ASAP) - 개인장비 지참가능합니다. 필요 시
-                지원가능합니다. - 연차 협의 가능합니다. + 필요인력 및 월급여 - front-end | 중고급(6년 차 이 개인장비
-                지참가능합니다. 필요 시 지원가능합니다. - 연차 협의 가능합니다. + 필요인력 및 월급여 - front-end`}
+                {project.project_info[0].detail}
               </div>
             </div>
           </div>
