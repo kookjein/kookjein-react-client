@@ -44,7 +44,7 @@ const JobPost = () => {
     </div>
   );
 
-  const CandidateCell = () => (
+  const CandidateCell = ({user}) => (
     <div className="w-full ring-1 ring-gray-200 rounded-sm overflow-hidden hover:shadow filter transition h-56 items-center p-4 bg-white ">
       <button className="flex items-center hover:text-green-700 cursor-pointer w-full">
         <img
@@ -59,8 +59,8 @@ const JobPost = () => {
           className="h-12 w-12 rounded-full border bg-gray-100"
         />
         <div className="ml-4 w-full flex flex-col text-left">
-          <p className="font-bold text-lg">Andrew Jang</p>
-          <p className="text-xs">Title/Position</p>
+          <p className="font-bold text-lg">{user[1][0].name[lang]}</p>
+          <p className="text-xs">{user[1][0].oneLiner?.[lang]}</p>
         </div>
       </button>
       <div className="flex items-center mt-3">
@@ -72,12 +72,7 @@ const JobPost = () => {
       </div>
 
       <p style={{ fontSize: "11px" }} className="text-xs line-clamp-3 mt-3 text-gray-500 w-full text-left break-keep">
-        나는 최신 기술을 사용하여 현대적이고 절삭적인 웹 애플리케이션을 만드는 데 깊은 열정을 가진 활기차고 다재다능한
-        풀스택 웹 개발자입니다. 이제까지 다양한 팀에서 일해 본 경험은 다양한 업무 환경에 대한 적응력을 향상시켰습니다.
-        각각의 프로젝트에서 긍정적인 태도로 일에 임하며 다른 사람들로부터 배울 수 있는 것을 즐기고 가능한 한 내 지식을
-        공유하려 합니다. 영업을 확장하고 새로운 도전에 대해 받아들이며 지속적인 자기 개선의 여정을 추구하는 기회를
-        지속적으로 찾고 있습니다. 최고의 품질을 유지하고 능력의 한계를 넓히도록 노력함으로써 최종적인 목표를 달성하기를
-        바랍니다.
+        {user[1][0].description?.[lang]}
       </p>
       <div className="flex space-x-3 mt-4">
         <button
@@ -203,11 +198,13 @@ const JobPost = () => {
 
             {true && (
               <div className="py-6 border-t">
-                <p className="text-gray-600 font-bold tracking-tight mb-6">지원자 - 3</p>
+                <p className="text-gray-600 font-bold tracking-tight mb-6">지원자 - {project.applicants.length}</p>
                 <div className="grid grid-cols-2 gap-4 mt-4">
-                  <CandidateCell />
-                  <CandidateCell />
-                  <CandidateCell />
+                  {
+                    project.applicants?.map((value, index) => (
+                      <CandidateCell key={index} user={JSON.parse(value)}/>
+                    ))
+                  }
                 </div>
               </div>
             )}
