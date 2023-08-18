@@ -1,9 +1,5 @@
-import WelcomeEng from "../../assets/main/welcome_eng.png";
-import LanyardEng from "../../assets/main/lanyard_eng.png";
-
 const welcome = {
   mode: "en",
-  welcomeText: WelcomeEng,
   welcomeButton: "Get started Free",
   companies: "Companies",
 
@@ -25,8 +21,9 @@ const welcome = {
   best: "Top Developers of the Month",
   trust: "Kookjein has built trust through collaboration with the following companies:",
 
+  find: "Search developers →",
+
   second: {
-    lanyard: LanyardEng,
     title1: "Over 3,000 verified",
     title2: "global developers.",
     body1: "Skills range from UI/UX, front-end, back-end,",

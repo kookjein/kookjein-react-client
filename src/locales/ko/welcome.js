@@ -1,9 +1,5 @@
-import WelcomeKor from "../../assets/main/welcome_kor.png";
-import LanyardKor from "../../assets/main/lanyard_kor.png";
-
 const welcome = {
   mode: "ko",
-  welcomeText: WelcomeKor,
   welcomeButton: "해외 개발자 둘러보기",
   companies: "국제인을 사용하는 기업",
 
@@ -23,9 +19,10 @@ const welcome = {
   problem: "소통이 걱정되시나요?",
   best: "이달의 우수 개발자",
   trust: "국제인은 아래의 기업과의 협업으로 신뢰도를 쌓고 있습니다",
+  
+  find: "개발자 찾기 →",
 
   second: {
-    lanyard: LanyardKor,
     title1: "3000명의 글로벌 인재를",
     title2: "만나보세요.",
     body1: "UI/UX 퍼블리싱부터, 프런트엔드, 백엔드,",

@@ -65,19 +65,19 @@ const Welcome = () => {
             sequence={[
               // Same substring at the start will only be typed out once, initially
               t("type.1"),
-              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              3000, // wait 1s before replacing "Mice" with "Hamsters"
               t("type.2"),
-              1000,
+              3000,
               t("type.3"),
-              1000,
+              3000,
               t("type.4"),
-              1000,
+              3000,
               t("type.5"),
-              1000,
+              3000,
               t("type.6"),
-              1000,
+              3000,
               t("type.7"),
-              1000,
+              3000,
             ]}
             wrapper="span"
             speed={25}
@@ -127,6 +127,7 @@ const Welcome = () => {
       </div>
     </div>
   );
+
   const ClientSection = () => (
     <div className="flex flex-col items-center py-12">
       <p className="font-semibold text-gray-600 text-center text-sm sm:text-md">{t("trust")}</p>
@@ -142,51 +143,36 @@ const Welcome = () => {
   );
 
   const SecondSection = () => (
-    <div
-      style={{ backgroundColor: "#FAFAFD" }}
-      className="flex w-screen items-center justify-center sm:flex-row flex-col pb-24"
-    >
-      <div
-        style={{ maxWidth: "1280px" }}
-        className="flex items-center justify-between sm:flex-row flex-col px-4 sm:space-x-24 sm:pr-12"
-      >
-        <img src={t("second.lanyard")} alt="" className="max-w-xs" draggable={false} />
-        <div className="flex flex-col items-center sm:ml-16 sm:mt-32 mt-12">
-          <p className="text-3xl font-bold">{t("second.title1")}</p>
-          <p className="text-3xl font-bold mt-2">{t("second.title2")}</p>
-          <p className="mt-12">{t("second.body1")}</p>
-          <p>{t("second.body2")}</p>
-          <p className="mt-6">{t("second.body3")}</p>
-          <p>{t("second.body4")}</p>
+    <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5">
+      <div style={{ maxWidth: "1280px" }} className="flex sm:flex-row flex-col items-center px-6 sm:space-x-8 w-full">
+        <img
+          src={TechStack}
+          alt=""
+          className="w-full -ml-12 max-w-3xl hidden sm:flex object-contain"
+          draggable={false}
+        />
+        <div className="flex flex-col tracking-tight w-full">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">국제인의 개발자들</p>
+          <p className="text-2xl sm:text-4xl font-bold">{t("second.title1")}</p>
+          <p className="text-2xl sm:text-4xl font-bold mt-2">{t("second.title2")}</p>
+          <p className="mt-8 break-keep">
+            {t("second.body1")} {t("second.body2")} {t("second.body3")} {t("second.body4")}
+          </p>
 
-          <div className="mt-16 text-xs w-full flex justify-end">{t("second.timestamp")}</div>
+          <Link to="/browse">
+            <button className="text-blue-500 mt-12 text-lg hover:underline">{t("find")}</button>
+          </Link>
+          <div className="w-full h-px bg-gray-300 my-8" />
+          <div>
+            <p className="text-lg sm:text-xl font-bold break-keep">{t("third.title1")} {t("third.title2")}</p>
+            <p className="mt-8">{t("third.body1")}</p>
+            <p className="">{t("third.body2")}</p>
+            <p className="mt-4">{t("third.body3")}</p>
+            <p>{t("third.body4")}</p>
+            <p className="mt-4">{t("third.body5")}</p>
+            <p>{t("third.body6")}</p>
+          </div>
         </div>
-      </div>
-    </div>
-  );
-
-  const ThirdSection = () => (
-    <div
-      style={{ backgroundColor: "#FAFAFD" }}
-      className="flex w-screen items-center justify-center sm:flex-row flex-col-reverse py-24"
-    >
-      <div
-        style={{ maxWidth: "1280px" }}
-        className="flex items-center justify-center sm:flex-row flex-col-reverse sm:space-x-24 sm:pl-12"
-      >
-        <div className="flex flex-col items-center mt-12 sm:mt-0">
-          <p className="text-3xl font-bold">{t("third.title1")}</p>
-          <p className="text-3xl font-bold mt-2">{t("third.title2")}</p>
-          <p className="mt-12">{t("third.body1")}</p>
-          <p className="">{t("third.body2")}</p>
-          <p className="mt-6">{t("third.body3")}</p>
-          <p>{t("third.body4")}</p>
-          <p className="mt-6">{t("third.body5")}</p>
-          <p>{t("third.body6")}</p>
-
-          <div className="mt-16 text-xs w-full flex justify-end">{t("third.timestamp")}</div>
-        </div>
-        <img src={TechStack} alt="" className="w-screen sm:w-auto max-w-lg px-4" draggable={false} />
       </div>
     </div>
   );
@@ -405,7 +391,6 @@ const Welcome = () => {
       <HeroSection />
       <ClientSection />
       <SecondSection />
-      <ThirdSection />
       <FourthSection />
       <FifthSection />
       <SixthSection companies={companyArray} />
