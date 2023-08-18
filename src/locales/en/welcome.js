@@ -21,9 +21,9 @@ const welcome = {
   best: "Top Developers of the Month",
   trust: "Kookjein has built trust through collaboration with the following companies:",
 
-  find: "Search developers →",
 
   second: {
+    subtitle: "Developers of Kookjein",
     title1: "Over 3,000 verified",
     title2: "global developers.",
     body1: "Skills range from UI/UX, front-end, back-end,",
@@ -31,6 +31,7 @@ const welcome = {
     body3: "Developers who are verified through pre-test and",
     body4: "our rating systems are ready to be deployed.",
     timestamp: "As of February 2023",
+    find: "Search developers →",
   },
   third: {
     title1: "40+ wide range of",

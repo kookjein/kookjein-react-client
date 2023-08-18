@@ -152,7 +152,7 @@ const Welcome = () => {
           draggable={false}
         />
         <div className="flex flex-col tracking-tight w-full">
-          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">국제인의 개발자들</p>
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("second.subtitle")}</p>
           <p className="text-2xl sm:text-4xl font-bold">{t("second.title1")}</p>
           <p className="text-2xl sm:text-4xl font-bold mt-2">{t("second.title2")}</p>
           <p className="mt-8 break-keep">
@@ -160,7 +160,7 @@ const Welcome = () => {
           </p>
 
           <Link to="/browse">
-            <button className="text-blue-500 mt-12 text-lg hover:underline">{t("find")}</button>
+            <button className="text-blue-500 mt-12 text-lg hover:underline">{t("second.find")}</button>
           </Link>
           <div className="w-full h-px bg-gray-300 my-8" />
           <div>
