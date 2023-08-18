@@ -82,9 +82,9 @@ const Welcome = () => {
             wrapper="span"
             speed={25}
             repeat={Infinity}
-            className="font-bold tracking-tight sm:text-6xl text-4xl"
+            className="font-bold tracking-tight sm:text-6xl text-3xl text-center"
           />
-          <p className="font-bold leading-relaxed sm:text-6xl text-4xl">{t("type.fixed")}</p>
+          <p className="font-bold leading-relaxed sm:leading-relaxed sm:text-6xl text-3xl">{t("type.fixed")}</p>
           <p
             style={{ whiteSpace: "pre-line" }}
             className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9"
@@ -92,7 +92,7 @@ const Welcome = () => {
             {t("subtitle")}
           </p>
 
-          <div className="w-full flex justify-center space-x-4 mt-8 tracking-tight">
+          <div className="w-full flex sm:flex-row flex-col justify-center sm:space-y-0 space-y-4 sm:space-x-4 mt-8 tracking-tight">
             <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
               {t("create")}
             </button>
@@ -110,7 +110,7 @@ const Welcome = () => {
       className={`flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition mt-12`}
     >
       <div style={{ maxWidth: "1280px" }} className="w-full relative h-full px-4 flex flex-col items-center">
-        <div className="mt-24 w-full px-4 sm:mb-12 mb-24">
+        <div className="mt-24 w-full sm:mb-12 mb-24">
           <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("best")}</p>
           <div className="w-full flex sm:flex-row flex-col justify-around sm:space-x-4 space-y-4 sm:space-y-0">
             {Object.entries(employeeArray)
@@ -129,7 +129,7 @@ const Welcome = () => {
   );
   const ClientSection = () => (
     <div className="flex flex-col items-center py-12">
-      <p className="font-semibold text-gray-600 text-center">{t("trust")}</p>
+      <p className="font-semibold text-gray-600 text-center text-sm sm:text-md">{t("trust")}</p>
       <div className="py-16 w-screen flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20">
         <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
         <img draggable={false} src={Client3} className="object-contain h-10" alt="" />

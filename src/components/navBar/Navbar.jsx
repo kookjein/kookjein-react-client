@@ -43,38 +43,40 @@ const Navbar = ({ hasNewMessageBubble }) => {
             </Link>
           </div>
 
-          {!userState.isAuthenticated ? (
-            <>
-              <Dropdown button={<NavButton title={t("service.service")} />} dropdown={<SolutionDropdown />} />
-              <Dropdown button={<NavButton title={t("company.company")} />} dropdown={<CompanyDropdown />} />
-              <Dropdown button={<NavButton title={t("resources.resources")} />} dropdown={<ResourcesDropdown />} />
-            </>
-          ) : (
-            <div className="flex space-x-6">
-              {userState.user.userType === "employee" ? (
-                <></>
-              ) : (
-                <Link to={"/browse"}>
-                  <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">
-                    개발자 찾기
+          <div className="items-center sm:flex hidden">
+            {!userState.isAuthenticated ? (
+              <>
+                <Dropdown button={<NavButton title={t("service.service")} />} dropdown={<SolutionDropdown />} />
+                <Dropdown button={<NavButton title={t("company.company")} />} dropdown={<CompanyDropdown />} />
+                <Dropdown button={<NavButton title={t("resources.resources")} />} dropdown={<ResourcesDropdown />} />
+              </>
+            ) : (
+              <div className="flex space-x-6">
+                {userState.user.userType === "employee" ? (
+                  <></>
+                ) : (
+                  <Link to={"/browse"}>
+                    <button className="h-9 px-2 text-gray-700 rounded hover:brightness-125 font-sm font-bold">
+                      개발자 찾기
+                    </button>
+                  </Link>
+                )}
+                <Link to="/history" className="flex items-center">
+                  <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
+                    <p>결제 내역</p>
                   </button>
                 </Link>
-              )}
-              <Link to="/history" className="flex items-center">
-                <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
-                  <p>결제 내역</p>
-                </button>
-              </Link>
-              <Link to="/chat" className="flex items-center">
-                <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
-                  <p>메세지</p>
-                  {hasNewMessageBubble && (
-                    <div className="absolute top-1 -right-2 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
-                  )}
-                </button>
-              </Link>
-            </div>
-          )}
+                <Link to="/chat" className="flex items-center">
+                  <button className="relative p-1 hover:opacity-80 text-gray-700 font-bold">
+                    <p>메세지</p>
+                    {hasNewMessageBubble && (
+                      <div className="absolute top-1 -right-2 w-2 h-2 bg-red-500 ring-2 ring-white rounded-full"></div>
+                    )}
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="items-center justify-end w-full sm:flex hidden">
