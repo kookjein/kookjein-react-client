@@ -66,7 +66,7 @@ const JobPost = () => {
       <div className="flex items-center mt-3">
         <div className="bg-purple-100 rounded-full py-0.5 px-2">
           <p style={{ fontSize: "10px" }} className="text-xs text-purple-600">
-            개발자 제안 3,000만원 / 90일
+            {`개발자 제안 ${user[2][0].budget}원 / ${user[2][0].duration}일`}
           </p>
         </div>
       </div>
@@ -198,12 +198,13 @@ const JobPost = () => {
 
             {true && (
               <div className="py-6 border-t">
-                <p className="text-gray-600 font-bold tracking-tight mb-6">지원자 - {project.applicants.length}</p>
+                <p className="text-gray-600 font-bold tracking-tight mb-6">지원자 - {project.applicants.filter(value => JSON.parse(value)[0]).length}</p>
                 <div className="grid grid-cols-2 gap-4 mt-4">
                   {
-                    project.applicants?.map((value, index) => (
-                      <CandidateCell key={index} user={JSON.parse(value)}/>
-                    ))
+                    project.applicants?.map((value, index) => {
+                      const user = JSON.parse(value)
+                      return user[0] && <CandidateCell key={index} user={user}/>
+                    })
                   }
                 </div>
               </div>

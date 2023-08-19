@@ -34,7 +34,7 @@ const ProjectCell = ({ project }) => {
           {project.project_info[0].detail}
         </div>
 
-        <div className="text-xs w-full text-left mt-6 font-bold text-gray-700">지원자 - {project.applicants.length}</div>
+        <div className="text-xs w-full text-left mt-6 font-bold text-gray-700">지원자 - {project.applicants.filter(value => JSON.parse(value)[0]).length}</div>
 
         <div className="flex gap-2 mt-6 flex-wrap">
           {project.project_info[0].tech.map((value) => (
