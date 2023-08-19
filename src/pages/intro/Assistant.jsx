@@ -1,18 +1,18 @@
 import React from "react";
 import { useState } from "react";
-import CheckFill from "../../assets/pricing/check_fill.png";
-import CheckEmpty from "../../assets/pricing/check_empty.png";
-import Option1 from "../../assets/pricing/1.png";
-import Option2 from "../../assets/pricing/2.png";
-import Option3 from "../../assets/pricing/3.png";
-import Option4 from "../../assets/pricing/4.png";
-import Option5 from "../../assets/pricing/5.png";
-import Option6 from "../../assets/pricing/6.png";
+import CheckFill from "../../assets/assistant/check_fill.png";
+import CheckEmpty from "../../assets/assistant/check_empty.png";
+import Option1 from "../../assets/assistant/1.png";
+import Option2 from "../../assets/assistant/2.png";
+import Option3 from "../../assets/assistant/3.png";
+import Option4 from "../../assets/assistant/4.png";
+import Option5 from "../../assets/assistant/5.png";
+import Option6 from "../../assets/assistant/6.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const Pricing = () => {
-  const { t } = useTranslation("pricing");
+const Assistant = () => {
+  const { t } = useTranslation("assistant");
 
   const WelcomeSection = () => (
     <div
@@ -381,4 +381,4 @@ const Pricing = () => {
   );
 };
 
-export default Pricing;
+export default Assistant;

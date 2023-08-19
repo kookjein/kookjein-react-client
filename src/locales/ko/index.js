@@ -2,7 +2,7 @@ export { default as welcome } from "./welcome";
 export { default as footer } from "./footer";
 export { default as serviceCompany } from "./serviceCompany";
 export { default as serviceDeveloper } from "./serviceDeveloper";
-export { default as pricing } from "./pricing";
+export { default as assistant } from "./assistant";
 export { default as profileCard } from "./profileCard";
 export { default as navBar } from "./navBar";
 export { default as profile } from "./profile";

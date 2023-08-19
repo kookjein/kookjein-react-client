@@ -14,7 +14,7 @@ import ScrollToTop from "./utils/scrollToTop";
 import Welcome from "./pages/intro/Welcome";
 import ServiceCompany from "./pages/intro/ServiceCompany";
 import ServiceDeveloper from "./pages/intro/ServiceDeveloper";
-import Pricing from "./pages/intro/Pricing";
+import Assistant from "./pages/intro/Assistant";
 // APP PAGES
 import Browse from "./pages/Browse";
 import History from "./pages/History";
@@ -137,7 +137,7 @@ function App() {
           <Route path="/chat/*" element={<ChatPage newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
-          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/assistant" element={<Assistant />} />
           <Route path="/error404" element={<Error404 />} />
         </Routes>
         {!pathname.includes("/chat") && <Footer />}
@@ -152,7 +152,7 @@ function App() {
           <Route path="/*" element={<Welcome />} />
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
-          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/assistant" element={<Assistant />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/error404" element={<Error404 />} />

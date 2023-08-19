@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Client1 from "../../assets/main/client1.png";
 import Client2 from "../../assets/main/client2.png";
 import Client3 from "../../assets/main/client3.png";
@@ -18,6 +18,8 @@ import LeftArrow from "../../assets/main/left_arrow.png";
 import RightArrow from "../../assets/main/right_arrow.png";
 import Checkmark from "../../assets/main/checkmark.png";
 import TechStack from "../../assets/main/techstack.png";
+import Assistant1 from "../../assets/main/assistant1.png";
+import Assistant2 from "../../assets/main/assistant2.png";
 import Partner1 from "../../assets/main/partner1.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -29,8 +31,11 @@ import "../../utils/slideAnimation.css";
 
 const Welcome = () => {
   const { t } = useTranslation("welcome");
+  const scrollRef = useRef(null);
   const [companyArray, setCompanyArray] = useState([]);
   const [employeeArray, setEmployeeArray] = useState({});
+
+  const scrollToAssistant = () => scrollRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
 
   useEffect(() => {
     axios
@@ -87,7 +92,7 @@ const Welcome = () => {
           <p className="font-bold leading-relaxed sm:leading-relaxed sm:text-6xl text-3xl">{t("type.fixed")}</p>
           <p
             style={{ whiteSpace: "pre-line" }}
-            className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9"
+            className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9 sm:leading-9 max-w-md break-keep"
           >
             {t("subtitle")}
           </p>
@@ -96,7 +101,10 @@ const Welcome = () => {
             <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
               {t("create")}
             </button>
-            <button className="bg-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100">
+            <button
+              onClick={scrollToAssistant}
+              className="bg-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100"
+            >
               {t("problem")}
             </button>
           </div>
@@ -130,7 +138,7 @@ const Welcome = () => {
 
   const ClientSection = () => (
     <div className="flex flex-col items-center py-12">
-      <p className="font-semibold text-gray-600 text-center text-sm sm:text-md">{t("trust")}</p>
+      <p className="font-semibold text-gray-600 text-center text-sm sm:text-base">{t("trust")}</p>
       <div className="py-16 w-screen flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20">
         <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
         <img draggable={false} src={Client3} className="object-contain h-10" alt="" />
@@ -142,7 +150,7 @@ const Welcome = () => {
     </div>
   );
 
-  const SecondSection = () => (
+  const DeveloperSection = () => (
     <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5">
       <div style={{ maxWidth: "1280px" }} className="flex sm:flex-row flex-col items-center px-6 sm:space-x-8 w-full">
         <img
@@ -164,13 +172,65 @@ const Welcome = () => {
           </Link>
           <div className="w-full h-px bg-gray-300 my-8" />
           <div>
-            <p className="text-lg sm:text-xl font-bold break-keep">{t("third.title1")} {t("third.title2")}</p>
+            <p className="text-lg sm:text-xl font-bold break-keep">
+              {t("third.title1")} {t("third.title2")}
+            </p>
             <p className="mt-8">{t("third.body1")}</p>
             <p className="">{t("third.body2")}</p>
             <p className="mt-4">{t("third.body3")}</p>
             <p>{t("third.body4")}</p>
             <p className="mt-4">{t("third.body5")}</p>
             <p>{t("third.body6")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const AssistantSection = () => (
+    <div ref={scrollRef} className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
+      <div style={{ maxWidth: "1280px" }} className="flex sm:flex-row flex-col items-center px-6 sm:space-x-8 w-full">
+        <div className="flex flex-col tracking-tight w-full">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("assistant.subtitle")}</p>
+          <div className="flex">
+            <div className="sm:w-1/2 w-full flex-shrink-0">
+              <p className="text-2xl sm:text-4xl font-bold break-keep">{t("assistant.title1")}</p>
+              <div className="text-2xl sm:text-4xl font-bold mt-2">
+                <p className="inline text-green-600">{t("assistant.free")}</p> {t("assistant.title2")}
+              </div>
+              <p className="mt-8 break-keep max-w-md">{t("assistant.body1")}</p>
+              <p className="mt-4 break-keep text-gray-600">{t("assistant.bullet1")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet2")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet3")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet4")}</p>
+
+              <Link to="/assistant">
+                <button className="text-blue-500 mt-12 text-lg hover:underline">{t("assistant.viewMore")}</button>
+              </Link>
+            </div>
+            <img src={Assistant1} alt="" className="w-1/2 hidden sm:flex object-contain pl-12" draggable={false} />
+          </div>
+          <div className="w-full h-px bg-gray-300 my-8" />
+
+          <div className="flex">
+            <div className="sm:w-1/2 w-full flex-shrink-0">
+              <div className="text-lg sm:text-2xl font-bold break-keep">
+                {t("assistant.title3")} <p className="inline text-green-600">{t("assistant.title4")}</p>
+              </div>
+              <p className="mt-8 break-keep max-w-md">
+              {t("assistant.body2")}
+              </p>
+              <p className="mt-4 break-keep text-gray-600">{t("assistant.bullet5")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet6")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet7")}</p>
+              <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet8")}</p>
+            </div>
+            <img
+              src={Assistant2}
+              alt=""
+              className="w-1/2 max-w-2xl hidden sm:flex object-contain pl-12"
+              draggable={false}
+            />
           </div>
         </div>
       </div>
@@ -191,7 +251,7 @@ const Welcome = () => {
       </div>
     );
     return (
-      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
+      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5">
         <div style={{ maxWidth: "1280px" }} className="w-full">
           <p className="text-lg mb-16 px-4 font-bold">{t("fourth.sectionTitle")}</p>
           <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16">
@@ -390,7 +450,8 @@ const Welcome = () => {
       <WelcomeSection />
       <HeroSection />
       <ClientSection />
-      <SecondSection />
+      <DeveloperSection />
+      <AssistantSection />
       <FourthSection />
       <FifthSection />
       <SixthSection companies={companyArray} />

@@ -1,6 +1,6 @@
-import Review from "../../assets/pricing/review_kor.png";
+import Review from "../../assets/assistant/review_kor.png";
 
-const pricing = {
+const assistant = {
   mode: "ko",
   learnMore: "자세히 보기",
   first: {
@@ -83,4 +83,4 @@ const pricing = {
   },
 };
 
-export default pricing;
+export default assistant;

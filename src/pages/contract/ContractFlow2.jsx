@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import RightPanel from "./RightPanel";
 import { useTranslation } from "react-i18next";
-import CheckFill from "../../assets/pricing/check_fill.png";
-import CheckEmpty from "../../assets/pricing/check_empty.png";
+import CheckFill from "../../assets/assistant/check_fill.png";
+import CheckEmpty from "../../assets/assistant/check_empty.png";
 
 const ContractFlow2 = () => {
-  const { t } = useTranslation("pricing");
+  const { t } = useTranslation("assistant");
   const [assistantPlan, setAssistantPlan] = useState(0);
 
   const MilestoneCell = ({ order }) => (

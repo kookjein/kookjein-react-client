@@ -1,6 +1,6 @@
-import Review from "../../assets/pricing/review_eng.png";
+import Review from "../../assets/assistant/review_eng.png";
 
-const pricing = {
+const assistant = {
   mode: "en",
   learnMore: "Learn more",
   first: {
@@ -87,4 +87,4 @@ const pricing = {
   },
 };
 
-export default pricing;
+export default assistant;

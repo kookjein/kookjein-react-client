@@ -49,7 +49,7 @@ const SolutionDropdown = () => {
         </p>
       </div>
       <Link
-        to="/pricing"
+        to="/assistant"
         className="w-full h-16 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium"
       >
         <div className="flex items-center space-x-4">

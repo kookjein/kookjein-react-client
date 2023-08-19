@@ -15,12 +15,11 @@ const welcome = {
   },
 
   subtitle:
-    "Kookjein is a platform that matches the top 3% of international developers\nwith a 40% lower cost compared to domestic developers.",
+    "Kookjein is a platform that matches the top 3% of international developers with a 40% lower cost compared to domestic developers.",
   create: "Register Your Project for Free",
   problem: "Worried about communication?",
   best: "Top Developers of the Month",
   trust: "Kookjein has built trust through collaboration with the following companies:",
-
 
   second: {
     subtitle: "Developers of Kookjein",
@@ -33,6 +32,28 @@ const welcome = {
     timestamp: "As of February 2023",
     find: "Search developers →",
   },
+
+  assistant: {
+    subtitle: "International Assistant",
+    title1: "Assists Communication and Management with Developers.",
+    free: "Free",
+    title2: "Assistant Service",
+    body1: "Assists in conveying work-related matters to developers and resolves disputes when they arise.",
+    bullet1: "• Assisting communication between companies and developers",
+    bullet2: "• Milestone verification and role of witness",
+    bullet3: "• Verifying if developers understand work details",
+    bullet4: "• Customer support and dispute resolution",
+    title3: "Provides all communication and intermediate management.",
+    title4: "Paid PM Service",
+    body2:
+      "PM with programming knowledge and language proficiency exclusively handles communication with developers, coordinates project intermediate management and schedules.",
+    bullet5: "• Exclusive communication with companies and developers",
+    bullet6: "• Available for requests during work hours",
+    bullet7: "• Project intermediate management",
+    bullet8: "• Plus all assistant tasks",
+    viewMore: "View More →",
+  },
+
   third: {
     title1: "40+ wide range of",
     title2: "Full-stack developers",
