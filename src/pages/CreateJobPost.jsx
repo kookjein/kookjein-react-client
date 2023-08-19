@@ -116,7 +116,7 @@ const CreateJobPost = () => {
               ),
               tech: tech,
               status: projectStatus,
-              detail: projectDetail,
+              detail: { [userState.user.userLanguage]: projectDetail },
               budget: projectBudget.value,
               start_at: projectStartAt,
               duration: projectDuration,
