@@ -94,7 +94,7 @@ const CreateJobPost = () => {
       }
     })
     if (missingArray.length) {
-      console.log('missing inputs')
+      console.log('missing inputs', missingArray)
       return
     }
 
@@ -135,7 +135,7 @@ const CreateJobPost = () => {
                 navigate("/");
               });
           });
-        }
+        } else navigate("/")
       });
   };
 
