@@ -225,7 +225,7 @@ const JobPost = () => {
             <div className="py-6 border-t">
               <p className="text-gray-600 font-bold tracking-tight mb-6">프로젝트 상세</p>
               <div style={{ whiteSpace: "pre-line" }} className="text-sm mt-3 w-full">
-                {project.project_info[0].detail}
+                {project.project_info[0].detail[lang]}
               </div>
             </div>
           </div>
