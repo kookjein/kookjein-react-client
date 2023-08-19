@@ -98,9 +98,11 @@ const Welcome = () => {
           </p>
 
           <div className="w-full flex sm:flex-row flex-col justify-center sm:space-y-0 space-y-4 sm:space-x-4 mt-8 tracking-tight">
-            <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
-              {t("create")}
-            </button>
+            <Link to="/create-job-anon">
+              <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
+                {t("create")}
+              </button>
+            </Link>
             <button
               onClick={scrollToAssistant}
               className="bg-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold text-gray-700 border hover:bg-gray-100"

@@ -36,6 +36,7 @@ import MainDeveloper from "./pages/main/MainDeveloper";
 import Contract from "./pages/contract/Contract";
 import Footer from "./components/Footer";
 import Manage from "./pages/manage/Manage";
+import CreateJobPostAnon from "./pages/CreateJobPostAnon";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -161,6 +162,8 @@ function App() {
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
+          <Route path="/create-job-anon" element={<CreateJobPostAnon />} />
+
         </Routes>
         <Footer />
       </AxiosInterceptor>
