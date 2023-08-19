@@ -9,7 +9,7 @@ import { AuthContext } from "../context/authContext";
 import { s3Upload } from "../utils/s3Upload";
 import { useNavigate } from "react-router-dom";
 
-const CreateJobPost = () => {
+const CreateJobPost = ({setProject}) => {
   const navigate = useNavigate();
   const { userState } = useContext(AuthContext);
   const [projectTitle, setProjectTitle] = useState(null);
@@ -97,15 +97,53 @@ const CreateJobPost = () => {
       console.log('missing inputs', missingArray)
       return
     }
-
-    axios
-      .post("v1/project/", {
-        project: {
-          project_info: [
+    if (userState.user) {
+      axios
+        .post("v1/project/", {
+          project: {
+            project_info: [
+              {
+                method: projectMethod,
+                type: projectType,
+                title: { [userState.user.userLanguage]: projectTitle },
+                category: projectCategory.map(
+                  (value) =>
+                    ({
+                      0: "web",
+                      1: "mobile",
+                      2: "other",
+                    }[value])
+                ),
+                tech: tech,
+                status: projectStatus,
+                detail: { [userState.user.userLanguage]: projectDetail },
+                budget: projectBudget,
+                start_at: projectStartAt,
+                duration: projectDuration,
+              },
+            ],
+          },
+        })
+        .then((response) => {
+          if (uploadedFiles.length) {
+            s3Upload(`project/${response.data}`, uploadedFiles).then((projectFiles) => {
+              axios
+                .put("v1/project/", {
+                  project: { project_id: response.data, project_info: [{ files: projectFiles }] },
+                })
+                .then(() => {
+                  navigate("/");
+                });
+            });
+          } else navigate("/")
+        });
+    } else {
+      setProject({
+        projectInfo: [
             {
               method: projectMethod,
               type: projectType,
-              title: { [userState.user.userLanguage]: projectTitle },
+              title: projectTitle,
               category: projectCategory.map(
                 (value) =>
                   ({
@@ -116,27 +154,14 @@ const CreateJobPost = () => {
               ),
               tech: tech,
               status: projectStatus,
-              detail: { [userState.user.userLanguage]: projectDetail },
+              detail: projectDetail,
               budget: projectBudget,
               start_at: projectStartAt,
               duration: projectDuration,
-            },
-          ],
-        },
+            }],
+        uploadedFiles: uploadedFiles
       })
-      .then((response) => {
-        if (uploadedFiles.length) {
-          s3Upload(`project/${response.data}`, uploadedFiles).then((projectFiles) => {
-            axios
-              .put("v1/project/", {
-                project: { project_id: response.data, project_info: [{ files: projectFiles }] },
-              })
-              .then(() => {
-                navigate("/");
-              });
-          });
-        } else navigate("/")
-      });
+    }
   };
 
   return (
