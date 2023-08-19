@@ -9,7 +9,7 @@ import { AuthContext } from "../context/authContext";
 import { s3Upload } from "../utils/s3Upload";
 import { useNavigate } from "react-router-dom";
 
-const CreateJobPost = ({setProject}) => {
+const CreateJobPost = ({ setProject }) => {
   const navigate = useNavigate();
   const { userState } = useContext(AuthContext);
   const [projectTitle, setProjectTitle] = useState(null);
@@ -59,16 +59,6 @@ const CreateJobPost = ({setProject}) => {
     console.log("The tag at index " + index + " was clicked");
   };
 
-  const Title = ({ title, subtitle, notRequired }) => (
-    <>
-      <div className="flex space-x-2 mt-12">
-        <h1 className="font-bold text-xl text-gray-700">{title}</h1>
-        {!notRequired && <h1 className="font-bold text-xl text-red-500">*</h1>}
-      </div>
-      <p className="text-gray-600 text-sm mt-2">{subtitle}</p>
-    </>
-  );
-
   const registerPost = () => {
     const arrayOfFields = {
       projectTitle: projectTitle,
@@ -80,22 +70,22 @@ const CreateJobPost = ({setProject}) => {
       tech: tech,
       projectBudget: projectBudget,
       projectStartAt: projectStartAt,
-      projectDuration: projectDuration
-    }
+      projectDuration: projectDuration,
+    };
 
     const missingArray = [];
-    Object.keys(arrayOfFields).forEach(key => {
+    Object.keys(arrayOfFields).forEach((key) => {
       if (
-          arrayOfFields[key] === null ||
-          arrayOfFields[key] === undefined ||
-          (Array.isArray(arrayOfFields[key]) && !arrayOfFields[key].length)
+        arrayOfFields[key] === null ||
+        arrayOfFields[key] === undefined ||
+        (Array.isArray(arrayOfFields[key]) && !arrayOfFields[key].length)
       ) {
         missingArray.push(key);
       }
-    })
+    });
     if (missingArray.length) {
-      console.log('missing inputs', missingArray)
-      return
+      console.log("missing inputs", missingArray);
+      return;
     }
     if (userState.user) {
       axios
@@ -135,390 +125,312 @@ const CreateJobPost = ({setProject}) => {
                   navigate("/");
                 });
             });
-          } else navigate("/")
+          } else navigate("/");
         });
     } else {
       setProject({
         projectInfo: [
-            {
-              method: projectMethod,
-              type: projectType,
-              title: projectTitle,
-              category: projectCategory.map(
-                (value) =>
-                  ({
-                    0: "web",
-                    1: "mobile",
-                    2: "other",
-                  }[value])
-              ),
-              tech: tech,
-              status: projectStatus,
-              detail: projectDetail,
-              budget: projectBudget,
-              start_at: projectStartAt,
-              duration: projectDuration,
-            }],
-        uploadedFiles: uploadedFiles
-      })
+          {
+            method: projectMethod,
+            type: projectType,
+            title: projectTitle,
+            category: projectCategory.map(
+              (value) =>
+                ({
+                  0: "web",
+                  1: "mobile",
+                  2: "other",
+                }[value])
+            ),
+            tech: tech,
+            status: projectStatus,
+            detail: projectDetail,
+            budget: projectBudget,
+            start_at: projectStartAt,
+            duration: projectDuration,
+          },
+        ],
+        uploadedFiles: uploadedFiles,
+      });
     }
   };
 
+  const Title = ({ title, subtitle, notRequired }) => (
+    <>
+      <div className="flex space-x-2">
+        <h1 className="font-bold text-lg text-gray-700">{title}</h1>
+        {!notRequired && <h1 className="font-bold text-xl text-red-500">*</h1>}
+      </div>
+      <p className="text-gray-600 text-sm mt-2">{subtitle}</p>
+    </>
+  );
+  
+  const OptionCard = ({ action, selectedCondition, title }) => (
+    <button
+      onClick={action}
+      className={`${
+        selectedCondition ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
+      } rounded border ring-green-600 transition flex items-center justify-center relative w-48 flex-shrink-0 h-20`}
+    >
+      <h1 className={`tracking-tighter break-keep`}>{title}</h1>
+      <div
+        className={`${
+          selectedCondition ? "border-green-600 bg-green-600" : "border-gray-300"
+        } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
+      >
+        {selectedCondition && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
+      </div>
+    </button>
+  );
+
   return (
-    <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden">
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full p-4 py-8 pb-24">
-        <h1 className="font-bold text-3xl">프로젝트 등록</h1>
-        <p className="text-gray-600 text-sm mt-2">효율적인 개발자 매칭을 위한 첫 단계</p>
-
-        <Title title="1. 프로젝트 방식" subtitle="어떤 방식으로 프로젝트를 진행하시나요?" />
-        <div className="flex space-x-4 mt-4">
-          <button
-            onClick={() => setProjectMethod(0)}
-            className={`${
-              projectMethod === 0 ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">단기 프로젝트 계약</h1>
-            <div
-              className={`${
-                projectMethod === 0 ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectMethod === 0 && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
+    <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden bg-gray-100">
+      <div style={{ maxWidth: "1280px", height: "calc(100svh - 4rem)" }} className="w-full h-full flex py-8">
+        <div className="shadow-lg flex rounded-lg overflow-hidden border">
+          <div className="w-80 bg-zinc-50 flex-shrink-0 p-8 flex flex-col justify-between border-r">
+            <div className="">
+              <h1 className="font-bold text-xl">프로젝트 등록</h1>
+              <p className="text-gray-600 text-sm mt-2">효율적인 개발자 매칭을 위한 첫 단계</p>
             </div>
-          </button>
-          <button
-            onClick={() => setProjectMethod(1)}
-            className={`${
-              projectMethod === 1 ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">인력 구인</h1>
-            <div
-              className={`${
-                projectMethod === 1 ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
+            <button
+              className="h-11 flex items-center justify-center bg-green-700 text-white rounded hover:bg-green-600 w-full font-bold"
+              onClick={registerPost}
             >
-              {projectMethod === 1 && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
-            </div>
-          </button>
-        </div>
-        <Title
-          title="2. 프로젝트 분류"
-          subtitle="신규 프로젝트 개발 혹은 기존 프로젝트 수정 또는 유지보수 개발인가요?"
-        />
-        <div className="flex space-x-4 mt-4">
-          <button
-            onClick={() => setProjectType(0)}
-            className={`${
-              projectType === 0 ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">신규 개발</h1>
-            <div
-              className={`${
-                projectType === 0 ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectType === 0 && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
-            </div>
-          </button>
-          <button
-            onClick={() => setProjectType(1)}
-            className={`${
-              projectType === 1 ? "ring-2 bg-green-600 bg-opacity-10 text-green-700" : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">수정 / 유지보수</h1>
-            <div
-              className={`${
-                projectType === 1 ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectType === 1 && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
-            </div>
-          </button>
-        </div>
-        <Title title="3. 프로젝트 제목" subtitle="개발자가 이해하기 쉽게 한줄로 요약해 주세요." />
-        <input
-          placeholder={"예시) 굿즈 사업자 브랜드 홈페이지 제작"}
-          className="w-full h-12 rounded-lg border outline-green-600 p-3 mt-4"
-          onChange={(event) => setProjectTitle(event.target.value)}
-        />
-        <Title title="4. 프로젝트 카테고리" subtitle="복수 선택이 가능합니다." />
-        <div className="flex space-x-4 mt-4">
-          <button
-            onClick={() =>
-              setProjectCategory((prevState) => {
-                return prevState.includes(0) ? [...prevState.filter((value) => value !== 0)] : [...prevState, 0];
-              })
-            }
-            className={`${
-              projectCategory.includes(0)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">웹사이트</h1>
-            <div
-              className={`${
-                projectCategory.includes(0) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectCategory.includes(0) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-          <button
-            onClick={() =>
-              setProjectCategory((prevState) => {
-                return prevState.includes(1) ? [...prevState.filter((value) => value !== 1)] : [...prevState, 1];
-              })
-            }
-            className={`${
-              projectCategory.includes(1)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">모바일 앱</h1>
-            <div
-              className={`${
-                projectCategory.includes(1) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectCategory.includes(1) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-          <button
-            onClick={() =>
-              setProjectCategory((prevState) => {
-                return prevState.includes(2) ? [...prevState.filter((value) => value !== 2)] : [...prevState, 2];
-              })
-            }
-            className={`${
-              projectCategory.includes(2)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">기타 소프트웨어</h1>
-            <div
-              className={`${
-                projectCategory.includes(2) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectCategory.includes(2) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-        </div>
-        <Title
-          title="5. 프로젝트 개발 언어 및 환경"
-          subtitle="각 개발 언어를 기입하시고 엔터키를 눌러 추가할 수 있습니다."
-        />
-        <ReactTags
-          tags={tech}
-          delimiters={delimiters}
-          handleDelete={handleDeleteTECH}
-          handleAddition={handleAdditionTECH}
-          handleDrag={handleDragTECH}
-          handleTagClick={handleTagClickTECH}
-          inputFieldPosition="top"
-          autocomplete
-          autofocus={false}
-          placeholder={"개발 언어 또는 개발 환경을 입력해주세요. 예시) React JS"}
-          classNames={{
-            tags: "mb-12",
-            tagInput: "h-12",
-            tagInputField: "w-full h-12 rounded border border-gray-300 mb-4 p-2 outline-green-700 mt-4",
-            selected: "flex flex-wrap gap-1",
-            tag: "px-3 py-1 bg-gray-200 rounded border text-sm flex-shrink-0 mt-6",
-            remove: "ml-2",
-            suggestions: "",
-            activeSuggestion: "",
-            editTagInput: "",
-            editTagInputField: "",
-            clearAll: "",
-          }}
-        />
-        <Title title="6. 현재 프로젝트 단계" subtitle="현재 프로젝트의 구현 단계를 선택해 주세요. 복수 선택 가능." />
-        <div className="flex space-x-4 mt-4">
-          <button
-            onClick={() =>
-              setProjectStatus((prevState) => {
-                return prevState.includes(0) ? [...prevState.filter((value) => value !== 0)] : [...prevState, 0];
-              })
-            }
-            className={`${
-              projectStatus.includes(0)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">아이디어 단계</h1>
-            <div
-              className={`${
-                projectStatus.includes(0) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectStatus.includes(0) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-          <button
-            onClick={() =>
-              setProjectStatus((prevState) => {
-                return prevState.includes(1) ? [...prevState.filter((value) => value !== 1)] : [...prevState, 1];
-              })
-            }
-            className={`${
-              projectStatus.includes(1)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">기획된 문서가 있습니다</h1>
-            <div
-              className={`${
-                projectStatus.includes(1) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectStatus.includes(1) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-          <button
-            onClick={() =>
-              setProjectStatus((prevState) => {
-                return prevState.includes(2) ? [...prevState.filter((value) => value !== 2)] : [...prevState, 2];
-              })
-            }
-            className={`${
-              projectStatus.includes(2)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">디자인이 있습니다</h1>
-            <div
-              className={`${
-                projectStatus.includes(2) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectStatus.includes(2) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-          <button
-            onClick={() =>
-              setProjectStatus((prevState) => {
-                return prevState.includes(3) ? [...prevState.filter((value) => value !== 3)] : [...prevState, 3];
-              })
-            }
-            className={`${
-              projectStatus.includes(3)
-                ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
-                : "hover:ring-2 text-gray-500"
-            } rounded border ring-green-600 transition flex items-center justify-center relative w-56 flex-shrink-0 h-20`}
-          >
-            <h1 className="break-keep">MVP가 있습니다.</h1>
-            <div
-              className={`${
-                projectStatus.includes(3) ? "border-green-600 bg-green-600" : "border-gray-300"
-              } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border p-0.5 flex items-center justify-center`}
-            >
-              {projectStatus.includes(3) && (
-                <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />
-              )}
-            </div>
-          </button>
-        </div>
-        <Title
-          title="7. 프로젝트 자료"
-          subtitle="아이디어, 기획문서, 개발/수정 내역 등  관련 문서를 추가해 주세요. 문서/압축/이미지/텍스트/PDF 파일만 등록 가능합니다."
-          notRequired
-        />
-        <Dropzone setUploadedFiles={setUploadedFiles} />
-        {uploadedFiles.map((value, index) => {
-          return (
-            <div
-              key={index}
-              className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm"
-            >
-              <div>
-                <p>{value.name}</p>
+              프로젝트 등록
+            </button>
+          </div>
+          <div className="bg-white w-full overflow-y-scroll p-10 flex flex-col h-full space-y-16 pb-24">
+            <div>
+              <Title title="1. 프로젝트 방식" subtitle="어떤 방식으로 프로젝트를 진행하시나요?" />
+              <div className="flex space-x-4 mt-4">
+                <OptionCard
+                  action={() => setProjectMethod(0)}
+                  selectedCondition={projectMethod === 0}
+                  title="단기 프로젝트 계약"
+                />
+                <OptionCard
+                  action={() => setProjectMethod(1)}
+                  selectedCondition={projectMethod === 1}
+                  title="인력 구인"
+                />
               </div>
-              <button
-                className=""
-                onClick={(event) => {
-                  setUploadedFiles((prevState) => {
-                    const updatedFiles = [...prevState];
-                    updatedFiles.splice(index, 1);
-                    return updatedFiles;
-                  });
-                }}
-              >
-                <IoClose className="w-5 h-5 hover:text-red-500" />
-              </button>
             </div>
-          );
-        })}
-        <Title
-          title="8. 프로젝트 상세 설명"
-          subtitle="프로젝트 내용을 상세히 작성해 주실 수록, 더욱 빠르게 개발자 매칭이 됩니다. "
-        />
-        <textarea
-          style={{ minHeight: "40rem" }}
-          placeholder={`<프로젝트 개요>\n예시)\n- 프로젝트 소개\n - 현재 준비상황, 진행상황, 현재 개발 상황\n\n<상세한 업무 내용>\n 예시) \n - 개발 의뢰내용, 요청 내용\n - 주요 업무, 주요 기능, 작업 분량\n - 개발 환경, 개발 언어, 개발 방식, 필요 기술 등\n - 개발사 제공 자료 내역\n - 요구 사항, 필요 조건\n - 산출물 등\n \n <참고 사항 >\n 예시) \n - 앱 링크, 레퍼런스, 참고 사이트 등\n \n<유의 사항 >\n예시)\n - 기타 유의사항 등`}
-          className="w-full rounded-lg border outline-green-600 p-3 mt-4"
-          onChange={(event) => setProjectDetail(event.target.value)}
-        />
-        <Title title="9. 프로젝트 예산" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
-        <Dropdown
-          className="mt-4"
-          options={options}
-          placeholderClassName="text-gray-700"
-          placeholder="~원(부가세 별도)"
-          onChange={(arg) => setProjectBudget(arg)}
-        />
 
-        <Title title="10. 프로젝트 희망 착수일" subtitle="희망하는 프로젝트 착수일을 선택해 주세요." />
-        <div className="mt-4 w-64">
-          <input
-            placeholder={"숫자만 기입. 예시) 3"}
-            className="w-64 h-12 rounded-lg border outline-green-600 p-3"
-            type="date"
-            onChange={(event) => setProjectStartAt(new Date(event.target.value).getTime())}
-          />
-        </div>
+            <div>
+              <Title
+                title="2. 프로젝트 분류"
+                subtitle="신규 프로젝트 개발 혹은 기존 프로젝트 수정 또는 유지보수 개발인가요?"
+              />
+              <div className="flex space-x-4 mt-4">
+                <OptionCard action={() => setProjectType(0)} selectedCondition={projectType === 0} title="신규 개발" />
+                <OptionCard
+                  action={() => setProjectType(1)}
+                  selectedCondition={projectType === 1}
+                  title="수정 / 유지보수"
+                />
+              </div>
+            </div>
 
-        <Title title="11. 프로젝트 예상 진행 기간" subtitle="프로젝트 예상 진행 기간을 선택해 주세요." />
-        <div className="flex items-center mt-4 space-x-3">
-          <input
-            placeholder={"숫자만 기입. 예시) 3"}
-            className="w-54 h-12 rounded-lg border outline-green-600 p-3"
-            type="number"
-            maxLength={3}
-            onChange={(event) => setProjectDuration(event.target.value)}
-          />
-          <p className="text-gray-700 text-lg">개월</p>
-        </div>
+            <div>
+              <Title title="3. 프로젝트 제목" subtitle="개발자가 이해하기 쉽게 한줄로 요약해 주세요." />
+              <input
+                placeholder={"예시) 굿즈 사업자 브랜드 홈페이지 제작"}
+                className="w-full h-12 rounded-lg border outline-green-600 p-3 mt-4"
+                onChange={(event) => setProjectTitle(event.target.value)}
+              />
+            </div>
 
-        <div className="w-full h-12 flex justify-end mt-24">
-          <button
-            className="px-12 h-11 flex items-center bg-green-700 text-white rounded hover:bg-green-600"
-            onClick={registerPost}
-          >
-            프로젝트 등록
-          </button>
+            <div>
+              <Title title="4. 프로젝트 카테고리" subtitle="복수 선택이 가능합니다." />
+              <div className="flex space-x-4 mt-4">
+                <OptionCard
+                  action={() =>
+                    setProjectCategory((prevState) => {
+                      return prevState.includes(0) ? [...prevState.filter((value) => value !== 0)] : [...prevState, 0];
+                    })
+                  }
+                  selectedCondition={projectCategory.includes(0)}
+                  title="웹사이트"
+                />
+                <OptionCard
+                  action={() =>
+                    setProjectCategory((prevState) => {
+                      return prevState.includes(1) ? [...prevState.filter((value) => value !== 1)] : [...prevState, 1];
+                    })
+                  }
+                  selectedCondition={projectCategory.includes(1)}
+                  title="모바일 앱"
+                />
+                <OptionCard
+                  action={() =>
+                    setProjectCategory((prevState) => {
+                      return prevState.includes(2) ? [...prevState.filter((value) => value !== 2)] : [...prevState, 2];
+                    })
+                  }
+                  selectedCondition={projectCategory.includes(2)}
+                  title="기타 소프트웨어"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Title
+                title="5. 프로젝트 개발 언어 및 환경"
+                subtitle="각 개발 언어를 기입하시고 엔터키를 눌러 추가할 수 있습니다."
+              />
+              <ReactTags
+                tags={tech}
+                delimiters={delimiters}
+                handleDelete={handleDeleteTECH}
+                handleAddition={handleAdditionTECH}
+                handleDrag={handleDragTECH}
+                handleTagClick={handleTagClickTECH}
+                inputFieldPosition="top"
+                autocomplete
+                autofocus={false}
+                placeholder={"개발 언어 또는 개발 환경을 입력해주세요. 예시) React JS"}
+                classNames={{
+                  tags: "mb-12",
+                  tagInput: "h-12",
+                  tagInputField: "w-full h-12 rounded border border-gray-300 mb-4 p-2 outline-green-700 mt-4",
+                  selected: "flex flex-wrap gap-1",
+                  tag: "px-3 py-1 bg-gray-200 rounded border text-sm flex-shrink-0 mt-6",
+                  remove: "ml-2",
+                  suggestions: "",
+                  activeSuggestion: "",
+                  editTagInput: "",
+                  editTagInputField: "",
+                  clearAll: "",
+                }}
+              />
+            </div>
+
+            <div>
+              <Title
+                title="6. 현재 프로젝트 단계"
+                subtitle="현재 프로젝트의 구현 단계를 선택해 주세요. 복수 선택 가능."
+              />
+              <div className="flex space-x-4 mt-4">
+                <OptionCard
+                  action={() =>
+                    setProjectStatus((prevState) => {
+                      return prevState.includes(0) ? [...prevState.filter((value) => value !== 0)] : [...prevState, 0];
+                    })
+                  }
+                  selectedCondition={projectStatus.includes(0)}
+                  title={"아이디어 단계"}
+                />
+                <OptionCard
+                  action={() =>
+                    setProjectStatus((prevState) => {
+                      return prevState.includes(1) ? [...prevState.filter((value) => value !== 1)] : [...prevState, 1];
+                    })
+                  }
+                  selectedCondition={projectStatus.includes(1)}
+                  title={"기획된 문서가 있습니다"}
+                />
+                <OptionCard
+                  action={() =>
+                    setProjectStatus((prevState) => {
+                      return prevState.includes(2) ? [...prevState.filter((value) => value !== 2)] : [...prevState, 2];
+                    })
+                  }
+                  selectedCondition={projectStatus.includes(2)}
+                  title={"디자인이 있습니다"}
+                />
+                <OptionCard
+                  action={() =>
+                    setProjectStatus((prevState) => {
+                      return prevState.includes(3) ? [...prevState.filter((value) => value !== 3)] : [...prevState, 3];
+                    })
+                  }
+                  selectedCondition={projectStatus.includes(3)}
+                  title={"MVP가 있습니다"}
+                />
+              </div>
+            </div>
+
+            <div>
+              <Title
+                title="7. 프로젝트 자료"
+                subtitle="아이디어, 기획문서, 개발/수정 내역 등  관련 문서를 추가해 주세요. 문서/압축/이미지/텍스트/PDF 파일만 등록 가능합니다."
+                notRequired
+              />
+              <Dropzone setUploadedFiles={setUploadedFiles} />
+              {uploadedFiles.map((value, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="w-1/2 h-10 mt-4 border rounded-lg border-1 flex items-center justify-between px-4 text-sm"
+                  >
+                    <div>
+                      <p>{value.name}</p>
+                    </div>
+                    <button
+                      className=""
+                      onClick={(event) => {
+                        setUploadedFiles((prevState) => {
+                          const updatedFiles = [...prevState];
+                          updatedFiles.splice(index, 1);
+                          return updatedFiles;
+                        });
+                      }}
+                    >
+                      <IoClose className="w-5 h-5 hover:text-red-500" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div>
+              <Title
+                title="8. 프로젝트 상세 설명"
+                subtitle="프로젝트 내용을 상세히 작성해 주실 수록, 더욱 빠르게 개발자 매칭이 됩니다. "
+              />
+              <textarea
+                style={{ minHeight: "40rem" }}
+                placeholder={`<프로젝트 개요>\n예시)\n- 프로젝트 소개\n - 현재 준비상황, 진행상황, 현재 개발 상황\n\n<상세한 업무 내용>\n 예시) \n - 개발 의뢰내용, 요청 내용\n - 주요 업무, 주요 기능, 작업 분량\n - 개발 환경, 개발 언어, 개발 방식, 필요 기술 등\n - 개발사 제공 자료 내역\n - 요구 사항, 필요 조건\n - 산출물 등\n \n <참고 사항 >\n 예시) \n - 앱 링크, 레퍼런스, 참고 사이트 등\n \n<유의 사항 >\n예시)\n - 기타 유의사항 등`}
+                className="w-full rounded-lg border outline-green-600 p-3 mt-4"
+                onChange={(event) => setProjectDetail(event.target.value)}
+              />
+            </div>
+            <div>
+              <Title title="9. 프로젝트 예산" subtitle="프로젝트에 지출 가능한 예산을 선택해 주세요." />
+              <Dropdown
+                className="mt-4"
+                options={options}
+                placeholderClassName="text-gray-700"
+                placeholder="~원(부가세 별도)"
+                onChange={(arg) => setProjectBudget(arg)}
+              />
+            </div>
+
+            <div>
+              <Title title="10. 프로젝트 희망 착수일" subtitle="희망하는 프로젝트 착수일을 선택해 주세요." />
+              <div className="mt-4 w-64">
+                <input
+                  placeholder={"숫자만 기입. 예시) 3"}
+                  className="w-64 h-12 rounded-lg border outline-green-600 p-3"
+                  type="date"
+                  onChange={(event) => setProjectStartAt(new Date(event.target.value).getTime())}
+                />
+              </div>
+            </div>
+            <div>
+              <Title title="11. 프로젝트 예상 진행 기간" subtitle="프로젝트 예상 진행 기간을 선택해 주세요." />
+              <div className="flex items-center mt-4 space-x-3">
+                <input
+                  placeholder={"숫자만 기입. 예시) 3"}
+                  className="w-54 h-12 rounded-lg border outline-green-600 p-3"
+                  type="number"
+                  maxLength={3}
+                  onChange={(event) => setProjectDuration(event.target.value)}
+                />
+                <p className="text-gray-700 text-lg">개월</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -68,7 +68,7 @@ const Dropzone = ({ setUploadedFiles }) => {
     <>
       <div
         ref={dropzoneRef}
-        className="w-1/2 h-24 bg-gray-100 rounded-lg mt-4 flex items-center justify-center space-x-4 border-2 border-dashed hover:border-green-700 transition cursor-pointer"
+        className="w-1/2 h-24 bg-gray-100 rounded-lg mt-4 flex items-center justify-center space-x-4 border-2 border-dashed hover:border-green-700 transition cursor-pointer flex-shrink-0"
       >
         <BsUpload />
         <p>파일 업로드</p>
