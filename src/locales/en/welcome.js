@@ -66,7 +66,8 @@ const welcome = {
     timestamp: "As of February 2023",
   },
   fourth: {
-    sectionTitle: "With Kookje.in, your business can now hire foreign developers.",
+    subtitle: "Why Kookjein?",
+    sectionTitle: "There are more reasons to hire on Kookjein other than affordable and reliable developers.",
     1: {
       title: "Top 3% developers",
       body1: "Developers from an globally recognized",

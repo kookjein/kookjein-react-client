@@ -49,7 +49,7 @@ const welcome = {
     bullet6: "• 업무시간 상시 요청 가능",
     bullet7: "• 프로젝트 중간관리",
     bullet8: "• 외 모든 어시스턴트 업무",
-    viewMore: "자세히 보기 →"
+    viewMore: "자세히 보기 →",
   },
 
   third: {
@@ -64,7 +64,8 @@ const welcome = {
     timestamp: "2023년 2월 기준",
   },
   fourth: {
-    sectionTitle: "이제는 한국 기업도 외국인 개발자를 채용할 수 있습니다.",
+    subtitle: "Why 국제인?",
+    sectionTitle: "저렴하고 확실하게 개발자를 구하는 것 이외에도 국제인을 사용할 이유는 많습니다.",
     1: {
       title: "상위 3% 개발자",
       body1: "세계적으로 인정받는 개발자 프로그램",
@@ -76,7 +77,7 @@ const welcome = {
       body2: "그중 최적의 개발자와 계약할 수 있습니다.",
     },
     3: {
-      title: "간편한 월급 지급",
+      title: "안전한 월급 지급",
       body1: "에스크로 시스템을 통해 안전한",
       body2: "해외 월급지급이 이루어집니다.",
     },

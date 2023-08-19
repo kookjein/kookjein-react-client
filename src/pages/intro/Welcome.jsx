@@ -217,9 +217,7 @@ const Welcome = () => {
               <div className="text-lg sm:text-2xl font-bold break-keep">
                 {t("assistant.title3")} <p className="inline text-green-600">{t("assistant.title4")}</p>
               </div>
-              <p className="mt-8 break-keep max-w-md">
-              {t("assistant.body2")}
-              </p>
+              <p className="mt-8 break-keep max-w-md">{t("assistant.body2")}</p>
               <p className="mt-4 break-keep text-gray-600">{t("assistant.bullet5")}</p>
               <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet6")}</p>
               <p className="mt-1 break-keep text-gray-600">{t("assistant.bullet7")}</p>
@@ -237,67 +235,80 @@ const Welcome = () => {
     </div>
   );
 
-  const FourthSection = () => {
-    const Cell = ({ icon, title, text1, text2 }) => (
-      <div className="flex flex-col items-center">
-        <img src={icon} className="w-16" alt="" draggable={false} />
-        <p className="font-semibold mt-4">{title}</p>
-        <p style={{ fontSize: "0.85rem" }} className="text-sm mt-4">
+  const StrengthSection = () => {
+    const Cell = ({ icon, title, text1, text2, dark }) => (
+      <div className={`flex flex-col items-center`}>
+        <img src={icon} className={`w-16`} alt="" draggable={false} />
+        <p className={`${dark && "text-indigo-600"} font-bold mt-4 text-lg`}>{title}</p>
+        <p style={{ fontSize: "0.85rem" }} className={`${dark ? "text-gray-500" : "text-gray-500"} text-sm mt-4`}>
           {text1}
         </p>
-        <p style={{ fontSize: "0.85rem" }} className="text-sm">
+        <p style={{ fontSize: "0.85rem" }} className={`${dark ? "text-gray-500" : "text-gray-500"} text-sm`}>
           {text2}
         </p>
       </div>
     );
     return (
       <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5">
-        <div style={{ maxWidth: "1280px" }} className="w-full">
-          <p className="text-lg mb-16 px-4 font-bold">{t("fourth.sectionTitle")}</p>
-          <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16">
-            <Cell
-              icon={FourthType1}
-              title={t("fourth.1.title")}
-              text1={t("fourth.1.body1")}
-              text2={t("fourth.1.body2")}
-            />
-            <Cell
-              icon={FourthType2}
-              title={t("fourth.2.title")}
-              text1={t("fourth.2.body1")}
-              text2={t("fourth.2.body2")}
-            />
-            <Cell
-              icon={FourthType3}
-              title={t("fourth.3.title")}
-              text1={t("fourth.3.body1")}
-              text2={t("fourth.3.body2")}
-            />
-            <Cell
-              icon={FourthType4}
-              title={t("fourth.4.title")}
-              text1={t("fourth.4.body1")}
-              text2={t("fourth.4.body2")}
-            />
-            <Cell
-              icon={FourthType5}
-              title={t("fourth.5.title")}
-              text1={t("fourth.5.body1")}
-              text2={t("fourth.5.body2")}
-            />
-            <Cell
-              icon={FourthType6}
-              title={t("fourth.6.title")}
-              text1={t("fourth.6.body1")}
-              text2={t("fourth.6.body2")}
-            />
+        <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center px-6 w-full">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("fourth.subtitle")}</p>
+          <p className="text-2xl sm:text-4xl font-bold break-keep max-w-2xl sm:leading-normal text-center">
+            {t("fourth.sectionTitle")}
+          </p>
+          <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16 mt-16">
+            <div className="space-y-16 p-6 bg-green-800 bg-opacity-10 rounded-lg">
+              <Cell
+                icon={FourthType1}
+                title={t("fourth.1.title")}
+                text1={t("fourth.1.body1")}
+                text2={t("fourth.1.body2")}
+                dark
+              />
+              <Cell
+                icon={FourthType5}
+                title={t("fourth.5.title")}
+                text1={t("fourth.5.body1")}
+                text2={t("fourth.5.body2")}
+                dark
+              />
+            </div>
+
+            <div className="space-y-16 p-6">
+              <Cell
+                icon={FourthType2}
+                title={t("fourth.2.title")}
+                text1={t("fourth.2.body1")}
+                text2={t("fourth.2.body2")}
+              />
+              <Cell
+                icon={FourthType3}
+                title={t("fourth.3.title")}
+                text1={t("fourth.3.body1")}
+                text2={t("fourth.3.body2")}
+              />
+            </div>
+
+            <div className="space-y-16 p-6">
+              <Cell
+                icon={FourthType4}
+                title={t("fourth.4.title")}
+                text1={t("fourth.4.body1")}
+                text2={t("fourth.4.body2")}
+              />
+              <Cell
+                icon={FourthType6}
+                title={t("fourth.6.title")}
+                text1={t("fourth.6.body1")}
+                text2={t("fourth.6.body2")}
+              />
+            </div>
           </div>
         </div>
       </div>
     );
   };
 
-  const FifthSection = () => {
+  const ProcessSection = () => {
     const [progressIndex, setProgressIndex] = useState(0);
     const progressData = [
       {
@@ -376,19 +387,19 @@ const Welcome = () => {
     );
     return (
       <div
-        style={{ backgroundColor: "#FAFAFD" }}
+        style={{ background: "linear-gradient(180deg, rgba(22, 101, 52, 0.05 ), #ffffff)" }}
         className="flex w-screen items-center justify-center sm:flex-row flex-col-reverse py-24"
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col w-full items-center h-full px-4">
           <p className="text-xl font-bold mb-20 px-4 w-full">{t("fifth.sectionTitle")}</p>
 
-          <div className="flex max-w-4xl w-full mb-12 px-4">
+          <div className="flex max-w-5xl w-full mb-12 px-4">
             <BarCell index={0} title={t("fifth.1.bar")} />
             <BarCell index={1} title={t("fifth.2.bar")} />
             <BarCell index={2} title={t("fifth.3.bar")} />
             <BarCell index={3} title={t("fifth.4.bar")} />
           </div>
-          <div className="w-full flex h-full max-w-4xl">
+          <div className="w-full flex h-full max-w-5xl">
             <button
               onClick={() => progressIndex > 0 && setProgressIndex(progressIndex - 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
@@ -452,8 +463,8 @@ const Welcome = () => {
       <ClientSection />
       <DeveloperSection />
       <AssistantSection />
-      <FourthSection />
-      <FifthSection />
+      <StrengthSection />
+      <ProcessSection />
       <SixthSection companies={companyArray} />
       <SeventhSection />
     </div>
