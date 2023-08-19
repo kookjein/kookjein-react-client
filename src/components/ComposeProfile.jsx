@@ -127,7 +127,7 @@ const ComposeProfile = ({ userId, openComposeModal, closeComposeModal, composeMo
     return (
       <button
         style={{ boxShadow: "0 6px 12px #00000040" }}
-        onClick={userState.isAuthenticated ? openComposeModal : () => navigate("/login")}
+        onClick={userState.isAuthenticated ? openComposeModal : () => navigate("/auth/login")}
         className="fixed bottom-4 right-4 bg-white p-2 pr-8 rounded-full shadow-xl flex items-center space-x-4 filter hover:bg-gray-100 border z-30"
       >
         <img

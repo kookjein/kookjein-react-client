@@ -20,8 +20,6 @@ import Browse from "./pages/Browse";
 import History from "./pages/History";
 import ChatPage from "./pages/ChatPage";
 import Profile from "./pages/Profile";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
 import Notification from "./components/Notification";
@@ -37,6 +35,7 @@ import Contract from "./pages/contract/Contract";
 import Footer from "./components/Footer";
 import Manage from "./pages/manage/Manage";
 import CreateJobPostAnon from "./pages/CreateJobPostAnon";
+import Auth from "./pages/Auth";
 
 function App() {
   const { userState } = useContext(AuthContext);
@@ -154,8 +153,7 @@ function App() {
           <Route path="/service/company" element={<ServiceCompany />} />
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/assistant" element={<Assistant />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/auth/*" element={<Auth />} />
           <Route path="/error404" element={<Error404 />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
@@ -163,7 +161,6 @@ function App() {
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/create-job-anon" element={<CreateJobPostAnon />} />
-
         </Routes>
         <Footer />
       </AxiosInterceptor>

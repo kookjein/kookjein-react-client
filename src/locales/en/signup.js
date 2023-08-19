@@ -1,11 +1,12 @@
 const signup = {
   mode: "en",
   companyOrDev: "Join as a company or developer",
-  companyCard: "I'm from a company, hiring",
-  developerCard: "I'm a developer, looking for work",
+  companyCard: "I'm a client",
+  developerCard: "I'm a developer",
   continue: "Continue",
 
   signup: "Sign up to kookje.in",
+  info: "User information",
   name: "Full name",
   companyName: "Company name",
   email: "Email",

@@ -87,7 +87,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
               </>
             ) : (
               <div className="items-center space-x-3 flex">
-                <Link to="/login">
+                <Link to="/auth/login">
                   <button className="text-white text px-5 py-2 rounded hover:opacity-90 transition font-semibold text-sm bg-green-700">
                     {t("signin")}
                   </button>
