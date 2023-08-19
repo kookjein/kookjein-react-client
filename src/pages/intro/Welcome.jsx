@@ -92,7 +92,7 @@ const Welcome = () => {
           <p className="font-bold leading-relaxed sm:leading-relaxed sm:text-6xl text-3xl">{t("type.fixed")}</p>
           <p
             style={{ whiteSpace: "pre-line" }}
-            className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9 sm:leading-9 max-w-md break-keep"
+            className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9 sm:leading-9 sm:max-w-md 2xl:max-w-lg break-keep"
           >
             {t("subtitle")}
           </p>
