@@ -14,7 +14,7 @@ const Dropdown = ({ button, dropdown }) => {
         <article
           className={`${
             dropdownVisibility ? "slide-fade-in-dropdown" : "slide-fade-out-dropdown"
-          } absolute top-9 -right-2 sm:-right-8 shadow-xl rounded-lg ring-1 ring-gray-200 bg-white`}
+          } absolute top-9 -right-2 sm:-right-6 shadow-xl rounded-lg ring-1 ring-gray-200 bg-white`}
         >
           {dropdown}
         </article>

@@ -7,7 +7,6 @@ import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import SolutionDropdown from "./SolutionDropdown";
 import CompanyDropdown from "./CompanyDropdown";
-import ResourcesDropdown from "./ResourcesDropdown";
 import NotificationButton from "./NotificationButton";
 import ProfileButton from "./ProfileButton";
 // ASSETS
@@ -43,12 +42,11 @@ const Navbar = ({ hasNewMessageBubble }) => {
             </Link>
           </div>
 
-          <div className="items-center sm:flex hidden">
+          <div className="items-center flex">
             {!userState.isAuthenticated ? (
               <>
                 <Dropdown button={<NavButton title={t("service.service")} />} dropdown={<SolutionDropdown />} />
                 <Dropdown button={<NavButton title={t("company.company")} />} dropdown={<CompanyDropdown />} />
-                <Dropdown button={<NavButton title={t("resources.resources")} />} dropdown={<ResourcesDropdown />} />
               </>
             ) : (
               <div className="flex space-x-6">
