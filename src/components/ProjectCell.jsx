@@ -21,7 +21,7 @@ const ProjectCell = ({ project }) => {
         <div className="flex mt-6 text-green-800 divide-x">
           <div className="text-xs font-bold pr-3">{project.project_info[0].budget.label}</div>
           <div className="text-xs px-3">
-            {project.project_info[0].method === "contract" ? "단기 프로젝트" : "인력 구인"}
+            {project.project_info[0].method === 0 ? (lang === 'en' ? "contract" : "단기 프로젝트") : (lang === 'en' ? "recruit" : "인력 구인")}
           </div>
           <div className="text-xs px-3">예상기간 {project.project_info[0].duration}개월</div>
           <div className="text-xs px-3">
@@ -31,7 +31,7 @@ const ProjectCell = ({ project }) => {
         </div>
 
         <div className="text-xs mt-4 line-clamp-4 tracking-tight w-full text-left break-keep">
-          {project.project_info[0].detail}
+          {project.project_info[0].detail[lang]}
         </div>
 
         <div className="text-xs w-full text-left mt-6 font-bold text-gray-700">지원자 - {project.applicants.filter(value => JSON.parse(value)[0]).length}</div>
