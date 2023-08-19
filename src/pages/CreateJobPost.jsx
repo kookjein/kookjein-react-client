@@ -70,40 +70,41 @@ const CreateJobPost = () => {
   );
 
   const registerPost = () => {
-    var arrayOfFields = [
-      { projectTitle: projectTitle },
-      { projectDetail: projectDetail },
-      { projectMethod: projectMethod },
-      { projectType: projectType },
-      { projectCategory: projectCategory },
-      { projectStatus: projectStatus },
-      { tech: tech },
-      { projectBudget: projectBudget },
-      { projectStartAt: projectStartAt },
-      { projectDuration: projectDuration },
-    ];
-
-    var missingArray = [];
-    for (let i = 0; i < arrayOfFields.length; i++) {
-      console.log(Object.keys(arrayOfFields[i])[0], Object.values(arrayOfFields[i])[0]);
-      if (
-        !Object.values(arrayOfFields[i])[0] ||
-        Object.values(arrayOfFields[i])[0] === null ||
-        Object.values(arrayOfFields[i])[0] === undefined ||
-        Object.values(arrayOfFields[i])[0].length === 0
-      ) {
-        missingArray.push(Object.keys(arrayOfFields[i])[0]);
-      }
+    const arrayOfFields = {
+      projectTitle: projectTitle,
+      projectDetail: projectDetail,
+      projectMethod: projectMethod,
+      projectType: projectType,
+      projectCategory: projectCategory,
+      projectStatus: projectStatus,
+      tech: tech,
+      projectBudget: projectBudget,
+      projectStartAt: projectStartAt,
+      projectDuration: projectDuration
     }
-    console.log(missingArray);
+
+    const missingArray = [];
+    Object.keys(arrayOfFields).forEach(key => {
+      if (
+          arrayOfFields[key] === null ||
+          arrayOfFields[key] === undefined ||
+          (Array.isArray(arrayOfFields[key]) && !arrayOfFields[key].length)
+      ) {
+        missingArray.push(key);
+      }
+    })
+    if (missingArray.length) {
+      console.log('missing inputs')
+      return
+    }
 
     axios
       .post("v1/project/", {
         project: {
           project_info: [
             {
-              method: projectMethod ? "recruit" : "contract",
-              type: projectType ? "maintenance" : "new",
+              method: projectMethod,
+              type: projectType,
               title: { [userState.user.userLanguage]: projectTitle },
               category: projectCategory.map(
                 (value) =>
@@ -116,7 +117,7 @@ const CreateJobPost = () => {
               tech: tech,
               status: projectStatus,
               detail: projectDetail,
-              budget: projectBudget,
+              budget: projectBudget.value,
               start_at: projectStartAt,
               duration: projectDuration,
             },
