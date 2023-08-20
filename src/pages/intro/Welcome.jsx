@@ -98,7 +98,7 @@ const Welcome = () => {
           </p>
 
           <div className="w-full flex sm:flex-row flex-col justify-center sm:space-y-0 space-y-4 sm:space-x-4 mt-8 tracking-tight">
-            <Link to="/create-job-anon">
+            <Link to="/post-job/flow-1">
               <button className="text-white text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-green-700">
                 {t("create")}
               </button>
@@ -445,7 +445,7 @@ const Welcome = () => {
       >
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
           <p className="mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
-          <Link to="/create-job-anon">
+          <Link to="/post-job/flow-1">
             <button className="text-green-700 text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-white">
               {t("create")}
             </button>

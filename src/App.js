@@ -34,7 +34,6 @@ import MainDeveloper from "./pages/main/MainDeveloper";
 import Contract from "./pages/contract/Contract";
 import Footer from "./components/Footer";
 import Manage from "./pages/manage/Manage";
-import CreateJobPostAnon from "./pages/CreateJobPostAnon";
 import Auth from "./pages/Auth";
 
 function App() {
@@ -140,7 +139,7 @@ function App() {
           <Route path="/assistant" element={<Assistant />} />
           <Route path="/error404" element={<Error404 />} />
         </Routes>
-        {!pathname.includes("/chat") && <Footer />}
+        {!pathname.includes("/chat") && !pathname.includes("/post-job") && <Footer />}
       </AxiosInterceptor>
     );
   else
@@ -160,9 +159,9 @@ function App() {
           <Route path="/jobs/:jobId" element={<JobPost />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
-          <Route path="/create-job-anon" element={<CreateJobPostAnon />} />
+          <Route path="/post-job/flow-1" element={<CreateJobPost />} />
         </Routes>
-        <Footer />
+        {!pathname.includes("/chat") && !pathname.includes("/post-job") && <Footer />}
       </AxiosInterceptor>
     );
 }
