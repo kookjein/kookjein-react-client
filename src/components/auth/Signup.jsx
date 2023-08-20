@@ -161,41 +161,10 @@ const Signup = ({ isAnon }) => {
 
   return (
     <div className="max-w-lg px-4 w-full">
-      <div className="bg-white px-6 sm:px-10 sm:pb-4 rounded-lg shadow-lg w-full">
+      <div className={` px-6 sm:px-10 sm:pb-4 rounded-lg w-full ${isAnon ? "" : "shadow-lg bg-white"}`}>
         <div className="py-6">
           <h1 className="text-2xl">{t("signup")}</h1>
         </div>
-
-        {!googleInfo && (
-          <>
-            <div ref={googleLoginRef} className={"flex w-full justify-center"} style={{ width: "100%" }}>
-              <GoogleOAuthProvider clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
-                <GoogleLogin
-                  size={"large"}
-                  width="600px"
-                  text={"continue_with"}
-                  onSuccess={(credentialResponse) => {
-                    authenticate({
-                      auth: {
-                        auth_type: "google",
-                        payload: JSON.stringify(credentialResponse),
-                      },
-                    });
-                  }}
-                  onError={() => {
-                    console.log("Login Failed");
-                  }}
-                />
-              </GoogleOAuthProvider>
-            </div>
-
-            <div className="flex items-center h-1 py-8 w-full">
-              <div className="border-t h-px w-full border-gray-300"></div>
-              <p className="flex-shrink-0 px-3 text-sm text-gray-400">{t("or")}</p>
-              <div className="border-t h-px w-full border-gray-300"></div>
-            </div>
-          </>
-        )}
 
         <h1 className="text-gray-600 font-bold">{t("companyOrDev")}</h1>
         <div className="flex w-full mt-4 space-x-2">
@@ -276,16 +245,49 @@ const Signup = ({ isAnon }) => {
           >
             {isLoading ? <div className="animate-ping h-6 w-6 rounded-full bg-white" /> : t("complete")}
           </button>
-          <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
-            <p>{t("already")}</p>
-            <Link to="/auth/login">
-              <button>
-                <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
-                  {t("login")}
-                </p>
-              </button>
-            </Link>
-          </div>
+
+          {!googleInfo && (
+            <>
+              <div className="flex items-center h-1 py-8 w-full">
+                <div className="border-t h-px w-full border-gray-300"></div>
+                <p className="flex-shrink-0 px-3 text-sm text-gray-400">{t("or")}</p>
+                <div className="border-t h-px w-full border-gray-300"></div>
+              </div>
+              <div ref={googleLoginRef} className={"flex w-full justify-center"} style={{ width: "100%" }}>
+                <GoogleOAuthProvider clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
+                  <GoogleLogin
+                    size={"large"}
+                    width="600px"
+                    text={"continue_with"}
+                    onSuccess={(credentialResponse) => {
+                      authenticate({
+                        auth: {
+                          auth_type: "google",
+                          payload: JSON.stringify(credentialResponse),
+                        },
+                      });
+                    }}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  />
+                </GoogleOAuthProvider>
+              </div>
+            </>
+          )}
+
+          {!isAnon && (
+            <div className="flex justify-center mt-10 text-gray-700 text-sm h-14 border-t items-center space-x-1">
+              <p>{t("already")}</p>
+              <Link to="/auth/login">
+                <button>
+                  <p style={{ color: "#1FAD72" }} className="hover:underline font-bold">
+                    {t("login")}
+                  </p>
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

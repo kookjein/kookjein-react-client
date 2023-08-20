@@ -15,6 +15,7 @@ const signup = {
   complete: "회원가입 완료",
   already: "이미 회원이신가요?",
   login: "로그인",
+  or: "또는"
 };
 
 export default signup;

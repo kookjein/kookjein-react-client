@@ -29,7 +29,7 @@ const Navbar = ({ hasNewMessageBubble }) => {
     <header className="w-full flex h-16 z-50 border-b justify-center bg-white">
       <div
         style={{ maxWidth: "1280px" }}
-        className={`text-black w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between`}
+        className={`text-black w-full flex h-full px-4 items-center z-50 flex-shrink-0 justify-between bg-white`}
       >
         <div className="w-full flex items-center">
           <div className="flex items-center text-sm font-nanum pr-2 sm:pr-6 flex-shrink-0">
