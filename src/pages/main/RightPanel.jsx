@@ -21,14 +21,12 @@ const RightPanel = ({ selectedTab }) => {
     axios
       .get(`/v1/user/`, { params: { user_id: userState.user.userId } })
       .then((response) => {
-        console.log("USER INFO : ", response.data);
         setMyInfo(response.data);
         setLoading(false);
         if (response.data.company?.company_id) {
           axios
             .get(`/v1/company/`, { params: { company_id: response.data.company?.company_id } })
             .then((response) => {
-              console.log("COMPANY INFO : ", response.data);
               setCompanyInfo(response.data);
             })
             .catch((e) => {
@@ -156,8 +154,9 @@ const RightPanel = ({ selectedTab }) => {
 
   const ClientHelp = () => (
     <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col p-6 bg-white shadow-lg space-y-4 text-gray-600">
-      <p className="text-sm break-keep ">
-        {myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 국제인 어시스턴트 장동해입니다.
+      <p className="text-sm break-keep">
+        {myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 국제인 어시스턴트
+        장동해입니다.
       </p>
 
       <div className="flex space-x-3 items-center py-4">
@@ -210,7 +209,7 @@ const RightPanel = ({ selectedTab }) => {
 
   if (userState.user.userType === "employer")
     return (
-      <div className="w-64 space-y-4 flex-shrink-0">
+      <div className="w-64 space-y-4 flex-shrink-0 tracking-tight">
         <MyProfileSummary />
         <CompanySummary />
         <ClientHelp />

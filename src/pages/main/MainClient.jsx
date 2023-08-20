@@ -12,7 +12,6 @@ const MainClient = () => {
   useEffect(() => {
     axios.get(`/v1/project/owner`).then((response) => {
       setProjects(response.data);
-      console.log("PROJECT:", response.data);
     });
   }, []);
 
@@ -47,7 +46,7 @@ const MainClient = () => {
 
     return (
       <div className="flex space-x-6">
-        <div className="w-full border rounded-xl bg-white shadow-lg">
+        <div className="w-full border rounded-xl bg-white shadow-lg overflow-hidden">
           <div className="w-full items-center border-b">
             <div className="flex justify-between w-full px-8 pt-6">
               <h1 className="text-xl font-bold mb-3 text-gray-700">대시보드</h1>
@@ -65,17 +64,19 @@ const MainClient = () => {
           </div>
           <div className="flex flex-col divide-y">
             {selectedTab === "진행중" ? (
-              <></>
+              <>
+                <Empty />
+              </>
             ) : (
               <>
-                {projects?.map((project) => (
-                  <ProjectCell key={project.project_id} project={project} />
-                ))}
+                {projects?.length ? (
+                  projects?.map((project) => <ProjectCell key={project.project_id} project={project} />)
+                ) : (
+                  <Empty />
+                )}
               </>
             )}
           </div>
-
-          <Empty />
         </div>
       </div>
     );
