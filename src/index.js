@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { hydrate, render } from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -15,6 +15,7 @@ import { AuthProvider } from "./context/authContext";
 import { WebsocketProvider } from "./context/websocketContext";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { HelmetProvider } from "react-helmet-async";
 
 const options = {
   order: ["querystring", "navigator"],
@@ -34,20 +35,44 @@ i18n
     detection: options,
   });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+const root = document.getElementById("root");
+const rootApp = (
   <React.StrictMode>
-    <AuthProvider>
-      <WebsocketProvider>
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
-      </WebsocketProvider>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <WebsocketProvider>
+          <BrowserRouter>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>
+        </WebsocketProvider>
+      </AuthProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
+
+if (root.hasChildNodes()) {
+  hydrate(rootApp, root);
+} else {
+  render(rootApp, root);
+}
+
+// root.render(
+//   <React.StrictMode>
+//     <HelmetProvider>
+//       <AuthProvider>
+//         <WebsocketProvider>
+//           <BrowserRouter>
+//             <Provider store={store}>
+//               <App />
+//             </Provider>
+//           </BrowserRouter>
+//         </WebsocketProvider>
+//       </AuthProvider>
+//     </HelmetProvider>
+//   </React.StrictMode>
+// );
 
 const firebaseConfig = {
   apiKey: "AIzaSyCU2_ix_ZsKk2F7cQKoXijZOm6Epexvcag",

@@ -10,6 +10,7 @@ import { WebsocketContext } from "./context/websocketContext";
 import axios, { AxiosInterceptor } from "./utils/authAxios";
 import useTabActive from "./utils/useTabActive";
 import ScrollToTop from "./utils/scrollToTop";
+import SEOMetaTag from "./utils/SEOMetaTag";
 // INTRO PAGES
 import Welcome from "./pages/intro/Welcome";
 import ServiceCompany from "./pages/intro/ServiceCompany";
@@ -35,8 +36,10 @@ import Contract from "./pages/contract/Contract";
 import Footer from "./components/Footer";
 import Manage from "./pages/manage/Manage";
 import Auth from "./pages/Auth";
+import { useTranslation } from "react-i18next";
 
 function App() {
+  const { t } = useTranslation("seo");
   const { userState } = useContext(AuthContext);
   const { wsRef } = useContext(WebsocketContext);
   const { pathname } = useLocation();
@@ -118,6 +121,13 @@ function App() {
   if (userState.isAuthenticated)
     return (
       <AxiosInterceptor>
+        <SEOMetaTag
+          title={t("title")}
+          description={t("description")}
+          keywords={t("keywords")}
+          url="https://www.kookjein.com"
+          imgsrc="https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"
+        />
         <ScrollToTop />
         <ToastContainer />
         <Navbar hasNewMessageBubble={hasNewMessageBubble} />
@@ -145,6 +155,13 @@ function App() {
   else
     return (
       <AxiosInterceptor>
+        <SEOMetaTag
+          title={t("title")}
+          description={t("description")}
+          keywords={t("keywords")}
+          url="https://www.kookjein.com"
+          imgsrc="https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"
+        />
         <ScrollToTop />
         <Navbar hasNewMessageBubble={hasNewMessageBubble} />
         <Routes>

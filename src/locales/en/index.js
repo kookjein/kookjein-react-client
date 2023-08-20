@@ -14,3 +14,4 @@ export { default as createCompany } from "./createCompany";
 export { default as companyEditModal } from "./companyEditModal";
 export { default as browse } from "./browse";
 export { default as chatPage } from "./chatPage";
+export { default as seo } from "./seo";

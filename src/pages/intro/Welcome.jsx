@@ -90,12 +90,12 @@ const Welcome = () => {
             className="font-bold tracking-tight sm:text-6xl text-3xl text-center"
           />
           <p className="font-bold leading-relaxed sm:leading-relaxed sm:text-6xl text-3xl">{t("type.fixed")}</p>
-          <p
+          <h2
             style={{ whiteSpace: "pre-line" }}
             className="mt-8 text-md sm:text-xl text-gray-600 tracking-tight text-center leading-9 sm:leading-9 sm:max-w-md 2xl:max-w-lg break-keep"
           >
             {t("subtitle")}
-          </p>
+          </h2>
 
           <div className="w-full flex sm:flex-row flex-col justify-center sm:space-y-0 space-y-4 sm:space-x-4 mt-8 tracking-tight">
             <Link to="/post-job/flow-1">
