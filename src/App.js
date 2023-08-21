@@ -37,6 +37,7 @@ import Footer from "./components/Footer";
 import Manage from "./pages/manage/Manage";
 import Auth from "./pages/Auth";
 import { useTranslation } from "react-i18next";
+import JobPostComplete from "./pages/createJobPost/JobPostComplete";
 
 function App() {
   const { t } = useTranslation("seo");
@@ -135,6 +136,7 @@ function App() {
           <Route path="/*" element={userState.user.userType === "employee" ? <MainDeveloper /> : <MainClient />} />
           <Route path="/create-company" element={<CreateCompany />} />
           <Route path="/post-job/flow-1" element={<CreateJobPost />} />
+          <Route path="/post-job/done" element={<JobPostComplete />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/contract/*" element={<Contract />} />

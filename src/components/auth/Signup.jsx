@@ -7,7 +7,7 @@ import { HttpStatusCode } from "axios";
 import { AuthContext } from "../../context/authContext";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
-const Signup = ({ isAnon }) => {
+const Signup = ({ isAnon, setRegistered }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("signup");
   const { updateAccessToken } = useContext(AuthContext);
@@ -137,7 +137,8 @@ const Signup = ({ isAnon }) => {
           .then((response) => {
             if (response.status === HttpStatusCode.Ok) {
               updateAccessToken(response.data.access_token).then();
-              navigate("/");
+              if (!isAnon) navigate("/");
+              else setRegistered(true)
             }
             setLoading(false);
           })

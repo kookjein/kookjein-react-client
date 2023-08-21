@@ -7,11 +7,14 @@ import ProjectInfoPanel from "./ProjectInfoPanel";
 import LeftPanel from "./LeftPanel";
 import JobPostComplete from "./JobPostComplete";
 import { useEffect } from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 const CreateJobPost = () => {
   const { userState } = useContext(AuthContext);
   const [project, setProject] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
+  const [registered, setRegistered] = useState(false);
 
   const [projectTitle, setProjectTitle] = useState(null);
   const [projectDetail, setProjectDetail] = useState(null);
@@ -50,11 +53,16 @@ const CreateJobPost = () => {
     { name: "10. 프로젝트 희망 착수일", ref: projectStartAtRef, value: projectStartAt },
     { name: "11. 프로젝트 예상 진행 기간", ref: projectDurationRef, value: projectDuration },
   ];
+  const { i18n } = useTranslation("");
+  const lang = i18n.language.includes("en") ? "en" : "ko";
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    console.log(project);
+    console.log(currentStep, project);
     return () => {};
   }, [currentStep, project]);
+
 
   const registerPost = () => {
     axios
@@ -64,7 +72,7 @@ const CreateJobPost = () => {
             {
               method: projectMethod,
               type: projectType,
-              title: { [userState.user.userLanguage]: projectTitle },
+              title: { [userState.user?.userLanguage || lang]: projectTitle },
               category: projectCategory.map(
                 (value) =>
                   ({
@@ -75,7 +83,7 @@ const CreateJobPost = () => {
               ),
               tech: tech,
               status: projectStatus,
-              detail: { [userState.user.userLanguage]: projectDetail },
+              detail: { [userState.user?.userLanguage || lang]: projectDetail },
               budget: projectBudget,
               start_at: projectStartAt,
               duration: projectDuration,
@@ -97,7 +105,13 @@ const CreateJobPost = () => {
         } else setCurrentStep(2);
       });
   };
-
+  const registerPost1 = registerPost
+  useEffect(() => {
+    if (registered) {
+      registerPost1()
+      navigate("/post-job/done");
+    }
+  }, [registered, navigate, registerPost1]);
   const toSignup = () => {
     setCurrentStep(1);
     setProject({
@@ -183,7 +197,7 @@ const CreateJobPost = () => {
               />
             ) : currentStep === 1 ? (
               <div className="flex justify-center">
-                <Signup isAnon />
+                <Signup isAnon setRegistered={setRegistered}/>
               </div>
             ) : (
               <JobPostComplete />
