@@ -21,11 +21,9 @@ const Profile = () => {
   const developerInfo = useRef({});
   const registerDate = useRef({});
 
-  const [isLoading, setLoading] = useState(true);
   const [kYos, setKYos] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get(`/v1/user/`, { params: { user_id: userId } })
       .then((response) => {
@@ -40,41 +38,35 @@ const Profile = () => {
           tempYos = tempYos + yos;
         }
         setKYos(tempYos + 1);
-        setLoading(false);
       })
       .catch((e) => {
         console.log("V1/USER/ ERROR : ", e);
         navigate("/error404");
-        setLoading(false);
       });
   }, [userId, navigate]);
 
-  if (!isLoading)
-    return (
-      <>
-        <SEOMetaTag
-          title={`${developerInfo.current.name?.[lang]} | ${t("profile")} | ${t("kookjein")} `}
-          description={developerInfo.current?.intro ? developerInfo.current?.intro?.[lang] : t("description")}
-          keywords={t("keywords")}
-          url={`https://www.kookjein.com/user/${userId}`}
-          imgsrc={developerInfo.current?.img || "https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"}
+  return (
+    <>
+      <SEOMetaTag
+        title={`${developerInfo.current.name?.[lang]} | ${t("profile")} | ${t("kookjein")} `}
+        description={developerInfo.current?.intro ? developerInfo.current?.intro?.[lang] : t("description")}
+        keywords={t("keywords")}
+        url={`https://www.kookjein.com/user/${userId}`}
+        imgsrc={developerInfo.current?.img || "https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"}
+      />
+      {generalInfo.current.user?.user_type === "employer" ? (
+        <ProfileEmployer generalInfo={generalInfo.current} isMyProfile={userState.user?.userId === parseInt(userId)} />
+      ) : (
+        <ProfileDeveloper
+          generalInfo={generalInfo}
+          developerInfo={developerInfo}
+          registerDate={registerDate}
+          isMyProfile={userState.user?.userId === parseInt(userId)}
+          kYos={kYos}
         />
-        {generalInfo.current.user.user_type === "employer" ? (
-          <ProfileEmployer
-            generalInfo={generalInfo.current}
-            isMyProfile={userState.user?.userId === parseInt(userId)}
-          />
-        ) : (
-          <ProfileDeveloper
-            generalInfo={generalInfo}
-            developerInfo={developerInfo}
-            registerDate={registerDate}
-            isMyProfile={userState.user?.userId === parseInt(userId)}
-            kYos={kYos}
-          />
-        )}
-      </>
-    );
+      )}
+    </>
+  );
 };
 
 export default Profile;
