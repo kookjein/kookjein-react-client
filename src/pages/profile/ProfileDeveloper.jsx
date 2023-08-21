@@ -1,21 +1,19 @@
-import "../utils/drawer.css";
-import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import "../../utils/drawer.css";
+import React, { useContext, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import moment from "moment/moment";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
-import axios from "../utils/authAxios";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../../context/authContext";
 import Drawer from "react-modern-drawer";
 //COMPONENTS
-import Tags from "../components/Tags";
-import UploadProfile from "../components/UploadProfile";
-import ProfileEmployer from "./ProfileEmployer";
-import EditProfileModal from "../components/EditProfileModal";
-import ComposeProfile from "../components/ComposeProfile";
+import Tags from "../../components/Tags";
+import UploadProfile from "../../components/UploadProfile";
+import EditProfileModal from "../../components/EditProfileModal";
+import ComposeProfile from "../../components/ComposeProfile";
 //ASSETS
-import { languageArray } from "../utils/arrays";
-import DefaultImage from "../assets/default-profile.png";
+import { languageArray } from "../../utils/arrays";
+import DefaultImage from "../../assets/default-profile.png";
 import { IoLocationSharp } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
 import { AiTwotoneCalendar } from "react-icons/ai";
@@ -23,60 +21,17 @@ import { MdOutlineAttachMoney, MdOutlineWork } from "react-icons/md";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 
-const Profile = () => {
-  const navigate = useNavigate();
-  const generalInfo = useRef({});
-  const developerInfo = useRef({});
-  const registerDate = useRef({});
+const ProfileDeveloper = ({ generalInfo, isMyProfile, developerInfo, kYos, registerDate }) => {
+  const { t, i18n } = useTranslation("profile");
+  const lang = i18n.language.includes("en") ? "en" : "ko";
+  const { userId } = useParams();
+
   const { userState } = useContext(AuthContext);
 
-  const { t, i18n } = useTranslation("profile");
-  const { userId } = useParams();
-  const lang = i18n.language.includes("en") ? "en" : "ko";
-
-  const [isMyProfile, setIsMyProfile] = useState(false);
-  const [isLoading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [composeModalIsOpen, setComposeModalOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
-  const [kYos, setKYos] = useState(0);
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    setIsMyProfile(userState.user?.userId === parseInt(userId));
-  }, [userState, userId]);
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/v1/user/`, { params: { user_id: userId } })
-      .then((response) => {
-        generalInfo.current = response.data;
-        developerInfo.current = response.data.user.user_profile[0];
-        registerDate.current = response.data.user.user_created_at;
-
-        const kExpList = developerInfo.current?.k_experience;
-        var tempYos = 0;
-        for (let i = 0; i < kExpList?.length; i++) {
-          const yos = moment.duration(kExpList[i].to - kExpList[i].from).years();
-          tempYos = tempYos + yos;
-        }
-        setKYos(tempYos + 1);
-        setLoading(false);
-        forceUpdate();
-      })
-      .catch((e) => {
-        console.log("V1/USER/ ERROR : ", e);
-        navigate("/error404");
-        setLoading(false);
-      });
-  }, [userId, navigate]);
-
-  useEffect(() => {
-    Modal.setAppElement("body");
-    return () => {};
-  }, []);
 
   const toggleDrawer = () => {
     setDrawerOpen((prevState) => !prevState);
@@ -567,99 +522,88 @@ const Profile = () => {
     );
   };
 
-  if (!isLoading)
-    if (generalInfo.current.user.user_type === "employer")
-      return <ProfileEmployer generalInfo={generalInfo.current} isMyProfile={isMyProfile} />;
-    else
-      return (
-        <>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            shouldCloseOnOverlayClick={false}
-          >
-            <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
-          </Modal>
+  return (
+    <>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} shouldCloseOnOverlayClick={false}>
+        <EditProfileModal initialTab={modalInitialTab} closeModal={closeModal} developerInfo={developerInfo} />
+      </Modal>
 
-          <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
-            <div className="w-full h-16 border-b flex items-center justify-between px-6">
-              <p className="text-gray-700">채용 신청</p>
-              <button onClick={toggleDrawer}>
-                <RxCross2 className="w-7 h-7" />
-              </button>
-            </div>
-            <div className="p-6">
-              <p className="text-xl">인사말/간단한 소개</p>
-              <input className="w-full h-32 border rounded mt-4" />
+      <Drawer open={isDrawerOpen} onClose={toggleDrawer} direction="right" size={450}>
+        <div className="w-full h-16 border-b flex items-center justify-between px-6">
+          <p className="text-gray-700">채용 신청</p>
+          <button onClick={toggleDrawer}>
+            <RxCross2 className="w-7 h-7" />
+          </button>
+        </div>
+        <div className="p-6">
+          <p className="text-xl">인사말/간단한 소개</p>
+          <input className="w-full h-32 border rounded mt-4" />
 
-              <p className="text-xl mt-4">내 프로젝트</p>
-              <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
-                선택하기
-              </div>
+          <p className="text-xl mt-4">내 프로젝트</p>
+          <div className="w-full h-24 rounded bg-gray-100 mt-4 flex items-center justify-center text-blue-500">
+            선택하기
+          </div>
 
-              <p className="text-xl mt-4">어시스턴트 옵션</p>
-              <div className="w-full py-4 border mt-4 p-4">
-                <div className="flex justify-between w-full">
-                  <div>
-                    <p className="text-xl">무료플랜</p>
-                    <p className="text-sm text-gray-500 mt-2">₩0원/월</p>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <p>고객 지원 및 분쟁 해결</p>
-                    <p>개발자 매칭 시 마일스톤 검증</p>
-                  </div>
-                </div>
+          <p className="text-xl mt-4">어시스턴트 옵션</p>
+          <div className="w-full py-4 border mt-4 p-4">
+            <div className="flex justify-between w-full">
+              <div>
+                <p className="text-xl">무료플랜</p>
+                <p className="text-sm text-gray-500 mt-2">₩0원/월</p>
               </div>
-              <div className="w-full py-4 border mt-4 p-4">
-                <div className="flex justify-between w-full">
-                  <div>
-                    <p className="text-xl">스탠다드 플랜</p>
-                    <p className="text-sm text-gray-500 mt-2">₩40만원/월</p>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <p>고객 지원 및 분쟁 해결</p>
-                    <p>개발자 매칭 시 마일스톤 검증</p>
-                  </div>
-                </div>
+              <div className="text-sm text-gray-600">
+                <p>고객 지원 및 분쟁 해결</p>
+                <p>개발자 매칭 시 마일스톤 검증</p>
               </div>
-              <div className="w-full py-4 border mt-4 p-4">
-                <div className="flex justify-between w-full">
-                  <div>
-                    <p className="text-xl">엔터프라이즈 플랜</p>
-                    <p className="text-sm text-gray-500 mt-2">₩160만F원/월</p>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <p>고객 지원 및 분쟁 해결</p>
-                    <p>개발자 매칭 시 마일스톤 검증</p>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
-                <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">
-                  계약 및 채용하기
-                </button>
-              </div>
-            </div>
-          </Drawer>
-
-          {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
-            <ComposeProfile
-              userId={userId}
-              openComposeModal={openComposeModal}
-              closeComposeModal={closeComposeModal}
-              composeModalIsOpen={composeModalIsOpen}
-              developerInfo={developerInfo}
-            />
-          )}
-          <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
-            <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
-              <LeftPanel />
-              <RightPanel />
             </div>
           </div>
-        </>
-      );
+          <div className="w-full py-4 border mt-4 p-4">
+            <div className="flex justify-between w-full">
+              <div>
+                <p className="text-xl">스탠다드 플랜</p>
+                <p className="text-sm text-gray-500 mt-2">₩40만원/월</p>
+              </div>
+              <div className="text-sm text-gray-600">
+                <p>고객 지원 및 분쟁 해결</p>
+                <p>개발자 매칭 시 마일스톤 검증</p>
+              </div>
+            </div>
+          </div>
+          <div className="w-full py-4 border mt-4 p-4">
+            <div className="flex justify-between w-full">
+              <div>
+                <p className="text-xl">엔터프라이즈 플랜</p>
+                <p className="text-sm text-gray-500 mt-2">₩160만F원/월</p>
+              </div>
+              <div className="text-sm text-gray-600">
+                <p>고객 지원 및 분쟁 해결</p>
+                <p>개발자 매칭 시 마일스톤 검증</p>
+              </div>
+            </div>
+          </div>
+          <div className="absolute bottom-0 h-24 border-t w-full bg-gray-100 -ml-6 p-4 flex items-center justify-end">
+            <button className="h-9 px-6 bg-green-600 text-white rounded hover:brightness-125">계약 및 채용하기</button>
+          </div>
+        </div>
+      </Drawer>
+
+      {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
+        <ComposeProfile
+          userId={userId}
+          openComposeModal={openComposeModal}
+          closeComposeModal={closeComposeModal}
+          composeModalIsOpen={composeModalIsOpen}
+          developerInfo={developerInfo}
+        />
+      )}
+      <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
+        <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
+          <LeftPanel />
+          <RightPanel />
+        </div>
+      </div>
+    </>
+  );
 };
 
-export default Profile;
+export default ProfileDeveloper;

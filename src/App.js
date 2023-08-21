@@ -20,7 +20,7 @@ import Assistant from "./pages/intro/Assistant";
 import Browse from "./pages/Browse";
 import History from "./pages/History";
 import ChatPage from "./pages/ChatPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 import Error404 from "./pages/Error404";
 import Company from "./pages/Company";
 import Notification from "./components/Notification";

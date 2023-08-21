@@ -1,5 +1,7 @@
 const profile = {
   mode: "ko",
+  profile: "프로필",
+  kookjein: "국제인",
   noInfo: "등록된 정보가 없습니다",
   sendMessage: "메세지 보내기",
   hire: "계약 및 채용하기",

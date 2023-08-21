@@ -12,6 +12,12 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
   const { userState } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState(initialTab);
 
+  useEffect(() => {
+    return () => {
+      window.location.reload();
+    };
+  }, []);
+
   const SaveComponent = ({ isReady, isSaved, onPress, isLoading }) => (
     <div className="flex items-center justify-between absolute bottom-0 w-full shadow p-6 py-3 bg-gray-100 bg-opacity-80">
       <p className="text-green-700 text-sm">

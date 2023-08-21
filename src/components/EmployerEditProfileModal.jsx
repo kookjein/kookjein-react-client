@@ -12,9 +12,8 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
   const { t } = useTranslation("employerEditProfileModal");
 
   useEffect(() => {
-    console.log("MODAL OPEN");
     return () => {
-      console.log("MODAL CLOSED");
+      window.location.reload();
     };
   }, []);
 

@@ -1,27 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Tags from "../components/Tags";
+import Tags from "../../components/Tags";
 import { IoLocationSharp } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
-import { AuthContext } from "../context/authContext";
-import DefaultImage from "../assets/default-profile.png";
-import DefaultCompany from "../assets/default-company.png";
+import { AuthContext } from "../../context/authContext";
+import DefaultImage from "../../assets/default-profile.png";
+import DefaultCompany from "../../assets/default-company.png";
 import { BsPatchCheckFill } from "react-icons/bs";
-import UploadProfile from "../components/UploadProfile";
-import { languageArray } from "../utils/arrays";
+import UploadProfile from "../../components/UploadProfile";
+import { languageArray } from "../../utils/arrays";
 import moment from "moment/moment";
-import EditProfileModalEmployer from "../components/EmployerEditProfileModal";
+import EditProfileModalEmployer from "../../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import axios from "../utils/authAxios";
-import { Link, useParams } from "react-router-dom";
-import ComposeProfile from "../components/ComposeProfile";
-import ProjectCell from "../components/ProjectCell";
+import axios from "../../utils/authAxios";
+import { Link } from "react-router-dom";
+// import ProjectCell from "../components/ProjectCell";
 
 const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const { userState } = useContext(AuthContext);
-  const { userId } = useParams();
   const developerInfo = useRef(generalInfo.user.user_profile[0]);
   const companyInfo = useRef();
   const { t, i18n } = useTranslation("profileEmployer");
@@ -29,7 +27,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
-  const [composeModalIsOpen, setComposeModalOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -73,14 +70,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   function closeModal() {
     setIsOpen(false);
     setModalInitialTab("Basic");
-  }
-
-  function openComposeModal() {
-    setComposeModalOpen(true);
-  }
-
-  function closeComposeModal() {
-    setComposeModalOpen(false);
   }
 
   const Divider = () => <div className="w-full h-px border-t border-gray-300 mb-6 mt-3" />;
@@ -315,8 +304,8 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             <div className="text-sm text-gray-600">※ 등록된 프로젝트가 없습니다.</div>
           ) : (
             <div className="flex flex-col divide-y">
-              <ProjectCell />
-              <ProjectCell />
+              {/* <ProjectCell />
+              <ProjectCell /> */}
             </div>
           )}
           <div className="h-16" />
@@ -334,16 +323,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
             developerInfo={developerInfo}
           />
         </Modal>
-        {userState.isAuthenticated && !isMyProfile && userState.user.userType !== "employee" && (
-          <ComposeProfile
-            userId={userId}
-            openComposeModal={openComposeModal}
-            closeComposeModal={closeComposeModal}
-            composeModalIsOpen={composeModalIsOpen}
-            developerInfo={developerInfo}
-          />
-        )}
-
         <div className="w-full min-h-screen h-full flex flex-col items-center overflow-x-hidden z-10">
           <div style={{ maxWidth: "1280px" }} className="w-full h-full sm:px-4 px-1 flex sm:flex-row flex-col">
             <LeftPanel />

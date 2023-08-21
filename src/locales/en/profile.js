@@ -1,5 +1,7 @@
 const profile = {
   mode: "en",
+  profile: "Profile",
+  kookjein: "Kookjein",
   noInfo: "No information to show",
   sendMessage: "Send message",
   hire: "Send offer",
