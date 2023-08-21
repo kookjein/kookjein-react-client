@@ -1,6 +1,6 @@
 const login = {
   mode: "en",
-  title: "Sign in to kookje.in",
+  title: "Log in to Kookjein",
   subtitle: "Global Developer Matching Platform",
   google: "Continue with Google",
   or: "OR",

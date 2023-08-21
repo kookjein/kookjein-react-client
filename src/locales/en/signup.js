@@ -4,8 +4,8 @@ const signup = {
   companyCard: "I'm a client",
   developerCard: "I'm a developer",
   continue: "Continue",
-
-  signup: "Sign up to kookje.in",
+  title: "Sign up to Kookjein",
+  signup: "Sign up to Kookjein",
   info: "User information",
   name: "Full name",
   companyName: "Company name",

@@ -7,8 +7,9 @@ import ProjectInfoPanel from "./ProjectInfoPanel";
 import LeftPanel from "./LeftPanel";
 import JobPostComplete from "./JobPostComplete";
 import { useEffect } from "react";
-import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import SEOMetaTag from "../../utils/SEOMetaTag";
 
 const CreateJobPost = () => {
   const { userState } = useContext(AuthContext);
@@ -53,16 +54,14 @@ const CreateJobPost = () => {
     { name: "10. 프로젝트 희망 착수일", ref: projectStartAtRef, value: projectStartAt },
     { name: "11. 프로젝트 예상 진행 기간", ref: projectDurationRef, value: projectDuration },
   ];
-  const { i18n } = useTranslation("");
+  const { t, i18n } = useTranslation("createJobPost");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const navigate = useNavigate();
-
 
   useEffect(() => {
     console.log(currentStep, project);
     return () => {};
   }, [currentStep, project]);
-
 
   const registerPost = () => {
     axios
@@ -105,10 +104,10 @@ const CreateJobPost = () => {
         } else setCurrentStep(2);
       });
   };
-  const registerPost1 = registerPost
+  const registerPost1 = registerPost;
   useEffect(() => {
     if (registered) {
-      registerPost1()
+      registerPost1();
       navigate("/post-job/done");
     }
   }, [registered, navigate, registerPost1]);
@@ -145,6 +144,7 @@ const CreateJobPost = () => {
       style={{ height: "calc(100svh - 4rem)" }}
       className="fixed w-full h-full flex flex-col items-center bg-gray-100 overflow-hidden"
     >
+      <SEOMetaTag title={t("createJobPost")} url={`https://www.kookjein.com/post-job/flow-1`} />
       <div
         style={{ maxWidth: "1280px", height: "calc(100svh - 4rem)" }}
         className={`w-full flex overflow-hidden bg-white`}
@@ -197,7 +197,7 @@ const CreateJobPost = () => {
               />
             ) : currentStep === 1 ? (
               <div className="flex justify-center">
-                <Signup isAnon setRegistered={setRegistered}/>
+                <Signup isAnon setRegistered={setRegistered} />
               </div>
             ) : (
               <JobPostComplete />

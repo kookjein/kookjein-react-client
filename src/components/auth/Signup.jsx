@@ -6,6 +6,7 @@ import axios from "../../utils/authAxios";
 import { HttpStatusCode } from "axios";
 import { AuthContext } from "../../context/authContext";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import SEOMetaTag from "../../utils/SEOMetaTag";
 
 const Signup = ({ isAnon, setRegistered }) => {
   const navigate = useNavigate();
@@ -138,7 +139,7 @@ const Signup = ({ isAnon, setRegistered }) => {
             if (response.status === HttpStatusCode.Ok) {
               updateAccessToken(response.data.access_token).then();
               if (!isAnon) navigate("/");
-              else setRegistered(true)
+              else setRegistered(true);
             }
             setLoading(false);
           })
@@ -162,9 +163,10 @@ const Signup = ({ isAnon, setRegistered }) => {
 
   return (
     <div className="max-w-lg px-4 w-full">
+      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/signup`} />
       <div className={` px-6 sm:px-10 sm:pb-4 rounded-lg w-full ${isAnon ? "" : "shadow-lg bg-white"}`}>
         <div className="py-6">
-          <h1 className="text-2xl">{t("signup")}</h1>
+          <h1 className="text-2xl font-bold">{t("signup")}</h1>
         </div>
 
         <h1 className="text-gray-600 font-bold">{t("companyOrDev")}</h1>

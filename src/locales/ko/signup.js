@@ -4,7 +4,7 @@ const signup = {
   companyCard: "기업입니다.",
   developerCard: "개발자입니다.",
   continue: "계속하기",
-
+  title: "회원가입 | 국제인",
   signup: "회원가입",
   info: "회원정보 기입",
   name: "성명",

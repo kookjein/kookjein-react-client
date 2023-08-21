@@ -5,6 +5,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "../../utils/authAxios";
 import { HttpStatusCode } from "axios";
 import { AuthContext } from "../../context/authContext";
+import SEOMetaTag from "../../utils/SEOMetaTag";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Login = () => {
   const [isLoading, setLoading] = useState(false);
   const googleLoginRef = useRef(null);
   const { updateAccessToken } = useContext(AuthContext);
-  
+
   const authenticate = (item) => {
     setLoading(true);
     setErrorMessage("");
@@ -60,8 +61,9 @@ const Login = () => {
 
   return (
     <div className="max-w-md px-4" onKeyDown={handleKeypress}>
+      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/login`} />
       <div className="bg-white px-6 sm:px-10 pt-6 sm:pt-12 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <h1 className="text-2xl font-bold">{t("login")}</h1>
 
         <div ref={googleLoginRef} className={"mt-8"} style={{ width: "100%" }}>
           <GoogleOAuthProvider clientId="645098950769-uh4gagb1oenosqb2lujc8abq8l1kntpu.apps.googleusercontent.com">
