@@ -30,7 +30,6 @@ const Company = () => {
         .get(`/v1/company/`, { params: { company_id: companyId } })
         .then((response) => {
           companyInfo.current = response.data;
-          console.log(response.data);
           if (response.data.users || userState.isAuthenticated) {
             for (let i = 0; i < response.data.users.length; i++) {
               if (companyInfo.current.users[i].user_id === userState.user?.userId) {
@@ -41,7 +40,6 @@ const Company = () => {
           setLoading(false);
         })
         .catch((e) => {
-          console.log("V1/USER/ ERROR : ", e);
           setLoading(false);
         });
     } else {
@@ -193,7 +191,7 @@ const Company = () => {
             </div>
 
             {companyInfo.current.users?.map((item, index) => (
-              <Link key={item.user_id} to={`/user/${item.user_id}`} className="w-full">
+              <Link key={item.user_id} to={`/profile/${item.user_id}`} className="w-full">
                 <button className="py-3 border-b flex items-center hover:bg-gray-100 transition px-3 w-full">
                   <img
                     onError={({ currentTarget }) => {

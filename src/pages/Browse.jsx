@@ -21,28 +21,21 @@ const Browse = () => {
       .then((response) => {
         setEmployeeArray(response.data);
       })
-      .catch((e) => {
-        console.log("V1/USER/EMPLOYEES ERROR : ", e);
-      });
+      .catch((e) => {});
 
     axios
       .get(`/v1/user/employers`)
       .then((response) => {
         setEmployerArray(response.data);
       })
-      .catch((e) => {
-        console.log("V1/USER/EMPLOYERS ERROR : ", e);
-      });
+      .catch((e) => {});
 
     axios
       .get(`/v1/company/all`)
       .then((response) => {
         setCompanyArray(response.data);
-        console.log(response.data);
       })
-      .catch((e) => {
-        console.log("V1/COMPANY/ALL ERROR : ", e);
-      });
+      .catch((e) => {});
     return () => {};
   }, []);
 

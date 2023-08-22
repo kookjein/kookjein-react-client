@@ -43,18 +43,14 @@ const Welcome = () => {
       .then((response) => {
         setCompanyArray(response.data);
       })
-      .catch((e) => {
-        console.log("V1/COMPANY/ALL ERROR : ", e);
-      });
+      .catch((e) => {});
 
     axios
       .get(`/v1/user/employees`)
       .then((response) => {
         setEmployeeArray(response.data);
       })
-      .catch((e) => {
-        console.log("V1/USER/EMPLOYEES ERROR : ", e);
-      });
+      .catch((e) => {});
 
     return () => {};
   }, []);

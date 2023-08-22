@@ -34,9 +34,7 @@ const DailyReportModal = ({ closeModal, currentReport, setDailyReports, dailyRep
         let filtered = dailyReports.filter((item) => item.daily_report_id !== currentReport.daily_report_id);
         setDailyReports(filtered);
       })
-      .catch((error) => {
-        console.log("REMOVE DAILY REPORT ERROR: ", error);
-      });
+      .catch((error) => {});
   };
 
   if (!isLoading)

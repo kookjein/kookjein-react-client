@@ -9,7 +9,7 @@ const serviceDeveloper = {
     signup: "회원가입",
   },
   second: {
-    title: "글로벌 개발자를 위한 혜택",
+    title: "글로벌 해외 개발자를 위한 혜택",
     subtitle:
       "기업과 매칭이 빠르고 보수를 최적화 시켜 개발자를 위한 최고의 업무 환경을 제공합니다.",
     1: {

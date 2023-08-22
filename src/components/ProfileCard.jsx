@@ -24,7 +24,7 @@ const ProfileCard = ({ item, isEmployer }) => {
 
   if (isEmployer)
     return (
-      <Link to={`/user/${info.user_id}`}>
+      <Link to={`/profile/${info.user_id}`}>
         <div
           style={{ color: "#272D37" }}
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition flex-shrink-0"
@@ -58,7 +58,7 @@ const ProfileCard = ({ item, isEmployer }) => {
     );
   else
     return (
-      <Link to={`/user/${info.user_id}`}>
+      <Link to={`/profile/${info.user_id}`}>
         <div
           style={{ color: "#272D37", minWidth:'18rem' }}
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-green-700 hover:bg-opacity-10 transition flex-shrink-0 shadow"

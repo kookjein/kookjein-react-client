@@ -20,7 +20,7 @@ const navBar = {
     for: "누구신가요?",
     addition: "추가 구독 서비스",
     title1: "기업",
-    title2: "글로벌 개발자",
+    title2: "글로벌 해외 개발자",
     title3: "어시스턴트 / PM",
     subtitle1: "검증된 해외 개발자 매칭",
     subtitle2: "한국 기업에서 커리어 시작",

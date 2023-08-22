@@ -63,7 +63,6 @@ const CreateCompany = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("CREATE COMPANY ERROR: ", error);
         setLoading(false);
       });
   };
@@ -92,7 +91,7 @@ const CreateCompany = () => {
       >
         <AiFillCheckCircle className="w-24 h-24 text-green-600" />
         <p>{t("success")}</p>
-        <Link to={`/user/${myUserId}`}>
+        <Link to={`/profile/${myUserId}`}>
           <button className="px-12 flex items-center justify-center h-10 bg-gray-800 text-white rounded hover:brightness-125 transition border flex-shrink-0">
             {t("close")}
           </button>

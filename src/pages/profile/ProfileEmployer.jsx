@@ -38,7 +38,6 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
           setLoading(false);
         })
         .catch((e) => {
-          console.log("V1/USER/ ERROR : ", e);
           setLoading(false);
         });
     } else {

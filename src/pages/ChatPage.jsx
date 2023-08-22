@@ -48,18 +48,14 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
         .then((response) => {
           setCoworkers(response.data);
         })
-        .catch((e) => {
-          console.log("V1/WORK/BELONG/EMPLOYERS ERROR : ", e);
-        });
+        .catch((e) => {});
     } else {
       axios
         .get(`/v1/work/belong/employees`)
         .then((response) => {
           setCoworkers(response.data);
         })
-        .catch((e) => {
-          console.log("V1/WORK/BELONG/EMPLOYEES ERROR : ", e);
-        });
+        .catch((e) => {});
     }
     return () => {};
   }, [userState]);
@@ -113,9 +109,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
                 .then((response) => {
                   setDailyReports(response.data);
                 })
-                .catch((e) => {
-                  console.log("V1/WORK/DAILY_REPORT/ALL ERROR : ", e);
-                })
+                .catch((e) => {})
             );
           })
         );
@@ -247,7 +241,7 @@ const ChatPage = ({ newMessage, rooms, setRooms }) => {
     const ProfileSection = () => {
       return (
         <div className="flex flex-col items-center space-y-3 group mb-4">
-          <Link to={`/user/${receiverIdQuery}`} className="flex flex-col items-center space-y-3">
+          <Link to={`/profile/${receiverIdQuery}`} className="flex flex-col items-center space-y-3">
             <button className="w-28 h-28 bg-gray-100 rounded-full overflow-hidden flex-shrink-0 relative">
               <div className="w-full h-full bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 text-white flex items-center justify-center absolute">
                 <IoMdOpen className="w-8 h-8" />

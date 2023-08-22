@@ -110,9 +110,7 @@ function App() {
             });
           });
         })
-        .catch((e) => {
-          console.log("V1/CHAT/ROOMS ERROR : ", e);
-        });
+        .catch((e) => {});
     }
     return () => {
       setHasNewMessageBubble(false);
@@ -143,7 +141,7 @@ function App() {
           <Route path="/manage/*" element={<Manage />} />
           <Route path="/history/*" element={<History />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
-          <Route path="/user/:userId" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/chat/*" element={<ChatPage newMessage={newMessage} rooms={rooms} setRooms={setRooms} />} />
           <Route path="/service/company" element={<ServiceCompany />} />
@@ -176,7 +174,7 @@ function App() {
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/jobs/:jobId" element={<JobPost />} />
-          <Route path="/user/:userId" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/post-job/flow-1" element={<CreateJobPost />} />
         </Routes>

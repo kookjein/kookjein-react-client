@@ -106,9 +106,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
           setRoomMessages(response.data);
           setFirstMessageTimestamp(response.data[response.data.length - 1].chat_message_created_at);
         })
-        .catch((e) => {
-          console.log("V1/CHAT/MESSAGES INITIAL ERROR : ", e);
-        });
+        .catch((e) => {});
     };
     if (roomIdQuery) {
       getInitialMessages();
@@ -138,9 +136,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
         setRoomMessages([...roomMessages, ...response.data]);
         setFirstMessageTimestamp(response.data[response.data.length - 1]?.chat_message_created_at || 0);
       })
-      .catch((e) => {
-        console.log("V1/CHAT/MESSAGES ERROR : ", e);
-      });
+      .catch((e) => {});
   };
 
   const sendMessage = (text) => {
@@ -295,7 +291,7 @@ const ChatPanel = ({ currentRoomData, rooms, setRooms, newMessage }) => {
               <MessageBox
                 avatar={isFirstMessage && participantsData[item.user_id]?.user_img}
                 title={isFirstMessage && participantsData[item.user_id]?.user_name}
-                onTitleClick={() => navigate(`/user/${item.user_id}`)}
+                onTitleClick={() => navigate(`/profile/${item.user_id}`)}
                 position={item.user_id === userState.user.userId ? "right" : "left"}
                 type={"text"}
                 notch={false}

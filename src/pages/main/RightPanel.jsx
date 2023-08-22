@@ -29,13 +29,10 @@ const RightPanel = ({ selectedTab }) => {
             .then((response) => {
               setCompanyInfo(response.data);
             })
-            .catch((e) => {
-              console.log("V1/USER/ ERROR : ", e);
-            });
+            .catch((e) => {});
         }
       })
       .catch((e) => {
-        console.log("V1/USER/ ERROR : ", e);
         setLoading(false);
       });
   }, [userState]);

@@ -94,7 +94,6 @@ const BasicPanel = ({ companyInfo }) => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log("EDIT COMPANY ERROR: ", error);
         setLoading(false);
       });
   };

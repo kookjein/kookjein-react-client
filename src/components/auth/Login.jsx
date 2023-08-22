@@ -79,9 +79,7 @@ const Login = () => {
                   },
                 });
               }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
+              onError={() => {}}
             />
           </GoogleOAuthProvider>
         </div>

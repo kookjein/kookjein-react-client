@@ -97,7 +97,6 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -189,7 +188,6 @@ const EditProfileModalEmployer = ({ initialTab = "Basic", closeModal, developerI
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
           setLoading(false);
         });
     };

@@ -55,7 +55,6 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
         setDailyReports((prevState) => [...prevState, response.data]);
       })
       .catch((error) => {
-        console.log("EDIT COMPANY ERROR: ", error);
         setCurrentState("ready");
       });
   };
@@ -123,7 +122,9 @@ const DailyReportUploadModal = ({ closeModal, dailyReports, setDailyReports }) =
           />
         </div>
         <div className="w-full h-16 bg-gray-100 absolute bottom-0 px-8 flex justify-end items-center">
-          {currentState === "loading" && <p className="text-sm text-green-600 mr-3">Just a second. We're translating your report...</p>}
+          {currentState === "loading" && (
+            <p className="text-sm text-green-600 mr-3">Just a second. We're translating your report...</p>
+          )}
           <button
             onClick={uploadReport}
             disabled={currentState !== "ready"}

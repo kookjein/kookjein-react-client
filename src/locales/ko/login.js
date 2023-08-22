@@ -1,7 +1,7 @@
 const login = {
   mode: "ko",
   title: "로그인 | 국제인",
-  subtitle: "글로벌 개발자 매칭 플랫폼",
+  subtitle: "글로벌 해외 개발자 매칭 플랫폼",
   google: "Google 계정으로 계속",
   or: "또는",
   username: "아이디 또는 이메일",

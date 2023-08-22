@@ -40,7 +40,6 @@ const Profile = () => {
         setKYos(tempYos + 1);
       })
       .catch((e) => {
-        console.log("V1/USER/ ERROR : ", e);
         navigate("/error404");
       });
   }, [userId, navigate]);
@@ -51,7 +50,7 @@ const Profile = () => {
         title={`${developerInfo.current.name?.[lang]} | ${t("profile")} | ${t("kookjein")} `}
         description={developerInfo.current?.intro ? developerInfo.current?.intro?.[lang] : t("description")}
         keywords={t("keywords")}
-        url={`https://www.kookjein.com/user/${userId}`}
+        url={`https://www.kookjein.com/profile/${userId}`}
         imgsrc={developerInfo.current?.img || "https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"}
       />
       {generalInfo.current.user?.user_type === "employer" ? (

@@ -115,7 +115,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -239,7 +238,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -276,10 +274,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
       setTech(newTags);
     };
 
-    const handleTagClickTECH = (index) => {
-      console.log("The tag at index " + index + " was clicked");
-    };
-
     const handleAdditionLANG = (type) => {
       if (lang.includes(type)) {
         setLang(lang.filter((item) => item !== type));
@@ -314,7 +308,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
             handleDelete={handleDeleteTECH}
             handleAddition={handleAdditionTECH}
             handleDrag={handleDragTECH}
-            handleTagClick={handleTagClickTECH}
             inputFieldPosition="top"
             autocomplete
             placeholder="e.g. React Native, PostreSQL"
@@ -406,7 +399,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CHANGE IMAGE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -488,7 +480,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("EXPERIENCE UPDATE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -711,7 +702,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("PORTFOLIO UPDATE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -892,7 +882,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("EXPERIENCE UPDATE ERROR: ", error);
           setLoading(false);
         });
     };
@@ -1105,7 +1094,6 @@ const EditProfileModal = ({ initialTab = "Basic", closeModal, developerInfo }) =
           setLoading(false);
         })
         .catch((error) => {
-          console.log("CERTIFICATION UPDATE ERROR: ", error);
           setLoading(false);
         });
     };

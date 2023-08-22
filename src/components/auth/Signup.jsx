@@ -87,7 +87,6 @@ const Signup = ({ isAnon, setRegistered }) => {
           setLoading(false);
         })
         .catch((e) => {
-          console.log("ERROR - v1/auth/register - ", e);
           setLoading(false);
         });
     }
@@ -270,9 +269,7 @@ const Signup = ({ isAnon, setRegistered }) => {
                         },
                       });
                     }}
-                    onError={() => {
-                      console.log("Login Failed");
-                    }}
+                    onError={() => {}}
                   />
                 </GoogleOAuthProvider>
               </div>

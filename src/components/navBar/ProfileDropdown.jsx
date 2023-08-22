@@ -24,20 +24,16 @@ const ProfileDropdown = () => {
         if (response.status === HttpStatusCode.Ok) {
           updateAccessToken(null).then();
           navigate("/");
-        } else {
-          console.log("ERROR - v1/auth/logout");
         }
       })
-      .catch((e) => {
-        console.log("ERROR - v1/auth/logout", e);
-      });
+      .catch((e) => {});
   }
 
   return (
     <ul className="bg-white text-black rounded-lg w-52 py-2">
       {userState.isAuthenticated && (
         <Link
-          to={`/user/${userState.user.userId}`}
+          to={`/profile/${userState.user.userId}`}
           className="w-full h-12 text-gray-700 text-sm flex items-center group hover:text-blue-500 font-medium hover:bg-gray-100 px-4"
         >
           <div className="flex items-center space-x-4 w-full">
