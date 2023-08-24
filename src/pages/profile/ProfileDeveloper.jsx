@@ -122,7 +122,7 @@ const ProfileDeveloper = ({ generalInfo, isMyProfile, developerInfo, kYos, regis
               currentTarget.src = DefaultImage;
             }}
             src={developerInfo.current?.img || DefaultImage}
-            alt=""
+            alt={developerInfo.current.name?.[lang]}
             draggable={false}
             className="object-cover w-full h-full"
           />
@@ -287,7 +287,7 @@ const ProfileDeveloper = ({ generalInfo, isMyProfile, developerInfo, kYos, regis
         <div>
           <div className="w-full py-1 flex items-center space-x-2">
             <div className="w-10 h-10 bg-gray-100 rounded-full overflow-hidden">
-              <img src={img} alt="" className="object-cover w-full h-full" />
+              <img src={img} alt={company} className="object-cover w-full h-full" />
             </div>
             <div className="space-y-1">
               <p className="text-sm font-bold text-gray-600">

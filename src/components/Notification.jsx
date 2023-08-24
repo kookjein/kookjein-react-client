@@ -17,7 +17,7 @@ const Notification = ({ item }) => {
               currentTarget.src = DefaultImage;
             }}
             src={item.user.user_img || DefaultImage}
-            alt=""
+            alt={item.user.user_name}
             draggable={false}
             className={`h-full w-full flex object-cover`}
           />

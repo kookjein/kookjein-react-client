@@ -41,7 +41,7 @@ const RightPanel = ({ selectedTab }) => {
     if (!isLoading)
       return (
         <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col items-center p-6 bg-white shadow-lg">
-          <Link to={`/user/${userState.user.userId}`} className="w-full">
+          <Link to={`/profile/${userState.user.userId}`} className="w-full">
             <div className="flex flex-col items-center group w-full">
               <img
                 onError={({ currentTarget }) => {
@@ -49,7 +49,7 @@ const RightPanel = ({ selectedTab }) => {
                   currentTarget.src = DefaultImage;
                 }}
                 src={myInfo?.user.user_img || DefaultImage}
-                alt=""
+                alt={myInfo?.user.user_profile[0].name?.[lang]}
                 draggable={false}
                 className="w-16 h-16 bg-gray-100 rounded-full mb-4 object-cover"
               />
@@ -117,7 +117,7 @@ const RightPanel = ({ selectedTab }) => {
                 currentTarget.src = DefaultCompany;
               }}
               src={companyInfo.company.company_info[0].img || DefaultCompany}
-              alt=""
+              alt={companyInfo.company.company_info[0].name}
               draggable={false}
               className="w-10 h-10 bg-gray-100 rounded-full flex-shrink-0 object-cover"
             />

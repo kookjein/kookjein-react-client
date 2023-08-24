@@ -11,13 +11,14 @@ import CompanyEditModal from "../components/companyEditModal/CompanyEditModal";
 import axios from "../utils/authAxios";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
+import SEOMetaTag from "../utils/SEOMetaTag";
 
 const Company = () => {
   const { companyId } = useParams();
   const { userState } = useContext(AuthContext);
   const companyInfo = useRef();
   const userInfo = useRef();
-  const { t, i18n } = useTranslation("profileEmployer");
+  const { t, i18n } = useTranslation("company");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const [companyModalIsOpen, setCompanyModalIsOpen] = useState(false);
   const [companyModalInitialTab, setCompanyModalInitialTab] = useState("Basic");
@@ -135,7 +136,7 @@ const Company = () => {
                 currentTarget.src = DefaultCompany;
               }}
               src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
-              alt=""
+              alt={companyInfo.current?.company?.company_info[0]?.name}
               draggable={false}
               className="hover:cursor-pointer object-cover h-32 w-32 border"
             />
@@ -199,7 +200,7 @@ const Company = () => {
                       currentTarget.src = DefaultImage;
                     }}
                     src={item.user_img || DefaultImage}
-                    alt=""
+                    alt={item.user_profile[0].name?.[lang]}
                     draggable={false}
                     className="hover:cursor-pointer object-cover h-12 w-12 rounded-full border"
                   />
@@ -228,6 +229,20 @@ const Company = () => {
   if (!isLoading && companyInfo.current)
     return (
       <>
+        <SEOMetaTag
+          title={`${companyInfo.current?.company?.company_info[0]?.name} | ${t("seo.company")} | ${t("seo.kookjein")}`}
+          description={
+            companyInfo.current?.company?.company_info[0]?.intro
+              ? companyInfo.current?.company?.company_info[0]?.intro?.[lang]
+              : t("seo.description")
+          }
+          keywords={t("seo.keywords")}
+          url={`https://www.kookjein.com/company/${companyId}`}
+          imgsrc={
+            companyInfo.current?.company?.company_info[0]?.img ||
+            "https://kookjein.s3.ap-northeast-2.amazonaws.com/ogImage.png"
+          }
+        />
         <Modal
           isOpen={companyModalIsOpen}
           onRequestClose={closeCompanyModal}

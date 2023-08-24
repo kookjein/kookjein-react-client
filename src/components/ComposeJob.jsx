@@ -68,7 +68,7 @@ const ComposeJob = ({ userId, closeComposeModal, composeModalIsOpen, developerIn
               currentTarget.src = DefaultImage;
             }}
             src={developerInfo.current?.img || DefaultImage}
-            alt=""
+            alt={developerInfo.current.name?.[lang]}
             draggable={false}
             className="object-cover w-12 h-12 flex-shrink-0 rounded-full"
           />

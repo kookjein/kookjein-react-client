@@ -35,7 +35,7 @@ const MainDeveloper = () => {
 
     const Empty = () => (
       <div className="flex flex-col flex-shrink-0 items-center justify-center space-y-6 py-16">
-        <img src={EmptyFile} alt="" className="w-32" />
+        <img src={EmptyFile} alt={"Empty project"} className="w-32" />
         <div className="flex flex-col items-center space-y-1">
           <p className="text-lg font-bold">진행중인 프로젝트가 없습니다</p>
           <p className="text-sm">프로젝트를 등록하면 여러 개발자들이 지원할 수 있습니다.</p>
@@ -67,8 +67,6 @@ const MainDeveloper = () => {
             </>
           ) : selectedTab === "지원 현황" ? (
             <>
-              <ProjectCell />
-              <ProjectCell />
               <Empty />
             </>
           ) : (

@@ -55,7 +55,7 @@ const ServiceDeveloper = () => {
     const Cell = ({ icon, title, text, learnMore }) => (
       <div className="flex flex-col font-nanum px-7 py-5 rounded max-w-sm">
         <div className="flex items-center justify-between w-full">
-          <img src={icon} className="w-10" alt="" draggable={false} />
+          <img src={icon} className="w-10" alt="developer" draggable={false} />
           {learnMore && (
             <Link to="/">
               <button
@@ -132,7 +132,7 @@ const ServiceDeveloper = () => {
 
           <div className="mt-8">
             <div className="flex items-start">
-              <img src={Checkmark} className="w-3 object-contain mt-1" alt="" />
+              <img src={Checkmark} className="w-3 object-contain mt-1" alt="Checkmark" />
               <p
                 style={{ color: "#5F6D7E" }}
                 className="text-xs font-nanum ml-2 break-keep"
@@ -141,7 +141,7 @@ const ServiceDeveloper = () => {
               </p>
             </div>
             <div className="flex items-start mt-4">
-              <img src={Checkmark} className="w-3 object-contain mt-1" alt="" />
+              <img src={Checkmark} className="w-3 object-contain mt-1" alt="Checkmark" />
               <p
                 style={{ color: "#5F6D7E" }}
                 className="text-xs font-nanum ml-2 break-keep"
@@ -150,7 +150,7 @@ const ServiceDeveloper = () => {
               </p>
             </div>
             <div className="flex items-start mt-4">
-              <img src={Checkmark} className="w-3 object-contain mt-1" alt="" />
+              <img src={Checkmark} className="w-3 object-contain mt-1" alt="Checkmark" />
               <p
                 style={{ color: "#5F6D7E" }}
                 className="text-xs font-nanum ml-2 break-keep"
@@ -172,7 +172,7 @@ const ServiceDeveloper = () => {
         <div className="hidden sm:flex h-full">
           <img
             src={DevWelcome2}
-            alt=""
+            alt="developers"
             className="w-full h-full hidden sm:flex max-w-sm object-contain rounded-md"
             draggable={false}
           />
@@ -212,7 +212,7 @@ const ServiceDeveloper = () => {
           {t("fifth.subtitle")}
         </p>
 
-        <img src={DevPeople} alt="" className="max-w-4xl" />
+        <img src={DevPeople} alt="developers" className="max-w-4xl" />
       </div>
     </div>
   );

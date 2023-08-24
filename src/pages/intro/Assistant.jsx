@@ -112,7 +112,7 @@ const Assistant = () => {
               <img
                 className="w-5 object-contain"
                 src={includes > 0 ? CheckFill : CheckEmpty}
-                alt=""
+                alt="Kookjein assistant"
               />
               <p className="text-sm font-nanum ml-3">
                 {t("second.card.menu1")}
@@ -122,7 +122,7 @@ const Assistant = () => {
               <img
                 className="w-5 object-contain"
                 src={includes > 1 ? CheckFill : CheckEmpty}
-                alt=""
+                alt="Kookjein assistant"
               />
               <p className="text-sm font-nanum ml-3">
                 {t("second.card.menu2")}
@@ -132,7 +132,7 @@ const Assistant = () => {
               <img
                 className="w-5 object-contain"
                 src={includes > 2 ? CheckFill : CheckEmpty}
-                alt=""
+                alt="Kookjein assistant"
               />
               <p
                 className={`${
@@ -148,7 +148,7 @@ const Assistant = () => {
               <img
                 className="w-5 object-contain"
                 src={includes > 3 ? CheckFill : CheckEmpty}
-                alt=""
+                alt="Kookjein assistant"
               />
               <p className="text-sm font-nanum ml-3">
                 {t("second.card.menu4")}
@@ -219,7 +219,7 @@ const Assistant = () => {
     const Cell = ({ icon, title, text, learnMore }) => (
       <div className="flex flex-col font-nanum px-7 py-5 rounded max-w-sm">
         <div className="flex items-center justify-between w-full">
-          <img src={icon} className="w-10" alt="" draggable={false} />
+          <img src={icon} className="w-10" alt="Kookjein assistant" draggable={false} />
           {learnMore && (
             <Link to="/">
               <button
@@ -339,7 +339,7 @@ const Assistant = () => {
           style={{ maxWidth: "1280px" }}
           className="w-full relative h-full flex flex-col items-center px-4"
         >
-          <img src={t("fifth.review")} alt="" className="max-w-5xl" />
+          <img src={t("fifth.review")} alt="Kookjein assistant" className="max-w-5xl" />
         </div>
       </div>
     );

@@ -30,7 +30,7 @@ const ProfileCard = ({ item, isEmployer }) => {
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-gray-50 transition flex-shrink-0"
         >
           <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
-            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
+            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt={info.user_profile[0].name?.[lang]} />
           </div>
           <div className="w-full py-4 px-4 space-y-3 h-48">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>
@@ -64,7 +64,7 @@ const ProfileCard = ({ item, isEmployer }) => {
           className="w-full ring-1 ring-gray-200 rounded overflow-hidden hover:shadow filter hover:bg-green-700 hover:bg-opacity-10 transition flex-shrink-0 shadow"
         >
           <div className="w-full h-60 bg-gray-100 flex-shrink-0 flex items-center justify-center relative border-b">
-            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt="" />
+            <img src={info.user_img ? info.user_img : placeholder} className="object-cover w-full h-full" alt={info.user_profile[0].name?.[lang]} />
           </div>
           <div className="w-full py-4 px-4 space-y-3 h-56">
             <p className="font-bold text-lg">{info.user_profile[0].name?.[lang]}</p>

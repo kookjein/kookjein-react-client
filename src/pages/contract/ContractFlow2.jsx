@@ -96,21 +96,21 @@ const ContractFlow2 = () => {
 
         <div className="space-y-4">
           <div className="flex">
-            <img className="w-4 object-contain" src={includes > 0 ? CheckFill : CheckEmpty} alt="" />
+            <img className="w-4 object-contain" src={includes > 0 ? CheckFill : CheckEmpty} alt="Check" />
             <p className="text-sm ml-3">{t("second.card.menu1")}</p>
           </div>
           <div className="flex">
-            <img className="w-4 object-contain" src={includes > 1 ? CheckFill : CheckEmpty} alt="" />
+            <img className="w-4 object-contain" src={includes > 1 ? CheckFill : CheckEmpty} alt="Check" />
             <p className="text-sm ml-3">{t("second.card.menu2")}</p>
           </div>
           <div className="flex">
-            <img className="w-4 object-contain" src={includes > 2 ? CheckFill : CheckEmpty} alt="" />
+            <img className="w-4 object-contain" src={includes > 2 ? CheckFill : CheckEmpty} alt="Check" />
             <p className={`${includes > 3 && "font-bold"} text-sm ml-3`}>
               {includes > 3 ? t("second.card.menu3_diff") : t("second.card.menu3")}
             </p>
           </div>
           <div className="flex">
-            <img className="w-4 object-contain" src={includes > 3 ? CheckFill : CheckEmpty} alt="" />
+            <img className="w-4 object-contain" src={includes > 3 ? CheckFill : CheckEmpty} alt="Check" />
             <p className="text-sm ml-3">{t("second.card.menu4")}</p>
           </div>
         </div>

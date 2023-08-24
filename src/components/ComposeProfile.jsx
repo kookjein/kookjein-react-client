@@ -69,7 +69,7 @@ const ComposeProfile = ({ userId, openComposeModal, closeComposeModal, composeMo
               currentTarget.src = DefaultImage;
             }}
             src={developerInfo.current?.img || DefaultImage}
-            alt=""
+            alt={developerInfo.current.name?.[lang]}
             draggable={false}
             className="object-cover w-12 h-12 flex-shrink-0 rounded-full"
           />
@@ -136,7 +136,7 @@ const ComposeProfile = ({ userId, openComposeModal, closeComposeModal, composeMo
             currentTarget.src = DefaultImage;
           }}
           src={developerInfo.current?.img || DefaultImage}
-          alt=""
+          alt={developerInfo.current.name?.[lang]}
           draggable={false}
           className="object-cover w-14 h-14 rounded-full flex-shrink-0"
         />

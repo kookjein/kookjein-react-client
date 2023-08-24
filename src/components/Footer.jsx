@@ -81,12 +81,6 @@ const Footer = () => {
               >
                 <p className="mt-4">{t("service.menu3")}</p>
               </Link>
-              <Link
-                to="/assistant"
-                className="hover:underline text-center sm:text-start"
-              >
-                <p className="mt-4">{t("service.menu4")}</p>
-              </Link>
             </div>
           </div>
           <div className="flex flex-col items-center sm:items-start">

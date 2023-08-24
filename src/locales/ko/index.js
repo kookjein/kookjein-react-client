@@ -16,3 +16,4 @@ export { default as browse } from "./browse";
 export { default as chatPage } from "./chatPage";
 export { default as seo } from "./seo";
 export { default as createJobPost } from "./createJobPost";
+export { default as company } from "./company";

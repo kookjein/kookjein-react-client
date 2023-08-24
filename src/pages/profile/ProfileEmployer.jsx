@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import moment from "moment/moment";
+import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
+import { languageArray } from "../../utils/arrays";
+import axios from "../../utils/authAxios";
+import { AuthContext } from "../../context/authContext";
+import ProjectCell from "../../components/ProjectCell";
 import Tags from "../../components/Tags";
+import UploadProfile from "../../components/UploadProfile";
+import EditProfileModalEmployer from "../../components/EmployerEditProfileModal";
+import DefaultImage from "../../assets/default-profile.png";
+import DefaultCompany from "../../assets/default-company.png";
 import { IoLocationSharp } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
 import { MdOutlineWork } from "react-icons/md";
-import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
-import { AuthContext } from "../../context/authContext";
-import DefaultImage from "../../assets/default-profile.png";
-import DefaultCompany from "../../assets/default-company.png";
 import { BsPatchCheckFill } from "react-icons/bs";
-import UploadProfile from "../../components/UploadProfile";
-import { languageArray } from "../../utils/arrays";
-import moment from "moment/moment";
-import EditProfileModalEmployer from "../../components/EmployerEditProfileModal";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import axios from "../../utils/authAxios";
-import { Link } from "react-router-dom";
-// import ProjectCell from "../components/ProjectCell";
 
 const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const { userState } = useContext(AuthContext);
@@ -27,6 +27,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("Basic");
   const [isLoading, setLoading] = useState(false);
+  const [projects, setProjects] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -45,6 +46,12 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
     }
     return () => {};
   }, [generalInfo.company?.company_id]);
+
+  useEffect(() => {
+    axios.get(`/v1/project/owner`).then((response) => {
+      setProjects(response.data);
+    });
+  }, []);
 
   const customStyles = {
     content: {
@@ -123,7 +130,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
               currentTarget.src = DefaultImage;
             }}
             src={developerInfo.current?.img || DefaultImage}
-            alt=""
+            alt={developerInfo.current.name?.[lang]}
             draggable={false}
             className="object-cover w-full h-full"
           />
@@ -269,7 +276,7 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
                     currentTarget.src = DefaultCompany;
                   }}
                   src={companyInfo.current?.company?.company_info[0]?.img || DefaultCompany}
-                  alt=""
+                  alt={companyInfo.current?.company?.company_info[0]?.name}
                   draggable={false}
                   className="hover:cursor-pointer object-cover h-full w-full border rounded-lg"
                 />
@@ -299,12 +306,13 @@ const ProfileEmployer = ({ generalInfo, isMyProfile }) => {
 
           <Title title={t("projects")} />
 
-          {false ? (
+          {!projects?.length ? (
             <div className="text-sm text-gray-600">※ 등록된 프로젝트가 없습니다.</div>
           ) : (
             <div className="flex flex-col divide-y">
-              {/* <ProjectCell />
-              <ProjectCell /> */}
+              {projects?.map((project) => (
+                <ProjectCell key={project.project_id} project={project} />
+              ))}
             </div>
           )}
           <div className="h-16" />

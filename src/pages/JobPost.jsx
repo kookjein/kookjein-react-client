@@ -53,7 +53,7 @@ const JobPost = () => {
             currentTarget.src = DefaultImage;
           }}
           src={DefaultImage}
-          alt=""
+          alt={user[1][0].name[lang]}
           draggable={false}
           style={{ aspectRatio: 1 }}
           className="h-12 w-12 rounded-full border bg-gray-100"

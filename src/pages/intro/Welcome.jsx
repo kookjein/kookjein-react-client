@@ -138,12 +138,12 @@ const Welcome = () => {
     <div className="flex flex-col items-center py-12">
       <p className="font-semibold text-gray-600 text-center text-sm sm:text-base">{t("trust")}</p>
       <div className="py-16 w-screen flex sm:flex-row flex-col items-center justify-center space-y-12 sm:space-y-0 sm:space-x-16 z-20">
-        <img draggable={false} src={Client5} className="object-contain h-7" alt="" />
-        <img draggable={false} src={Client3} className="object-contain h-10" alt="" />
-        <img draggable={false} src={Client2} className="object-contain h-6" alt="" />
-        <img draggable={false} src={Client4} className="object-contain h-7" alt="" />
-        <img draggable={false} src={Partner1} className="object-contain h-12" alt="" />
-        <img src={Client1} draggable={false} className="object-contain h-8" alt="" />
+        <img draggable={false} src={Client5} className="object-contain h-7" alt="Kookjein customers" />
+        <img draggable={false} src={Client3} className="object-contain h-10" alt="Kookjein customers" />
+        <img draggable={false} src={Client2} className="object-contain h-6" alt="Kookjein customers" />
+        <img draggable={false} src={Client4} className="object-contain h-7" alt="Kookjein customers" />
+        <img draggable={false} src={Partner1} className="object-contain h-12" alt="Kookjein partner" />
+        <img src={Client1} draggable={false} className="object-contain h-8" alt="Kookjein customers" />
       </div>
     </div>
   );
@@ -153,7 +153,7 @@ const Welcome = () => {
       <div style={{ maxWidth: "1280px" }} className="flex sm:flex-row flex-col items-center px-6 sm:space-x-8 w-full">
         <img
           src={TechStack}
-          alt=""
+          alt="Tech stack"
           className="w-full -ml-12 max-w-3xl hidden sm:flex object-contain"
           draggable={false}
         />
@@ -206,7 +206,7 @@ const Welcome = () => {
                 <button className="text-blue-500 mt-12 text-lg hover:underline">{t("assistant.viewMore")}</button>
               </Link>
             </div>
-            <img src={Assistant1} alt="" className="w-1/2 hidden sm:flex object-contain pl-12" draggable={false} />
+            <img src={Assistant1} alt="Kookjein Assistant" className="w-1/2 hidden sm:flex object-contain pl-12" draggable={false} />
           </div>
           <div className="w-full h-px bg-gray-300 my-8" />
 
@@ -223,7 +223,7 @@ const Welcome = () => {
             </div>
             <img
               src={Assistant2}
-              alt=""
+              alt="Kookjein assistant"
               className="w-1/2 max-w-2xl hidden sm:flex object-contain pl-12"
               draggable={false}
             />
@@ -236,7 +236,7 @@ const Welcome = () => {
   const StrengthSection = () => {
     const Cell = ({ icon, title, text1, text2, dark }) => (
       <div className={`flex flex-col items-center`}>
-        <img src={icon} className={`w-16`} alt="" draggable={false} />
+        <img src={icon} className={`w-16`} alt="Why Kookjein" draggable={false} />
         <p className={`${dark && "text-indigo-600"} font-bold mt-4 text-lg`}>{title}</p>
         <p style={{ fontSize: "0.85rem" }} className={`${dark ? "text-gray-500" : "text-gray-500"} text-sm mt-4`}>
           {text1}
@@ -364,11 +364,11 @@ const Welcome = () => {
 
           <div className="mt-8">
             <div className="flex items-start">
-              <img src={Checkmark} className="w-3 object-contain" alt="" />
+              <img src={Checkmark} className="w-3 object-contain" alt="Checkmark" />
               <p className="text-xs ml-2 break-keep">{progressData[progressIndex].text1}</p>
             </div>
             <div className="flex items-start mt-4">
-              <img src={Checkmark} className="w-3 object-contain" alt="" />
+              <img src={Checkmark} className="w-3 object-contain" alt="Checkmark" />
               <p className="text-xs ml-2 break-keep">{progressData[progressIndex].text2}</p>
             </div>
           </div>
@@ -376,7 +376,7 @@ const Welcome = () => {
         <div className="hidden sm:flex w-1/2 max-h-72 h-full">
           <img
             src={progressData[progressIndex].img}
-            alt=""
+            alt="Process of Kookjein"
             className="w-full h-full hidden sm:flex max-h-72 object-contain"
             draggable={false}
           />
@@ -402,14 +402,14 @@ const Welcome = () => {
               onClick={() => progressIndex > 0 && setProgressIndex(progressIndex - 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
             >
-              <img src={LeftArrow} alt="" />
+              <img src={LeftArrow} alt="Left arrow" />
             </button>
             <IndexCell />
             <button
               onClick={() => progressIndex < 3 && setProgressIndex(progressIndex + 1)}
               className="w-8 h-80 hover:bg-gray-100 flex items-center px-2 transition"
             >
-              <img src={RightArrow} alt="" />
+              <img src={RightArrow} alt="Right arrow" />
             </button>
           </div>
         </div>

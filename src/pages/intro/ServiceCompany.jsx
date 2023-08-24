@@ -30,7 +30,7 @@ const ServiceCompany = () => {
           >
             <img
               src={t("welcome")}
-              alt=""
+              alt="Companies"
               className="object-contain"
               draggable={false}
             />
@@ -48,7 +48,7 @@ const ServiceCompany = () => {
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
             <img
               src={CompanyWelcome}
-              alt=""
+              alt="Companies"
               className="object-contain"
               draggable={false}
             />
@@ -92,7 +92,7 @@ const ServiceCompany = () => {
         className="flex flex-col font-nanum p-7 py-5 rounded max-w-sm"
       >
         <div className="flex items-center justify-between w-full">
-          <img src={icon} className="w-10" alt="" draggable={false} />
+          <img src={icon} className="w-10" alt="Companies" draggable={false} />
           {learnMore && (
             <Link to="/">
               <button
@@ -192,7 +192,7 @@ const ServiceCompany = () => {
           >
             <img
               src={t("fourth.welcome")}
-              alt=""
+              alt="Companies"
               className="object-contain"
               draggable={false}
             />
@@ -210,7 +210,7 @@ const ServiceCompany = () => {
           <div className="w-full flex justify-end items-center px-4 sm:px-12 mt-24 sm:mb-12 mb-24">
             <img
               src={CompanyWelcome2}
-              alt=""
+              alt="Companies"
               className="object-contain max-w-md"
               draggable={false}
             />
@@ -239,7 +239,7 @@ const ServiceCompany = () => {
           >
             {t("fifth.subtitle")}
           </p>
-          <img src={CompanyDevs} alt="" className="max-w-5xl w-full" />
+          <img src={CompanyDevs} alt="Companies" className="max-w-5xl w-full" />
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ const CompanyCard = ({ item }) => {
               currentTarget.src = DefaultImage;
             }}
             src={info.company_info[0].img || DefaultImage}
-            alt=""
+            alt={info.company_info[0].name}
             draggable={false}
             style={{ aspectRatio: 1 }}
             className="h-12 w-12 rounded border"
