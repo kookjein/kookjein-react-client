@@ -5,6 +5,7 @@ const signup = {
   developerCard: "개발자입니다.",
   continue: "계속하기",
   title: "회원가입 | 국제인",
+  description: "지금 국제인에 가입하여 전 세계의 우수한 개발자와 연결하세요. 무료로 가입하고 웹, 앱, 소프트웨어 솔루션을 만나보세요. 아이디어를 현실로 구현해보세요.",
   signup: "회원가입",
   info: "회원정보 기입",
   name: "성명",

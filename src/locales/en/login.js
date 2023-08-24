@@ -1,6 +1,7 @@
 const login = {
   mode: "en",
   title: "Log in to Kookjein",
+  description: "Log in to your Kookjein account. Connect with skilled developers and explore a world of possibilities. Sign in now for top-notch developer services.",
   subtitle: "Global Developer Matching Platform",
   google: "Continue with Google",
   or: "OR",

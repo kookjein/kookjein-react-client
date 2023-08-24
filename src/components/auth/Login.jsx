@@ -61,7 +61,7 @@ const Login = () => {
 
   return (
     <div className="max-w-md px-4" onKeyDown={handleKeypress}>
-      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/login`} />
+      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/login`} description={t("description")} />
       <div className="bg-white px-6 sm:px-10 pt-6 sm:pt-12 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold">{t("login")}</h1>
 

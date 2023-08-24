@@ -2,6 +2,8 @@ const profile = {
   mode: "ko",
   profile: "프로필",
   kookjein: "국제인",
+  description:
+    "글로벌 해외 개발자를 찾는 최고의 플랫폼, 국제인. 웹, 앱, 소프트웨어부터 다양한 분야의 전문가를 찾아보세요.",
   noInfo: "등록된 정보가 없습니다",
   sendMessage: "메세지 보내기",
   hire: "계약 및 채용하기",

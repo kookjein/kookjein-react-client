@@ -144,7 +144,7 @@ const CreateJobPost = () => {
       style={{ height: "calc(100svh - 4rem)" }}
       className="fixed w-full h-full flex flex-col items-center bg-gray-100 overflow-hidden"
     >
-      <SEOMetaTag title={t("createJobPost")} url={`https://www.kookjein.com/post-job/flow-1`} />
+      <SEOMetaTag title={t("createJobPost")} url={`https://www.kookjein.com/post-job/flow-1`} description={t("description")} />
       <div
         style={{ maxWidth: "1280px", height: "calc(100svh - 4rem)" }}
         className={`w-full flex overflow-hidden bg-white`}

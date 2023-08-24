@@ -162,7 +162,7 @@ const Signup = ({ isAnon, setRegistered }) => {
 
   return (
     <div className="max-w-lg px-4 w-full">
-      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/signup`} />
+      <SEOMetaTag title={t("title")} url={`https://www.kookjein.com/auth/signup`} description={t("description")} />
       <div className={` px-6 sm:px-10 sm:pb-4 rounded-lg w-full ${isAnon ? "" : "shadow-lg bg-white"}`}>
         <div className="py-6">
           <h1 className="text-2xl font-bold">{t("signup")}</h1>

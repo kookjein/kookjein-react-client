@@ -5,6 +5,8 @@ const signup = {
   developerCard: "I'm a developer",
   continue: "Continue",
   title: "Sign up to Kookjein",
+  description:
+    "Join Kookjein today and unlock a realm of global developer talent. Sign up for free to access expert web, app, and software solutions that bring your ideas to life.",
   signup: "Sign up to Kookjein",
   info: "User information",
   name: "Full name",

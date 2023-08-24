@@ -2,6 +2,8 @@ const profile = {
   mode: "en",
   profile: "Profile",
   kookjein: "Kookjein",
+  description:
+    "Connect with top developer services on Kookjein's dynamic marketplace. From web and app development to software solutions, find skilled professionals to bring your ideas to life.",
   noInfo: "No information to show",
   sendMessage: "Send message",
   hire: "Send offer",

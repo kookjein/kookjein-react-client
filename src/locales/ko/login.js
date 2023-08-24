@@ -1,6 +1,7 @@
 const login = {
   mode: "ko",
   title: "로그인 | 국제인",
+  description: "국제인에 로그인하세요. 숙련된 개발자와 연결되어 다양한 가능성을 경험해보세요. 최고 수준의 개발자 서비스를 만나보세요.",
   subtitle: "글로벌 해외 개발자 매칭 플랫폼",
   google: "Google 계정으로 계속",
   or: "또는",
