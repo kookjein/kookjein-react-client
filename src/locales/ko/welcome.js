@@ -97,6 +97,26 @@ const welcome = {
       body2: "한국 기업에서의 커리어 성공을 돕습니다.",
     },
   },
+
+  price: {
+    calculator: "국제인 가격 계산기",
+    title: "국제인에 등록된 개발자의 월급은 평균 150만 원 입니다.",
+    howMany: "몇 명의 개발자가 필요하신가요?",
+    assistantPlan: "어시스턴트 플랜",
+    person: "명",
+    whatIsAssistant: "어시스턴트 플랜이란?",
+    numOfDevelopers: "개발 인원",
+    monthlyCost: "월 비용",
+    monthly: "월",
+    won: "원",
+    fee: "국제인 수수료(10%)",
+    predictedPrice: "예상 비용 (VAT 별도)",
+    free: "무료",
+    basicPlan: "베이식 플랜",
+    standardPlan: "스탠다드 플랜",
+    enterprisePlan: "엔터프라이즈 플랜",
+  },
+
   fifth: {
     sectionTitle: "채용 등록부터 완료까지 안전하고 빠른 절차로 시작하세요.",
     1: {

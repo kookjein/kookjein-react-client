@@ -24,6 +24,7 @@ import Partner1 from "../../assets/main/partner1.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import axios from "../../utils/authAxios";
+import { moneyFormat } from "../../utils/currency";
 import CompanyCard from "../../components/CompanyCard";
 import { TypeAnimation } from "react-type-animation";
 import ProfileCard from "../../components/ProfileCard";
@@ -206,7 +207,12 @@ const Welcome = () => {
                 <button className="text-blue-500 mt-12 text-lg hover:underline">{t("assistant.viewMore")}</button>
               </Link>
             </div>
-            <img src={Assistant1} alt="Kookjein Assistant" className="w-1/2 hidden sm:flex object-contain pl-12" draggable={false} />
+            <img
+              src={Assistant1}
+              alt="Kookjein Assistant"
+              className="w-1/2 hidden sm:flex object-contain pl-12"
+              draggable={false}
+            />
           </div>
           <div className="w-full h-px bg-gray-300 my-8" />
 
@@ -233,6 +239,132 @@ const Welcome = () => {
     </div>
   );
 
+  const PriceSection = () => {
+    const [cardType, setCardType] = useState(0);
+    const [numOfEmployee, setNumOfEmployee] = useState(1);
+    const Card = ({ text, subtext }) => (
+      <button
+        onClick={() => setCardType(subtext)}
+        className={`${
+          subtext === cardType
+            ? "ring-2 bg-green-600 bg-opacity-10 text-green-700"
+            : "hover:ring-2 text-gray-600 bg-white bg-opacity-30"
+        } h-16 w-full rounded border ring-green-600 transition flex items-center relative px-4`}
+      >
+        <div className="ml-2">
+          <h1 className="text-start break-keep font-bold text-sm">{text}</h1>
+          <h1 className="text-start break-keep text-xs mt-1">
+            {subtext === 0 ? t("price.free") : `${t("price.monthly")} ${moneyFormat(subtext)} ${t("price.won")}`}
+          </h1>
+        </div>
+
+        <div
+          className={`${
+            subtext === cardType ? "border-green-600 bg-green-600" : "border-gray-300"
+          } w-4 h-4 bg-white rounded-full absolute top-3 right-3 border-2 p-0.5 flex items-center justify-center`}
+        >
+          {subtext === cardType && <div className="w-full h-full rounded-full bg-green-600 ring-2 ring-white" />}
+        </div>
+      </button>
+    );
+
+    const LeftPanel = (
+      <div className="sm:w-80 w-full h-full bg-white shadow-lg flex-shrink-0 rounded-lg p-6 border z-10">
+        <p className="font-bold text-gray-600">{t("price.howMany")}</p>
+        <div className="w-full flex space-x-3 mt-4 items-center">
+          <input
+            value={numOfEmployee}
+            onChange={(e) => setNumOfEmployee(e.target.value)}
+            type="range"
+            className="w-full h-10 pl-3 text-sm outline-green-600 border cursor-pointer"
+            max={10}
+            min={1}
+          />
+          <div className="w-12 flex h-full items-center justify-end text-sm font-bold text-blue-600 flex-shrink-0">
+            {numOfEmployee} {t("price.person")}
+          </div>
+        </div>
+
+        <p className="font-bold mt-8 text-gray-600">{t("price.assistantPlan")}</p>
+        <div className="space-y-2 mt-4">
+          <Card text={t("price.basicPlan")} subtext={0} />
+          <Card text={t("price.standardPlan")} subtext={400000} />
+          <Card text={t("price.enterprisePlan")} subtext={1600000} />
+        </div>
+        <Link to="/assistant">
+          <p className="mt-4 text-blue-600 text-right w-full text-xs">{t("price.whatIsAssistant")}</p>
+        </Link>
+      </div>
+    );
+
+    const Table = (
+      <div
+        className={`h-full flex flex-col overflow-hidden justify-between pt-6 bg-white bg-opacity-90 rounded-lg border transform transition flex-grow-0 ${
+          numOfEmployee && numOfEmployee > 0 ? "w-full" : "hidden"
+        }`}
+      >
+        <div className="text-sm divide-y">
+          <div className="flex">
+            <div className="w-full h-16 flex items-center justify-center font-bold text-green-800">
+              {t("price.numOfDevelopers")}
+            </div>
+            <div className="w-full h-16 flex items-center justify-center">
+              {numOfEmployee} {t("price.person")}
+            </div>
+          </div>
+          <div className="flex">
+            <div className="w-full h-16 flex items-center justify-center font-bold text-green-800">
+              {t("price.monthlyCost")}
+            </div>
+            <div className="w-full h-16 flex items-center justify-center">
+              {t("price.monthly")} {moneyFormat(numOfEmployee * 1500000)} {t("price.won")}
+            </div>
+          </div>
+          <div className="flex">
+            <div className="w-full h-16 flex items-center justify-center font-bold text-green-800">
+              {t("price.fee")}
+            </div>
+            <div className="w-full h-16 flex items-center justify-center">
+              {moneyFormat(numOfEmployee * 1500000 * 0.1)} {t("price.won")}
+            </div>
+          </div>
+          <div className="flex">
+            <div className="w-full h-16 flex items-center justify-center font-bold text-green-800">
+              {t("price.assistantPlan")}
+            </div>
+            <div className="w-full h-12 flex items-center justify-center">
+              {cardType === 0 ? "-" : `${moneyFormat(cardType)} ${t("price.won")}`}
+            </div>
+          </div>
+        </div>
+        <div className="flex divide-x border-t">
+          <div className="w-full h-16 flex items-center justify-center font-bold text-green-800 text-sm">
+            {t("price.predictedPrice")}
+          </div>
+          <div className="w-full h-16 flex items-center justify-center font-bold text-lg bg-green-600 bg-opacity-20 text-green-800">
+            {t("price.monthly")} {moneyFormat(numOfEmployee * 1500000 * 1.1 + cardType)} {t("price.won")}
+          </div>
+        </div>
+      </div>
+    );
+
+    return (
+      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5 tracking-tight">
+        <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center px-6 w-full">
+          <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("price.calculator")}</p>
+          <p className="text-2xl sm:text-4xl font-bold break-keep max-w-2xl sm:leading-normal text-center">
+            {t("price.title")}
+          </p>
+
+          <div className="-space-y-4 sm:space-y-0 sm:-space-x-4 flex sm:flex-row flex-col w-full mt-12 max-w-3xl h-full sm:h-120 justify-center">
+            {LeftPanel}
+            {Table}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const StrengthSection = () => {
     const Cell = ({ icon, title, text1, text2, dark }) => (
       <div className={`flex flex-col items-center`}>
@@ -247,14 +379,14 @@ const Welcome = () => {
       </div>
     );
     return (
-      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 bg-green-800 bg-opacity-5">
+      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24">
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center px-6 w-full">
           <p className="font-bold tracking-tight mb-6 text-lg text-green-600">{t("fourth.subtitle")}</p>
           <p className="text-2xl sm:text-4xl font-bold break-keep max-w-2xl sm:leading-normal text-center">
             {t("fourth.sectionTitle")}
           </p>
           <div className="grid sm:grid-cols-3 grid-cols-1 px-4 gap-16 mt-16">
-            <div className="space-y-16 p-6 bg-green-800 bg-opacity-10 rounded-lg">
+            <div className="space-y-16 p-6 bg-green-600 bg-opacity-10 rounded-lg">
               <Cell
                 icon={FourthType1}
                 title={t("fourth.1.title")}
@@ -458,6 +590,7 @@ const Welcome = () => {
       <ClientSection />
       <DeveloperSection />
       <AssistantSection />
+      <PriceSection />
       <StrengthSection />
       <ProcessSection />
       <SixthSection companies={companyArray} />

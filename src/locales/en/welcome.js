@@ -99,6 +99,25 @@ const welcome = {
       body2: "successful careers in Korean SMEs",
     },
   },
+
+  price: {
+    calculator: "Kookjein Price Calculator",
+    title: "For developers registered on Kookjein, the average monthly salary is 1.5 million KRW.",
+    howMany: "How many developers do you need?",
+    assistantPlan: "Assistant Plan",
+    person: "devs",
+    whatIsAssistant: "What is the Assistant Plan?",
+    numOfDevelopers: "Number of Developers",
+    monthlyCost: "Monthly Cost",
+    monthly: "monthly",
+    won: "KRW",
+    fee: "Kookjein Fee (10%)",
+    predictedPrice: "EST. Cost (excluding VAT)",
+    free: "Free",
+    basicPlan: "Basic Plan",
+    standardPlan: "Standard Plan",
+    enterprisePlan: "Enterprise Plan",
+  },
   fifth: {
     sectionTitle: "Start the process from job registration to completion safely and quickly.",
     1: {
