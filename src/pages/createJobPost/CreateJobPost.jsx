@@ -13,7 +13,6 @@ import SEOMetaTag from "../../utils/SEOMetaTag";
 
 const CreateJobPost = () => {
   const { userState } = useContext(AuthContext);
-  const [project, setProject] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [registered, setRegistered] = useState(false);
 
@@ -59,9 +58,9 @@ const CreateJobPost = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(currentStep, project);
+    console.log(currentStep);
     return () => {};
-  }, [currentStep, project]);
+  }, [currentStep]);
 
   const registerPost = () => {
     axios
@@ -113,30 +112,6 @@ const CreateJobPost = () => {
   }, [registered, navigate, registerPost1]);
   const toSignup = () => {
     setCurrentStep(1);
-    setProject({
-      projectInfo: [
-        {
-          method: projectMethod,
-          type: projectType,
-          title: projectTitle,
-          category: projectCategory.map(
-            (value) =>
-              ({
-                0: "web",
-                1: "mobile",
-                2: "other",
-              }[value])
-          ),
-          tech: tech,
-          status: projectStatus,
-          detail: projectDetail,
-          budget: projectBudget,
-          start_at: projectStartAt,
-          duration: projectDuration,
-        },
-      ],
-      uploadedFiles: uploadedFiles,
-    });
   };
 
   return (
