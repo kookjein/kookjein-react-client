@@ -150,32 +150,29 @@ const RightPanel = ({ selectedTab }) => {
   );
 
   const ClientHelp = () => (
-    <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col p-6 bg-white shadow-lg space-y-4 text-gray-600">
-      <p className="text-sm break-keep">
-        {myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 국제인 어시스턴트
-        장동해입니다.
-      </p>
-
-      <div className="flex space-x-3 items-center py-4">
-        <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"></div>
-        <div>
-          <p className="font-bold text-sm">장동해</p>
-          <p className="text-xs">국제인 어시스턴트</p>
+    <div className="mt-4 w-full border rounded-xl flex-shrink-0 flex flex-col p-6 bg-white shadow-lg text-gray-600 tracking-tight space-y-3">
+      <div className="flex justify-between items-center">
+        <div className="font-bold text-green-800">어시스턴트</div>
+        <div className="bg-purple-700 bg-opacity-10 px-2.5 py-1 text-purple-700 rounded-full font-bold tracking-tighter text-xs">
+          베이식 플랜
         </div>
       </div>
+      <img
+        src="https://kookjein.s3.ap-northeast-2.amazonaws.com/assistant/andrew_jang.png"
+        alt="Assistant profile"
+        className="object-cover w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"
+      />
+      <div className="">
+        <p className="text-xs text-green-800">국제인 어시스턴트</p>
+        <p className="font-bold text-green-800">장동해</p>
+      </div>
 
-      <a href="/">
-        <div className="flex space-x-2 items-center hover:text-blue-500">
-          <p className="text-sm font-bold underline">어시스턴트 메일 보내기</p>
-          <BiLinkExternal />
-        </div>
-      </a>
-      <a href="/">
-        <div className="flex space-x-2 items-center hover:text-blue-500">
-          <p className="text-sm font-bold underline">어시스턴트와 통화하기</p>
-          <BiLinkExternal />
-        </div>
-      </a>
+      <p className="text-xs break-keep">{myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 어시스턴트입니다.</p>
+
+      <div className="space-y-1 text-white text-xs font-bold pt-4">
+        <button className="w-full h-8 bg-green-700 rounded hover:brightness-125">통화 요청</button>
+        <button className="w-full h-8 border-green-700 border bg-white text-green-700 rounded hover:brightness-125">어시스턴트 플랜</button>
+      </div>
     </div>
   );
   const DeveloperHelp = () => (
