@@ -3,11 +3,13 @@ import Review from "../../assets/assistant/review_kor.png";
 const assistant = {
   mode: "ko",
   learnMore: "자세히 보기",
+  assistantPlan: "어시스턴트 플랜",
+  title: `무료 소통 보조 외에도 어시스턴트는\n많은 것을 할 수 있습니다.`,
   first: {
     title1: "기업 맞춤형 어시스턴트로",
     title2: "더 정확하고 신속하게",
     subtitle1: "1% OF THE INDUSTRY",
-    subtitle2: "기본으로 배정되는 어시스턴트의 역할을 확장하세요.",
+    subtitle2: "프로젝트 성공을 위해 어시스턴트의 역할을 확장하세요.",
   },
   second: {
     options: {
@@ -41,8 +43,7 @@ const assistant = {
   },
   third: {
     title: "어시스턴트의 역할",
-    subtitle:
-      "어시스턴트의 역할은 플랜마다 다르지만 기본적으로 제공되는 서비스는 아래와 같습니다.",
+    subtitle: "어시스턴트의 역할은 플랜마다 다르지만 기본적으로 제공되는 서비스는 아래와 같습니다.",
     1: {
       title: "마일스톤 검증",
       text: "모든 채용은 최소 한 달 이상의 마일스톤을 설정해야 하며, 요청 시 기업의 전달 내용과 개발자의 이해사항이 일치하는지 확인해 드립니다.",

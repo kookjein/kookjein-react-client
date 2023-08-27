@@ -3,12 +3,13 @@ import Review from "../../assets/assistant/review_eng.png";
 const assistant = {
   mode: "en",
   learnMore: "Learn more",
+  assistantPlan: "Assistant Plan",
+  title: "Unlock limitless potential,\nBeyond free communication.",
   first: {
     title1: "Customized assistant plan,",
     title2: "for accuracy and efficiency",
     subtitle1: "1% OF THE INDUSTRY",
-    subtitle2:
-      "Expand the role of the assistant assigned to your company by default.",
+    subtitle2: "Expand the role of your assistant for your project's success",
   },
   second: {
     options: {
@@ -42,8 +43,7 @@ const assistant = {
   },
   third: {
     title: "Role of an Assistant",
-    subtitle:
-      "The role of the assistant varies depending on the plan, but the basic services provided are as follows.",
+    subtitle: "The role of the assistant varies depending on the plan, but the basic services provided are as follows.",
     1: {
       title: "Milestone Verification",
       text: "All hires must set a minimum milestone of at least one month, and we verify that the company's delivery content and the developer's understanding match upon request.",
@@ -71,12 +71,9 @@ const assistant = {
   },
   fourth: {
     title: "Plans optimized for your company",
-    subtitle1:
-      "Basic plan is recommended if you can communicate in English to some extent.",
-    subtitle2:
-      "If you can communicate in English but need more assistance, we recommend the Standard plan.",
-    subtitle3:
-      "If communication is extremely difficult, we suggest the Enterprise plan.",
+    subtitle1: "Basic plan is recommended if you can communicate in English to some extent.",
+    subtitle2: "If you can communicate in English but need more assistance, we recommend the Standard plan.",
+    subtitle3: "If communication is extremely difficult, we suggest the Enterprise plan.",
   },
   fifth: {
     review: Review,
