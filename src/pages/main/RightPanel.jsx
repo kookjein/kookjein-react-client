@@ -62,7 +62,7 @@ const RightPanel = ({ selectedTab }) => {
                 </p>
               )}
             </div>
-            <div className="w-full mt-6 text-sm text-green-700 font-bold w-full">
+            <div className="w-full mt-6 text-sm text-green-700 font-bold">
               <p>프로필을 완료하세요</p>
               <div className="flex items-center space-x-3">
                 <div className="w-full h-1 rounded-full bg-gray-300 overflow-hidden">
@@ -167,11 +167,17 @@ const RightPanel = ({ selectedTab }) => {
         <p className="font-bold text-green-800">장동해</p>
       </div>
 
-      <p className="text-xs break-keep">{myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 어시스턴트입니다.</p>
+      <p className="text-xs break-keep">
+        {myInfo?.user.user_profile[0].name?.[lang]} 님의 프로젝트 성공을 돕기 위해 배정된 어시스턴트입니다.
+      </p>
 
-      <div className="space-y-1 text-white text-xs font-bold pt-4">
+      <div className="text-white text-xs font-bold pt-4">
         <button className="w-full h-8 bg-green-700 rounded hover:brightness-125">통화 요청</button>
-        <button className="w-full h-8 border-green-700 border bg-white text-green-700 rounded hover:brightness-125">어시스턴트 플랜</button>
+        <Link to={"/assistant"}>
+          <button className="w-full h-8 border-green-700 border bg-white text-green-700 rounded hover:brightness-125 mt-2">
+            어시스턴트 플랜
+          </button>
+        </Link>
       </div>
     </div>
   );

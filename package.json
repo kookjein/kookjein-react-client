@@ -50,6 +50,9 @@
     "invalidate": "aws cloudfront create-invalidation --distribution-id E1KU9A9Y5CW7W2 --paths / /index.html /error.html /manifest.json /favicon.ico"
   },
   "reactSnap": {
+    "puppeteerArgs": [
+      "--disable-web-security"
+    ],
     "include": [
       "/",
       "/service/company",

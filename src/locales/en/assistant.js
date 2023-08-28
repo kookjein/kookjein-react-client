@@ -1,10 +1,9 @@
-import Review from "../../assets/assistant/review_eng.png";
-
 const assistant = {
   mode: "en",
   learnMore: "Learn more",
   assistantPlan: "Assistant Plan",
   title: "Unlock limitless potential,\nBeyond free communication.",
+  service: "Services",
   first: {
     title1: "Customized assistant plan,",
     title2: "for accuracy and efficiency",
@@ -30,15 +29,15 @@ const assistant = {
     },
     1: {
       title: "Basic Plan",
-      text: "An assistant who verifies milestones and resolves disputes will be assigned when matching developers.",
+      text: "Helps communication, verifies milestones and resolves disputes",
     },
     2: {
       title: "Standard Plan",
-      text: "You can request assistance from your assigned assistant at any time during business hours for up to 30 hours per month.",
+      text: "Has coding background, matches you with the best fit devs",
     },
     3: {
       title: "Enterprise Plan",
-      text: "A PM who possesses development knowledge and is fluent in both English and Korean will be assigned between your company and developers.",
+      text: "Inspects code and available during office hours ",
     },
   },
   third: {
@@ -75,13 +74,51 @@ const assistant = {
     subtitle2: "If you can communicate in English but need more assistance, we recommend the Standard plan.",
     subtitle3: "If communication is extremely difficult, we suggest the Enterprise plan.",
   },
-  fifth: {
-    review: Review,
-  },
   seventh: {
     title: "The most reliable global developer recruitment platform",
     button: "Sign up",
   },
+  communication: "Communication Proficiency",
+  pre_contract_communication_support: "Pre-contract Communication Support",
+  pre_contract_milestone_verification: "Pre-contract Milestone Verification",
+  involvement_in_disputes: "Involvement in Disputes",
+  post_contract_communication_support: "Post-contract Communication Support",
+  third_party_meeting_request: "Third-party Meeting Request Possible",
+  assistant_coding_knowledge: "Assistant Coding Knowledge",
+  developer_headhunting: "Developer Headhunting",
+  knowledge_transfer: "Knowledge Transfer",
+  on_call_during_business_hours: "On-call During Business Hours",
+  code_review_phase1: "First-phase Code Review",
+  bug_resolution_emergency: "Bug Resolution in Emergencies",
+
+  communication_description:
+    "All international assistants are proficient in English, facilitating smooth communication with developers in English.",
+  pre_contract_communication_support_description:
+    "When registering a project, milestones are also registered. Upon request, we validate whether the company's instructions match the developer's understanding. Milestone verification reports are recorded on the platform.",
+  pre_contract_milestone_verification_description:
+    "Before proceeding with the contract, we review whether the developer accurately understands the project's requirements.",
+  involvement_in_disputes_description:
+    "In the event of disputes between the developer and the company, we intervene and facilitate escrow refunds.",
+  post_contract_communication_support_description:
+    "Even after contract completion, we continue to provide assistance in communication with developers. Enterprise plan customers can have dedicated communication support upon request.",
+  third_party_meeting_request_description:
+    "We facilitate communication support during virtual meetings between developers and companies, and provide interpretation if needed.",
+  assistant_coding_knowledge_description:
+    "Depending on the project's specifications, we replace the assistant with coding knowledge to ensure smooth communication between company representatives and developers.",
+  developer_headhunting_description:
+    "During initial project registration, we recommend developers who match the project specifications and arrange a replacement within a week if needed.",
+  knowledge_transfer_description:
+    "In case of developer replacements, we assist in smooth knowledge transfer to avoid disruptions in the plan.",
+  on_call_during_business_hours_description:
+    "We're available for phone communication during business hours and aim to respond promptly in case of absence.",
+  code_review_phase1_description:
+    "Our knowledgeable assistants can perform internal preliminary code reviews upon customer request.",
+  bug_resolution_emergency_description:
+    "With coding knowledge, our assistants swiftly review and address bugs in case of a developer's absence due to time zone differences.",
+
+  basic_possible: "Before contracting",
+  standard_possible: "Up to 30 hours / month",
+  enterprise_possible: "Any time during business hours",
 };
 
 export default assistant;

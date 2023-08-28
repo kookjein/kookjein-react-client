@@ -21,7 +21,7 @@ const navBar = {
     addition: "추가 구독 서비스",
     title1: "기업",
     title2: "글로벌 해외 개발자",
-    title3: "어시스턴트 / PM",
+    title3: "어시스턴트 플랜",
     subtitle1: "검증된 해외 개발자 매칭",
     subtitle2: "한국 기업에서 커리어 시작",
     subtitle3: "통역/소통 보조 및 프로젝트 관리",

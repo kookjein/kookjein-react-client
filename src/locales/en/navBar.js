@@ -21,7 +21,7 @@ const navBar = {
     addition: "Additional service",
     title1: "SMEs",
     title2: "Developers",
-    title3: "Assistant / PM",
+    title3: "Assistant Plan",
     subtitle1: "Find perfect global developers",
     subtitle2: "Your Career with Korean SMEs",
     subtitle3: "Helping with communication",
