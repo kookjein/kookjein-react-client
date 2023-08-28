@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { Link, useParams } from "react-router-dom";
 import DefaultImage from "../assets/default-profile.png";
 import Drawer from "react-modern-drawer";
@@ -9,6 +9,7 @@ import ComposeJob from "../components/ComposeJob";
 import axios from "../utils/authAxios";
 import { useTranslation } from "react-i18next";
 import moment from "moment/moment";
+import {AuthContext} from "../context/authContext";
 
 const JobPost = () => {
   const { jobId } = useParams();
@@ -20,6 +21,7 @@ const JobPost = () => {
   const durationInputRef = useRef(null);
   const { i18n } = useTranslation("profile");
   const lang = i18n.language.includes("en") ? "en" : "ko";
+  const { userState } = useContext(AuthContext);
 
   useEffect(() => {
     axios.get(`v1/project/`, { params: { project_id: jobId } }).then((response) => {
@@ -74,7 +76,7 @@ const JobPost = () => {
       <p style={{ fontSize: "11px" }} className="text-xs line-clamp-3 mt-3 text-gray-500 w-full text-left break-keep">
         {user[1][0].description?.[lang]}
       </p>
-      <div className="flex space-x-3 mt-4">
+      <div className="flex space-x-3 mt-4" style={{display: project.user_id === userState.user.userId ? '' : 'none'}}>
         <button
           onClick={openComposeModal}
           className="w-full h-9 rounded text-xs font-bold border hover:bg-gray-50 border-gray-300"
@@ -158,7 +160,7 @@ const JobPost = () => {
                         },
                       ],
                     })
-                    .then()
+                    .then(toggleDrawer)
                     .catch((err) => {});
                 }
               }}
