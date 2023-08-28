@@ -154,6 +154,7 @@ const welcome = {
     subtitle: "kookje.in is joined by the following organizations.",
   },
   seventh: {
+    kookjein: "Start with Kookjein",
     title: "Hire the top 3% developers at a reasonable price.",
     button: "Start finding developers",
   },

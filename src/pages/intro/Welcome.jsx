@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Logo from "../../assets/logo.png";
 import Client1 from "../../assets/main/client1.png";
 import Client2 from "../../assets/main/client2.png";
 import Client3 from "../../assets/main/client3.png";
@@ -567,11 +568,10 @@ const Welcome = () => {
 
   const SeventhSection = () => {
     return (
-      <div
-        style={{ backgroundColor: "#0E5034" }}
-        className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 text-center px-3 break-keep"
-      >
+      <div className="flex w-screen items-center justify-center sm:flex-row flex-col py-24 text-center px-3 break-keep bg-green-700">
         <div style={{ maxWidth: "1280px" }} className="flex flex-col items-center justify-center">
+          <img src={Logo} alt="logo" style={{ filter: "brightness(0) invert(1)" }} className="w-24 h-24" />
+          <p className="mt-8 text-4xl text-white">{t("seventh.kookjein")}</p>
           <p className="mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
           <Link to="/post-job/flow-1">
             <button className="text-green-700 text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-white">

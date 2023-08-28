@@ -74,10 +74,7 @@ const assistant = {
     subtitle2: "If you can communicate in English but need more assistance, we recommend the Standard plan.",
     subtitle3: "If communication is extremely difficult, we suggest the Enterprise plan.",
   },
-  seventh: {
-    title: "The most reliable global developer recruitment platform",
-    button: "Sign up",
-  },
+
   communication: "Communication Proficiency",
   pre_contract_communication_support: "Pre-contract Communication Support",
   pre_contract_milestone_verification: "Pre-contract Milestone Verification",
@@ -119,6 +116,12 @@ const assistant = {
   basic_possible: "Before contracting",
   standard_possible: "Up to 30 hours / month",
   enterprise_possible: "Any time during business hours",
+  seventh: {
+    kookjein: "Start with Kookjein",
+    title: "Hire the top 3% developers at a reasonable price.",
+    button: "Start finding developers",
+    create: "Register Your Project for Free",
+  },
 };
 
 export default assistant;

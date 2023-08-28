@@ -74,10 +74,6 @@ const assistant = {
     subtitle2: "영어로 소통이 가능하되 도움이 많이 필요할 땐 스탠다드 플랜.",
     subtitle3: "소통이 불가능할 정도로 어려움을 겪는다면 엔터프라이즈 플랜.",
   },
-  seventh: {
-    title: "신뢰도를 우선시하는 해외 개발자 채용 플랫폼",
-    button: "회원가입",
-  },
 
   communication: "개발자 소통 언어에 능통",
   pre_contract_communication_support: "계약 전 소통 보조",
@@ -116,6 +112,13 @@ const assistant = {
   basic_possible: "개발자와 계약 전 가능",
   standard_possible: "월 30시간에 한에 가능",
   enterprise_possible: "업무시간 상시 요청 가능",
+
+  seventh: {
+    kookjein: "국제인과 시작하세요",
+    title: "합리적인 가격으로 상위 3%의 개발자 채용",
+    button: "무료 개발자 매칭 시작",
+    create: "무료로 프로젝트 등록하기",
+  },
 };
 
 export default assistant;

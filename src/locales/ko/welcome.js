@@ -150,7 +150,8 @@ const welcome = {
     subtitle: "kookje.in은 아래의 단체와 함께합니다.",
   },
   seventh: {
-    title: "합리적인 가격으로 상위 3% 개발자를 채용하세요.",
+    kookjein: "국제인과 시작하세요",
+    title: "합리적인 가격으로 상위 3%의 개발자 채용",
     button: "무료 개발자 매칭 시작",
   },
 };

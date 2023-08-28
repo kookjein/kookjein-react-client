@@ -8,6 +8,7 @@ import Option6 from "../../assets/assistant/6.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AiOutlineCheck } from "react-icons/ai";
+import Logo from "../../assets/logo.png";
 
 const Assistant = () => {
   const { t } = useTranslation("assistant");
@@ -166,14 +167,14 @@ const Assistant = () => {
         <div className="flex w-full bg-gray-50">
           <div className="w-1/4 divide-y border-l border-r border-b border-gray-150 divide-gray-150">
             {combinedArray.map((item) => (
-              <div className="w-full flex items-center h-20 text-lg px-6 text-green-800 font-bold">
+              <div key={item.criterion} className="w-full flex items-center h-20 text-lg px-6 text-green-800 font-bold">
                 {item.criterion}
               </div>
             ))}
           </div>
           <div className="w-1/4 divide-y border-r border-b border-gray-150 divide-gray-150">
             {combinedArray.map((item) => (
-              <div className="w-full flex items-center justify-center h-20 text-lg px-6">
+              <div key={item.criterion} className="w-full flex items-center justify-center h-20 text-lg px-6">
                 {!item.free_value ? (
                   <p className="text-base text-gray-400">-</p>
                 ) : item.free_value === true ? (
@@ -186,7 +187,7 @@ const Assistant = () => {
           </div>
           <div className="w-1/4 divide-y border-r border-b border-gray-150 divide-gray-150">
             {combinedArray.map((item) => (
-              <div className="w-full flex items-center justify-center h-20 text-lg px-6">
+              <div key={item.criterion} className="w-full flex items-center justify-center h-20 text-lg px-6">
                 {!item.standard_value ? (
                   <p className="text-base text-gray-400">-</p>
                 ) : item.standard_value === true ? (
@@ -199,7 +200,7 @@ const Assistant = () => {
           </div>
           <div className="w-1/4 divide-y border-r border-b border-gray-150 divide-gray-150">
             {combinedArray.map((item) => (
-              <div className="w-full flex items-center justify-center h-20 text-lg px-6">
+              <div key={item.criterion} className="w-full flex items-center justify-center h-20 text-lg px-6">
                 {!item.enterprise_value ? (
                   <p className="text-base text-gray-400">-</p>
                 ) : item.enterprise_value === true ? (
@@ -238,7 +239,7 @@ const Assistant = () => {
       </div>
     );
     return (
-      <div className="mt-24 bg-green-700 bg-opacity-10 rounded-lg p-6 py-12">
+      <div className="mt-24 bg-green-700 bg-opacity-10 rounded-t-lg p-6 py-12">
         <p className=" text-2xl font-bold mb-4 px-4">{t("third.title")}</p>
         <p style={{ color: "#5F6D7E" }} className=" text-sm px-4 mb-12">
           {t("third.subtitle")}
@@ -257,33 +258,36 @@ const Assistant = () => {
 
   const SeventhSection = () => {
     return (
-      <>
-        <p className=" mt-2 mb-12 text-xl">{t("seventh.title")}</p>
-        <button
-          style={{ backgroundColor: "#FFFFFF", color: "#0E5034" }}
-          className="text-sm px-4 py-2 rounded-full shadow hover:opacity-90 transition  font-semibold"
-        >
-          {t("seventh.button")}
-        </button>
-      </>
+      <div className="w-full bg-green-700 flex flex-col items-center p-16 rounded-b-lg">
+        <img src={Logo} alt="logo" style={{ filter: "brightness(0) invert(1)" }} className="w-24 h-24" />
+        <p className="mt-8 text-4xl text-white">{t("seventh.kookjein")}</p>
+        <p className="mt-2 mb-12 text-xl text-white">{t("seventh.title")}</p>
+        <Link to="/post-job/flow-1">
+          <button className="text-green-700 text-md sm:text-lg px-4 sm:px-10 py-3 rounded-lg shadow hover:opacity-90 transition font-bold bg-white">
+            {t("seventh.create")}
+          </button>
+        </Link>
+      </div>
     );
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#fff" }}
-      className="flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition py-20 tracking-tight"
-    >
+    <>
       <div
-        style={{ maxWidth: "1280px" }}
-        className="w-full relative h-full flex px-4 flex-col items-center sm:items-start"
+        style={{ backgroundColor: "#fff" }}
+        className="flex h-full items-center flex-col sm:flex-row z-20 w-screen relative justify-center transition py-20 tracking-tight"
       >
-        <WelcomeSection />
-        <PriceTable />
-        <ThirdSection />
-        <SeventhSection />
+        <div
+          style={{ maxWidth: "1280px" }}
+          className="w-full relative h-full flex px-4 flex-col items-center sm:items-start"
+        >
+          <WelcomeSection />
+          <PriceTable />
+          <ThirdSection />
+          <SeventhSection />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
