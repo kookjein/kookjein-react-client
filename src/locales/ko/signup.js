@@ -1,7 +1,7 @@
 const signup = {
   mode: "ko",
-  companyOrDev: "기업 아니면 개발자이신가요?",
-  companyCard: "기업입니다.",
+  companyOrDev: "클라이언트 아니면 개발자이신가요?",
+  companyCard: "클라이언트입니다.",
   developerCard: "개발자입니다.",
   continue: "계속하기",
   title: "회원가입 | 국제인",

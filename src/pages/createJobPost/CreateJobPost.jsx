@@ -56,12 +56,7 @@ const CreateJobPost = () => {
   const { t, i18n } = useTranslation("createJobPost");
   const lang = i18n.language.includes("en") ? "en" : "ko";
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(currentStep);
-    return () => {};
-  }, [currentStep]);
-
+  
   const registerPost = () => {
     axios
       .post("v1/project/", {

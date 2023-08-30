@@ -19,7 +19,7 @@ const navBar = {
     service: "서비스 소개",
     for: "누구신가요?",
     addition: "추가 구독 서비스",
-    title1: "기업",
+    title1: "클라이언트",
     title2: "글로벌 해외 개발자",
     title3: "어시스턴트 플랜",
     subtitle1: "검증된 해외 개발자 매칭",

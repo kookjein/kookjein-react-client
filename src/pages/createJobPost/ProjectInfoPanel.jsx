@@ -41,13 +41,15 @@ const ProjectInfoPanel = ({
   projectDurationRef,
 }) => {
   const options = [
-    { value: 1, label: "500만원 이하" },
-    { value: 2, label: "500만원 ~ 1,000만원" },
-    { value: 3, label: "1,000만원 ~ 2,000만원" },
-    { value: 4, label: "2,000만원 ~ 3,000만원" },
-    { value: 5, label: "3,000만원 ~ 5,000만원" },
-    { value: 6, label: "5,000만원 ~ 1억원" },
-    { value: 7, label: "1억원 이상" },
+    { value: 1, label: "50만원 이하" },
+    { value: 2, label: "100만원 이하" },
+    { value: 3, label: "300만원 이하" },
+    { value: 4, label: "500만원 ~ 1,000만원" },
+    { value: 5, label: "1,000만원 ~ 2,000만원" },
+    { value: 6, label: "2,000만원 ~ 3,000만원" },
+    { value: 7, label: "3,000만원 ~ 5,000만원" },
+    { value: 8, label: "5,000만원 ~ 1억원" },
+    { value: 9, label: "1억원 이상" },
   ];
   const KeyCodes = { comma: 188, enter: 13 };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
@@ -99,7 +101,7 @@ const ProjectInfoPanel = ({
     <>
       <div ref={projectMethodRef} className="py-6">
         <Title title="1. 프로젝트 방식" subtitle="어떤 방식으로 프로젝트를 진행하시나요?" />
-        <div className="flex space-x-4 mt-4">
+        <div className="flex space-x-2 mt-4">
           <OptionCard
             action={() => setProjectMethod(0)}
             selectedCondition={projectMethod === 0}
@@ -114,7 +116,7 @@ const ProjectInfoPanel = ({
           title="2. 프로젝트 분류"
           subtitle="신규 프로젝트 개발 혹은 기존 프로젝트 수정 또는 유지보수 개발인가요?"
         />
-        <div className="flex space-x-4 mt-4">
+        <div className="flex space-x-2 mt-4">
           <OptionCard action={() => setProjectType(0)} selectedCondition={projectType === 0} title="신규 개발" />
           <OptionCard action={() => setProjectType(1)} selectedCondition={projectType === 1} title="수정 / 유지보수" />
         </div>
@@ -131,7 +133,7 @@ const ProjectInfoPanel = ({
 
       <div ref={projectCategoryRef} className="py-6">
         <Title title="4. 프로젝트 카테고리" subtitle="복수 선택이 가능합니다." />
-        <div className="flex space-x-4 mt-4">
+        <div className="flex space-x-2 mt-4">
           <OptionCard
             action={() =>
               setProjectCategory((prevState) => {
@@ -164,7 +166,7 @@ const ProjectInfoPanel = ({
 
       <div ref={techRef} className="py-6">
         <Title
-          title="5. 프로젝트 개발 언어 및 환경"
+          title="5. 프로젝트 개발 언어"
           subtitle="각 개발 언어를 기입하시고 엔터키를 눌러 추가할 수 있습니다."
         />
         <ReactTags
@@ -176,7 +178,7 @@ const ProjectInfoPanel = ({
           inputFieldPosition="top"
           autocomplete
           autofocus={false}
-          placeholder={"개발 언어 또는 개발 환경을 입력해주세요. 예시) React JS"}
+          placeholder={"개발 언어 입력 후 엔터키를 눌러 추가하세요. 예시) React JS, 상관없음"}
           classNames={{
             tags: "mb-12",
             tagInput: "h-12",
@@ -195,7 +197,7 @@ const ProjectInfoPanel = ({
 
       <div ref={projectStatusRef} className="py-6">
         <Title title="6. 현재 프로젝트 단계" subtitle="현재 프로젝트의 구현 단계를 선택해 주세요. 복수 선택 가능." />
-        <div className="flex space-x-4 mt-4">
+        <div className="flex space-x-2 mt-4">
           <OptionCard
             action={() =>
               setProjectStatus((prevState) => {
