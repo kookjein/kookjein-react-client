@@ -38,6 +38,7 @@ import Manage from "./pages/manage/Manage";
 import Auth from "./pages/Auth";
 import { useTranslation } from "react-i18next";
 import JobPostComplete from "./pages/createJobPost/JobPostComplete";
+import Admin from "./pages/Admin";
 
 function App() {
   const { t } = useTranslation("seo");
@@ -148,6 +149,7 @@ function App() {
           <Route path="/service/developer" element={<ServiceDeveloper />} />
           <Route path="/assistant" element={<Assistant />} />
           <Route path="/error404" element={<Error404 />} />
+          {userState.user.userId === 3 || (userState.user.userId === 1 && <Route path="/admin" element={<Admin />} />)}
         </Routes>
         {!pathname.includes("/chat") && !pathname.includes("/post-job") && <Footer />}
       </AxiosInterceptor>
